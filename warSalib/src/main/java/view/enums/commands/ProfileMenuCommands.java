@@ -1,6 +1,6 @@
-package main.java.view.enums.commands;
+package view.enums.commands;
 
-import main.java.view.enums.messages.ProfileMenuMessage;
+import view.enums.messages.ProfileMenuMessage;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

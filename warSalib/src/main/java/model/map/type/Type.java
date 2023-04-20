@@ -1,4 +1,4 @@
-package main.java.model.map.type;
+package model.map.type;
 
 public enum Type {
     ;

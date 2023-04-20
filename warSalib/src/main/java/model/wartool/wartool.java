@@ -1,4 +1,4 @@
-package main.java.model.wartool;
+package model.wartool;
 
 public enum wartool {
 }

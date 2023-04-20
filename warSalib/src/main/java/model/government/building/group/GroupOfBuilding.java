@@ -1,4 +1,4 @@
-package main.java.model.government.building.group;
+package model.government.building.group;
 
 import java.util.ArrayList;
 

@@ -1,11 +1,11 @@
-package main.java.model.map;
+package model.map;
 
-import main.java.model.government.building.Building;
-import main.java.model.government.people.People;
-import main.java.model.government.resource.Resource;
-import main.java.model.map.rock.Rock;
-import main.java.model.map.tree.Tree;
-import main.java.model.map.type.Type;
+import model.government.building.Building;
+import model.government.people.People;
+import model.government.resource.Resource;
+import model.map.rock.Rock;
+import model.map.tree.Tree;
+import model.map.type.Type;
 
 import java.util.ArrayList;
 

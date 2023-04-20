@@ -1,9 +1,9 @@
-package main.java.model.government.building;
+package model.government.building;
 
-import main.java.model.government.Government;
-import main.java.model.government.building.group.GroupOfBuilding;
-import main.java.model.government.people.People;
-import main.java.model.government.resource.Resource;
+import model.government.Government;
+import model.government.building.group.GroupOfBuilding;
+import model.government.people.People;
+import model.government.resource.Resource;
 
 import java.util.ArrayList;
 

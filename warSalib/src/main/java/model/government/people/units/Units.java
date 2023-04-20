@@ -1,6 +1,6 @@
-package main.java.model.government.people.units;
+package model.government.people.units;
 
-import main.java.model.wartool.wartool;
+import model.wartool.wartool;
 
 public class Units {
     protected UnitsName name;
@@ -55,7 +55,7 @@ public class Units {
         return speed;
     }
 
-    public main.java.model.wartool.wartool getWartool() {
+    public model.wartool.wartool getWartool() {
         return wartool;
     }
 }

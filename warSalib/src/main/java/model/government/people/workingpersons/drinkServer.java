@@ -1,6 +1,6 @@
-package main.java.model.government.people.workingpersons;
+package model.government.people.workingpersons;
 
-import main.java.model.government.people.Works;
+import model.government.people.Works;
 
 public class drinkServer extends WorkingPerson implements Works {
     public drinkServer(String moode, int aptitude) {

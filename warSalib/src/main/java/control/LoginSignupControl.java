@@ -1,6 +1,6 @@
-package main.java.control;
+package control;
 
-import main.java.view.enums.messages.LoginMenuMessage;
+import view.enums.messages.LoginMenuMessage;
 
 public class LoginSignupControl {
     public static LoginMenuMessage loginUser(String username, String password) {

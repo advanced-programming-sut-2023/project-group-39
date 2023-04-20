@@ -1,4 +1,4 @@
-package main.java.model.user;
+package model.user;
 
 import java.util.HashMap;
 

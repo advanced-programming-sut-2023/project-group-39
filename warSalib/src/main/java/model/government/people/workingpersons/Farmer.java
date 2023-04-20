@@ -1,5 +1,5 @@
-package main.java.model.government.people.workingpersons;
-import main.java.model.crops.Crops;
+package model.government.people.workingpersons;
+import model.crops.Crops;
 public class Farmer extends WorkingPerson {
     private Crops crops;
 

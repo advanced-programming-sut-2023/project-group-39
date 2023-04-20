@@ -1,6 +1,6 @@
-package main.java.model.government.people.engineer;
+package model.government.people.engineer;
 
-import main.java.model.government.people.People;
+import model.government.people.People;
 
 public class Engineer extends People {
     public Engineer(String mode) {

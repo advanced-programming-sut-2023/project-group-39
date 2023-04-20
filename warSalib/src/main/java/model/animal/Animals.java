@@ -1,4 +1,4 @@
-package main.java.model.animal;
+package model.animal;
 
 public class Animals {
     private String name;

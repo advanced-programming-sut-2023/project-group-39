@@ -1,17 +1,17 @@
-package main.java.model.government;
+package model.government;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import main.java.model.government.building.Building;
-import main.java.model.government.people.People;
-import main.java.model.government.popularityfactor.Fear;
-import main.java.model.government.popularityfactor.Food;
-import main.java.model.government.popularityfactor.Religion;
-import main.java.model.government.popularityfactor.Tax;
-import main.java.model.government.request.Request;
-import main.java.model.government.resource.Resource;
-import main.java.model.user.User;
+import model.government.building.Building;
+import model.government.people.People;
+import model.government.popularityfactor.Fear;
+import model.government.popularityfactor.Food;
+import model.government.popularityfactor.Religion;
+import model.government.popularityfactor.Tax;
+import model.government.request.Request;
+import model.government.resource.Resource;
+import model.user.User;
 
 public class Government {
     private int wealth;

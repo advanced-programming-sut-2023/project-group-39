@@ -1,6 +1,6 @@
-package main.java.model.government.people.workingpersons;
+package model.government.people.workingpersons;
 
-import main.java.model.government.people.People;
+import model.government.people.People;
 
 public class WorkingPerson extends People {
     protected String jobname;

@@ -1,5 +1,5 @@
-package main.java.model.government.people.workingpersons;
-import main.java.model.wartool.warTools;
+package model.government.people.workingpersons;
+import model.wartool.warTools;
 
 public class makeWarTool extends WorkingPerson{
     private warTools WorkingPersonWarTool;

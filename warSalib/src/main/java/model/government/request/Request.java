@@ -1,6 +1,6 @@
-package main.java.model.government.request;
+package model.government.request;
 
-import main.java.model.user.User;
+import model.user.User;
 
 public class Request {
     private String request;

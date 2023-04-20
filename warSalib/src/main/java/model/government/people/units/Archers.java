@@ -1,4 +1,4 @@
-package main.java.model.government.people.units;
+package model.government.people.units;
 
 public class Archers extends Units{
     private int precision;
@@ -7,7 +7,7 @@ public class Archers extends Units{
     private int board;
     private int deadly;
 
-    public Archers(int speed, int hitpoint, int deffensingPower, int attackingPower, UnitsName unitsname, UnitsType unittype, int xLocation, int ylocation, main.java.model.wartool.wartool wartool) {
+    public Archers(int speed, int hitpoint, int deffensingPower, int attackingPower, UnitsName unitsname, UnitsType unittype, int xLocation, int ylocation, model.wartool.wartool wartool) {
         super(speed, hitpoint, deffensingPower, attackingPower, unitsname, unittype, xLocation, ylocation, wartool);
     }
 

@@ -1,6 +1,6 @@
-package main.java.control;
+package control;
 
-import main.java.view.enums.messages.StoreMenuMessage;
+import view.enums.messages.StoreMenuMessage;
 
 public class StoreControl {
     public static String showPriceList() {

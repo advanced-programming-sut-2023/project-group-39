@@ -1,4 +1,4 @@
-package main.java.view.enums.commands;
+package view.enums.commands;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

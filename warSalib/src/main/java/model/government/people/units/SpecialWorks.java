@@ -1,4 +1,4 @@
-package main.java.model.government.people.units;
+package model.government.people.units;
 
 public enum SpecialWorks {
 }

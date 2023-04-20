@@ -1,7 +1,7 @@
-package main.java.control;
+package control;
 
-import main.java.view.GameMenu;
-import main.java.view.enums.messages.GameMenuMessage;
+import view.GameMenu;
+import view.enums.messages.GameMenuMessage;
 
 import java.util.regex.Matcher;
 

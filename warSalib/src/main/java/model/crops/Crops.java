@@ -1,4 +1,4 @@
-package main.java.model.crops;
+package model.crops;
 
 public class Crops {
     private String cropsName;

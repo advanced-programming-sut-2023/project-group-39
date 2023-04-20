@@ -1,9 +1,9 @@
-package main.java.model;
+package model;
 
-import main.java.model.government.Government;
-import main.java.model.government.building.Building;
-import main.java.model.user.User;
-import main.java.view.enums.commands.BuildingCommands;
+import model.government.Government;
+import model.government.building.Building;
+import model.user.User;
+import view.enums.commands.BuildingCommands;
 
 import java.util.ArrayList;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package main.java.model.government.popularityfactor;
+package model.government.popularityfactor;
 
 public class PopularityFactor {
     int rate;

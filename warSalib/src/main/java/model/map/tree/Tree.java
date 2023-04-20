@@ -1,4 +1,4 @@
-package main.java.model.map.tree;
+package model.map.tree;
 
 public enum Tree {
     ;

@@ -1,6 +1,6 @@
-package main.java.model.map.rock;
+package model.map.rock;
 
-import main.java.model.map.Tile;
+import model.map.Tile;
 
 public class Rock {
 

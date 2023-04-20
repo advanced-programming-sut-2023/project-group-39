@@ -1,11 +1,11 @@
-package main.java.control;
+package control;
 
-import main.java.model.government.popularityfactor.Fear;
-import main.java.model.government.popularityfactor.Food;
-import main.java.model.government.popularityfactor.Religion;
-import main.java.model.government.popularityfactor.Tax;
-import main.java.model.government.request.Request;
-import main.java.view.enums.messages.GovernmentMenuMessage;
+import model.government.popularityfactor.Fear;
+import model.government.popularityfactor.Food;
+import model.government.popularityfactor.Religion;
+import model.government.popularityfactor.Tax;
+import model.government.request.Request;
+import view.enums.messages.GovernmentMenuMessage;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,6 +1,6 @@
-package main.java.control;
+package control;
 
-import main.java.view.enums.messages.ProfileMenuMessage;
+import view.enums.messages.ProfileMenuMessage;
 
 import java.util.ArrayList;
 

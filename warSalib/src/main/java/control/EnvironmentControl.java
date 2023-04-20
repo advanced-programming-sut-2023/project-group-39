@@ -1,6 +1,6 @@
-package main.java.control;
+package control;
 
-import main.java.view.enums.messages.EnvironmentMenuMessage;
+import view.enums.messages.EnvironmentMenuMessage;
 
 public class EnvironmentControl {
     public static EnvironmentMenuMessage chooseMap(int number) {

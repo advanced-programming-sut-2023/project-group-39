@@ -1,7 +1,7 @@
-package main.java.model.government.building;
+package model.government.building;
 
-import main.java.model.government.Government;
-import main.java.model.government.building.group.GroupOfBuilding;
+import model.government.Government;
+import model.government.building.group.GroupOfBuilding;
 
 public class Hovel extends Building{
 

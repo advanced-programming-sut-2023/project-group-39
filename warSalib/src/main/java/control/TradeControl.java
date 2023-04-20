@@ -1,6 +1,6 @@
-package main.java.control;
+package control;
 
-import main.java.view.enums.messages.TradeMenuMessage;
+import view.enums.messages.TradeMenuMessage;
 
 public class TradeControl {
     public static TradeMenuMessage trade(String itemName, int amount, int price, String message) {

@@ -1,8 +1,8 @@
-package main.java.control;
+package control;
 
-import main.java.model.government.building.Building;
-import main.java.view.enums.commands.BuildingCommands;
-import main.java.view.enums.messages.BuildingMessage;
+import model.government.building.Building;
+import view.enums.commands.BuildingCommands;
+import view.enums.messages.BuildingMessage;
 
 public class BuildingControl {
     public static BuildingMessage dropBuilding(int x, int y, String type) {

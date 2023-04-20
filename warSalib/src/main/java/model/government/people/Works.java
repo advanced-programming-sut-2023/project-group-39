@@ -1,4 +1,4 @@
-package main.java.model.government.people;
+package model.government.people;
 
 public interface Works {
     public static void work() {
