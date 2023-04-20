@@ -1,0 +1,28 @@
+package main.java.model.government.building;
+
+import main.java.model.government.Government;
+import main.java.model.government.building.group.GroupOfBuilding;
+import main.java.model.government.resource.Resource;
+
+public class MineBuilding extends Building{
+    //change Group by GroupOfBuilding.Mine
+    private int rate;
+    private Resource resource;
+    private MineBuilding(int x , int y , Government government, int hp, GroupOfBuilding group, int rate, Resource resource) {
+        super(x,y,government,hp, group);
+        this.rate=rate;
+        this.resource = resource;
+    }
+    public static MineBuilding makeMineBuildingByName(String Name) {
+        return null;
+    }
+
+    private static boolean isAppropriateGround(String ground) {
+        return false;
+    }
+
+    public int makeResourceWithRate() {
+        return 0;
+    }
+
+}

@@ -1,0 +1,30 @@
+package main.java.model.government.building;
+
+import main.java.model.government.Government;
+import main.java.model.government.building.group.GroupOfBuilding;
+import main.java.model.government.people.People;
+
+import java.util.ArrayList;
+
+public class MakingForceBuilding extends Building{
+    private int CostOfEachForce;
+
+    private ArrayList <People> people;
+    public MakingForceBuilding(int x , int y, Government government, int hp, GroupOfBuilding group, int costOfEachForce, ArrayList<People> people) {
+        super(x,y,government, hp, group);
+        CostOfEachForce = costOfEachForce;
+        this.people = people;
+    }
+
+    public static MakingForceBuilding makeMakingForceBuildingByName(String Name) {
+        return null;
+    }
+
+    public People getForceByCost() {
+        return null;
+    }
+
+    public void changePeopleRoll(People people) {
+
+    }
+}
