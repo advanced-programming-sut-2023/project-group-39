@@ -19,6 +19,10 @@ public class EnvironmentMenu {
                 setTexture(matcher);
             else if ((matcher = EnvironmentMenuCommands.getMatcher(input, EnvironmentMenuCommands.SET_TEXTURE_RECTANGLE)) != null)
                 setTextureRectangle(matcher);
+            else if ((matcher = EnvironmentMenuCommands.getMatcher(input, EnvironmentMenuCommands.CLEAR)) != null)
+                clearTile(matcher);
+            else if ((matcher = EnvironmentMenuCommands.getMatcher(input, EnvironmentMenuCommands.DROP_ROCK)) != null)
+                dropRock(matcher);
             else System.out.println("invalid");
         }
     }
@@ -44,11 +48,16 @@ public class EnvironmentMenu {
     }
 
     private static void clearTile(Matcher matcher) {
-
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        EnvironmentMenuMessage message = EnvironmentControl.clearTile(x, y);
     }
 
     private static void dropRock(Matcher matcher) {
-
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        String direction = matcher.group("direction");
+        EnvironmentMenuMessage message = EnvironmentControl.dropRock(x, y, direction);
     }
 
     private static void dropTree(Matcher matcher) {

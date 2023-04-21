@@ -28,8 +28,8 @@ public class EnvironmentControl {
         return false;
     }
 
-    public static void clearTile(int x, int y) {
-
+    public static EnvironmentMenuMessage clearTile(int x, int y) {
+        return null;
     }
 
     public static EnvironmentMenuMessage dropRock(int x, int y, String direction) {

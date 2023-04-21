@@ -6,8 +6,9 @@ import java.util.regex.Pattern;
 public enum EnvironmentMenuCommands {
     SET_TEXTURE("^settexture\\s+(-x\\s+(?<x>\\-?\\d+)\\s*()|-y\\s+(?<y>\\-?\\d+)\\s*()|-t\\s+(?<type>\\w+|\".*\")\\s*()){3}\\3\\5\\7$"),
     SET_TEXTURE_RECTANGLE("^settexture\\s+(-x1\\s+(?<x>\\-?\\d+)\\s*()|-y1\\s+(?<y>\\-?\\d+)\\s*()|-t\\s+(?<type>\\w+|\".*\")\\s*()|"+
-            "-y2\\s+(?<y2>\\-?\\d+)\\s*()|-x2\\s+(?<x2>\\-?\\d+)\\s*()){5}\\3\\5\\7\\9$");
-
+            "-y2\\s+(?<y2>\\-?\\d+)\\s*()|-x2\\s+(?<x2>\\-?\\d+)\\s*()){5}\\3\\5\\7\\9$"),
+    CLEAR("^clear\\s+(\\-x\\s+(?<x>\\-?\\d+)\\s*()|\\-y\\s+(?<y>\\-?\\d+)\\s*()){2}\\3\\5$"),
+    DROP_ROCK("^droprock\\s+(\\-x\\s+(?<x>\\-?\\d+)\\s*()|\\-y\\s+(?<y>\\-?\\d+)\\s*()|\\-d\\s+(?<direction>\\w+)\\s*()){3}\\3\\5\\7$");
     private String regex;
 
     EnvironmentMenuCommands(String regex) {
