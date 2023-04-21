@@ -21,6 +21,8 @@ public class BuildingMenu {
                 dropBuilding(matcher);
             } else if ((matcher = BuildingCommands.getMatcher(input, BuildingCommands.SELECT_BUILDING)) != null) {
                 selectBuilding(matcher);
+            } else if ((matcher = BuildingCommands.getMatcher(input, BuildingCommands.CREATE_UNIT)) != null) {
+                createUnit(matcher);
             }
             else System.out.println("invalid command!");
         }
@@ -43,10 +45,15 @@ public class BuildingMenu {
     }
 
     private static void createUnit(Matcher matcher) {
-
+        int count = Integer.parseInt(matcher.group("count"));
+        String type = matcher.group("type");
+        if (type.startsWith("\"")) {
+            type = type.substring(1, type.length() - 1);
+        }
+        BuildingMessage message = BuildingControl.createUnit(type, count);
     }
 
     private static void repair() {
-
+        BuildingMessage message = BuildingControl.repair();
     }
 }
