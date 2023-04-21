@@ -4,7 +4,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum BuildingCommands {
- ;
+ DROP_BUILDING("\\s*dropbuilding\\s+(-x\\s+(?<x>\\d+)\\s*|-type\\s+(?<type>\\w+)\\s*|-y\\s+(?<y>\\d+)\\s*){3}"),
+    SELECT_BUILDING("^select building\\s+(?:(?=.*-x\\s+(?<x>\\d+)))(?:(?=.*-y\\s+(?<y>\\d+))).*$");
     private String regex;
 
     BuildingCommands(String regex) {
