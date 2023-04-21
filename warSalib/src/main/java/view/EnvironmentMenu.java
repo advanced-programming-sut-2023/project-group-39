@@ -27,6 +27,8 @@ public class EnvironmentMenu {
                 dropTree(matcher);
             else if ((matcher = EnvironmentMenuCommands.getMatcher(input, EnvironmentMenuCommands.DROP_BUILDING)) != null)
                 dropBuilding(matcher);
+            else if((matcher = EnvironmentMenuCommands.getMatcher(input, EnvironmentMenuCommands.DROP_UNIT)) != null)
+                dropUnit(matcher);
             else System.out.println("invalid");
         }
     }
@@ -79,7 +81,11 @@ public class EnvironmentMenu {
     }
 
     private static void dropUnit(Matcher matcher) {
-
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        String type = getTypeWithoutDoubleQuotation(matcher.group("type"));
+        int count = Integer.parseInt(matcher.group("count"));
+        EnvironmentMenuMessage message = EnvironmentControl.dropUnit(x, y, type, count);
     }
 
     private static void chooseColor(Matcher matcher) {
