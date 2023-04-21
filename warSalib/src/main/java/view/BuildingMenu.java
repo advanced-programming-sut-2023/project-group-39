@@ -35,7 +35,7 @@ public class BuildingMenu {
             type = type.substring(1, type.length() - 1);
         }
         BuildingMessage message = BuildingControl.dropBuilding(x, y, type);
-        switch (message) {
+       switch (message) {
             case WRONG_AMOUNT:
                 System.out.println("you enter wrong amount of x and y");
                 break;
