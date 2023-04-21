@@ -42,6 +42,20 @@ public class EnvironmentMenu {
         int y = Integer.parseInt(matcher.group("y"));
         String type = getTypeWithoutDoubleQuotation(matcher.group("type"));
         EnvironmentMenuMessage message = EnvironmentControl.setTexture(x, y, type);
+        switch (message) {
+            case WRONG_AMOUNT :
+                System.out.println("you enter wrong x and y");
+                break;
+            case EXIST_BUILDING:
+                System.out.println("you can't set texture for building");
+                break;
+            case SUCCESS:
+                System.out.println("set successfully");
+                break;
+            default:
+                System.out.println("invalid");
+                break;
+        }
     }
 
     private static void setTextureRectangle(Matcher matcher) {
@@ -51,12 +65,37 @@ public class EnvironmentMenu {
         int y2 = Integer.parseInt(matcher.group("y2"));
         String type = getTypeWithoutDoubleQuotation(matcher.group("type"));
         EnvironmentMenuMessage message = EnvironmentControl.setTextureWithRectangle(x1, y1, x2, y2, type);
+        switch (message) {
+            case WRONG_AMOUNT :
+                System.out.println("you enter wrong x and y");
+                break;
+            case EXIST_BUILDING:
+                System.out.println("you can't set texture these tiles for building");
+                break;
+            case SUCCESS:
+                System.out.println("set texture successfully");
+                break;
+            default:
+                System.out.println("invalid");
+                break;
+        }
     }
 
     private static void clearTile(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
         EnvironmentMenuMessage message = EnvironmentControl.clearTile(x, y);
+        switch (message) {
+            case WRONG_AMOUNT:
+                System.out.println("you enter wrong x and y");
+                break;
+            case SUCCESS:
+                System.out.println("back this tile to first of map");
+                break;
+            default:
+                System.out.println("invalid");
+                break;
+        }
     }
 
     private static void dropRock(Matcher matcher) {
@@ -64,6 +103,20 @@ public class EnvironmentMenu {
         int y = Integer.parseInt(matcher.group("y"));
         String direction = matcher.group("direction");
         EnvironmentMenuMessage message = EnvironmentControl.dropRock(x, y, direction);
+        switch (message) {
+            case WRONG_AMOUNT:
+                System.out.println("you enter wrong x and y");
+                break;
+            case WRONG_DIRECTION:
+                System.out.println("you enter wrong direction");
+                break;
+            case SUCCESS:
+                System.out.println("drop rock successfully");
+                break;
+            default:
+                System.out.println("invalid");
+                break;
+        }
     }
 
     private static void dropTree(Matcher matcher) {
@@ -71,6 +124,23 @@ public class EnvironmentMenu {
         int y = Integer.parseInt(matcher.group("y"));
         String type = getTypeWithoutDoubleQuotation(matcher.group("type"));
         EnvironmentMenuMessage message = EnvironmentControl.dropTree(x, y, type);
+        switch (message) {
+            case WRONG_AMOUNT:
+                System.out.println("you enter wrong x and y");
+                break;
+            case WRONG_TYPE:
+                System.out.println("you enter wrong type");
+                break;
+            case NOT_APPROPRIATE_GROUND:
+                System.out.println("it's not good ground for trees");
+                break;
+            case SUCCESS:
+                System.out.println("drop tree successfully");
+                break;
+            default:
+                System.out.println("invalid");
+                break;
+        }
     }
 
     private static void dropBuilding(Matcher matcher) {
@@ -78,6 +148,24 @@ public class EnvironmentMenu {
         int y = Integer.parseInt(matcher.group("y"));
         String type = getTypeWithoutDoubleQuotation(matcher.group("type"));
         EnvironmentMenuMessage message = EnvironmentControl.dropBuilding(x, y, type);
+        switch (message) {
+            case WRONG_AMOUNT:
+                System.out.println("you enter wrong x and y");
+                break;
+            case WRONG_TYPE:
+                System.out.println("you enter wrong type");
+                break;
+            case NOT_APPROPRIATE_GROUND:
+                System.out.println("it's not good ground for this building");
+                break;
+            case SUCCESS:
+                System.out.println("drop building successfully");
+                break;
+            default:
+                System.out.println("invalid");
+                break;
+        }
+
     }
 
     private static void dropUnit(Matcher matcher) {
@@ -86,6 +174,27 @@ public class EnvironmentMenu {
         String type = getTypeWithoutDoubleQuotation(matcher.group("type"));
         int count = Integer.parseInt(matcher.group("count"));
         EnvironmentMenuMessage message = EnvironmentControl.dropUnit(x, y, type, count);
+        switch (message) {
+            case WRONG_AMOUNT:
+                System.out.println("you enter wrong x and y");
+                break;
+            case WRONG_TYPE:
+                System.out.println("you enter wrong type");
+                break;
+            case WRONG_COUNT:
+                System.out.println("you enter wrong count");
+                break;
+            case NOT_APPROPRIATE_GROUND:
+                System.out.println("can't stay units in this ground");
+                break;
+            case SUCCESS:
+                System.out.println("drop units successfully");
+                break;
+            default:
+                System.out.println("invalid");
+                break;
+        }
+
     }
 
     private static void chooseColor(Matcher matcher) {
