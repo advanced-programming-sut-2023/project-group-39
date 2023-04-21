@@ -11,11 +11,11 @@ public class EnvironmentControl {
         return false;
     }
 
-    public static EnvironmentMenuMessage setTexture(int x, int y) {
+    public static EnvironmentMenuMessage setTexture(int x, int y, String type) {
         return null;
     }
 
-    public static EnvironmentMenuMessage setTextureWithRectangle(int x, int y, int x1, int y1) {
+    public static EnvironmentMenuMessage setTextureWithRectangle(int x, int y, int x1, int y1, String type) {
         return null;
     }
 
