@@ -13,6 +13,8 @@ public class MapMenu {
                 showMap(input);
             } else if (MapMenuCommands.getMatcher(input, MapMenuCommands.SHOW_DETAILS) != null) {
                 showDetail(input);
+            } else if (MapMenuCommands.getMatcher(input, MapMenuCommands.MOVE_MAP) != null) {
+                moveMap(input);
             } else if (input.matches("\\s*back\\s*")) {
                 break;
             } else System.out.println("invalid command!");
@@ -28,8 +30,35 @@ public class MapMenu {
         System.out.println(MapControl.showMap(x, y));
     }
 
-    private static void moveMap(Matcher matcher) {
-
+    private static void moveMap(String input) {
+        int up = 0, down = 0, left = 0, right = 0;
+        Matcher matcher;
+        matcher = MapMenuCommands.getMatcher(input, MapMenuCommands.MOVE_UP);
+        if (matcher != null) {
+            if (matcher.group("up") != null)
+                up = Integer.parseInt(matcher.group("up"));
+            else up = 1;
+        }
+        matcher = MapMenuCommands.getMatcher(input, MapMenuCommands.MOVE_DOWN);
+        if (matcher != null) {
+            if (matcher.group("down") != null)
+                down = Integer.parseInt(matcher.group("down"));
+            else down = 1;
+        }
+        matcher = MapMenuCommands.getMatcher(input, MapMenuCommands.MOVE_LEFT);
+        if (matcher != null) {
+            if (matcher.group("left") != null)
+                left = Integer.parseInt(matcher.group("left"));
+            else left = 1;
+        }
+        matcher = MapMenuCommands.getMatcher(input, MapMenuCommands.MOVE_RIGHT);
+        if (matcher != null) {
+            if (matcher.group("right") != null)
+                right = Integer.parseInt(matcher.group("right"));
+            else right = 1;
+        }
+        //handle map up up
+        System.out.println(MapControl.moveMap(up, down, right, left));
     }
 
     private static void showDetail(String command) {

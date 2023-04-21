@@ -6,7 +6,7 @@ public class MapControl {
         return null;
     }
 
-    public static String moveMap(int[] chand, String[] direction) {
+    public static String moveMap(int up, int down, int right, int left) {
         return null;
     }
 
