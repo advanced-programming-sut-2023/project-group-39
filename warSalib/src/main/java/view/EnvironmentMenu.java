@@ -23,6 +23,10 @@ public class EnvironmentMenu {
                 clearTile(matcher);
             else if ((matcher = EnvironmentMenuCommands.getMatcher(input, EnvironmentMenuCommands.DROP_ROCK)) != null)
                 dropRock(matcher);
+            else if ((matcher = EnvironmentMenuCommands.getMatcher(input, EnvironmentMenuCommands.DROP_TREE)) != null)
+                dropTree(matcher);
+            else if ((matcher = EnvironmentMenuCommands.getMatcher(input, EnvironmentMenuCommands.DROP_BUILDING)) != null)
+                dropBuilding(matcher);
             else System.out.println("invalid");
         }
     }
@@ -61,11 +65,17 @@ public class EnvironmentMenu {
     }
 
     private static void dropTree(Matcher matcher) {
-
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        String type = getTypeWithoutDoubleQuotation(matcher.group("type"));
+        EnvironmentMenuMessage message = EnvironmentControl.dropTree(x, y, type);
     }
 
     private static void dropBuilding(Matcher matcher) {
-
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        String type = getTypeWithoutDoubleQuotation(matcher.group("type"));
+        EnvironmentMenuMessage message = EnvironmentControl.dropBuilding(x, y, type);
     }
 
     private static void dropUnit(Matcher matcher) {
