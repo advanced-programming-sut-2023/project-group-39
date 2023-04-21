@@ -1,6 +1,8 @@
 package view;
 
+import control.BuildingControl;
 import view.enums.commands.BuildingCommands;
+import view.enums.messages.BuildingMessage;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -28,10 +30,16 @@ public class BuildingMenu {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
         String type = matcher.group("type");
-        System.out.println("x is " + x + "y is " + y + "type is " + type);
+        if (type.startsWith("\"")) {
+            type = type.substring(1, type.length() - 1);
+        }
+        BuildingMessage message = BuildingControl.dropBuilding(x, y, type);
     }
 
     private static void selectBuilding(Matcher matcher) {
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        BuildingMessage message = BuildingControl.selectBuilding(x, y);
     }
 
     private static void createUnit(Matcher matcher) {
