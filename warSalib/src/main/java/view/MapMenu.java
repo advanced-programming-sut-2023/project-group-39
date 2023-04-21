@@ -11,6 +11,8 @@ public class MapMenu {
         while (true) {
             if (MapMenuCommands.getMatcher(input, MapMenuCommands.SHOW_MAP) != null) {
                 showMap(input);
+            } else if (MapMenuCommands.getMatcher(input, MapMenuCommands.SHOW_DETAILS) != null) {
+                showDetail(input);
             } else if (input.matches("\\s*back\\s*")) {
                 break;
             } else System.out.println("invalid command!");
@@ -30,7 +32,11 @@ public class MapMenu {
 
     }
 
-    private static void showDetail(Matcher matcher) {
-
+    private static void showDetail(String command) {
+        Matcher matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.MAP_CHECK_X);
+        int x = Integer.parseInt(matcher.group("x"));
+        matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.MAP_CHECK_Y);
+        int y = Integer.parseInt(matcher.group("y"));
+        System.out.println(MapControl.showDetails(x, y));
     }
 }
