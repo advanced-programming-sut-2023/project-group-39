@@ -4,7 +4,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum MapMenuCommands {
-    ;
+    SHOW_MAP("^\\s*show\\s+map\\s+(\\-x\\s+\\-?\\d+\\s+\\-y\\s+\\-?\\d+\\s*|\\-y\\s+\\-?\\d+\\s+\\-x\\s+\\-?\\d+\\s*)$"),
+    MAP_CHECK_X("^.+\\-x\\s+(?<x>\\-?\\d+).*$"),
+    MAP_CHECK_Y("^.+\\-y\\s+(?<y>\\-?\\d+).*$");
 
     private String regex;
 
