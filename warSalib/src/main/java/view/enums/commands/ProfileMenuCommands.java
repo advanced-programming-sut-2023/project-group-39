@@ -7,8 +7,9 @@ import java.util.regex.Pattern;
 
 public enum ProfileMenuCommands {
     CHANGE_USERNAME("^\\s*profile\\s+change\\s+\\-u\\s+(?<username>\\S+)\\s*$"),
-    CHANGE_NICKNAME("^\\s*profile\\s+change\\s+\\-n\\s+(?<nikname>\\S+)\\s*$"),
-    CHANGE_PASSWORD("^\\s*profile\\s+change\\s+password\\s+\\-o\\s+(?<oldPassword>\\S+)\\s+\\-n\\s+(?<newPassword>\\S+)\\s*$"),
+    CHANGE_NICKNAME("^\\s*profile\\s+change\\s+\\-n\\s+(?<nickname>\\S+)\\s*$"),
+    CHANGE_PASSWORD("^\\s*profile\\s+change\\s+password\\s+\\-o\\s+(?<oldPassword>\\S+)\\s+\\-n\\s+(?<newPassword>\\S+)\\s*$" +
+            "|^\\s*profile\\s+change\\s+password\\s+\\-n\\s+(?<newPassword>\\S+)\\s+\\-o\\s+(?<oldPassword>\\S+)\\s*$"),
     CHANGE_EMAIL("^\\s*profile\\s+change\\s+\\-e\\s+(?<email>\\S+)\\s*$"),
     CHANGE_SLOGAN("^\\s*profile\\s+change\\s+slogan\\s+\\-s\\s(?<slogan>\\.+)$"),
     REMOVE_SLOGAN("^\\s*profile\\s+remove\\s+slogan\\s*$"),
