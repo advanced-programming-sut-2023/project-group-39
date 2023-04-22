@@ -1,22 +1,125 @@
 package view;
 
+import control.BuildingControl;
+import view.enums.commands.BuildingCommands;
+import view.enums.messages.BuildingMessage;
+
+import java.util.Scanner;
 import java.util.regex.Matcher;
 
 public class BuildingMenu {
-    public static void run() {
-
+    public static void run(Scanner scanner) {
+        String input;
+        while (true) {
+            input = scanner.nextLine();
+            Matcher matcher;
+            if (input.matches("^\\s*repair\\s*$")) {
+                repair();
+            } else if (input.matches("^\\s*back\\s*$")) {
+                break;
+            } else if ((matcher = BuildingCommands.getMatcher(input, BuildingCommands.DROP_BUILDING)) != null) {
+                dropBuilding(matcher);
+            } else if ((matcher = BuildingCommands.getMatcher(input, BuildingCommands.SELECT_BUILDING)) != null) {
+                selectBuilding(matcher);
+            } else if ((matcher = BuildingCommands.getMatcher(input, BuildingCommands.CREATE_UNIT)) != null) {
+                createUnit(matcher);
+            } else System.out.println("invalid command!");
+        }
     }
 
     private static void dropBuilding(Matcher matcher) {
-
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        String type = matcher.group("type");
+        if (type.startsWith("\"")) {
+            type = type.substring(1, type.length() - 1);
+        }
+        BuildingMessage message = BuildingControl.dropBuilding(x, y, type);
+       switch (message) {
+            case WRONG_AMOUNT:
+                System.out.println("you enter wrong amount of x and y");
+                break;
+            case BAD_GROUND:
+                System.out.println("you can't build this building in this ground");
+                break;
+            case EXIST:
+                System.out.println("has building in this tile");
+                break;
+            case SUCCESS:
+                System.out.println("you drop it successfully");
+                break;
+            default:
+                System.out.println("invalid!!?");
+                break;
+        }
     }
+
     private static void selectBuilding(Matcher matcher) {
-
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        BuildingMessage message = BuildingControl.selectBuilding(x, y);
+        switch (message) {
+            case WRONG_AMOUNT:
+                System.out.println("you enter wrong amount of x and y");
+                break;
+            case NOT_EXIST:
+                System.out.println("not exist any building in this tile");
+                break;
+            case NOT_BELONG_TO_YOU:
+                System.out.println("this tile not belong to you!");
+                break;
+            case SUCCESS:
+                System.out.println("select successfully");
+                break;
+            default:
+                System.out.println("invalid!!?");
+                break;
+        }
     }
+
     private static void createUnit(Matcher matcher) {
-
+        int count = Integer.parseInt(matcher.group("count"));
+        String type = matcher.group("type");
+        if (type.startsWith("\"")) {
+            type = type.substring(1, type.length() - 1);
+        }
+        BuildingMessage message = BuildingControl.createUnit(type, count);
+        switch (message) {
+            case NOT_ENOUGH_SOURCE:
+                System.out.println("you don't have enough sources to create unit");
+                break;
+            case WRONG_AMOUNT:
+                System.out.println("you enter wrong amount of x and y");
+                break;
+            case NOT_ENOUGH_POPULATION:
+                System.out.println("you don't have enough population");
+                break;
+            case NOT_APPROPRIATE_UNIT:
+                System.out.println("chose wrong type of units");
+                break;
+            case SUCCESS:
+                System.out.println("create units successfully");
+                break;
+            default:
+                System.out.println("invalid!");
+                break;
+        }
     }
-    private static void repair()  {
 
+    private static void repair() {
+        BuildingMessage message = BuildingControl.repair();
+        switch (message) {
+            case NOT_ENOUGH_STONE:
+                System.out.println("not enough stones");
+                break;
+            case NEAR_ENEMY:
+                System.out.println("enemy near your town and can't repair");
+                break;
+            case SUCCESS:
+                System.out.println("repair successfully");
+            default:
+                System.out.println("invalid!");
+                break;
+        }
     }
 }
