@@ -4,7 +4,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum StoreMenuCommands {
-    ;
+    BUY("^buy\\s+(\\-i\\s+(?<item>\\w+|\".*\")\\s*()|\\-a\\s+(?<amount>\\-?\\d+)\\s*()){2}\\3\\5$"),
+    SELL("^sell\\s+(\\-i\\s+(?<item>\\w+|\".*\")\\s*()|\\-a\\s+(?<amount>\\-?\\d+)\\s*()){2}\\3\\5$");
 
     private String regex;
 
