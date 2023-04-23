@@ -1,13 +1,13 @@
 package model.government.popularityfactor;
 
 abstract public class PopularityFactor {
-    int rate;
-
-    public int getRate() {
+    static int rate;
+    //TODO : check is work static or not
+    public static int getRate() {
         return rate;
     }
 
-    public void setRate(int rate) {
-        this.rate = rate;
+    public static void setRate(int newRate) {
+        rate = newRate;
     }
 }

@@ -13,6 +13,7 @@ public class Hovel extends Building{
 
     public static Hovel makeHovelByName(String name, int x , int y, Government government) {
         if(name.equals("hovel")) {
+            //TODO :add and use govenment recources
             Hovel hovel = new Hovel(x , y , government , 500 , "town building" , name);
             return hovel;
         }
