@@ -9,14 +9,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 abstract public class Building {
-    Government government;
-    ArrayList<People> worker;
-    HashMap<Resource , Integer> costs;
-    int hp;
-    String type;
+    private Government government;
+    private ArrayList<People> worker;
+    private HashMap<Resource , Integer> costs;
+    private int hp;
+    private String type;
 
-    String name;
-    int x , y;
+    private String name;
+    private int x , y;
 
     public Building(int x , int y ,Government government, int hp, String type, String name) {
         this.x=x;
@@ -30,6 +30,13 @@ abstract public class Building {
     }
 
     public static GroupOfBuilding getGroupByType(String type) {
+        GroupOfBuilding [] groups = GroupOfBuilding.values();
+        for (GroupOfBuilding group : groups) {
+            for (String instance : group.getGroup()) {
+                if (type.equals(instance))
+                    return group;
+            }
+        }
         return null;
     }
 

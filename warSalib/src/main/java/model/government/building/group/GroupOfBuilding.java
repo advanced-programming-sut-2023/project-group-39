@@ -25,4 +25,8 @@ public enum GroupOfBuilding {
     GroupOfBuilding(String ... group) {
         this.group = group;
     }
+
+    public String[] getGroup() {
+        return group;
+    }
 }
