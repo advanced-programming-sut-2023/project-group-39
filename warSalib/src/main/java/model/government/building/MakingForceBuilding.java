@@ -10,8 +10,9 @@ public class MakingForceBuilding extends Building{
     private int CostOfEachForce;
 
     private ArrayList <People> people;
-    public MakingForceBuilding(int x , int y, Government government, int hp, String type, int costOfEachForce, ArrayList<People> people) {
-        super(x,y,government, hp, type);
+
+    public MakingForceBuilding(int x, int y, Government government, int hp, String type, String name, int costOfEachForce, ArrayList<People> people) {
+        super(x, y, government, hp, type, name);
         CostOfEachForce = costOfEachForce;
         this.people = people;
     }

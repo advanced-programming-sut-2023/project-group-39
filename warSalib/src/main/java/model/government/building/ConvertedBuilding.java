@@ -9,8 +9,8 @@ public class ConvertedBuilding extends Building{
     private Resource primitiveResource;
     private Resource finalResource;
 
-    public ConvertedBuilding(int x, int y, Government government, int hp, String type, int rate, Resource primitiveResource, Resource finalResource) {
-        super(x, y, government, hp, type);
+    public ConvertedBuilding(int x, int y, Government government, int hp, String type, String name, int rate, Resource primitiveResource, Resource finalResource) {
+        super(x, y, government, hp, type, name);
         this.rate = rate;
         this.primitiveResource = primitiveResource;
         this.finalResource = finalResource;

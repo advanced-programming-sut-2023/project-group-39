@@ -9,10 +9,11 @@ import java.util.ArrayList;
 public class Market extends Building{
     private ArrayList<Resource>resources;
 
-    public Market(int x, int y, Government government, int hp, String type) {
-        super(x, y, government, hp, type);
-        resources=new ArrayList<>();
+    public Market(int x, int y, Government government, int hp, String type, String name, ArrayList<Resource> resources) {
+        super(x, y, government, hp, type, name);
+        this.resources = resources;
     }
+
     public void addResourceToMarket(Resource resource) {
         resources.add(resource);
     }

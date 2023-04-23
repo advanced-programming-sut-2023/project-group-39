@@ -7,8 +7,9 @@ public class DrawBridge extends Building{
     private int upOrDown;
 
     private int decreasingSpeed;
-    public DrawBridge(int x , int y , Government government, int hp, String type, int upOrDown) {
-        super( x , y,government, hp, type);
+
+    public DrawBridge(int x, int y, Government government, int hp, String type, String name, int upOrDown) {
+        super(x, y, government, hp, type, name);
         this.upOrDown = upOrDown;
     }
 

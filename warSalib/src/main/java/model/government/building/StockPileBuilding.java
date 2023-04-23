@@ -12,11 +12,11 @@ public class StockPileBuilding extends Building {
     private ArrayList<Resource> resourcesKeepIt;
     private int capacity;
 
-    public StockPileBuilding(int x, int y, Government government, int hp, String type, int capacity, ArrayList<Resource> resourcesKeepIt) {
-        super(x,y,government, hp, type);
-        resources = new ArrayList<>();
-        this.capacity = capacity;
+    public StockPileBuilding(int x, int y, Government government, int hp, String type, String name, ArrayList<Resource> resources, ArrayList<Resource> resourcesKeepIt, int capacity) {
+        super(x, y, government, hp, type, name);
+        this.resources = resources;
         this.resourcesKeepIt = resourcesKeepIt;
+        this.capacity = capacity;
     }
 
     public static StockPileBuilding makeStockPileBuildingByName(String Name) {

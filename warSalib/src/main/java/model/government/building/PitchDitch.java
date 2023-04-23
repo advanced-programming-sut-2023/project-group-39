@@ -5,8 +5,10 @@ import model.government.building.group.GroupOfBuilding;
 
 public class PitchDitch extends Building{
     private boolean isOnFire;
-    public PitchDitch(int x, int y, Government government, int hp, String type) {
-        super(x, y, government, hp, type);
+
+    public PitchDitch(int x, int y, Government government, int hp, String type, String name, boolean isOnFire) {
+        super(x, y, government, hp, type, name);
+        this.isOnFire = isOnFire;
     }
 
     public static PitchDitch makePitchDitchByName(String Name) {

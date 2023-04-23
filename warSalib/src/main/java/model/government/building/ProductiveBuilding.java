@@ -7,10 +7,11 @@ import model.government.resource.Resource;
 public class ProductiveBuilding extends Building{
     private int rate;
     private Resource resourceThatMake;
-    public ProductiveBuilding(int x, int y, Government government, int hp, String type, int rate, Resource resource) {
-        super(x,y,government, hp, type);
-        this.rate=rate;
-        resourceThatMake = resource;
+
+    public ProductiveBuilding(int x, int y, Government government, int hp, String type, String name, int rate, Resource resourceThatMake) {
+        super(x, y, government, hp, type, name);
+        this.rate = rate;
+        this.resourceThatMake = resourceThatMake;
     }
 
     public static ProductiveBuilding makeProductiveBuildingByName(String Name) {
