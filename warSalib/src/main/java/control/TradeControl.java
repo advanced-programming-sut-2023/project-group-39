@@ -7,14 +7,14 @@ public class TradeControl {
         return null;
     }
 
-    public static String tradeList() {
+    public static String showTradeList() {
         return null;
     }
 
     public static TradeMenuMessage acceptTrade(String id, String message) {
         return null;
     }
-    public static String tradeHistory() {
+    public static String showTradeHistory() {
         return null;
     }
 
