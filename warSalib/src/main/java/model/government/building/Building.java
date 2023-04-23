@@ -12,15 +12,15 @@ abstract public class Building {
     ArrayList<People> worker;
     ArrayList<Resource> costs;
     int hp;
-    GroupOfBuilding group;
+    String type;
 
     int x , y;
 
-    public Building(int x , int y ,Government government, int hp, GroupOfBuilding group) {
+    public Building(int x , int y ,Government government, int hp, String type) {
         this.x=x;
         this.y=y;
         this.hp = hp;
-        this.group = group;
+        this.type = type;
         this.government = government;
     }
 
