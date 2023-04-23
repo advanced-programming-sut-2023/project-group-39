@@ -9,8 +9,8 @@ import java.util.ArrayList;
 public class Church extends Building{
     private int addToPopularity;
     private ArrayList<People> people;
-    public Church(int x , int y , Government government, int hp, GroupOfBuilding group, int addToPopularity) {
-        super(x,y,government, hp, group);
+    public Church(int x , int y , Government government, int hp, String type, int addToPopularity) {
+        super(x,y,government, hp, type);
         this.addToPopularity = addToPopularity;
     }
 

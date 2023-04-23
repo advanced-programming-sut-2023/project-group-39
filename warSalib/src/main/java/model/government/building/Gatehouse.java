@@ -7,8 +7,8 @@ import model.government.people.People;
 public class Gatehouse extends Building{
     private People[] people;
 
-    public Gatehouse(int x, int y, Government government, int hp, GroupOfBuilding group, People[] people) {
-        super(x, y, government, hp, group);
+    public Gatehouse(int x, int y, Government government, int hp, String type, People[] people) {
+        super(x, y, government, hp, type);
         this.people = people;
     }
 

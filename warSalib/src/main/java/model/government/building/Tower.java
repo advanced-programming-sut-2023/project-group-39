@@ -13,8 +13,8 @@ public class Tower extends Building{
 
     Weapon weapon;
     ArrayList<People> peopleOfTower;
-    public Tower(int x, int y, Government government, int hp, GroupOfBuilding group, int defendRange, int fireRange, Weapon weapon) {
-        super(x,y,government, hp, group);
+    public Tower(int x, int y, Government government, int hp, String type, int defendRange, int fireRange, Weapon weapon) {
+        super(x,y,government, hp, type);
         this.defendRange = defendRange;
         this.fireRange = fireRange;
         this.weapon = weapon;

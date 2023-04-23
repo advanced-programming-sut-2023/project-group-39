@@ -12,8 +12,8 @@ public class StockPileBuilding extends Building {
     private ArrayList<Resource> resourcesKeepIt;
     private int capacity;
 
-    public StockPileBuilding(int x, int y, Government government, int hp, GroupOfBuilding group, int capacity, ArrayList<Resource> resourcesKeepIt) {
-        super(x,y,government, hp, group);
+    public StockPileBuilding(int x, int y, Government government, int hp, String type, int capacity, ArrayList<Resource> resourcesKeepIt) {
+        super(x,y,government, hp, type);
         resources = new ArrayList<>();
         this.capacity = capacity;
         this.resourcesKeepIt = resourcesKeepIt;

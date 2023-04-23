@@ -7,8 +7,8 @@ import model.government.resource.Resource;
 public class ProductiveBuilding extends Building{
     private int rate;
     private Resource resourceThatMake;
-    public ProductiveBuilding(int x, int y, Government government, int hp, GroupOfBuilding group, int rate, Resource resource) {
-        super(x,y,government, hp, group);
+    public ProductiveBuilding(int x, int y, Government government, int hp, String type, int rate, Resource resource) {
+        super(x,y,government, hp, type);
         this.rate=rate;
         resourceThatMake = resource;
     }

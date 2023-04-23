@@ -15,8 +15,8 @@ public class Inn extends Building{
     //resource just hop change resource to hop in constructor
 
     ArrayList<People> peopleOfInn;
-    public Inn(int x , int y , Government government, int hp, GroupOfBuilding group, Resource resource, int rate, int popularityRate, String wineUsage) {
-        super(x , y ,government, hp, group);
+    public Inn(int x , int y , Government government, int hp, String type , Resource resource, int rate, int popularityRate, String wineUsage) {
+        super(x , y ,government, hp, type);
         this.resource = resource;
         this.rate = rate;
         this.popularityRate = popularityRate;
