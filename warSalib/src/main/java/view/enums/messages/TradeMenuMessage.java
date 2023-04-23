@@ -7,7 +7,5 @@ public enum TradeMenuMessage {
     ID_NOT_EXIST,
     INSUFFICIENT_FUNDING,
     EMPTY_TRADE_HISTORY,
-    SUCCESS,
-
-
+    SUCCESS;
 }
