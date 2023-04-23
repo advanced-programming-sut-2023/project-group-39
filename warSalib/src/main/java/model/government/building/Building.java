@@ -11,7 +11,6 @@ import java.util.HashMap;
 abstract public class Building {
     private Government government;
     private ArrayList<People> worker;
-    private HashMap<Resource , Integer> costs;
     private int hp;
     private String type;
 
@@ -26,7 +25,6 @@ abstract public class Building {
         this.government = government;
         this.name = name;
         worker = new ArrayList<>();
-        costs = new HashMap<>();
     }
 
     public static GroupOfBuilding getGroupByType(String type) {
@@ -44,9 +42,6 @@ abstract public class Building {
         worker.add(people);
     }
 
-    public void addCosts(Resource resource , int number) {
-        costs.put(resource , number);
-    }
 
     public boolean IsVisibleBuilding() {
         return true;
@@ -54,10 +49,6 @@ abstract public class Building {
 
     public Government getGovernment() {
         return government;
-    }
-
-    public HashMap<Resource , Integer> getCosts() {
-        return costs;
     }
 
     public int getHp() {

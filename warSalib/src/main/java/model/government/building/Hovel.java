@@ -11,6 +11,13 @@ public class Hovel extends Building{
         addPopulation();
     }
 
+    public static Hovel makeHovelByName(String name, int x , int y, Government government) {
+        if(name.equals("hovel")) {
+            Hovel hovel = new Hovel(x , y , government , 500 , "town building" , name);
+            return hovel;
+        }
+        return null;
+    }
     private void addPopulation() {
         getGovernment().setPopulation(getGovernment().getPopulation() + 8 );
     }
