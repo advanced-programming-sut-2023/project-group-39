@@ -1,6 +1,6 @@
 package model.government.popularityfactor;
 
-public class PopularityFactor {
+abstract public class PopularityFactor {
     int rate;
 
     public int getRate() {
