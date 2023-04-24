@@ -8,7 +8,7 @@ import model.government.resource.Resource;
 import java.util.ArrayList;
 
 public class Inn extends Building{
-    private Resource resource;
+    private final Resource resource = Resource.HOP;
     private int rate;
     private int popularityRate;
     private String wineUsage;
@@ -16,12 +16,16 @@ public class Inn extends Building{
 
     ArrayList<People> peopleOfInn;
 
-    public Inn(int x, int y, Government government, int hp, String type, String name, Resource resource, int rate, int popularityRate, String wineUsage) {
+    public Inn(int x, int y, Government government, int hp, String type, String name) {
         super(x, y, government, hp, type, name);
-        this.resource = resource;
-        this.rate = rate;
-        this.popularityRate = popularityRate;
-        this.wineUsage = wineUsage;
+    }
+
+    public static Inn makeInnByName(String name, int x , int y, Government government) {
+        if (name.equals("inn")) {
+            Inn inn = new Inn (x, y, government, 500, "food processing building", name);
+            return inn;
+        }
+        return null;
     }
 
     public int improvePopularityBaseRate() {

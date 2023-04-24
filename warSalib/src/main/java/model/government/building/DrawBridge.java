@@ -8,11 +8,18 @@ public class DrawBridge extends Building{
 
     private int decreasingSpeed;
 
-    public DrawBridge(int x, int y, Government government, int hp, String type, String name, int upOrDown) {
-        super(x, y, government, hp, type, name);
+    public DrawBridge(int x, int y, Government government, int upOrDown) {
+        super(x, y, government, 600, "castle building", "draw bridge");
         this.upOrDown = upOrDown;
     }
 
+    public static DrawBridge makeDrawBridgeByName(String name, int x, int y, Government government) {
+        if (name.equals("draw bridge")) {
+            DrawBridge drawBridge = new DrawBridge(x, y, government, 0);
+            return drawBridge;
+        }
+        return null;
+    }
     public int getUpOrDown() {
         return upOrDown;
     }
