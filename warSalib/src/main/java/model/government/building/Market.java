@@ -9,9 +9,16 @@ import java.util.ArrayList;
 public class Market extends Building{
     private ArrayList<Resource>resources;
 
-    public Market(int x, int y, Government government, int hp, String type, String name, ArrayList<Resource> resources) {
-        super(x, y, government, hp, type, name);
-        this.resources = resources;
+    public Market(int x, int y, Government government, int hp) {
+        super(x, y, government, hp, "industry", "market");
+        resources = new ArrayList<>();
+    }
+    public static Market makeMarketByName(String name, int x , int y, Government government) {
+        if (name.equals("market")) {
+            Market market = new Market(x, y, government, 500);
+            return market;
+        }
+        return null;
     }
 
     public void addResourceToMarket(Resource resource) {
