@@ -1,9 +1,7 @@
 package model.government.building;
 
 import model.government.Government;
-import model.government.building.group.GroupOfBuilding;
 import model.government.resource.Resource;
-import model.government.resource.Weapon;
 
 public class ConvertedBuilding extends Building{
     private int rate;
