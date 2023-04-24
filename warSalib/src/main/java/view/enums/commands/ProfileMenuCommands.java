@@ -16,7 +16,8 @@ public enum ProfileMenuCommands {
     DISPLAY_HIGHSCORE("^\\s*profile\\s+display\\s+highscore\\s*$"),
     DISPLAY_RANK("^\\s*profile\\s+display\\s+rank\\s*$"),
     DISPLAY_SLOGAN("^\\s*profile\\s+display\\s+slogan\\s*$"),
-    DISPLAY_PROFILE("^\\s*profile\\s+display\\s*$");
+    DISPLAY_PROFILE("^\\s*profile\\s+display\\s*$"),
+    START_GAME("^\\s*start\\s+game\\s*$");
 
     private String regex;
 
