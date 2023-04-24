@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Market extends Building{
-    private ArrayList<Resource>resources;
+    private HashMap<Resource, Integer>resources;
 
     public Market(int x, int y, Government government, int hp) {
         super(x, y, government, hp, "industry", "market");
-        resources = new ArrayList<>();
+        resources = new HashMap<>();
     }
     public static Market makeMarketByName(String name, int x , int y, Government government) {
         if (name.equals("market")) {
@@ -26,10 +26,10 @@ public class Market extends Building{
         return null;
     }
 
-    public void addResourceToMarket(Resource resource) {
-        resources.add(resource);
+    public void addResourceToMarket(Resource resource, int number) {
+        resources.put(resource, number);
     }
-    public Resource buyResource() {
+    public Resource buyResource(Resource resource) {
         return null;
     }
 
