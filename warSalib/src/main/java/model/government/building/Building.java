@@ -11,7 +11,6 @@ import java.util.HashMap;
 abstract public class Building {
     private Government government;
     private HashMap<People, Integer> workerDataBase;
-    private HashMap<Resource, Integer> cost;
     private HashMap<People, Integer> workerWorked;
     private int hp;
     private String type;
@@ -27,7 +26,6 @@ abstract public class Building {
         this.government = government;
         this.name = name;
         workerDataBase = new HashMap<>();
-        cost = new HashMap<>();
         workerWorked = new HashMap<>();
     }
 
@@ -77,5 +75,17 @@ abstract public class Building {
 
     public void setHp(int hp) {
         this.hp = hp;
+    }
+
+    public HashMap<People, Integer> getWorkerDataBase() {
+        return workerDataBase;
+    }
+
+    public HashMap<People, Integer> getWorkerWorked() {
+        return workerWorked;
+    }
+
+    public void setWorkerDataBase(People people, int number) {
+        workerDataBase.put(people,number);
     }
 }

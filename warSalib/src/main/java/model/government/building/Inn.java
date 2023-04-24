@@ -3,9 +3,11 @@ package model.government.building;
 import model.government.Government;
 import model.government.building.group.GroupOfBuilding;
 import model.government.people.People;
+import model.government.people.workingpersons.DrinkServer;
 import model.government.resource.Resource;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Inn extends Building{
     private final Resource resource = Resource.HOP;
@@ -22,8 +24,15 @@ public class Inn extends Building{
 
     public static Inn makeInnByName(String name, int x , int y, Government government) {
         if (name.equals("inn")) {
-            Inn inn = new Inn (x, y, government, 500, "food processing building", name);
-            return inn;
+            HashMap<Resource, Integer> resource= new HashMap<>();
+            resource.put(Resource.GOLD , 100);
+            resource.put(Resource.WOOD, 20);
+            if (government.hasEnoughResources(resource)) {
+                Inn inn = new Inn(x, y, government, 500, "food processing building", name);
+                //DrinkServer drinkServer = new DrinkServer()
+                //inn.setWorkerDataBase();
+                return inn;
+            }
         }
         return null;
     }
