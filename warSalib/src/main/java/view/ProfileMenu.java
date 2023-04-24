@@ -85,7 +85,10 @@ public class ProfileMenu {
         ProfileMenuMessage message = ProfileControl.changePassword(newPassword, oldPassword);
         switch (message) {
             case WRONG_PASSWORD:
-                System.out.println("username and password didn't match");
+                System.out.println("Current password is incorrect");
+                break;
+            case SAME_PASSWORD:
+                System.out.println("Please enter a new password!");
                 break;
             case INVALID_PASSWORD_FORMAT:
                 System.out.println("invalid password format");
@@ -138,19 +141,69 @@ public class ProfileMenu {
 
     }
     private static void removeSlogan() {
-        
+        ProfileMenuMessage message = ProfileControl.removeSlogan();
+        switch (message) {
+            case EMPTY_SLOGAN:
+                System.out.println("you don't have a slogan");
+                break;
+            case SUCCESS:
+                System.out.println("your slogan has been removed successfully");
+                break;
+            default:
+                System.out.println("invalid!!?");
+                break;
+        }
 
     }
     private static void displayHighScore() {
+        ProfileMenuMessage message = ProfileMenuMessage.valueOf(ProfileControl.displayHighScore());
+        switch (message) {
+            case SUCCESS:
+                System.out.println("***------------HighScore------------***");
+                break;
+            default:
+                System.out.println("invalid!!?");
+                break;
+        }
 
     }
     private static void displayRank() {
+        ProfileMenuMessage message = ProfileMenuMessage.valueOf(ProfileControl.displayRank());
+        switch (message) {
+            case SUCCESS:
+                System.out.println("***------------rank------------***");
+                break;
+            default:
+                System.out.println("invalid!!?");
+                break;
+        }
 
     }
     private static void displaySlogan() {
+        ProfileMenuMessage message = ProfileMenuMessage.valueOf(ProfileControl.displaySlogan());
+        switch (message) {
+            case EMPTY_SLOGAN:
+                System.out.println("Slogan is empty");
+                break;
+            case SUCCESS:
+                System.out.println("***------------slogan------------***");
+                break;
+            default:
+                System.out.println("invalid!!?");
+                break;
+        }
 
     }
     private static void displayProfile() {
+        ProfileMenuMessage message = ProfileMenuMessage.valueOf(ProfileControl.displayProfile());
+        switch (message) {
+            case SUCCESS:
+                System.out.println("***------------Profile------------***");
+                break;
+            default:
+                System.out.println("invalid!!?");
+                break;
+        }
 
     }
 
