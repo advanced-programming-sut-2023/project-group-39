@@ -5,6 +5,7 @@ import model.government.building.group.GroupOfBuilding;
 import model.government.resource.Resource;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class StockPileBuilding extends Building {
     private ArrayList<Resource> resources;
@@ -20,17 +21,24 @@ public class StockPileBuilding extends Building {
 
     public static StockPileBuilding makeStockPileBuildingByName(String name, int x, int y, Government government) {
         if (name.equals("stock pile")) {
-            //TODO : Handle resource that keep it
             StockPileBuilding stockPile = new StockPileBuilding(x, y, government, 500, "industry", "stock pile" ,800);
             return stockPile;
         }
         if (name.equals("food stock pile")) {
-            StockPileBuilding foodStockPile = new StockPileBuilding(x, y, government, 400, "food processing building", "food stock pile" ,700);
-            return foodStockPile;
+            HashMap<Resource, Integer> resource= new HashMap<>();
+            resource.put(Resource.WOOD, 5);
+            if (government.hasEnoughResources(resource)) {
+                StockPileBuilding foodStockPile = new StockPileBuilding(x, y, government, 400, "food processing building", "food stock pile", 700);
+                return foodStockPile;
+            }
         }
         if (name.equals("armoury")) {
-            StockPileBuilding armoury = new StockPileBuilding(x, y, government, 900, "castle building", "armoury" ,700);
-            return armoury;
+            HashMap<Resource, Integer> resource= new HashMap<>();
+            resource.put(Resource.WOOD, 5);
+            if (government.hasEnoughResources(resource)) {
+                StockPileBuilding armoury = new StockPileBuilding(x, y, government, 900, "castle building", "armoury", 700);
+                return armoury;
+            }
         }
         return null;
     }
