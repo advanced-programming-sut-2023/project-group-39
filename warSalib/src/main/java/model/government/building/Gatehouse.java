@@ -4,8 +4,10 @@ import model.government.Government;
 import model.government.building.group.GroupOfBuilding;
 import model.government.people.People;
 import model.government.popularityfactor.Tax;
+import model.government.resource.Resource;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Gatehouse extends Building {
     private int people;
@@ -24,8 +26,12 @@ public class Gatehouse extends Building {
             return smallGatehouse;
         }
         else if (name.equals("big stone gatehouse")) {
-            Gatehouse bigGatehouse = new Gatehouse(x, y, government, 1200,  name, 10);
-            return bigGatehouse;
+            HashMap<Resource, Integer> resource= new HashMap<>();
+            resource.put(Resource.STONE, 20);
+            if (government.hasEnoughResources(resource)) {
+                Gatehouse bigGatehouse = new Gatehouse(x, y, government, 1200, name, 10);
+                return bigGatehouse;
+            }
         }
         return null;
     }

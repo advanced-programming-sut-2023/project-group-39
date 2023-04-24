@@ -5,6 +5,7 @@ import model.government.building.group.GroupOfBuilding;
 import model.government.resource.Resource;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Market extends Building{
     private ArrayList<Resource>resources;
@@ -15,8 +16,12 @@ public class Market extends Building{
     }
     public static Market makeMarketByName(String name, int x , int y, Government government) {
         if (name.equals("market")) {
-            Market market = new Market(x, y, government, 500);
-            return market;
+            HashMap<Resource, Integer> resource= new HashMap<>();
+            resource.put(Resource.WOOD, 5);
+            if (government.hasEnoughResources(resource)) {
+                Market market = new Market(x, y, government, 500);
+                return market;
+            }
         }
         return null;
     }

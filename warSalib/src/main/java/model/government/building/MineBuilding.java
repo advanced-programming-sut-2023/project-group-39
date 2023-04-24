@@ -4,6 +4,8 @@ import model.government.Government;
 import model.government.building.group.GroupOfBuilding;
 import model.government.resource.Resource;
 
+import java.util.HashMap;
+
 public class MineBuilding extends Building{
     //change Group by GroupOfBuilding.Mine
     private int rate;
@@ -17,16 +19,28 @@ public class MineBuilding extends Building{
 
     public static MineBuilding makeMineBuildingByName(String name , int x, int y, Government government) {
         if (name.equals("quarry") ) {
-            MineBuilding mineBuilding = new MineBuilding(x, y, government, 1000, name, 20, Resource.STONE);
-            return mineBuilding;
+            HashMap<Resource, Integer> resource= new HashMap<>();
+            resource.put(Resource.WOOD, 20);
+            if (government.hasEnoughResources(resource)) {
+                MineBuilding mineBuilding = new MineBuilding(x, y, government, 1000, name, 20, Resource.STONE);
+                return mineBuilding;
+            }
         }
         if (name.equals("iron mine") ) {
-            MineBuilding mineBuilding = new MineBuilding(x, y, government, 1100, name, 15, Resource.IRON);
-            return mineBuilding;
+            HashMap<Resource, Integer> resource= new HashMap<>();
+            resource.put(Resource.WOOD, 20);
+            if (government.hasEnoughResources(resource)) {
+                MineBuilding mineBuilding = new MineBuilding(x, y, government, 1100, name, 15, Resource.IRON);
+                return mineBuilding;
+            }
         }
         if (name.equals("pitch rig") ) {
-            MineBuilding mineBuilding = new MineBuilding(x, y, government, 800, name, 30, Resource.PITCH);
-            return mineBuilding;
+            HashMap<Resource, Integer> resource= new HashMap<>();
+            resource.put(Resource.WOOD, 20);
+            if (government.hasEnoughResources(resource)) {
+                MineBuilding mineBuilding = new MineBuilding(x, y, government, 800, name, 30, Resource.PITCH);
+                return mineBuilding;
+            }
         }
         return null;
     }
