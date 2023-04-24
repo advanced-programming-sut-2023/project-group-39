@@ -1,5 +1,6 @@
 package model.user;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class User {
@@ -10,15 +11,20 @@ public class User {
     private int rank;
     private int score;
     private String slogan;
+    private Boolean loggedIn;
+
+    private String securityQuestionAnswer;
     private HashMap<String, String> securityQuestion ;
 
-    public User(String username, String nickname, String password, String email, String slogan) {
+    public User(String username, String nickname, String password, String email, String slogan,String securityQuestionAnswer) {
         this.username = username;
         this.nickname = nickname;
         this.password = password;
         this.email = email;
         this.slogan = slogan;
+        this.securityQuestionAnswer=securityQuestionAnswer;
         securityQuestion = new HashMap<>();
+
     }
 
     public String getUsername() {
@@ -83,5 +89,27 @@ public class User {
 
     public void setSecurityQuestion(HashMap<String, String> securityQuestion) {
         this.securityQuestion = securityQuestion;
+    }
+    public static ArrayList<User> users=new ArrayList<>();
+
+    public static ArrayList<User> getUsers() {
+        return users;
+    }
+    public static ArrayList<String> slogans =new ArrayList<>();
+
+    public void setLoggedIn(Boolean loggedIn) {
+        this.loggedIn = loggedIn;
+    }
+
+    public Boolean getLoggedIn() {
+        return loggedIn;
+    }
+
+    public String getSecurityQuestionAnswer() {
+        return securityQuestionAnswer;
+    }
+
+    public void setSecurityQuestionAnswer(String securityQuestionAnswer) {
+        this.securityQuestionAnswer = securityQuestionAnswer;
     }
 }
