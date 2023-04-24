@@ -10,7 +10,9 @@ import java.util.HashMap;
 
 abstract public class Building {
     private Government government;
-    private ArrayList<People> worker;
+    private HashMap<People, Integer> workerDataBase;
+    private HashMap<Resource, Integer> cost;
+    private HashMap<People, Integer> workerWorked;
     private int hp;
     private String type;
 
@@ -24,7 +26,9 @@ abstract public class Building {
         this.type = type;
         this.government = government;
         this.name = name;
-        worker = new ArrayList<>();
+        workerDataBase = new HashMap<>();
+        cost = new HashMap<>();
+        workerWorked = new HashMap<>();
     }
 
     public static GroupOfBuilding getGroupByType(String type) {
@@ -38,8 +42,8 @@ abstract public class Building {
         return null;
     }
 
-    public void addWorker(People people) {
-        worker.add(people);
+    public void addWorker(People people, int number) {
+        workerWorked.put(people, number);
     }
 
 
