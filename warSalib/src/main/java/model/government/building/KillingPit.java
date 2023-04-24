@@ -2,6 +2,9 @@ package model.government.building;
 
 import model.government.Government;
 import model.government.building.group.GroupOfBuilding;
+import model.government.resource.Resource;
+
+import java.util.HashMap;
 
 public class KillingPit extends Building{
     private final int damage = 300;
@@ -12,8 +15,12 @@ public class KillingPit extends Building{
 
     public static KillingPit makeKillingPitByName(String name, int x ,int y, Government government) {
         if (name.equals("killing pit")) {
-            KillingPit killingPit = new KillingPit(x, y , government , 600 , "castle building" , name);
-            return killingPit;
+            HashMap<Resource, Integer> resource= new HashMap<>();
+            resource.put(Resource.WOOD, 6);
+            if (government.hasEnoughResources(resource)) {
+                KillingPit killingPit = new KillingPit(x, y, government, 600, "castle building", name);
+                return killingPit;
+            }
         }
         return null;
     }

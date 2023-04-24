@@ -16,8 +16,12 @@ public class OxTether extends Building{
 
     public static OxTether makeOxTetherByName(String name, int x , int y, Government government) {
         if (name.equals("ox tether")) {
-            OxTether oxTether = new OxTether(x, y, government, 150);
-            return oxTether;
+            HashMap<Resource, Integer> resource= new HashMap<>();
+            resource.put(Resource.WOOD, 5);
+            if (government.hasEnoughResources(resource)) {
+                OxTether oxTether = new OxTether(x, y, government, 150);
+                return oxTether;
+            }
         }
         return null;
     }
