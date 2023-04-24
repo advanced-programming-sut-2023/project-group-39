@@ -4,7 +4,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum BuildingCommands {
- ;
+    DROP_BUILDING("^\\s*dropbuilding\\s+(-x\\s+(?<x>\\-?\\d+)\\s*()|-t\\s+(?<type>\\w+|\".*\")\\s*()|-y\\s+(?<y>\\-?\\d+)\\s*()){3}\\3\\5\\7$"),
+    SELECT_BUILDING("^select\\s+building\\s+(-x\\s+(?<x>\\-?\\d+)\\s*()|-y\\s+(?<y>\\-?\\d+)\\s*()){2}\\3\\5$"),
+    CREATE_UNIT("^createunit\\s+(-t\\s+(?<type>\\w+|\\\".*\\s+.*\\\")\\s*()|-c\\s+(?<count>\\-?\\d+)\\s*()){2}\\3\\5$");
     private String regex;
 
     BuildingCommands(String regex) {
