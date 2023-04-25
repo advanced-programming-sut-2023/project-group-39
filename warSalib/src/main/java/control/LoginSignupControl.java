@@ -11,6 +11,9 @@ import org.passay.PasswordGenerator;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.regex.Matcher;
+import java.io.FileWriter;
+import java.io.IOException;
+import com.thoughtworks.xstream.XStream;
 
 
 public class LoginSignupControl {
@@ -63,8 +66,19 @@ public class LoginSignupControl {
         return null;
     }
     public static  LoginMenuMessage createUser(String username,String password,String emailAddress,String nickname,String slogan,String securityAnswer){
+        XStream xStream=new XStream();
         User user=new User(username,password,emailAddress,nickname,slogan,securityAnswer);
         Game.getPlayers().add(user);
+        String xml=xStream.toXML(user);
+        try {
+            FileWriter writer=new FileWriter("users.xml");
+            writer.write(xml);
+            writer.close();
+            System.out.println("salam");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return LoginMenuMessage.SUCCESS;
     }
 
