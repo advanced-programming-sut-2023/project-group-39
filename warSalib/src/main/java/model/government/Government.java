@@ -2,6 +2,7 @@ package model.government;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import model.government.building.Building;
 import model.government.people.People;
@@ -19,14 +20,15 @@ public class Government {
     private int population;
     private User user;
     private HashMap<Integer, Food> foods;
-    Tax tax;
-    Religion religion;
+    private Tax tax;
+    private Religion religion;
     //for trade to other governments
-    ArrayList<Request> requests;
-    ArrayList<People> people;
-    ArrayList<Building> buildings;
-    private HashMap<Resource , Integer> resources;
-    Fear fear;
+    private ArrayList<Request> requests;
+    private ArrayList<People> people;
+    private ArrayList<Building> buildings;
+    public static HashMap<Resource, Integer> resources;
+    public static LinkedHashMap<User, HashMap<Resource, Integer>> tradeHistory;
+    private Fear fear;
 
     public Government(int popularity, int population, User user) {
         this.wealth = 0;
@@ -38,10 +40,23 @@ public class Government {
         people = new ArrayList<>();
         buildings = new ArrayList<>();
         resources = new HashMap<>();
+        tradeHistory = new LinkedHashMap<>();
         tax = new Tax();
         fear = new Fear();
     }
 
+//    public HashMap<Resource, Integer> getResources() { return resources; }
+
+    public static void addToResources(Resource resource) {
+        if (resources.containsKey(resource)) resources.put(resource, resources.get(resource) + 1);
+        else resources.put(resource, 1);
+    }
+
+    public static void removeFromResources(Resource resource, int number) {
+        if (resources.get(resource) < number) System.out.println("there are not enough resources in storehouse");
+        else if (resources.get(resource) == number) resources.remove(resource);
+        else resources.put(resource, resources.get(resource) - number);
+    }
     public int getWealth() { return wealth; }
 
     public void setWealth(int wealth) { this.wealth = wealth; }
