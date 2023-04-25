@@ -3,24 +3,38 @@ package model.government.building;
 import model.government.Government;
 import model.government.building.group.GroupOfBuilding;
 import model.government.people.People;
+import model.government.people.workingpersons.DrinkServer;
 import model.government.resource.Resource;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Inn extends Building{
-    private Resource resource;
+    private final Resource resource = Resource.HOP;
     private int rate;
     private int popularityRate;
     private String wineUsage;
     //resource just hop change resource to hop in constructor
 
     ArrayList<People> peopleOfInn;
-    public Inn(int x , int y , Government government, int hp, GroupOfBuilding group, Resource resource, int rate, int popularityRate, String wineUsage) {
-        super(x , y ,government, hp, group);
-        this.resource = resource;
-        this.rate = rate;
-        this.popularityRate = popularityRate;
-        this.wineUsage = wineUsage;
+
+    public Inn(int x, int y, Government government, int hp, String type, String name) {
+        super(x, y, government, hp, type, name);
+    }
+
+    public static Inn makeInnByName(String name, int x , int y, Government government) {
+        if (name.equals("inn")) {
+            HashMap<Resource, Integer> resource= new HashMap<>();
+            resource.put(Resource.GOLD , 100);
+            resource.put(Resource.WOOD, 20);
+            if (government.hasEnoughResources(resource)) {
+                Inn inn = new Inn(x, y, government, 500, "food processing building", name);
+                //DrinkServer drinkServer = new DrinkServer()
+                //inn.setWorkerDataBase();
+                return inn;
+            }
+        }
+        return null;
     }
 
     public int improvePopularityBaseRate() {

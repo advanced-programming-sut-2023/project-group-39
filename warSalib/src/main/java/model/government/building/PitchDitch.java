@@ -5,11 +5,17 @@ import model.government.building.group.GroupOfBuilding;
 
 public class PitchDitch extends Building{
     private boolean isOnFire;
-    public PitchDitch(int x, int y, Government government, int hp, GroupOfBuilding group) {
-        super(x, y, government, hp, group);
+
+    public PitchDitch(int x, int y, Government government) {
+        super(x, y, government, 0, "castle building", "pitch ditch");
+        this.isOnFire = false;
     }
 
-    public static PitchDitch makePitchDitchByName(String Name) {
+    public static PitchDitch makePitchDitchByName(String name, int x , int y, Government government) {
+        if (name.equals("pitch ditch")) {
+            PitchDitch pitchDitch = new PitchDitch(x, y, government);
+            return pitchDitch;
+        }
         return null;
     }
 

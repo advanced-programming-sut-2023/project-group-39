@@ -2,16 +2,31 @@ package model.government.building;
 
 import model.government.Government;
 import model.government.building.group.GroupOfBuilding;
+import model.government.resource.Resource;
+
+import java.util.HashMap;
 
 public class DrawBridge extends Building{
     private int upOrDown;
 
     private int decreasingSpeed;
-    public DrawBridge(int x , int y , Government government, int hp, GroupOfBuilding group, int upOrDown) {
-        super( x , y,government, hp, group);
+
+    public DrawBridge(int x, int y, Government government, int upOrDown) {
+        super(x, y, government, 600, "castle building", "draw bridge");
         this.upOrDown = upOrDown;
     }
 
+    public static DrawBridge makeDrawBridgeByName(String name, int x, int y, Government government) {
+        if (name.equals("draw bridge")) {
+            HashMap<Resource, Integer> resource= new HashMap<>();
+            resource.put(Resource.WOOD, 10);
+            if (government.hasEnoughResources(resource)) {
+                DrawBridge drawBridge = new DrawBridge(x, y, government, 0);
+                return drawBridge;
+            }
+        }
+        return null;
+    }
     public int getUpOrDown() {
         return upOrDown;
     }

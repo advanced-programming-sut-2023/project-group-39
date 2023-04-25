@@ -25,7 +25,7 @@ public class Government {
     ArrayList<Request> requests;
     ArrayList<People> people;
     ArrayList<Building> buildings;
-    ArrayList<Resource> resources;
+    private HashMap<Resource , Integer> resources;
     Fear fear;
 
     public Government(int popularity, int population, User user) {
@@ -37,7 +37,7 @@ public class Government {
         religion = new Religion();
         people = new ArrayList<>();
         buildings = new ArrayList<>();
-        resources = new ArrayList<>();
+        resources = new HashMap<>();
         tax = new Tax();
         fear = new Fear();
     }
@@ -45,6 +45,14 @@ public class Government {
     public int getWealth() { return wealth; }
 
     public void setWealth(int wealth) { this.wealth = wealth; }
+
+    public boolean hasEnoughResources(HashMap<Resource, Integer> resources) {
+        for (Resource resource : resources.keySet()) {
+            if (getResources().get(resource) < resources.get(resource))
+                return false;
+        }
+        return true;
+    }
 
     public int getPopularity() {
         return popularity;
@@ -104,5 +112,9 @@ public class Government {
 
     public static void changePopularityByTax(Tax tax) {
 
+    }
+
+    public HashMap<Resource, Integer> getResources() {
+        return resources;
     }
 }
