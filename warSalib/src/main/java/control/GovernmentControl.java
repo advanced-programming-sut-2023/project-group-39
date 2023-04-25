@@ -27,6 +27,8 @@ public class GovernmentControl {
 
     public static GovernmentMenuMessage rateFear(int rate) { return null; }
 
+    public static GovernmentMenuMessage showFoodList() { return null; }
+
     public static GovernmentMenuMessage addToFoods(Food food, int numberOfFoods) { return null; }
 
     public static GovernmentMenuMessage removeFromFoods(Food food, int numberOfFoods) { return null; }
