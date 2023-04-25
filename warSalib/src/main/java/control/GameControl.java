@@ -6,7 +6,7 @@ import view.enums.messages.GameMenuMessage;
 import java.util.regex.Matcher;
 
 public class GameControl {
-    public static GameMenuMessage selectUnit(int x, int y) {
+    public static GameMenuMessage selectUnit(int x, int y,String type) {
         return null;
     }
 
@@ -14,59 +14,72 @@ public class GameControl {
         return null;
     }
 
-    public static GameMenuMessage patrolUnit(int x, int y) {
+    public static GameMenuMessage patrolUnit(int x1, int y1,int x2,int y2) {
 
         return null;
     }
 
-    private static GameMenuMessage setMode(String mode) {
+    public static GameMenuMessage setMode(int x,int y,String mode) {
         return null;
 
     }
 
-    private static GameMenuMessage attack(int x, int y) {
+    public static GameMenuMessage attack(int x, int y) {
         return null;
 
     }
 
-    private static GameMenuMessage airAttack(int x, int y) {
+    public static GameMenuMessage airAttack(int x, int y) {
         return null;
     }
 
-    private static GameMenuMessage pourOil(String direction) {
+    public static GameMenuMessage pourOil(String direction) {
         return null;
 
     }
-
-    private static GameMenuMessage digTunnel(int x, int y) {
-        return null;
-
-    }
-
-    private static GameMenuMessage build(String equipmentName) {
+    public static GameMenuMessage specialMoveUnit(int x,int y){
         return null;
     }
 
-    private static GameMenuMessage disbandUnit() {
-        return null;
-    }
-
-    private static GameMenuMessage makeGate(String direction) {
+    public static GameMenuMessage digTunnel(int x, int y) {
         return null;
 
     }
 
-    private static GameMenuMessage makeWall(int x, int y, int width) {
+    public static GameMenuMessage build(String equipmentName) {
+        return null;
+    }
+
+    public static GameMenuMessage disbandUnit() {
+        return null;
+    }
+
+    public static GameMenuMessage makeGate(String direction) {    //faghat ye ghale dare har hokoomat?
         return null;
 
     }
 
-    private static GameMenuMessage makeTower(int x, int y) {
+    public static GameMenuMessage makeWall(int x, int y, int width) {
         return null;
 
     }
 
-    private static GameMenuMessage makeTale(int x, int y) {
+    public static GameMenuMessage makeSmallTower() {
+        return null;
+
+    }
+    public static GameMenuMessage makeTower(String type) {
+        return null;
+
+    }
+
+
+    public static GameMenuMessage makeTale(int x, int y) {
+        return null;
+
+    }
+
+    public static GameMenuMessage makeStair(int x, int y) {
         return null;
 
     }
