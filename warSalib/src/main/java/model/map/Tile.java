@@ -70,6 +70,6 @@ public class Tile {
         this.resource = resource;
     }
     public void clearAllPeopleOnTile() {
-
+        peopleOnTitle.clear();
     }
 }
