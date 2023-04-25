@@ -1,0 +1,10 @@
+<model.user.User>
+  <username>aliahmadi</username>
+  <nickname>reZA123^</nickname>
+  <password>reza2018@gmail.com</password>
+  <email>reza</email>
+  <rank>0</rank>
+  <score>0</score>
+  <securityQuestionAnswer>petty</securityQuestionAnswer>
+  <securityQuestion/>
+</model.user.User>
