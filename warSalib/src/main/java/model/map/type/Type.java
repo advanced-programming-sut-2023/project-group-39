@@ -3,7 +3,7 @@ package model.map.type;
 public enum Type {
     ;
 
-    enum Area {
+    public enum Area {
         BLUEAREA,BROWNAREA;
     }
 

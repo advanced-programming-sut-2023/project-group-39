@@ -6,18 +6,20 @@ import model.government.resource.Resource;
 
 import java.util.HashMap;
 
-public class CagedWarDog extends Building{
-    private HashMap<Dog , Integer> dogs;
+public class CagedWarDog extends Building {
+    private HashMap<Dog, Integer> dogs;
     private boolean isOpen = false;
+
     public CagedWarDog(int x, int y, Government government, int hp, String type, String name) {
         super(x, y, government, hp, type, name);
         Dog dog = new Dog();
         dogs = new HashMap<>();
-        dogs.put(dog,5);
+        dogs.put(dog, 5);
     }
+
     public static CagedWarDog makeCagedWarDogByName(String name, int x, int y, Government government) {
         if (name.equals("caged war dog")) {
-            HashMap<Resource, Integer> resource= new HashMap<>();
+            HashMap<Resource, Integer> resource = new HashMap<>();
             resource.put(Resource.WOOD, 10);
             resource.put(Resource.COIN, 100);
             if (government.hasEnoughResources(resource)) {
@@ -36,4 +38,7 @@ public class CagedWarDog extends Building{
         return isOpen;
     }
 
+    public void openDoor() {
+
+    }
 }
