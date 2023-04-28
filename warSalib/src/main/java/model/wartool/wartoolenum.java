@@ -9,4 +9,6 @@ public enum wartoolenum {
     STONE,
     FIRECRACKER,
     SWORD,
+    STICK,
+
 }

@@ -1,61 +1,47 @@
 package model.government.people.units;
 
-import model.wartool.wartool;
+import model.wartool.wartoolenum;
 
 public class Units {
-    protected UnitsName name;
-    protected UnitsType type;
-    protected int hitPoint;
-    protected int defensingPower;
-    protected int attackingPower;
-    protected int speed;
+    protected UnitsName unitsName;
     protected int xLocation;
     protected int yLocation;
-    protected wartool wartool;
-    protected boolean hasArmor;
+    protected int hitPoint;
+    protected boolean hasHorse;
 
-    public Units(int speed, int hitPoint, int defensingPower, int attackingPower, UnitsName unitsname, UnitsType unitType, int xLocation, int yLocation, wartool
-            wartool) {
-        this.speed = speed;
-        this.yLocation = yLocation;
-        this.xLocation = xLocation;
-        this.hitPoint = hitPoint;
-        this.name = unitsname;
-        this.type = unitType;
-        this.defensingPower = defensingPower;
-        this.attackingPower = attackingPower;
-        this.wartool = wartool;
+    protected State state;
+
+
+    public Units(int xLocation,int yLocation,UnitsName unitsName) {
+        this.unitsName=unitsName;
+        this.xLocation=xLocation;
+        this.yLocation=yLocation;
+        this.hitPoint=100;
+        this.state=State.STANDING;
+        this.hasHorse=false;
+
     }
 
     public int getHitPoint() {
         return hitPoint;
     }
 
-    public int getAttackingPower() {
-        return attackingPower;
+    public int getxLocation() {
+        return xLocation;
     }
 
-    public int getDefensingPower() {
-        return defensingPower;
+    public int getyLocation() {
+        return yLocation;
     }
 
-    public void setHitPoint(int hitPoint) {
-        this.hitPoint = hitPoint;
+    public UnitsName getUnitsName() {
+        return unitsName;
+    }
+    public void changeHitPoint(int x){
+        hitPoint+=x;
     }
 
-    public void setAttackingPower(int attackingPower) {
-        this.attackingPower = attackingPower;
-    }
-
-    public void setDefensingPower(int defensingPower) {
-        this.defensingPower = defensingPower;
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
-
-    public model.wartool.wartool getWartool() {
-        return wartool;
+    public void setState(State state) {
+        this.state = state;
     }
 }
