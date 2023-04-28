@@ -1,13 +1,13 @@
 package model.wartool;
 
 public class warTools {
-    private String name;
+    private wartoolenum wartoolname;
 
-    public String getName() {
-        return name;
+    public wartoolenum getWartoolname() {
+        return wartoolname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setWartoolname(wartoolenum wartoolname) {
+        this.wartoolname = wartoolname;
     }
 }
