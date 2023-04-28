@@ -10,8 +10,9 @@ import java.util.regex.Matcher;
 
 public class ProfileMenu {
     private User currentUser;
-    public static void run(Scanner scanner) {
+    public static void run() {
         String input;
+        Scanner scanner = new Scanner(System.in);
         while (true) {
             input = scanner.nextLine();
             Matcher matcher;
