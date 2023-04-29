@@ -149,9 +149,6 @@ public class Government {
         return taxRate;
     }
 
-    public HashMap<Food, Integer> getFoods() {
-        return foods;
-    }
 
     public HashMap<Resource, Integer> getResourcesHashmap() {
         return resourcesHashmap;
