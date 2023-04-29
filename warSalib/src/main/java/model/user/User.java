@@ -1,6 +1,8 @@
 package model.user;
 
 import java.util.ArrayList;
+import model.government.Government;
+
 import java.util.HashMap;
 
 public class User {
@@ -15,6 +17,7 @@ public class User {
 
     private String securityQuestionAnswer;
     private HashMap<String, String> securityQuestion ;
+    private Government UserGovernment;
 
     public User(String username, String nickname, String password, String email, String slogan,String securityQuestionAnswer) {
         this.username = username;
@@ -111,5 +114,13 @@ public class User {
 
     public void setSecurityQuestionAnswer(String securityQuestionAnswer) {
         this.securityQuestionAnswer = securityQuestionAnswer;
+    }
+
+    public void setUserGovernment(Government userGovernment) {
+        UserGovernment = userGovernment;
+    }
+
+    public Government getUserGovernment() {
+        return UserGovernment;
     }
 }

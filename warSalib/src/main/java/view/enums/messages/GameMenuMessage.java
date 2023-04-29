@@ -24,4 +24,6 @@ public enum GameMenuMessage {
     NOTENOUGHRESOURCE,
 
     INVALIDPOSITION,
+
+    INVALIDDITCH,
 }

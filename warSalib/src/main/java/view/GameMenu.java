@@ -175,9 +175,9 @@ public class GameMenu {
     }
 
     private static void build(Matcher matcher) {
-        String equipment=matcher.group("equipment");
-        GameMenuMessage message=GameControl.build(equipment);
-        switch (message){
+        String equipment = matcher.group("equipment");
+        GameMenuMessage message = GameControl.build(equipment);
+        switch (message) {
             case SUCCESS:
                 System.out.println("equipment maked successfully");
                 break;
@@ -191,8 +191,8 @@ public class GameMenu {
     }
 
     private static void disbandUnit(Matcher matcher) {
-        GameMenuMessage message=GameControl.disbandUnit();
-        switch (message){
+        GameMenuMessage message = GameControl.disbandUnit();
+        switch (message) {
             case SUCCESS:
                 System.out.println("units disband was successfully");
                 break;
@@ -204,11 +204,11 @@ public class GameMenu {
     }
 
     private static void makeGate(Matcher matcher) {
-        String direction=matcher.group("direction");
-        GameMenuMessage message=GameControl.makeGate(direction);
-        switch (message){
+        String direction = matcher.group("direction");
+        GameMenuMessage message = GameControl.makeGate(direction);
+        switch (message) {
             case SUCCESS:
-                System.out.println("gate with "+direction+"  created successfully");
+                System.out.println("gate with " + direction + "  created successfully");
                 break;
             case INVALIDDIRECTION:
                 System.out.println("direction is invalid");
@@ -220,12 +220,12 @@ public class GameMenu {
     }
 
     private static void makeWall(Matcher matcher) {
-        int x= Integer.parseInt(matcher.group("x"));
-        int y= Integer.parseInt(matcher.group("y"));
-        int width= Integer.parseInt(matcher.group("width"));
-        int height=Integer.parseInt(matcher.group("height"));
-        GameMenuMessage message=GameControl.makeWall(x,y,width);
-        switch (message){
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        int width = Integer.parseInt(matcher.group("width"));
+        int height = Integer.parseInt(matcher.group("height"));
+        GameMenuMessage message = GameControl.makeWall(x, y, width);
+        switch (message) {
             case SUCCESS:
                 System.out.println("wall build successfully");
                 break;
@@ -244,8 +244,8 @@ public class GameMenu {
     }
 
     private static void makeTower(Matcher matcher) {
-        String type=matcher.group("type");
-        GameMenuMessage message=GameControl.makeTower(type);
+        String type = matcher.group("type");
+        GameMenuMessage message = GameControl.makeTower(type);
         switch (message) {
             case SUCCESS:
                 System.out.println("tower build successfully");
@@ -261,10 +261,10 @@ public class GameMenu {
     }
 
     private static void makeStair(Matcher matcher) {
-        int x= Integer.parseInt(matcher.group("x"));
-        int y= Integer.parseInt(matcher.group("y"));
-        GameMenuMessage message=GameControl.makeStair(x,y);
-        switch (message){
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        GameMenuMessage message = GameControl.makeStair(x, y);
+        switch (message) {
             case SUCCESS:
                 System.out.println("tale built successfully");
                 break;
@@ -277,17 +277,99 @@ public class GameMenu {
         }
 
     }
-    private static void makeKillerTale(Matcher matcher){
-        int x= Integer.parseInt(matcher.group("x"));
-        int y= Integer.parseInt(matcher.group("y"));
-        GameMenuMessage message;
+
+    private static void makeKillerTale(Matcher matcher) {
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        GameMenuMessage message = GameControl.makeKillerTale(x, y);
+        switch (message) {
+            case SUCCESS:
+                System.out.println("Killer tale built successfully");
+                break;
+            case INVALIDPOSITION:
+                System.out.println("you cant make tale in this position");
+                break;
+            default:
+                System.out.println("invalid command!!");
+                break;
+
+        }
     }
-    private static void makeOilTale(Matcher matcher){
+
+    private static void makeOilTale(Matcher matcher) {
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        GameMenuMessage message = GameControl.makeOilTale(x, y);
+        switch (message) {
+            case SUCCESS:
+                System.out.println("oil tale built successfully");
+                break;
+            case INVALIDPOSITION:
+                System.out.println("you cant make tale in this position");
+                break;
+            default:
+                System.out.println("invalid command!!");
+                break;
+
+        }
 
     }
 
     private static void diggingDitch(Matcher matcher) {
+        //should complete with type of unit;
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        GameMenuMessage message = GameControl.diggingDitch(x, y);
+        switch (message) {
+            case SUCCESS:
+                System.out.println("Ditch dig was successfully");
+                break;
+            case INVALIDPOSITION:
+                System.out.println("you cant make tale in this position");
+                break;
+            case INVALIDUNIT:
+                System.out.println("This unit cant dig ditch");
+                break;
+            default:
+                System.out.println("invalid command!");
+                break;
+        }
+    }
+    private static void removeDitch(Matcher matcher){
+        int x=Integer.parseInt(matcher.group("x"));
+        int y=Integer.parseInt(matcher.group("y"));
+        GameMenuMessage message=GameControl.removeDitch(x,y);
+        switch (message){
+            case SUCCESS:
+                System.out.println("ditch removed successfully");
+                break;
+            case INVALIDPOSITION:
+                System.out.println("you cant make tale in this position");
+                break;
+            case INVALIDDITCH:
+                System.out.println("we dont have ditch on this position");
+                break;
+            default:
+                System.out.println("invalid command!!");
+                break;
+        }
+    }
+    private static void stopDitch(Matcher matcher){
+        int x=Integer.parseInt(matcher.group("x"));
+        int y=Integer.parseInt(matcher.group("y"));
+        GameMenuMessage message=GameControl.stopDitch(x,y);
+        switch (message){
+            case SUCCESS:
+                System.out.println("stop dig successfully");
+                break;
+            case INVALIDPOSITION:
+                System.out.println("you cant make tale in this position");
+                break;
+            default:
+                System.out.println("invalid command!!");
+                break;
 
+        }
     }
 
     private static void burningOil(Matcher matcher) {
@@ -295,15 +377,46 @@ public class GameMenu {
     }
 
     private static void captureGate(Matcher matcher) {
+        GameMenuMessage message=GameControl.captureGate();
+        switch (message){
+            case SUCCESS:
+                GameMenuMessage message1=GameControl.openGate();
+                switch (message1){
+                    case SUCCESS:
+                        System.out.println("Gate opened successfully");
+                        break;
+                }
 
+        }
     }
 
     private static void makeProtection(Matcher matcher) {
-
+        //should be complete with units
+        GameMenuMessage message=GameControl.makeProtection();
+        switch (message){
+            case SUCCESS:
+                System.out.println("protection built successfully");
+                break;
+            case PROBLEM:
+                System.out.println("can't make protection");
+                break;
+            default:
+                System.out.println("invalid command!!");
+                break;
+        }
     }
 
     private static void batteringRam(Matcher matcher) {
-
+        //should be complete
+        GameMenuMessage message=GameControl.batteringRam();
+        switch (message){
+            case SUCCESS:
+                System.out.println("battering was successful");
+                break;
+            default:
+                System.out.println("invalid command!!");
+                break;
+        }
     }
 
     private static void makeCatapult(Matcher matcher) {

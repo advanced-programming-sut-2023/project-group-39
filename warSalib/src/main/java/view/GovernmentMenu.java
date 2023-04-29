@@ -1,9 +1,16 @@
 package view;
 
+import control.GameControl;
 import control.GovernmentControl;
+import model.Game;
+import model.government.popularityfactor.Food;
+import model.government.resource.Resource;
 import view.enums.commands.GovernmentMenuCommands;
+import view.enums.messages.GameMenuMessage;
 import view.enums.messages.GovernmentMenuMessage;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
@@ -15,6 +22,8 @@ public class GovernmentMenu {
             Matcher matcher;
             if (input.matches(String.valueOf(GovernmentMenuCommands.SHOW_POPULARITY_FACTORS)))
                 showPopularityFactors();
+            else if ((matcher = GovernmentMenuCommands.getMatcher(input, GovernmentMenuCommands.ADD_FOOD)) != null)
+                addFood(matcher);
             else if (input.matches(String.valueOf(GovernmentMenuCommands.SHOW_POPULARITY)))
                 showPopularity();
             else if (input.matches(String.valueOf(GovernmentMenuCommands.SHOW_FOOD_LIST)))
@@ -38,20 +47,81 @@ public class GovernmentMenu {
 
     private static void showPopularityFactors() {
         System.out.println("***------------Popularity Factors------------***");
+        System.out.println("food");
+        System.out.println("tax");
+        System.out.println("fear");
+        System.out.println("religion");
     }
 
     private static void showPopularity() {
-        System.out.println("***------------Popularity------------***");
+        System.out.println("***------------Popularity------------***" + Game.getCurrentUser().getUserGovernment().getPopulation());
+    }
+
+    private static void addFood(Matcher matcher) {
+        String food = matcher.group("foodName");
+        int amount = Integer.parseInt(matcher.group("amount"));
+        Food addingFood = new Food();
+        if (food.equals("meat")) {
+            for (Food food1 : Game.getCurrentUser().getUserGovernment().getFoods().keySet()) {
+                if (food1.getFoodname().equals(Resource.MEAT)) {
+                    addingFood = food1;
+                    break;
+                }
+            }
+
+        } else if (food.equals("apple")) {
+            for (Food food1 : Game.getCurrentUser().getUserGovernment().getFoods().keySet()) {
+                if (food1.getFoodname().equals(Resource.APPLE)) {
+                    addingFood = food1;
+                }
+                break;
+            }
+        } else if (food.equals("bread")) {
+            for (Food food1 :  Game.getCurrentUser().getUserGovernment().getFoods().keySet()) {
+                if (food1.getFoodname().equals(Resource.BREAD)) {
+                    addingFood = food1;
+                    break;
+                }
+            }
+        } else if (food.equals("cheese")) {
+            for (Food food1 :  Game.getCurrentUser().getUserGovernment().getFoods().keySet()) {
+                if (food1.getFoodname().equals(Resource.CHEESE)) {
+                    addingFood = food1;
+                    break;
+                }
+            }
+        }
+        GovernmentMenuMessage message = GovernmentControl.addToFoods(addingFood, amount);
+        switch (message) {
+            case INVALID_RATE:
+                System.out.println("amount of add is invalid");
+                break;
+            case SUCCESS:
+                System.out.println("food added successfully");
+                break;
+            case NOT_ENOUGH_INVENTORY:
+                System.out.println("amount of adding is more than your inventory");
+                break;
+            case INVALIDFOODNAME:
+                System.out.println("food name is invalid");
+                break;
+            default:
+                System.out.println("invalid command!!");
+                break;
+        }
     }
 
     private static void showFoodList() {
         GovernmentMenuMessage message = GovernmentControl.showFoodList();
         switch (message) {
             case EMPTY_FOOD_LIST:
-                System.out.println("empty   ***     there are no foods in your list     ***     empty");
+                System.out.println("empty,there are no foods in your list");
                 break;
             case SUCCESS:
-                System.out.println("***------------Food List------------***");
+                for (Map.Entry<Food, Integer> foods : Game.getCurrentUser().getUserGovernment().getFoods().entrySet()) {
+                    System.out.println(foods.getKey().getFoodname() + "  :  " + foods.getValue());
+
+                }
                 break;
             default:
                 System.out.println("invalid!!?");
@@ -77,7 +147,7 @@ public class GovernmentMenu {
     }
 
     private static void showFoodRate() {
-        System.out.println("***------------Food Rate------------***");
+        System.out.println("------------Food Rate------------"+Game.getCurrentUser().getUserGovernment().getFoodRate());
     }
 
     private static void rateTax(Matcher matcher) {
@@ -98,7 +168,7 @@ public class GovernmentMenu {
     }
 
     private static void showTaxRate() {
-        System.out.println("***------------Tax Rate------------***");
+        System.out.println("***------------Tax Rate------------***"+Game.getCurrentUser().getUserGovernment().getTaxRate());
     }
 
     private static void rateFear(Matcher matcher) {

@@ -33,7 +33,7 @@ public class Market extends Building{
         return null;
     }
 
-    public void sellResource(Resource resource){
+    public void sellResource(Resource resource, int number){
 
     }
 }

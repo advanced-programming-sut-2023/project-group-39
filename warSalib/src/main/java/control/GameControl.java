@@ -31,6 +31,7 @@ public class GameControl {
 
     public static GameMenuMessage airAttack(int x, int y) {
         return null;
+
     }
 
     public static GameMenuMessage pourOil(String direction) {
@@ -74,7 +75,11 @@ public class GameControl {
     }
 
 
-    public static GameMenuMessage makeTale(int x, int y) {
+    public static GameMenuMessage makeKillerTale(int x, int y) {
+        return null;
+
+    }
+    public static GameMenuMessage makeOilTale(int x, int y) {
         return null;
 
     }
@@ -84,9 +89,15 @@ public class GameControl {
 
     }
 
-    private static GameMenuMessage diggingDitch(int x, int y) {
+    public static GameMenuMessage diggingDitch(int x, int y) {
         return null;
 
+    }
+    public static GameMenuMessage removeDitch(int x,int y){
+        return null;
+    }
+    public static GameMenuMessage stopDitch(int x,int y){
+        return null;
     }
 
     private static GameMenuMessage burningOil() {
@@ -94,31 +105,35 @@ public class GameControl {
         return null;
     }
 
-    private static GameMenuMessage captureGate() {
+    public static GameMenuMessage captureGate() {
 
         return null;
     }
-
-    private static GameMenuMessage makeProtection() {
-        return null;
-
-    }
-
-    private static GameMenuMessage batteringRam() {
+    public static GameMenuMessage openGate(){
         return null;
 
     }
 
-    private static GameMenuMessage makeCatapult() {
+    public static GameMenuMessage makeProtection() {
         return null;
 
     }
 
-    private static GameMenuMessage stoneTower(int x, int y) {
+    public static GameMenuMessage batteringRam() {
+        return null;
+
+    }
+
+    public static GameMenuMessage makeCatapult() {
+        return null;
+
+    }
+
+    public static GameMenuMessage stoneTower(int x, int y) {
         return null;
     }
 
-    private static GameMenuMessage fillingDitch(int x, int y) {
+    public static GameMenuMessage fillingDitch(int x, int y) {
         return null;
     }
 

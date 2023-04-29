@@ -1,13 +1,9 @@
 package model.crops;
 
-public class Crops {
-    private String cropsName;
+public enum Crops {
+    APPLE,
+    HOP,
+    WHEAT,
 
-    public void setCropsName(String cropsName) {
-        this.cropsName = cropsName;
-    }
 
-    public String getCropsName() {
-        return cropsName;
-    }
 }

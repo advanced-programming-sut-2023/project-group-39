@@ -37,7 +37,7 @@ public class Gatehouse extends Building {
     }
 
     public void changeTaxRate(int newRate) {
-        Tax.setRate(newRate);
+        getGovernment().setTaxRate(newRate);
     }
 
     public boolean addPeople(People newePeople) {

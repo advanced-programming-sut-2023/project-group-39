@@ -19,9 +19,17 @@ public class Government {
     private int popularity;
     private int population;
     private User user;
-    private HashMap<Integer, Food> foods;
-    private Tax tax;
-    private Religion religion;
+    private HashMap<Food, Integer> foods;
+
+    private HashMap<Resource,Integer> resourcesHashmap;
+
+    private int foodRate;
+
+    private int taxRate;
+
+    private ArrayList<Food> governmentFoods=new ArrayList<>();
+    Tax tax;
+    Religion religion;
     //for trade to other governments
     private ArrayList<Request> requests;
     private ArrayList<People> people;
@@ -89,7 +97,7 @@ public class Government {
         return user;
     }
 
-    public HashMap<Integer, Food> getFoods() {
+    public HashMap<Food, Integer> getFoods() {
         return foods;
     }
 
@@ -129,7 +137,35 @@ public class Government {
 
     }
 
+    public ArrayList<Food> getGovernmentFoods() {
+        return governmentFoods;
+    }
+
+    public int getFoodRate() {
+        return foodRate;
+    }
+
+    public int getTaxRate() {
+        return taxRate;
+    }
+
+    public HashMap<Food, Integer> getFoods() {
+        return foods;
+    }
+
+    public HashMap<Resource, Integer> getResourcesHashmap() {
+        return resourcesHashmap;
+    }
+
     public HashMap<Resource, Integer> getResources() {
         return resources;
+    }
+
+    public void setFoodRate(int foodRate) {
+        this.foodRate = foodRate;
+    }
+
+    public void setTaxRate(int taxRate) {
+        this.taxRate = taxRate;
     }
 }

@@ -11,7 +11,7 @@ public enum Type {
     ,BEACH(Area.BLUEAREA, true), RIVER(Area.BLUEAREA, false),
     BIG_POND(Area.BLUEAREA, false), SMALL_POND(Area.BLUEAREA, false);
 
-    enum Area {
+    public enum Area {
         BLUEAREA,BROWNAREA;
     }
 
