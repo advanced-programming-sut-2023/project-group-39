@@ -7,7 +7,7 @@ public enum Resource {
     WOOD(TypeOfResource.INDUSTRY), OIL(TypeOfResource.INDUSTRY), HORSE(TypeOfResource.INDUSTRY), APPLE(TypeOfResource.FOOD),
     CHEESE(TypeOfResource.FOOD), MEAT(TypeOfResource.FOOD), GOLD(TypeOfResource.INDUSTRY), COIN(TypeOfResource.INDUSTRY),
     COW(TypeOfResource.ANIMAL);
-    private enum TypeOfResource {
+    public enum TypeOfResource {
         INDUSTRY, WEAPON, FOOD,ANIMAL
     }
 
@@ -15,5 +15,9 @@ public enum Resource {
 
     Resource(TypeOfResource typeOfResource) {
         this.typeOfResource = typeOfResource;
+    }
+
+    public TypeOfResource getTypeOfResource() {
+        return typeOfResource;
     }
 }
