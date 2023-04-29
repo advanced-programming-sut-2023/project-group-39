@@ -117,4 +117,5 @@ public class Government {
     public HashMap<Resource, Integer> getResources() {
         return resources;
     }
+
 }
