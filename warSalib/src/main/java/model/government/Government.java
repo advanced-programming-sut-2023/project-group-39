@@ -143,4 +143,11 @@ public class Government {
         return resources;
     }
 
+    public void setFoodRate(int foodRate) {
+        this.foodRate = foodRate;
+    }
+
+    public void setTaxRate(int taxRate) {
+        this.taxRate = taxRate;
+    }
 }

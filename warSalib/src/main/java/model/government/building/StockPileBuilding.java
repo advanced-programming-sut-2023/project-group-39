@@ -4,6 +4,7 @@ import model.Game;
 import model.government.Government;
 import model.government.building.group.GroupOfBuilding;
 import model.government.resource.Resource;
+import model.map.GameMap;
 import model.map.type.Type;
 
 import java.util.ArrayList;
@@ -58,6 +59,15 @@ public class StockPileBuilding extends Building {
     private static boolean isGoodPlace(String name, Type type,int x, int y, int numberOfBuilding) {
         //TODO:add this method to building control for stone and blue area
         if (name.equals("stock pile")) {
+            if (Game.getMapInGame().haveBuildingsAround(name, x, y))
+                return true;
+            return false;
+        }
+
+        if (name.equals("food stock pile")) {
+            if (Game.getMapInGame().haveBuildingsAround(name, x, y))
+                return true;
+            return false;
         }
         return true;
     }

@@ -2,6 +2,7 @@ package model;
 
 import model.government.Government;
 import model.government.building.Building;
+import model.map.GameMap;
 import model.user.User;
 import view.enums.commands.BuildingCommands;
 
@@ -13,7 +14,7 @@ public class Game {
     private static User currentUser;
     private static User turnedUserForGame;
     //governments need to we have all player government
-    private static Map mapInGame;
+    private static GameMap mapInGame;
     private static Building selectedBuilding;
     private static ArrayList<Government> governments = new ArrayList<>();
     //how many player plays in game
@@ -42,11 +43,11 @@ public class Game {
         players.add(user);
     }
 
-    public static Map getMapInGame() {
+    public static GameMap getMapInGame() {
         return mapInGame;
     }
 
-    public static void setMapInGame(Map mapInGame) {
+    public static void setMapInGame(GameMap mapInGame) {
         Game.mapInGame = mapInGame;
     }
 

@@ -9,7 +9,7 @@ import java.util.HashMap;
 public class DrawBridge extends Building{
     private int upOrDown;
 
-    private int decreasingSpeed;
+    private double decreasingSpeed = 0.7;
 
     public DrawBridge(int x, int y, Government government, int upOrDown) {
         super(x, y, government, 600, "castle building", "draw bridge");
@@ -35,7 +35,7 @@ public class DrawBridge extends Building{
         this.upOrDown = upOrDown;
     }
 
-    public int getDecreasingSpeed() {
+    public double getDecreasingSpeed() {
         return decreasingSpeed;
     }
 

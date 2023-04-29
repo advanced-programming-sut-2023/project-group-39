@@ -9,14 +9,13 @@ import java.util.HashMap;
 
 public class Tower extends Building{
     private int defendRange;
-    private int fireRange;
+    private final double fireRange = 1.2;
 
     ArrayList<People> peopleOfTower;
 
-    public Tower(int x, int y, Government government, int hp, String type, String name, int defendRange, int fireRange) {
+    public Tower(int x, int y, Government government, int hp, String type, String name, int defendRange) {
         super(x, y, government, hp, type, name);
         this.defendRange = defendRange;
-        this.fireRange = fireRange;
     }
 
     public static Tower makeTowerByName(String name, int x, int y, Government government) {
@@ -25,7 +24,7 @@ public class Tower extends Building{
             resource.put(Resource.STONE, 10);
             if (government.hasEnoughResources(resource)) {
                 Tower lookoutTower = new Tower(x, y, government, 1000, "castle building", name,
-                        1000, 700);
+                        1000);
                 return lookoutTower;
             }
         }
@@ -34,7 +33,7 @@ public class Tower extends Building{
             resource.put(Resource.STONE, 10);
             if (government.hasEnoughResources(resource)) {
                 Tower perimeterTower = new Tower(x, y, government, 800, "castle building", name,
-                        400, 900);
+                        400);
                 return perimeterTower;
             }
         }
@@ -43,7 +42,7 @@ public class Tower extends Building{
             resource.put(Resource.STONE, 15);
             if (government.hasEnoughResources(resource)) {
                 Tower defensiveTower = new Tower(x, y, government, 1200, "castle building", name,
-                        400, 900);
+                        400);
                 return defensiveTower;
             }
         }
@@ -51,8 +50,7 @@ public class Tower extends Building{
             HashMap<Resource, Integer> resource = new HashMap<>();
             resource.put(Resource.STONE, 35);
             if (government.hasEnoughResources(resource)) {
-                Tower squareTower = new Tower(x, y, government, 1500, "castle building", name, 800,
-                        1200);
+                Tower squareTower = new Tower(x, y, government, 1500, "castle building", name, 800);
                 return squareTower;
             }
         }
@@ -60,8 +58,7 @@ public class Tower extends Building{
             HashMap<Resource, Integer> resource = new HashMap<>();
             resource.put(Resource.STONE, 40);
             if (government.hasEnoughResources(resource)) {
-                Tower circleTower = new Tower(x, y, government, 2000, "castle building", name, 900,
-                        1300);
+                Tower circleTower = new Tower(x, y, government, 2000, "castle building", name, 900);
                 return circleTower;
             }
         }
@@ -70,6 +67,10 @@ public class Tower extends Building{
 
     public int addTowerDefending () {
         return 0;
+    }
+
+    public double getFireRange() {
+        return fireRange;
     }
 
     public void addPeople(People people) {

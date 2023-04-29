@@ -23,6 +23,7 @@ public enum UnitsName {
 
     BLACKMONK("blackmonk", 25, 50, 50,  UnitsType.COMBAT, true),
 
+    //arab people
     ARCHERBOW("archerbow", 75, 25, 25, UnitsType.ARCHER, false),
 
     SLAVES("slaves", 75, 10, 10,  UnitsType.COMBAT, false),
