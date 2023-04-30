@@ -3,10 +3,13 @@ package control;
 import model.Game;
 import model.government.Government;
 import model.government.resource.Resource;
+import model.user.User;
 import view.TradeMenu;
 import view.enums.messages.TradeMenuMessage;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 
 public class TradeControl {
     public static TradeMenuMessage trade(String itemName, int amount, int price, String message) {
@@ -43,13 +46,44 @@ public class TradeControl {
     }
 
     public static TradeMenuMessage acceptTrade(String id, String message) {
-        return null;
+        User currentUser = Game.getCurrentUser();
+        if (validIdForAccept(id)) {
+            if (id.equals(currentUser.getUsername()))
+                return TradeMenuMessage.SAME_ID_TO_CURRENT_USERS_ID;
+            User user = null;
+            for (Government government : TradeMenu.tradeList.keySet())
+                if (government.getUser().getUsername().equals(id)) {
+                    user = government.getUser();
+                    break;
+                }
+
+            Set<Resource> set= TradeMenu.tradeList.get(user.getUserGovernment()).keySet();
+            Iterator<Resource> iterator = set.iterator();
+            Resource resource = null;
+            if (iterator.hasNext()) resource = iterator.next();
+            int amount = TradeMenu.tradeList.get(user.getUserGovernment()).get(resource);
+            if (!currentUser.getUserGovernment().getResources().containsKey(resource))
+                return TradeMenuMessage.RESOURCE_NOT_EXIST;
+            else if (currentUser.getUserGovernment().getResources().get(resource) < amount)
+                return TradeMenuMessage.INSUFFICIENT_FUNDING;
+
+            currentUser.getUserGovernment().addToTradeHistory(user, resource, -amount);
+            user.getUserGovernment().addToTradeHistory(currentUser, resource, amount);
+            HashMap<Resource, Integer> value = new HashMap<>();
+            value.put(resource, amount);
+            TradeMenu.tradeList.remove(user, value);
+            return TradeMenuMessage.SUCCESS;
+        }
+        return TradeMenuMessage.ID_NOT_EXIST;
     }
     public static String showTradeHistory() {
         return null;
     }
 
     private static boolean validIdForAccept (String id) {
+        for (Government government : TradeMenu.tradeList.keySet())
+            if (government.getUser().getUsername().equals(id))
+                return true;
         return false;
     }
 }

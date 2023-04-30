@@ -47,7 +47,7 @@ public class TradeMenu {
                 System.out.println("there is no such thing in storehouse");
                 break;
             case SUCCESS:
-                System.out.println("item has been successfully added to you trade list\n" +
+                System.out.println("item has been successfully added to your trade list\n" +
                         resourceType + ":        amount: " + amount + " , price: " + price +
                         " , total: " + amount * price + " , message: " + message);
             default:
@@ -69,6 +69,9 @@ public class TradeMenu {
         switch (message) {
             case ID_NOT_EXIST:
                 System.out.println("there are no users with this id");
+                break;
+            case RESOURCE_NOT_EXIST:
+                System.out.println("you don't have this item");
                 break;
             case INSUFFICIENT_FUNDING:
                 System.out.println("you don't have enough resources to accept this trade");
