@@ -40,7 +40,7 @@ public class Tile {
     }
 
     public ArrayList<People> getPeopleOnTitle() {
-        return peopleOnTile;
+        return peopleOnTitle;
     }
 
     public Resource getResource() {

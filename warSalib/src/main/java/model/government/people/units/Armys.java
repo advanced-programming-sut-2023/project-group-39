@@ -1,12 +1,14 @@
 package model.government.people.units;
 
+import model.user.User;
+
 import java.util.ArrayList;
 
 public class Armys extends Units {
     public ArrayList<SpecialWorks> specialWorks = new ArrayList<>();
 
-    public Armys(int xLocation, int yLocation, UnitsName unitsName) {
-        super(xLocation, yLocation, unitsName);
+    public Armys(int xLocation, int yLocation, UnitsName unitsName, User ownerPerson) {
+        super(xLocation, yLocation, unitsName,ownerPerson);
         if (unitsName.getName().equals("sperman")) {
             specialWorks.add(SpecialWorks.CANDIGMOAT);
             specialWorks.add(SpecialWorks.CANCLIMBLADDER);

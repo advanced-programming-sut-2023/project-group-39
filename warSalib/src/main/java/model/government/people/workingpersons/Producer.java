@@ -2,13 +2,14 @@ package model.government.people.workingpersons;
 
 import model.crops.Crops;
 import model.government.resource.Resource;
+import model.user.User;
 
 public class Producer extends WorkingPerson {
     private Resource finalCrop;
     private Resource firstCrop;
 
-    public Producer(JobsName jobsName) {
-        super(jobsName);
+    public Producer(int xLocation, int yLocation, JobsName jobsName, User ownerPerson) {
+        super(xLocation,yLocation,jobsName,ownerPerson);
         if (jobsName.getJobsName().equals("woodcutter")) {
             firstCrop = Resource.WOOD;
             finalCrop = Resource.WOOD;

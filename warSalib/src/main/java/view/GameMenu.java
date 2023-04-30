@@ -1,6 +1,8 @@
 package view;
 
 import control.GameControl;
+import model.government.people.units.State;
+import model.government.people.units.Units;
 import view.enums.messages.GameMenuMessage;
 
 import java.util.regex.Matcher;
@@ -81,8 +83,8 @@ public class GameMenu {
     private static void setMode(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
-        String moode = matcher.group("moode");
-        GameMenuMessage message = GameControl.setMode(x, y, moode);
+        State state = State.valueOf(matcher.group("moode"));
+        GameMenuMessage message = GameControl.setMode(x, y, state);
         switch (message) {
             case WRONG_AMOUNT:
                 System.out.println("you enter wrong amount of x and y");
