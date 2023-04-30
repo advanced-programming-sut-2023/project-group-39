@@ -160,16 +160,7 @@ public class ProfileMenu {
         System.out.println(ProfileControl.displayHighScore());
     }
     private static void displayRank() {
-        ProfileMenuMessage message = ProfileMenuMessage.valueOf(ProfileControl.displayRank());
-        switch (message) {
-            case SUCCESS:
-                System.out.println("***------------rank------------***");
-                break;
-            default:
-                System.out.println("invalid!!?");
-                break;
-        }
-
+        System.out.println(ProfileControl.displayRank());
     }
     private static void displaySlogan() {
         ProfileMenuMessage message = ProfileMenuMessage.valueOf(ProfileControl.displaySlogan());
