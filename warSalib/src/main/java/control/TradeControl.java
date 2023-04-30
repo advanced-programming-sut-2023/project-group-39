@@ -25,7 +25,21 @@ public class TradeControl {
     }
 
     public static String showTradeList() {
-        return null;
+        StringBuilder result = new StringBuilder();
+
+        if (TradeMenu.tradeList.isEmpty())
+            return String.valueOf(TradeMenuMessage.EMPTY_TRADE_LIST);
+
+        result.append("Trade List:");
+        for (Government government : TradeMenu.tradeList.keySet())
+            result.append("\nID: ")
+                    .append(government.getUser().getUsername())
+                    .append("\t|\tResource: ")
+                    .append(TradeMenu.tradeList.get(government).keySet())
+                    .append("\t|\tAmount: ")
+                    .append(TradeMenu.tradeList.get(government).values());
+
+        return result.toString();
     }
 
     public static TradeMenuMessage acceptTrade(String id, String message) {
