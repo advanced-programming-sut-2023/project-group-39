@@ -3,40 +3,40 @@ package model.government.people.units;
 import model.wartool.wartoolenum;
 
 public enum UnitsName {
-    ARCHER("archer", 75, 25, 25,  UnitsType.ARCHER, false),
+    ARCHER("archer", 60, 25, 25,  UnitsType.ARCHER, false),
 
     CROSSBOWMEN("crossbowmen", 20, 25,  100, UnitsType.ARCHER, false),
 
-    SPEARMAN("spearman", 60, 50, 15,  UnitsType.ARMY, false),
+    SPEARMAN("spearman", 40, 50, 15,  UnitsType.ARMY, false),
 
     PIKEMAN("pikeman", 20, 50, 75,  UnitsType.COMBAT, true),
 
-    MACEMAN("maceman", 50, 75, 50, UnitsType.ARMY, false),
+    MACEMAN("maceman", 40, 75, 50, UnitsType.ARMY, false),
 
-    SWORDSMEN("swordsmen", 10, 85, 85,  UnitsType.COMBAT, true),
+    SWORDSMEN("swordsmen", 20, 85, 85,  UnitsType.COMBAT, true),
 
-    KNIGHT("knight", 85, 85, 80,  UnitsType.COMBAT, false),
+    KNIGHT("knight", 80, 85, 80,  UnitsType.COMBAT, false),
 
-    TUNNELER("tunneler", 75, 50, 10, UnitsType.ARMY, false),
+    TUNNELER("tunneler", 60, 50, 10, UnitsType.ARMY, false),
 
-    LADDERMAN("ladderman", 75, 0, 10,  UnitsType.ARMY, false),
+    LADDERMAN("ladderman", 60, 0, 10,  UnitsType.ARMY, false),
 
-    BLACKMONK("blackmonk", 25, 50, 50,  UnitsType.COMBAT, true),
+    BLACKMONK("blackmonk", 20, 50, 50,  UnitsType.COMBAT, true),
 
     //arab people
-    ARCHERBOW("archerbow", 75, 25, 25, UnitsType.ARCHER, false),
+    ARCHERBOW("archerbow", 60, 25, 25, UnitsType.ARCHER, false),
 
-    SLAVES("slaves", 75, 10, 10,  UnitsType.COMBAT, false),
+    SLAVES("slaves", 60, 10, 10,  UnitsType.COMBAT, false),
 
-    SLINGERS("slingers", 75, 25, 10,  UnitsType.ARCHER, false),
+    SLINGERS("slingers", 60, 25, 10,  UnitsType.ARCHER, false),
 
-    ASSASSINS("assassin", 50, 50, 50,  UnitsType.ARMY, false),
+    ASSASSINS("assassin", 40, 50, 50,  UnitsType.ARMY, false),
 
-    HORSEARCHERS("horsearchers", 85, 25, 50,  UnitsType.ARCHER, false),
+    HORSEARCHERS("horsearchers", 80, 25, 50,  UnitsType.ARCHER, false),
 
-    ARABIANSWORDSSMEN("arabianswordsmen", 85, 75, 75,  UnitsType.COMBAT, false),
+    ARABIANSWORDSSMEN("arabianswordsmen", 80, 75, 75,  UnitsType.COMBAT, false),
 
-    FIRETHOWERS("firethowers", 85, 75, 25,  UnitsType.ARCHER, false);
+    FIRETHOWERS("firethowers", 80, 75, 25,  UnitsType.ARCHER, false);
 
 
     private String name;
