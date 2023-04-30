@@ -3,6 +3,7 @@ package control;
 import model.Game;
 import model.user.User;
 import view.GameMenu;
+import view.LoginSignupMenu;
 import view.enums.messages.LoginMenuMessage;
 import view.enums.messages.ProfileMenuMessage;
 
@@ -44,7 +45,14 @@ public class ProfileControl {
     }
 
     public static ProfileMenuMessage changeEmail(String email) {
-        return null;
+        for (User player : Game.getPlayers())
+            if (player.getEmail().equals(email))
+                return ProfileMenuMessage.EMAIL_EXISTS;
+
+        if (!LoginSignupControl.validateEmail(email).equals(LoginMenuMessage.SUCCESS))
+            return ProfileMenuMessage.INVALID_EMAIL_FORMAT;
+
+        return ProfileMenuMessage.SUCCESS;
     }
 
     public static ProfileMenuMessage changeSlogan(String slogan) {
