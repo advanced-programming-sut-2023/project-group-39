@@ -10,6 +10,7 @@ import model.map.GameMap;
 import view.GameMenu;
 import view.enums.messages.GameMenuMessage;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import model.map.*;
 public class GameControl {
@@ -34,12 +35,44 @@ public class GameControl {
 
     }
 
+
     public static GameMenuMessage moveUnit(int x, int y) {
+        int v=200*200;
+        ArrayList<ArrayList<Tile>> tilesNeighbors=new ArrayList<ArrayList<Tile>>(v);
+        for (int i = 0; i < v; i++) {
+            tilesNeighbors.add(new ArrayList<Tile>());
+        }
+        addNeighbors(tilesNeighbors);
+        printShortestDistance(tilesNeighbors, Game.getMapInGame().getMap()[currentUnit.getxLocation()][currentUnit.getyLocation()],Game.getMapInGame().getMap()[x][y], v);
+        return null;
+    }
+
+    private static void addNeighbors(ArrayList<ArrayList<Tile>> tileNeighbors) {
+        for(int x=0;x<200;x++){
+            for (int y=0;y<200;y++){
+                if((x+1)<200&&(Game.getMapInGame().getMap()[x+1][y].getRock()==null&&Game.getMapInGame().getMap()[x+1][y].getType().getPermeability())){
+                 tileNeighbors.get((x*200)+y).add(Game.getMapInGame().getMap()[x+1][y]);
+            }
+                if((x-1)>=0&&(Game.getMapInGame().getMap()[x-1][y].getRock()==null&&Game.getMapInGame().getMap()[x-1][y].getType().getPermeability())){
+                    tileNeighbors.get((x*200)+y).add(Game.getMapInGame().getMap()[x-1][y]);
+                }
+                if((y+1)<200&&(Game.getMapInGame().getMap()[x][y+1].getRock()==null&&Game.getMapInGame().getMap()[x][y+1].getType().getPermeability())){
+                    tileNeighbors.get((x*200)+y).add(Game.getMapInGame().getMap()[x][y+1]);
+                }
+                if((y-1)>=0&&(Game.getMapInGame().getMap()[x][y-1].getRock()==null&&Game.getMapInGame().getMap()[x][y-1].getType().getPermeability())){
+                    tileNeighbors.get((x*200)+y).add(Game.getMapInGame().getMap()[x][y-1]);
+                }
+
+        }
+    }
     }
 
     public static GameMenuMessage patrolUnit(int x1, int y1,int x2,int y2) {
 
         return null;
+    }
+    public static void printShortestDistance(ArrayList<ArrayList<Tile>> neighborTiles,Tile tile1,Tile tile2,int v){
+
     }
 
     public static GameMenuMessage setMode(int x, int y, State state) {
