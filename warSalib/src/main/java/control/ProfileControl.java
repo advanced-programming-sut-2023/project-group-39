@@ -88,7 +88,21 @@ public class ProfileControl {
     }
 
     public static String displayProfile() {
-        return null;
+        StringBuilder result = new StringBuilder();
+        User user = Game.getCurrentUser();
+        result.append("username: ")
+                .append(user.getUsername());
+
+        if (!user.getSlogan().equals(""))
+            result.append("\nslogan: ")
+                    .append(user.getSlogan());
+
+        result.append("\nHighScore: ")
+                .append(user.getScore())
+                .append("\nrank: ")
+                .append(user.getRank());
+
+        return result.toString();
     }
 
     public static ProfileMenuMessage startGame(ArrayList <String> player) {
