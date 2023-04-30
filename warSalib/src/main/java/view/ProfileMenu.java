@@ -166,16 +166,7 @@ public class ProfileMenu {
         System.out.println(ProfileControl.displaySlogan());
     }
     private static void displayProfile() {
-        ProfileMenuMessage message = ProfileMenuMessage.valueOf(ProfileControl.displayProfile());
-        switch (message) {
-            case SUCCESS:
-                System.out.println("***------------Profile------------***");
-                break;
-            default:
-                System.out.println("invalid!!?");
-                break;
-        }
-
+        System.out.println(ProfileControl.displayProfile());
     }
 
     private static void startGame(Matcher matcher) {
