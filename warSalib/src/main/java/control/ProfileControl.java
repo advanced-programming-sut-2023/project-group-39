@@ -21,7 +21,10 @@ public class ProfileControl {
     }
 
     public static ProfileMenuMessage changeNickname(String nickname) {
-        return null;
+        if (nickname.equals(""))
+            return ProfileMenuMessage.INVALID_NICKNAME_FORMAT;
+
+        return ProfileMenuMessage.SUCCESS;
     }
 
     public static ProfileMenuMessage changePassword(String newPassword, String oldPassword) {
