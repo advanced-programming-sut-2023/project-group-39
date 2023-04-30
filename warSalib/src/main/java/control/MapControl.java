@@ -1,9 +1,22 @@
 package control;
 
+import model.Game;
+import model.government.building.Building;
+import model.government.building.group.GroupOfBuilding;
+import model.map.Tile;
+
 public class MapControl {
 
     public static String showMap(int x, int y) {
-        return null;
+        String result = "";
+        Tile [][] smallMap = Game.getMapInGame().getMapAroundCoordinate(x, y);
+        for (int i = 0 ; i < 10; i++) {
+            for (int j = 0; j< 10; j++) {
+                if (smallMap[j][i] == null)
+                    continue;
+                if 
+            }
+        }
     }
 
     public static String moveMap(int up, int down, int right, int left) {
@@ -15,9 +28,24 @@ public class MapControl {
     }
 
     private static boolean validCoordinates(int x, int y) {
+        if (x>=0 && x<200 && y >=0 && y<200)
+            return true;
         return false;
     }
 
+    private static char hasBuilding(Tile [][] smallMap , int x, int y) {
+                if (smallMap[y][x] == null)
+                    return 'N';
+                if (smallMap[y][x].getBuilding() != null) {
+                    Building building = smallMap[y][x].getBuilding();
+                    GroupOfBuilding group = Building.getGroupByType(building.getName());
+                    if (group == GroupOfBuilding.WALL || group == GroupOfBuilding.GATEHOUSE ||
+                            group == GroupOfBuilding.TOWER)
+                        return 'W';
+                    return 'B';
+                }
+        return 'N';
+    }
     private static boolean validDirection(String[] direction) {
         return false;
     }

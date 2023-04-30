@@ -15,11 +15,12 @@ public class Tile {
 
     private Tree tree;
     private Building building;
-    private ArrayList <People> peopleOnTitle;
+    private ArrayList <People> peopleOnTile;
     private Resource resource;
 
-    public Tile(Type type) {
-        this.type = type;
+    public Tile() {
+        this.type = Type.GROUND;
+        peopleOnTile = new ArrayList<>();
     }
 
     public Type getType() {
@@ -39,7 +40,7 @@ public class Tile {
     }
 
     public ArrayList<People> getPeopleOnTitle() {
-        return peopleOnTitle;
+        return peopleOnTile;
     }
 
     public Resource getResource() {
@@ -47,7 +48,7 @@ public class Tile {
     }
 
     public void addPeople(People people) {
-        peopleOnTitle.add(people);
+        peopleOnTile.add(people);
     }
 
     public void setType(Type type) {
@@ -70,6 +71,6 @@ public class Tile {
         this.resource = resource;
     }
     public void clearAllPeopleOnTile() {
-        peopleOnTitle.clear();
+        peopleOnTile.clear();
     }
 }
