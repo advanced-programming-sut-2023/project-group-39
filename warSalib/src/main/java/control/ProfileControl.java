@@ -61,18 +61,7 @@ public class ProfileControl {
 
         return ProfileMenuMessage.SUCCESS;
     }
-
-    private static boolean validateUsername(String username) {
-        return false;
-    }
-
-    private static boolean validateOldPassword(String oldPassword) {
-        return false;
-    }
-    private static boolean validateNewPassword(String newPassword) {
-        return false;
-    }
-
+    
     public static ProfileMenuMessage removeSlogan() {
         return null;
     }
