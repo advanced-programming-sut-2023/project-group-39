@@ -28,7 +28,19 @@ public class ProfileControl {
     }
 
     public static ProfileMenuMessage changePassword(String newPassword, String oldPassword) {
-        return null;
+        if (!Game.getCurrentUser().getPassword().equals(oldPassword))
+            return ProfileMenuMessage.WRONG_PASSWORD;
+
+        else if (oldPassword.equals(newPassword))
+            return ProfileMenuMessage.SAME_PASSWORD;
+
+        else if (LoginSignupControl.validatePassword(newPassword) == null)
+            return ProfileMenuMessage.INVALID_PASSWORD_FORMAT;
+
+        else if (!LoginSignupControl.validatePassword(newPassword).equals(LoginMenuMessage.STRONGPASSWORD))
+            return ProfileMenuMessage.WEAK_PASSWORD;
+
+        return ProfileMenuMessage.SUCCESS;
     }
 
     public static ProfileMenuMessage changeEmail(String email) {
