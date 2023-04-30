@@ -1,26 +1,28 @@
 package model.map.type;
 
 public enum Type {
-    GROUND(Area.BROWNAREA, true), GROUND_WITH_GRAVEL(Area.BROWNAREA, true)
+    GROUND(Area.BROWNAREA, true, "G"), GROUND_WITH_GRAVEL(Area.BROWNAREA, true,"Gg")
 
-    ,SLATE(Area.BROWNAREA, true), STONE(Area.BROWNAREA, false),
-    IRON_GROUND(Area.BROWNAREA, true), GRASS(Area.BROWNAREA, true),
-    GRASSLAND(Area.BROWNAREA, true), DENSE_GRASSLAND(Area.BROWNAREA, true) ,
-    OIL(Area.BLUEAREA, true), PLAIN(Area.BLUEAREA, true),
-    SHALLOW_WATER(Area.BLUEAREA, true), SEA(Area.BLUEAREA, false)
-    ,BEACH(Area.BLUEAREA, true), RIVER(Area.BLUEAREA, false),
-    BIG_POND(Area.BLUEAREA, false), SMALL_POND(Area.BLUEAREA, false);
+    ,SLATE(Area.BROWNAREA, true, "Sl"), STONE(Area.BROWNAREA, false ,"St"),
+    IRON_GROUND(Area.BROWNAREA, true, "Ig"), GRASS(Area.BROWNAREA, true, "Gr"),
+    GRASSLAND(Area.BROWNAREA, true, "Gl"), DENSE_GRASSLAND(Area.BROWNAREA, true, "Dg") ,
+    OIL(Area.BLUEAREA, true, "O"), PLAIN(Area.BLUEAREA, true, "P"),
+    SHALLOW_WATER(Area.BLUEAREA, true, "Sw"), SEA(Area.BLUEAREA, false, "S")
+    ,BEACH(Area.BLUEAREA, true, "Be"), RIVER(Area.BLUEAREA, false, "R"),
+    BIG_POND(Area.BLUEAREA, false, "Bp"), SMALL_POND(Area.BLUEAREA, false, "Sp");
 
     public enum Area {
         BLUEAREA,BROWNAREA;
     }
 
     private Area area;
+    private String name;
     private boolean permeability;
 
-    Type(Area area, boolean permeability) {
+    Type(Area area, boolean permeability , String name) {
         this.area = area;
         this.permeability = permeability;
+        this.name = name;
     }
 
     public Area getArea() {
@@ -29,5 +31,9 @@ public enum Type {
 
     public boolean getPermeability() {
         return permeability;
+    }
+
+    public String getName() {
+        return name;
     }
 }

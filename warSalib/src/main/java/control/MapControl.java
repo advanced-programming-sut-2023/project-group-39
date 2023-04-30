@@ -9,14 +9,22 @@ public class MapControl {
 
     public static String showMap(int x, int y) {
         String result = "";
+        char c;
         Tile [][] smallMap = Game.getMapInGame().getMapAroundCoordinate(x, y);
-        for (int i = 0 ; i < 10; i++) {
-            for (int j = 0; j< 10; j++) {
+        for (int j = 0 ; j < 10; j++) {
+            for (int i = 0; i< 10; i++) {
                 if (smallMap[j][i] == null)
                     continue;
-                if 
+                else if ((c = hasBuilding(smallMap, x, y) )!= 'N') {
+                    result += " " + c;
+                }
+                else if (smallMap [j][i].getTree() != null) {
+                    result += " T";
+                }
+                else result += " " + smallMap[j][i].getType().getName();
             }
         }
+        return result;
     }
 
     public static String moveMap(int up, int down, int right, int left) {
