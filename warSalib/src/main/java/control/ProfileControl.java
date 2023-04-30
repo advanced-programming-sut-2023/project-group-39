@@ -56,7 +56,10 @@ public class ProfileControl {
     }
 
     public static ProfileMenuMessage changeSlogan(String slogan) {
-        return null;
+        if (slogan.equals(""))
+            return ProfileMenuMessage.EMPTY_SLOGAN;
+
+        return ProfileMenuMessage.SUCCESS;
     }
 
     private static boolean validateUsername(String username) {
