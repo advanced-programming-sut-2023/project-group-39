@@ -27,7 +27,7 @@ public class Government {
 
     private int taxRate;
 
-    private ArrayList<Food> governmentFoods=new ArrayList<>();
+    private ArrayList<Food> governmentFoods;
     Tax tax;
     Religion religion;
     //for trade to other governments
@@ -49,6 +49,7 @@ public class Government {
         buildings = new ArrayList<>();
         resources = new HashMap<>();
         tradeHistory = new LinkedHashMap<>();
+        governmentFoods = new ArrayList<>();
         tax = new Tax();
         fear = new Fear();
     }
@@ -76,6 +77,8 @@ public class Government {
         }
         return true;
     }
+
+    public static LinkedHashMap<User, HashMap<Resource, Integer>> getTradeHistory() { return tradeHistory; }
 
     public int getPopularity() {
         return popularity;
