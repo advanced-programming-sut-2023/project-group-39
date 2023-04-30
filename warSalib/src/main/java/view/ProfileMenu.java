@@ -163,19 +163,7 @@ public class ProfileMenu {
         System.out.println(ProfileControl.displayRank());
     }
     private static void displaySlogan() {
-        ProfileMenuMessage message = ProfileMenuMessage.valueOf(ProfileControl.displaySlogan());
-        switch (message) {
-            case EMPTY_SLOGAN:
-                System.out.println("Slogan is empty");
-                break;
-            case SUCCESS:
-                System.out.println("***------------slogan------------***");
-                break;
-            default:
-                System.out.println("invalid!!?");
-                break;
-        }
-
+        System.out.println(ProfileControl.displaySlogan());
     }
     private static void displayProfile() {
         ProfileMenuMessage message = ProfileMenuMessage.valueOf(ProfileControl.displayProfile());
