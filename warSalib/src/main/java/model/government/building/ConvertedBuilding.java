@@ -12,7 +12,8 @@ public class ConvertedBuilding extends Building{
     private Resource primitiveResource;
     private Resource finalResource;
 
-    public ConvertedBuilding(int x, int y, Government government, int hp, String type, String name, int numberOfPrimitive, int NumberOfFinal, Resource primitiveResource, Resource finalResource) {
+    public ConvertedBuilding(int x, int y, Government government, int hp, String type, String name,
+                             int numberOfPrimitive, int NumberOfFinal, Resource primitiveResource, Resource finalResource) {
         super(x, y, government, hp, type, name);
         this.numberOfPrimitive = numberOfPrimitive;
         this.NumberOfFinal = NumberOfFinal;
@@ -25,7 +26,8 @@ public class ConvertedBuilding extends Building{
             HashMap<Resource, Integer> resource= new HashMap<>();
             resource.put(Resource.WOOD, 20);
             if (government.hasEnoughResources(resource)) {
-                ConvertedBuilding mill = new ConvertedBuilding(x, y, government, 300, "food processing building", name, 1,20, Resource.WHEAT, Resource.FLOUR);
+                ConvertedBuilding mill = new ConvertedBuilding(x, y, government, 300, "food processing building"
+                        , name, 1,20, Resource.WHEAT, Resource.FLOUR);
                 return mill;
             }
         }
@@ -34,7 +36,8 @@ public class ConvertedBuilding extends Building{
             resource.put(Resource.WOOD, 20);
             resource.put(Resource.COIN, 100);
             if (government.hasEnoughResources(resource)) {
-                ConvertedBuilding armourer = new ConvertedBuilding(x, y, government, 600, "weapon", name, 6,1, Resource.IRON, Resource.ARMOUR);
+                ConvertedBuilding armourer = new ConvertedBuilding(x, y, government, 600, "weapon", name,
+                        6,1, Resource.IRON, Resource.ARMOUR);
                 return armourer;
             }
         }
@@ -43,7 +46,8 @@ public class ConvertedBuilding extends Building{
             resource.put(Resource.WOOD, 20);
             resource.put(Resource.COIN, 100);
             if (government.hasEnoughResources(resource)) {
-                ConvertedBuilding blacksmith = new ConvertedBuilding(x, y, government, 700, "weapon", name, 4, 1, Resource.IRON, Resource.SWORD);
+                ConvertedBuilding blacksmith = new ConvertedBuilding(x, y, government, 700, "weapon", name,
+                        4, 1, Resource.IRON, Resource.SWORD);
                 return blacksmith;
             }
         }
@@ -52,7 +56,8 @@ public class ConvertedBuilding extends Building{
             resource.put(Resource.WOOD, 20);
             resource.put(Resource.COIN, 100);
             if (government.hasEnoughResources(resource)) {
-                ConvertedBuilding fletcher = new ConvertedBuilding(x, y, government, 600, "weapon", name, 5,1, Resource.WOOD, Resource.ARCHER);
+                ConvertedBuilding fletcher = new ConvertedBuilding(x, y, government, 600, "weapon",
+                        name, 5,1, Resource.WOOD, Resource.ARCHER);
                 return fletcher;
             }
         }
@@ -61,7 +66,8 @@ public class ConvertedBuilding extends Building{
             resource.put(Resource.WOOD, 20);
             resource.put(Resource.COIN, 100);
             if (government.hasEnoughResources(resource)) {
-                ConvertedBuilding poleTurner = new ConvertedBuilding(x, y, government, 500, "weapon", name, 10,1, Resource.WOOD, Resource.SPEAR);
+                ConvertedBuilding poleTurner = new ConvertedBuilding(x, y, government, 500, "weapon",
+                        name, 10,1, Resource.WOOD, Resource.SPEAR);
                 return poleTurner;
             }
         }
@@ -69,7 +75,8 @@ public class ConvertedBuilding extends Building{
             HashMap<Resource, Integer> resource= new HashMap<>();
             resource.put(Resource.WOOD, 10);
             if (government.hasEnoughResources(resource)) {
-                ConvertedBuilding bakery = new ConvertedBuilding(x, y, government, 200, "food processing building", name, 10,1, Resource.FLOUR, Resource.BREAD);
+                ConvertedBuilding bakery = new ConvertedBuilding(x, y, government, 200, "food processing building",
+                        name, 10,1, Resource.FLOUR, Resource.BREAD);
                 return bakery;
             }
         }
@@ -77,7 +84,8 @@ public class ConvertedBuilding extends Building{
             HashMap<Resource, Integer> resource= new HashMap<>();
             resource.put(Resource.WOOD, 10);
             if (government.hasEnoughResources(resource)) {
-                ConvertedBuilding brewery = new ConvertedBuilding(x, y, government, 350, "food processing building", name, 1,30, Resource.HOP, Resource.BEAR);
+                ConvertedBuilding brewery = new ConvertedBuilding(x, y, government, 350, "food processing building",
+                        name, 1,30, Resource.HOP, Resource.BEAR);
                 return brewery;
             }
         }

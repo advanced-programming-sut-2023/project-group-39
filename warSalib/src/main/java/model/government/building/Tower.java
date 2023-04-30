@@ -50,7 +50,8 @@ public class Tower extends Building{
             HashMap<Resource, Integer> resource = new HashMap<>();
             resource.put(Resource.STONE, 35);
             if (government.hasEnoughResources(resource)) {
-                Tower squareTower = new Tower(x, y, government, 1500, "castle building", name, 800);
+                Tower squareTower = new Tower(x, y, government, 1500, "castle building", name,
+                        800);
                 return squareTower;
             }
         }
@@ -58,7 +59,8 @@ public class Tower extends Building{
             HashMap<Resource, Integer> resource = new HashMap<>();
             resource.put(Resource.STONE, 40);
             if (government.hasEnoughResources(resource)) {
-                Tower circleTower = new Tower(x, y, government, 2000, "castle building", name, 900);
+                Tower circleTower = new Tower(x, y, government, 2000, "castle building", name,
+                        900);
                 return circleTower;
             }
         }

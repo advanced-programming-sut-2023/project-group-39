@@ -11,7 +11,8 @@ import java.util.HashMap;
 public class MakingForceBuilding extends Building{
     private HashMap<People , Integer> forceWithCost;
 
-    public MakingForceBuilding(int x, int y, Government government, int hp, String name, HashMap<People, Integer> forceWithCost) {
+    public MakingForceBuilding(int x, int y, Government government, int hp, String name,
+                               HashMap<People, Integer> forceWithCost) {
         super(x, y, government, hp, "castle building", name);
         this.forceWithCost = forceWithCost;
     }
@@ -33,7 +34,8 @@ public class MakingForceBuilding extends Building{
             resource.put(Resource.GOLD, 100);
             if (government.hasEnoughResources(resource)) {
                 HashMap<People, Integer> forceOfBarrack = new HashMap<>();
-                MakingForceBuilding engineerGuild = new MakingForceBuilding(x, y, government, 800, name, forceOfBarrack);
+                MakingForceBuilding engineerGuild = new MakingForceBuilding(x, y, government, 800, name,
+                        forceOfBarrack);
                 return engineerGuild;
             }
         }
@@ -42,7 +44,8 @@ public class MakingForceBuilding extends Building{
             resource.put(Resource.WOOD, 10);
             if (government.hasEnoughResources(resource)) {
                 HashMap<People, Integer> forceOfBarrack = new HashMap<>();
-                MakingForceBuilding mercenaryPost = new MakingForceBuilding(x, y, government, 1200, name, forceOfBarrack);
+                MakingForceBuilding mercenaryPost = new MakingForceBuilding(x, y, government, 1200, name,
+                        forceOfBarrack);
                 return mercenaryPost;
             }
         }

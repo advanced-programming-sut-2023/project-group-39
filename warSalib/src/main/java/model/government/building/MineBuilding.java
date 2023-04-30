@@ -3,6 +3,7 @@ package model.government.building;
 import model.government.Government;
 import model.government.building.group.GroupOfBuilding;
 import model.government.resource.Resource;
+import model.map.type.Type;
 
 import java.util.HashMap;
 
@@ -45,9 +46,6 @@ public class MineBuilding extends Building{
         return null;
     }
 
-    private static boolean isAppropriateGround(String ground) {
-        return false;
-    }
 
     public int makeResourceWithRate() {
         //need to time to handle it
