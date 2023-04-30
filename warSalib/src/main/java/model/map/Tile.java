@@ -15,7 +15,7 @@ public class Tile {
 
     private Tree tree;
     private Building building;
-    private ArrayList <People> peopleOnTitle;
+    private ArrayList <People> peopleOnTile;
     private Resource resource;
 
     public Tile(Type type) {
@@ -38,8 +38,8 @@ public class Tile {
         return building;
     }
 
-    public ArrayList<People> getPeopleOnTitle() {
-        return peopleOnTitle;
+    public ArrayList<People> getPeopleOnTile() {
+        return peopleOnTile;
     }
 
     public Resource getResource() {
@@ -47,7 +47,7 @@ public class Tile {
     }
 
     public void addPeople(People people) {
-        peopleOnTitle.add(people);
+        peopleOnTile.add(people);
     }
 
     public void setType(Type type) {

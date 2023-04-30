@@ -1,5 +1,6 @@
 package model.government.people.units;
 
+import model.user.User;
 import model.wartool.wartoolenum;
 
 public class Archers extends Units{
@@ -8,8 +9,8 @@ public class Archers extends Units{
     private int fatality;
     private wartoolenum wartoolenum;
     private boolean arrowInMove;
-    public Archers(int xLocation, int yLocation, UnitsName unitsName) {
-        super(xLocation, yLocation, unitsName);
+    public Archers(int xLocation, int yLocation, UnitsName unitsName, User ownerPerson) {
+        super(xLocation, yLocation, unitsName,ownerPerson);
         if(unitsName.getName().equals("archer")){
             this.precision=60;
             this.arrowRadius=60;

@@ -1,8 +1,6 @@
 package model.map;
 
-import java.util.ArrayList;
-
-public class Map {
+public class GameMap {
 
     //we have three template of map for game
 
@@ -31,4 +29,9 @@ public class Map {
             return true;
         return false;
     }
+
+    public Tile[][] getMap() {
+        return map;
+    }
 }
+

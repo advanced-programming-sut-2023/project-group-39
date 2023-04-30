@@ -1,13 +1,37 @@
 package control;
 
+import model.Game;
+import model.government.people.People;
+import model.government.people.units.State;
+import model.government.people.units.Units;
+import model.government.people.units.UnitsType;
+import model.map.Tile;
+import model.map.GameMap;
 import view.GameMenu;
 import view.enums.messages.GameMenuMessage;
 
 import java.util.regex.Matcher;
-
+import model.map.*;
 public class GameControl {
-    public static GameMenuMessage selectUnit(int x, int y,String type) {
+    public static Units currentUnit;
+    public static GameMenuMessage selectUnit(int x, int y,String name) {
+        if(x>400||y>400||x<0||y<0){
+            return GameMenuMessage.WRONG_AMOUNT;
+        }
+        Tile tile = Game.getMapInGame().getMap()[x][y];
+        for(People people:tile.getPeopleOnTile()){
+            if(people instanceof Units){
+                if(((Units) people).getUnitsName().getName().equals(name)&&people.getOwnerPerson().equals(Game.getCurrentUser())){
+                    currentUnit= (Units) people;
+                    return GameMenuMessage.SUCCESS;
+                }
+                return GameMenuMessage.WITHOUTUNIT;
+            }
+        }
+
+
         return null;
+
     }
 
     public static GameMenuMessage moveUnit(int x, int y) {
@@ -19,12 +43,24 @@ public class GameControl {
         return null;
     }
 
-    public static GameMenuMessage setMode(int x,int y,String mode) {
-        return null;
-
+    public static GameMenuMessage setMode(int x, int y, State state) {
+        if (x > 400 || y > 400 || x < 0 || y < 0) {
+            return GameMenuMessage.WRONG_AMOUNT;
+        }
+        Tile tile = Game.getMapInGame().getMap()[x][y];
+        for (People people : tile.getPeopleOnTile()) {
+            if (people instanceof Units&&people.getOwnerPerson().equals(Game.getCurrentUser())) {
+                ((Units) people).setState(state);
+            }
+        }
+        return GameMenuMessage.SUCCESS;
     }
 
     public static GameMenuMessage attack(int x, int y) {
+        if (x > 400 || y > 400 || x < 0 || y < 0) {
+            return GameMenuMessage.WRONG_AMOUNT;
+        }
+        Tile tile=Game.getMapInGame().getMap()[x][y];
         return null;
 
     }
