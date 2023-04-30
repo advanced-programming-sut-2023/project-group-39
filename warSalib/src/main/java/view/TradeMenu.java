@@ -1,12 +1,18 @@
 package view;
 
 import control.TradeControl;
+import model.government.Government;
+import model.government.resource.Resource;
 import view.enums.commands.TradeMenuCommands;
 import view.enums.messages.TradeMenuMessage;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
 public class TradeMenu {
+    public static LinkedHashMap<Government, HashMap<Resource, Integer>> tradeList = new LinkedHashMap<>();
 
     public static void run(Scanner scanner) {
         String input;
