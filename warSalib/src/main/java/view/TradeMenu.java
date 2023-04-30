@@ -57,18 +57,9 @@ public class TradeMenu {
     }
 
     private static void showTradeList() {
-        TradeMenuMessage message = TradeMenuMessage.valueOf(TradeControl.showTradeList());
-        switch (message) {
-            case EMPTY_TRADE_LIST:
-                System.out.println("***------------empty list----------***");
-                break;
-            case SUCCESS:
-                System.out.println("***------------trade list----------***\n");
-                break;
-            default:
-                System.out.println("invalid!!?");
-                break;
-        }
+        if (TradeControl.showTradeList().equals(TradeMenuMessage.EMPTY_TRADE_LIST))
+            System.out.println("No trades");
+        else System.out.println(TradeControl.showTradeList());
     }
 
     private static void acceptTrade(Matcher matcher) {
