@@ -1,12 +1,23 @@
 package control;
 
+import model.Game;
+import model.user.User;
+import view.GameMenu;
+import view.enums.messages.LoginMenuMessage;
 import view.enums.messages.ProfileMenuMessage;
 
 import java.util.ArrayList;
 
 public class ProfileControl {
     public static ProfileMenuMessage changeUsername(String username) {
-        return null;
+        for (User player : Game.getPlayers())
+            if (player.getUsername().equals(username))
+                return ProfileMenuMessage.USERNAME_EXISTS;
+
+        if (LoginSignupControl.checkUsername(username).equals(LoginMenuMessage.INVALIDUSERNAME))
+            return ProfileMenuMessage.INVALID_USERNAME_FORMAT;
+
+        return ProfileMenuMessage.SUCCESS;
     }
 
     public static ProfileMenuMessage changeNickname(String nickname) {
