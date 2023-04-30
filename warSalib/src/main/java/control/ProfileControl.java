@@ -43,6 +43,9 @@ public class ProfileControl {
         else if (!LoginSignupControl.validatePassword(newPassword).equals(LoginMenuMessage.STRONGPASSWORD))
             return ProfileMenuMessage.WEAK_PASSWORD;
 
+        else if (newPassword.equals("random"))
+            newPassword = LoginSignupControl.findRandomPassword();
+
         Game.getCurrentUser().setPassword(newPassword);
         return ProfileMenuMessage.SUCCESS;
     }
