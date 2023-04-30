@@ -80,7 +80,7 @@ public class ProfileControl {
     }
 
     public static String displayRank() {
-        return null;
+        return String.valueOf(Game.getCurrentUser().getRank());
     }
 
     public static String displaySlogan() {
