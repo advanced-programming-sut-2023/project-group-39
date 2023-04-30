@@ -76,7 +76,7 @@ public class ProfileControl {
     }
 
     public static String displayHighScore() {
-        return null;
+        return String.valueOf(Game.getCurrentUser().getScore()); //need to check this function
     }
 
     public static String displayRank() {
