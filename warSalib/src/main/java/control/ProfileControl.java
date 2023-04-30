@@ -84,7 +84,7 @@ public class ProfileControl {
     }
 
     public static String displaySlogan() {
-        return null;
+        return Game.getCurrentUser().getSlogan();
     }
 
     public static String displayProfile() {
