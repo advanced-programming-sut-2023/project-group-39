@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
+import model.Game;
 import model.government.building.Building;
 import model.government.people.People;
 import model.government.popularityfactor.Fear;
@@ -76,6 +77,10 @@ public class Government {
                 return false;
         }
         return true;
+    }
+
+    public static void addToTradeHistory(User user, Resource resource, int number) {
+        // complete this function
     }
 
     public static LinkedHashMap<User, HashMap<Resource, Integer>> getTradeHistory() { return tradeHistory; }
