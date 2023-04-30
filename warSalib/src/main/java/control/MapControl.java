@@ -9,6 +9,7 @@ import model.map.GameMap;
 import model.map.Tile;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MapControl {
 
@@ -45,7 +46,32 @@ public class MapControl {
     }
 
     public static String showDetails(int x, int y) {
-        return null;
+        String result = "";
+        if (!validCoordinates(x, y)) {
+            return result;
+        }
+        GameMap map = Game.getMapInGame();
+        Tile tile = map.getMap()[y][x];
+        map.setSelectedY(y);
+        map.setSelectedX(x);
+        result += "***----------ground-----------***\n";
+        result += tile.getType() + "\n";
+        if (tile.getResource() != null) {
+            result += "***----------resource-----------***\n";
+            result += tile.getResource() + "\n";
+        }
+        if (hasUnits(tile.getPeopleOnTile())) {
+            result += "***----------units-----------***\n";
+            HashMap <String, Integer> unitsPeople = countUnitsInHashMap(tile.getPeopleOnTile());
+            for (String nameOfTroop : unitsPeople.keySet()) {
+                result += nameOfTroop + "   " + unitsPeople.get(nameOfTroop);
+            }
+        }
+        if (tile.getBuilding() != null) {
+            result += "***----------building-----------***\n";
+            result += tile.getBuilding().getName() + "\n";
+        }
+        return result;
     }
 
     private static boolean validCoordinates(int x, int y) {
@@ -68,7 +94,24 @@ public class MapControl {
         return 'N';
     }
 
+    private static HashMap<String, Integer> countUnitsInHashMap (ArrayList<People> people) {
+        HashMap <String,Integer> units = new HashMap<>();
+        int num;
+        for (People people1:people) {
+            if (people1 instanceof Units) {
+                if (units.containsKey(((Units) people1).getUnitsName().getName())) {
+                    num = units.get(((Units) people1).getUnitsName().getName()) + 1;
+                    units.replace(((Units) people1).getUnitsName().getName(), num);
+                }
+                else units.put(((Units) people1).getUnitsName().getName(), 1);
+            }
+        }
+        return units;
+    }
+
     private static boolean hasUnits(ArrayList<People> people) {
+        if (people.size() == 0)
+            return false;
         for (People subPeople: people) {
             if (subPeople instanceof Units)
                 return true;
