@@ -65,6 +65,7 @@ public class ProfileControl {
     public static ProfileMenuMessage changeSlogan(String slogan) {
         if (slogan.equals(""))
             return ProfileMenuMessage.EMPTY_SLOGAN;
+        // need to handle random slogan
 
         Game.getCurrentUser().setSlogan(slogan);
         return ProfileMenuMessage.SUCCESS;
