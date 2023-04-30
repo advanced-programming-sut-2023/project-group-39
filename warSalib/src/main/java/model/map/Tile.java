@@ -39,7 +39,7 @@ public class Tile {
         return building;
     }
 
-    public ArrayList<People> getPeopleOnTitle() {
+    public ArrayList<People> getPeopleOnTile() {
         return peopleOnTile;
     }
 

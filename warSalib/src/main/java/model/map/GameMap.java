@@ -2,7 +2,7 @@ package model.map;
 
 public class GameMap {
 
-    //we have three template of map for game
+   private int selectedX, selectedY;
 
     private Tile [][] map;
 
@@ -98,5 +98,21 @@ public class GameMap {
         if (map[x][y+1].getBuilding().getName().equals(name))
             return true;
         return false;
+    }
+
+    public int getSelectedX() {
+        return selectedX;
+    }
+
+    public void setSelectedX(int selectedX) {
+        this.selectedX = selectedX;
+    }
+
+    public int getSelectedY() {
+        return selectedY;
+    }
+
+    public void setSelectedY(int selectedY) {
+        this.selectedY = selectedY;
     }
 }
