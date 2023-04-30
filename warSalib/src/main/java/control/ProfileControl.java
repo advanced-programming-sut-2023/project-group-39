@@ -18,6 +18,7 @@ public class ProfileControl {
         if (LoginSignupControl.checkUsername(username).equals(LoginMenuMessage.INVALIDUSERNAME))
             return ProfileMenuMessage.INVALID_USERNAME_FORMAT;
 
+        Game.getCurrentUser().setUsername(username);
         return ProfileMenuMessage.SUCCESS;
     }
 
@@ -25,6 +26,7 @@ public class ProfileControl {
         if (nickname.equals(""))
             return ProfileMenuMessage.INVALID_NICKNAME_FORMAT;
 
+        Game.getCurrentUser().setNickname(nickname);
         return ProfileMenuMessage.SUCCESS;
     }
 
@@ -41,6 +43,7 @@ public class ProfileControl {
         else if (!LoginSignupControl.validatePassword(newPassword).equals(LoginMenuMessage.STRONGPASSWORD))
             return ProfileMenuMessage.WEAK_PASSWORD;
 
+        Game.getCurrentUser().setPassword(newPassword);
         return ProfileMenuMessage.SUCCESS;
     }
 
@@ -52,6 +55,7 @@ public class ProfileControl {
         if (!LoginSignupControl.validateEmail(email).equals(LoginMenuMessage.SUCCESS))
             return ProfileMenuMessage.INVALID_EMAIL_FORMAT;
 
+        Game.getCurrentUser().setEmail(email);
         return ProfileMenuMessage.SUCCESS;
     }
 
@@ -59,11 +63,16 @@ public class ProfileControl {
         if (slogan.equals(""))
             return ProfileMenuMessage.EMPTY_SLOGAN;
 
+        Game.getCurrentUser().setSlogan(slogan);
         return ProfileMenuMessage.SUCCESS;
     }
-    
+
     public static ProfileMenuMessage removeSlogan() {
-        return null;
+        if (Game.getCurrentUser().getSlogan().equals(""))
+            return ProfileMenuMessage.EMPTY_SLOGAN;
+
+        Game.getCurrentUser().setSlogan("");
+        return ProfileMenuMessage.SUCCESS;
     }
 
     public static String displayHighScore() {
