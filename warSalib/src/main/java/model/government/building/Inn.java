@@ -29,6 +29,7 @@ public class Inn extends Building{
                 Inn inn = new Inn(x, y, government, 500, "food processing building", name);
                 //DrinkServer drinkServer = new DrinkServer()
                 //inn.setWorkerDataBase();
+                inn.setWorkerDataBase();
                 return inn;
             }
         }

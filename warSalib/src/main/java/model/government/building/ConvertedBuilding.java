@@ -28,6 +28,7 @@ public class ConvertedBuilding extends Building{
             if (government.hasEnoughResources(resource)) {
                 ConvertedBuilding mill = new ConvertedBuilding(x, y, government, 300, "food processing building"
                         , name, 1,20, Resource.WHEAT, Resource.FLOUR);
+                mill.setWorkerDataBase();
                 return mill;
             }
         }
@@ -38,6 +39,7 @@ public class ConvertedBuilding extends Building{
             if (government.hasEnoughResources(resource)) {
                 ConvertedBuilding armourer = new ConvertedBuilding(x, y, government, 600, "weapon", name,
                         6,1, Resource.IRON, Resource.ARMOUR);
+                armourer.setWorkerDataBase();
                 return armourer;
             }
         }
@@ -48,6 +50,7 @@ public class ConvertedBuilding extends Building{
             if (government.hasEnoughResources(resource)) {
                 ConvertedBuilding blacksmith = new ConvertedBuilding(x, y, government, 700, "weapon", name,
                         4, 1, Resource.IRON, Resource.SWORD);
+                blacksmith.setWorkerDataBase();
                 return blacksmith;
             }
         }
@@ -58,6 +61,7 @@ public class ConvertedBuilding extends Building{
             if (government.hasEnoughResources(resource)) {
                 ConvertedBuilding fletcher = new ConvertedBuilding(x, y, government, 600, "weapon",
                         name, 5,1, Resource.WOOD, Resource.ARCHER);
+                fletcher.setWorkerDataBase();
                 return fletcher;
             }
         }
@@ -68,6 +72,7 @@ public class ConvertedBuilding extends Building{
             if (government.hasEnoughResources(resource)) {
                 ConvertedBuilding poleTurner = new ConvertedBuilding(x, y, government, 500, "weapon",
                         name, 10,1, Resource.WOOD, Resource.SPEAR);
+                poleTurner.setWorkerDataBase();
                 return poleTurner;
             }
         }
@@ -77,6 +82,7 @@ public class ConvertedBuilding extends Building{
             if (government.hasEnoughResources(resource)) {
                 ConvertedBuilding bakery = new ConvertedBuilding(x, y, government, 200, "food processing building",
                         name, 10,1, Resource.FLOUR, Resource.BREAD);
+                bakery.setWorkerDataBase();
                 return bakery;
             }
         }
@@ -86,6 +92,7 @@ public class ConvertedBuilding extends Building{
             if (government.hasEnoughResources(resource)) {
                 ConvertedBuilding brewery = new ConvertedBuilding(x, y, government, 350, "food processing building",
                         name, 1,30, Resource.HOP, Resource.BEAR);
+                brewery.setWorkerDataBase();
                 return brewery;
             }
         }

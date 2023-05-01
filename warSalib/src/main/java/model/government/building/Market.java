@@ -20,6 +20,7 @@ public class Market extends Building{
             resource.put(Resource.WOOD, 5);
             if (government.hasEnoughResources(resource)) {
                 Market market = new Market(x, y, government, 500);
+                market.setWorkerDataBase();
                 return market;
             }
         }

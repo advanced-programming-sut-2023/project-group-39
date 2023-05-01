@@ -30,7 +30,7 @@ abstract public class Building {
         workerWorked = new HashMap<>();
     }
 
-    private static GroupOfBuilding getGroupByName(String name) {
+    public static GroupOfBuilding getGroupByName(String name) {
         GroupOfBuilding[] groups = GroupOfBuilding.values();
         for (GroupOfBuilding group : groups) {
             for (String instance : group.getGroup()) {

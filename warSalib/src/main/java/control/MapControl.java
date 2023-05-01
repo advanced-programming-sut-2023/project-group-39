@@ -85,7 +85,7 @@ public class MapControl {
             return 'N';
         if (smallMap[y][x].getBuilding() != null) {
             Building building = smallMap[y][x].getBuilding();
-            GroupOfBuilding group = Building.getGroupByType(building.getName());
+            GroupOfBuilding group = Building.getGroupByName(building.getName());
             if (group == GroupOfBuilding.WALL || group == GroupOfBuilding.GATEHOUSE ||
                     group == GroupOfBuilding.TOWER)
                 return 'W';
