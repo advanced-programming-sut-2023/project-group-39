@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
+import model.Game;
 import model.government.building.Building;
 import model.government.people.People;
 import model.government.popularityfactor.Fear;
@@ -13,6 +14,7 @@ import model.government.popularityfactor.Tax;
 import model.government.request.Request;
 import model.government.resource.Resource;
 import model.user.User;
+import view.TradeMenu;
 
 public class Government {
     private int wealth;
@@ -27,7 +29,7 @@ public class Government {
 
     private int taxRate;
 
-    private ArrayList<Food> governmentFoods=new ArrayList<>();
+    private ArrayList<Food> governmentFoods;
     Tax tax;
     Religion religion;
     //for trade to other governments
@@ -35,7 +37,7 @@ public class Government {
     private ArrayList<People> people;
     private ArrayList<Building> buildings;
     public static HashMap<Resource, Integer> resources;
-    public static LinkedHashMap<User, HashMap<Resource, Integer>> tradeHistory;
+    private LinkedHashMap<User, HashMap<Resource, Integer>> tradeHistory;
     private Fear fear;
 
     public Government(int popularity, int population, User user) {
@@ -49,14 +51,15 @@ public class Government {
         buildings = new ArrayList<>();
         resources = new HashMap<>();
         tradeHistory = new LinkedHashMap<>();
+        governmentFoods = new ArrayList<>();
         tax = new Tax();
         fear = new Fear();
     }
 
 //    public HashMap<Resource, Integer> getResources() { return resources; }
 
-    public static void addToResources(Resource resource) {
-        if (resources.containsKey(resource)) resources.put(resource, resources.get(resource) + 1);
+    public static void addToResources(Resource resource, int number) {
+        if (resources.containsKey(resource)) resources.put(resource, resources.get(resource) + number);
         else resources.put(resource, 1);
     }
 
@@ -76,6 +79,14 @@ public class Government {
         }
         return true;
     }
+
+    public void addToTradeHistory(User user, Resource resource, int number) {
+        HashMap<Resource, Integer> value = new HashMap<>();
+        value.put(resource, number);
+        TradeMenu.tradeList.put(user.getUserGovernment(), value);
+    }
+
+    public LinkedHashMap<User, HashMap<Resource, Integer>> getTradeHistory() { return tradeHistory; }
 
     public int getPopularity() {
         return popularity;

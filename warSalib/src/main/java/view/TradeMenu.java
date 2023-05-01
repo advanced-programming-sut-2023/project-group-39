@@ -1,12 +1,18 @@
 package view;
 
 import control.TradeControl;
+import model.government.Government;
+import model.government.resource.Resource;
 import view.enums.commands.TradeMenuCommands;
 import view.enums.messages.TradeMenuMessage;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
 public class TradeMenu {
+    public static LinkedHashMap<Government, HashMap<Resource, Integer>> tradeList = new LinkedHashMap<>();
 
     public static void run(Scanner scanner) {
         String input;
@@ -41,7 +47,7 @@ public class TradeMenu {
                 System.out.println("there is no such thing in storehouse");
                 break;
             case SUCCESS:
-                System.out.println("item has been successfully added to you trade list\n" +
+                System.out.println("item has been successfully added to your trade list\n" +
                         resourceType + ":        amount: " + amount + " , price: " + price +
                         " , total: " + amount * price + " , message: " + message);
             default:
@@ -51,18 +57,9 @@ public class TradeMenu {
     }
 
     private static void showTradeList() {
-        TradeMenuMessage message = TradeMenuMessage.valueOf(TradeControl.showTradeList());
-        switch (message) {
-            case EMPTY_TRADE_LIST:
-                System.out.println("***------------empty list----------***");
-                break;
-            case SUCCESS:
-                System.out.println("***------------trade list----------***\n");
-                break;
-            default:
-                System.out.println("invalid!!?");
-                break;
-        }
+        if (TradeControl.showTradeList().equals(TradeMenuMessage.EMPTY_TRADE_LIST))
+            System.out.println("No trades");
+        else System.out.println(TradeControl.showTradeList());
     }
 
     private static void acceptTrade(Matcher matcher) {
@@ -72,6 +69,9 @@ public class TradeMenu {
         switch (message) {
             case ID_NOT_EXIST:
                 System.out.println("there are no users with this id");
+                break;
+            case RESOURCE_NOT_EXIST:
+                System.out.println("you don't have this item");
                 break;
             case INSUFFICIENT_FUNDING:
                 System.out.println("you don't have enough resources to accept this trade");
