@@ -34,4 +34,12 @@ public class People {
     public User getOwnerPerson() {
         return ownerPerson;
     }
+
+    public void setxLocation(int xLocation) {
+        this.xLocation = xLocation;
+    }
+
+    public void setyLocation(int yLocation) {
+        this.yLocation = yLocation;
+    }
 }

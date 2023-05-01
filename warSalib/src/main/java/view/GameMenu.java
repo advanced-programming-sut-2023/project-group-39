@@ -50,8 +50,10 @@ public class GameMenu {
                 System.out.println("unit cant move on this tiles");
                 break;
             case BIGGERTHANSPEED:
-                GameControl.specialMoveUnit(x, y);
+                System.out.println("distance was bigger than unit speed");
                 break;
+            case PROBLEM:
+                System.out.println("unit cant move between points");
             default:
                 System.out.println("invalid command!!?");
                 break;
@@ -337,11 +339,12 @@ public class GameMenu {
                 break;
         }
     }
-    private static void removeDitch(Matcher matcher){
-        int x=Integer.parseInt(matcher.group("x"));
-        int y=Integer.parseInt(matcher.group("y"));
-        GameMenuMessage message=GameControl.removeDitch(x,y);
-        switch (message){
+
+    private static void removeDitch(Matcher matcher) {
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        GameMenuMessage message = GameControl.removeDitch(x, y);
+        switch (message) {
             case SUCCESS:
                 System.out.println("ditch removed successfully");
                 break;
@@ -356,11 +359,12 @@ public class GameMenu {
                 break;
         }
     }
-    private static void stopDitch(Matcher matcher){
-        int x=Integer.parseInt(matcher.group("x"));
-        int y=Integer.parseInt(matcher.group("y"));
-        GameMenuMessage message=GameControl.stopDitch(x,y);
-        switch (message){
+
+    private static void stopDitch(Matcher matcher) {
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        GameMenuMessage message = GameControl.stopDitch(x, y);
+        switch (message) {
             case SUCCESS:
                 System.out.println("stop dig successfully");
                 break;
@@ -379,11 +383,11 @@ public class GameMenu {
     }
 
     private static void captureGate(Matcher matcher) {
-        GameMenuMessage message=GameControl.captureGate();
-        switch (message){
+        GameMenuMessage message = GameControl.captureGate();
+        switch (message) {
             case SUCCESS:
-                GameMenuMessage message1=GameControl.openGate();
-                switch (message1){
+                GameMenuMessage message1 = GameControl.openGate();
+                switch (message1) {
                     case SUCCESS:
                         System.out.println("Gate opened successfully");
                         break;
@@ -394,8 +398,8 @@ public class GameMenu {
 
     private static void makeProtection(Matcher matcher) {
         //should be complete with units
-        GameMenuMessage message=GameControl.makeProtection();
-        switch (message){
+        GameMenuMessage message = GameControl.makeProtection();
+        switch (message) {
             case SUCCESS:
                 System.out.println("protection built successfully");
                 break;
@@ -410,8 +414,8 @@ public class GameMenu {
 
     private static void batteringRam(Matcher matcher) {
         //should be complete
-        GameMenuMessage message=GameControl.batteringRam();
-        switch (message){
+        GameMenuMessage message = GameControl.batteringRam();
+        switch (message) {
             case SUCCESS:
                 System.out.println("battering was successful");
                 break;
