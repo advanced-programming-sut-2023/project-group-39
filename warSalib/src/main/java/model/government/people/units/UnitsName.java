@@ -7,19 +7,19 @@ public enum UnitsName {
 
     CROSSBOWMEN("crossbowmen", 20, 25,  100, UnitsType.ARCHER, false),
 
-    SPEARMAN("spearman", 60, 50, 15,  UnitsType.ARMY, false),
+    SPEARMAN("spear man", 60, 50, 15,  UnitsType.ARMY, false),
 
-    PIKEMAN("pikeman", 20, 50, 75,  UnitsType.COMBAT, true),
+    PIKEMAN("pike man", 20, 50, 75,  UnitsType.COMBAT, true),
 
-    MACEMAN("maceman", 50, 75, 50, UnitsType.ARMY, false),
+    MACEMAN("mace man", 50, 75, 50, UnitsType.ARMY, false),
 
-    SWORDSMEN("swordsmen", 10, 85, 85,  UnitsType.COMBAT, true),
+    SWORDSMEN("swords men", 10, 85, 85,  UnitsType.COMBAT, true),
 
     KNIGHT("knight", 85, 85, 80,  UnitsType.COMBAT, false),
 
     TUNNELER("tunneler", 75, 50, 10, UnitsType.ARMY, false),
 
-    LADDERMAN("ladderman", 75, 0, 10,  UnitsType.ARMY, false),
+    LADDERMAN("ladder man", 75, 0, 10,  UnitsType.ARMY, false),
 
     BLACKMONK("blackmonk", 25, 50, 50,  UnitsType.COMBAT, true),
 

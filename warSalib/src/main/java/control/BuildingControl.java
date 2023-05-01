@@ -53,16 +53,24 @@ public class BuildingControl {
     public static BuildingMessage createUnit(String type, int count) {
         if (count <= 0)
             return BuildingMessage.WRONG_AMOUNT;
+
         return null;
     }
     public static BuildingMessage repair() {
-        return null;
+        if (Game.getSelectedBuilding().getType() != "castle building")
+            return BuildingMessage.NOT_GOOD_BUILDING;
+        else if (!isEnoughStone())
+            return BuildingMessage.NOT_ENOUGH_STONE;
+        else if (isNearEnemyForce(Game.getSelectedBuilding()))
+            return BuildingMessage.NEAR_ENEMY;
+        Game.getSelectedBuilding().setHp();
+            return BuildingMessage.SUCCESS;
     }
 
     private static boolean isEnoughStone() {
         return false;
     }
-    private static boolean IsNearEnemyForce(Building building) {
+    private static boolean isNearEnemyForce(Building building) {
         return false;
     }
 }

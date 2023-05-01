@@ -11,8 +11,8 @@ import java.util.HashMap;
 
 abstract public class Building {
     private Government government;
-    private HashMap<People, Integer> workerDataBase;
-    private HashMap<People, Integer> workerWorked;
+    private HashMap<String, Integer> workerDataBase;
+    private ArrayList<People> workerWorked;
     private int hp;
     private String type;
 
@@ -27,7 +27,7 @@ abstract public class Building {
         this.government = government;
         this.name = name;
         workerDataBase = new HashMap<>();
-        workerWorked = new HashMap<>();
+        workerWorked = new ArrayList<>();
     }
 
     public static GroupOfBuilding getGroupByName(String name) {
@@ -101,8 +101,8 @@ abstract public class Building {
         else return null;
     }
 
-    public void addWorker(People people, int number) {
-        workerWorked.put(people, number);
+    public void addWorker(People people) {
+        workerWorked.add(people);
     }
 
 
@@ -138,15 +138,16 @@ abstract public class Building {
         this.hp = hp;
     }
 
-    public HashMap<People, Integer> getWorkerDataBase() {
+    public HashMap<String, Integer> getWorkerDataBase() {
         return workerDataBase;
     }
 
-    public HashMap<People, Integer> getWorkerWorked() {
+    public ArrayList<People> getWorkerWorked()
+    {
         return workerWorked;
     }
 
-    public void setWorkerDataBase(People people, int number) {
+    public void setWorkerDataBase(String people, int number) {
         workerDataBase.put(people, number);
     }
 

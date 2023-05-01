@@ -115,8 +115,12 @@ public class BuildingMenu {
             case NEAR_ENEMY:
                 System.out.println("enemy near your town and can't repair");
                 break;
+            case NOT_GOOD_BUILDING:
+                System.out.println("not castle building");
+                break;
             case SUCCESS:
                 System.out.println("repair successfully");
+                break;
             default:
                 System.out.println("invalid!");
                 break;

@@ -2,6 +2,7 @@ package model.government.building;
 
 import model.government.Government;
 import model.government.building.group.GroupOfBuilding;
+import model.government.people.workingpersons.JobsName;
 import model.government.resource.Resource;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class Market extends Building{
             resource.put(Resource.WOOD, 5);
             if (government.hasEnoughResources(resource)) {
                 Market market = new Market(x, y, government, 500);
-                market.setWorkerDataBase();
+                market.setWorkerDataBase(JobsName.SHOPPER.getJobsName(), 1);
                 return market;
             }
         }

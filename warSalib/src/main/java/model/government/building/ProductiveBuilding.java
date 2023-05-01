@@ -2,6 +2,7 @@ package model.government.building;
 
 import model.government.Government;
 import model.government.building.group.GroupOfBuilding;
+import model.government.people.workingpersons.JobsName;
 import model.government.resource.Resource;
 
 import java.util.HashMap;
@@ -24,7 +25,7 @@ public class ProductiveBuilding extends Building {
             if (government.hasEnoughResources(resource)) {
                 ProductiveBuilding woodCutter = new ProductiveBuilding(x, y, government, 300, "industry",
                         "wood cutter", 30, Resource.WOOD);
-                woodCutter.setWorkerDataBase();
+                woodCutter.setWorkerDataBase(JobsName.WOODCUTTER.getJobsName(), 1);
                 return woodCutter;
             }
         }
@@ -44,7 +45,6 @@ public class ProductiveBuilding extends Building {
             if (government.hasEnoughResources(resource)) {
                 ProductiveBuilding stable = new ProductiveBuilding(x, y, government, 400, "castle building",
                         "stable", 4, Resource.HORSE);
-                stable.setWorkerDataBase();
                 return stable;
             }
         }
@@ -53,7 +53,7 @@ public class ProductiveBuilding extends Building {
             if (government.hasEnoughResources(resource)) {
                 ProductiveBuilding appleGarden = new ProductiveBuilding(x, y, government, 300, "farm building"
                         , "apple garden", 100, Resource.APPLE);
-                appleGarden.setWorkerDataBase();
+                appleGarden.setWorkerDataBase(JobsName.APPLEFARMER.getJobsName(), 1);
                 return appleGarden;
             }
         }
@@ -62,7 +62,7 @@ public class ProductiveBuilding extends Building {
             if (government.hasEnoughResources(resource)) {
                 ProductiveBuilding diaryProduct = new ProductiveBuilding(x, y, government, 200, "farm building"
                         , "diary product", 30, Resource.CHEESE);
-                diaryProduct.setWorkerDataBase();
+                diaryProduct.setWorkerDataBase(JobsName.DIARYPRODUCER.getJobsName(), 1);
                 return diaryProduct;
             }
         }
@@ -71,7 +71,7 @@ public class ProductiveBuilding extends Building {
             if (government.hasEnoughResources(resource)) {
                 ProductiveBuilding barleyField = new ProductiveBuilding(x, y, government, 100, "farm building"
                         , "barley field", 80, Resource.HOP);
-                barleyField.setWorkerDataBase();
+                barleyField.setWorkerDataBase(JobsName.HOPFARMER.getJobsName(), 1);
                 return barleyField;
             }
         }
@@ -89,7 +89,7 @@ public class ProductiveBuilding extends Building {
             if (government.hasEnoughResources(resource)) {
                 ProductiveBuilding wheatField = new ProductiveBuilding(x, y, government, 100, "farm building"
                         , "wheat field", 70, Resource.WHEAT);
-                wheatField.setWorkerDataBase();
+                wheatField.setWorkerDataBase(JobsName.WHEATFARMER.getJobsName(), 1);
                 return wheatField;
             }
         }

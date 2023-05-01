@@ -11,5 +11,6 @@ public enum BuildingMessage {
     NOT_ENOUGH_POPULATION,
     NOT_APPROPRIATE_UNIT,
     NOT_ENOUGH_STONE,
-    NEAR_ENEMY;
+    NEAR_ENEMY,
+    NOT_GOOD_BUILDING;
 }
