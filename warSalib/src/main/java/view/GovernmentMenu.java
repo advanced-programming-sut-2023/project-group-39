@@ -1,15 +1,12 @@
 package view;
 
-import control.GameControl;
 import control.GovernmentControl;
 import model.Game;
 import model.government.popularityfactor.Food;
 import model.government.resource.Resource;
 import view.enums.commands.GovernmentMenuCommands;
-import view.enums.messages.GameMenuMessage;
 import view.enums.messages.GovernmentMenuMessage;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -63,7 +60,7 @@ public class GovernmentMenu {
         Food addingFood = new Food();
         if (food.equals("meat")) {
             for (Food food1 : Game.getCurrentUser().getUserGovernment().getFoods().keySet()) {
-                if (food1.getFoodname().equals(Resource.MEAT)) {
+                if (food1.getFoodName().equals(Resource.MEAT)) {
                     addingFood = food1;
                     break;
                 }
@@ -71,21 +68,21 @@ public class GovernmentMenu {
 
         } else if (food.equals("apple")) {
             for (Food food1 : Game.getCurrentUser().getUserGovernment().getFoods().keySet()) {
-                if (food1.getFoodname().equals(Resource.APPLE)) {
+                if (food1.getFoodName().equals(Resource.APPLE)) {
                     addingFood = food1;
                 }
                 break;
             }
         } else if (food.equals("bread")) {
-            for (Food food1 :  Game.getCurrentUser().getUserGovernment().getFoods().keySet()) {
-                if (food1.getFoodname().equals(Resource.BREAD)) {
+            for (Food food1 : Game.getCurrentUser().getUserGovernment().getFoods().keySet()) {
+                if (food1.getFoodName().equals(Resource.BREAD)) {
                     addingFood = food1;
                     break;
                 }
             }
         } else if (food.equals("cheese")) {
-            for (Food food1 :  Game.getCurrentUser().getUserGovernment().getFoods().keySet()) {
-                if (food1.getFoodname().equals(Resource.CHEESE)) {
+            for (Food food1 : Game.getCurrentUser().getUserGovernment().getFoods().keySet()) {
+                if (food1.getFoodName().equals(Resource.CHEESE)) {
                     addingFood = food1;
                     break;
                 }
@@ -96,14 +93,14 @@ public class GovernmentMenu {
             case INVALID_RATE:
                 System.out.println("amount of add is invalid");
                 break;
-            case SUCCESS:
-                System.out.println("food added successfully");
-                break;
             case NOT_ENOUGH_INVENTORY:
                 System.out.println("amount of adding is more than your inventory");
                 break;
-            case INVALIDFOODNAME:
+            case INVALID_FOOD_NAME:
                 System.out.println("food name is invalid");
+                break;
+            case SUCCESS:
+                System.out.println("food added successfully");
                 break;
             default:
                 System.out.println("invalid command!!");
@@ -119,7 +116,7 @@ public class GovernmentMenu {
                 break;
             case SUCCESS:
                 for (Map.Entry<Food, Integer> foods : Game.getCurrentUser().getUserGovernment().getFoods().entrySet()) {
-                    System.out.println(foods.getKey().getFoodname() + "  :  " + foods.getValue());
+                    System.out.println(foods.getKey().getFoodName() + "  :  " + foods.getValue());
 
                 }
                 break;
@@ -147,7 +144,7 @@ public class GovernmentMenu {
     }
 
     private static void showFoodRate() {
-        System.out.println("------------Food Rate------------"+Game.getCurrentUser().getUserGovernment().getFoodRate());
+        System.out.println("***------------Food Rate------------***" + Game.getCurrentUser().getUserGovernment().getFoodRate());
     }
 
     private static void rateTax(Matcher matcher) {
@@ -168,7 +165,7 @@ public class GovernmentMenu {
     }
 
     private static void showTaxRate() {
-        System.out.println("***------------Tax Rate------------***"+Game.getCurrentUser().getUserGovernment().getTaxRate());
+        System.out.println("***------------Tax Rate------------***" + Game.getCurrentUser().getUserGovernment().getTaxRate());
     }
 
     private static void rateFear(Matcher matcher) {
