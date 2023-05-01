@@ -4,20 +4,15 @@ import model.Game;
 import model.government.people.People;
 import model.government.people.units.State;
 import model.government.people.units.Units;
-import model.government.people.units.UnitsType;
 import model.map.Tile;
-import model.map.GameMap;
 import view.GameMenu;
 import view.enums.messages.GameMenuMessage;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.regex.Matcher;
-
-import model.map.*;
 
 public class GameControl {
-    public static Units currentUnit;
+    public static ArrayList<Units> currentUnits;
 
     public static GameMenuMessage selectUnit(int x, int y, String name) {
         if (x >= 200 || y >= 200 || x < 0 || y < 0) {
@@ -27,15 +22,18 @@ public class GameControl {
         for (People people : tile.getPeopleOnTile()) {
             if (people instanceof Units) {
                 if (((Units) people).getUnitsName().getName().equals(name) && people.getOwnerPerson().equals(Game.getCurrentUser())) {
-                    currentUnit = (Units) people;
-                    return GameMenuMessage.SUCCESS;
+                    currentUnits.add((Units) people);
                 }
-                return GameMenuMessage.WITHOUTUNIT;
             }
+        }
+        if(currentUnits.size()!=0){
+            return GameMenuMessage.SUCCESS;
+        }
+        else {
+            return GameMenuMessage.WITHOUTUNIT;
         }
 
 
-        return null;
 
     }
 
@@ -54,7 +52,7 @@ public class GameControl {
             tilesNeighbors.add(new ArrayList<Integer>());
         }
         addNeighbors(tilesNeighbors);
-        GameMenuMessage message=printShortestDistance(tilesNeighbors,(200*currentUnit.getxLocation())+currentUnit.getyLocation() ,(200*x)+y , v);
+        GameMenuMessage message=printShortestDistance(tilesNeighbors,(200* currentUnits.get(0).getxLocation())+ currentUnits.get(0).getyLocation() ,(200*x)+y , v);
         return message;
     }
 
@@ -103,14 +101,14 @@ public class GameControl {
         System.out.println("Path is ::");
         for (i = path.size() - 1; i >= 0; i--) {
             System.out.print("x:  "+path.get(i)/200+"y:    " +path.get(i)%200);
-            currentUnit.setxLocation(path.get(i)/200);
-            currentUnit.setyLocation(path.get(i)%200);
+            for (int u=0;u<currentUnits.size()-1;u++) {
+                currentUnits.get(u).setxLocation(path.get(i) / 200);
+                currentUnits.get(u).setyLocation(path.get(i) % 200);
+            }
             counter++;
-            if(counter==currentUnit.getUnitsName().getSpeed()/20)
+            if(counter==currentUnits.get(0).getUnitsName().getSpeed()/20)
                 break;
         }
-        currentUnit.setxLocation(path.get(i)/200);
-        currentUnit.setyLocation(path.get(i)%200);
         if(path.size()>counter){
             return GameMenuMessage.BIGGERTHANSPEED;
         }
@@ -172,10 +170,20 @@ public class GameControl {
     }
 
     public static GameMenuMessage attack(int x, int y) {
-        if (x > 400 || y > 400 || x < 0 || y < 0) {
+        int previousX= currentUnits.get(0).getxLocation();
+        int previousY=currentUnits.get(0).getyLocation();
+        if (x >= 200 || y >= 200 || x < 0 || y < 0) {
             return GameMenuMessage.WRONG_AMOUNT;
         }
+        GameMenuMessage message=moveUnit(x,y);
+        if(message.equals(GameMenuMessage.BIGGERTHANSPEED)){
+            moveUnit(previousX,previousY);
+            return GameMenuMessage.BIGGERTHANSPEED;
+        }
         Tile tile = Game.getMapInGame().getMap()[x][y];
+       // showEnemys(tile);
+
+
         return null;
 
     }
@@ -292,6 +300,11 @@ public class GameControl {
 
     public static GameMenuMessage fillingDitch(int x, int y) {
         return null;
+    }
+    private static void fight(Units unit1,Units unit2){
+    }
+    public void showEnemys(Tile tile){
+        GameMenu.showEnemys(tile);
     }
 
 }

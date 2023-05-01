@@ -3,8 +3,11 @@ package view;
 import control.GameControl;
 import model.government.people.units.State;
 import model.government.people.units.Units;
+import model.map.Tile;
 import view.enums.messages.GameMenuMessage;
 
+import javax.sound.midi.SysexMessage;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 
 public class GameMenu {
@@ -110,6 +113,9 @@ public class GameMenu {
                 break;
             case WRONG_AMOUNT:
                 System.out.println("you enter wrong amount of x and y");
+                break;
+            case BIGGERTHANSPEED:
+                System.out.println("enemy is out of unit speed");
                 break;
             default:
                 System.out.println("invalid command!");
@@ -434,6 +440,9 @@ public class GameMenu {
     }
 
     private static void fillingDitch(Matcher matcher) {
+
+    }
+    private  static void showEnemys(Tile tile){
 
     }
 }
