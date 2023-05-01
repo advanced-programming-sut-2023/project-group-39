@@ -1,13 +1,13 @@
 package view.enums.messages;
 
 public enum TradeMenuMessage {
-    INVALID_AMOUNT_OR_PRICE,        //checked
-    ITEM_NOT_EXIST,                 //checked
-    EMPTY_TRADE_LIST,               //checked
-    ID_NOT_EXIST,                   //checked
-    SAME_ID_TO_CURRENT_USERS_ID,    //checked
-    RESOURCE_NOT_EXIST,             //checked
-    INSUFFICIENT_FUNDING,           //checked
+    INVALID_AMOUNT_OR_PRICE,
+    ITEM_NOT_EXIST,
+    EMPTY_TRADE_LIST,
+    ID_NOT_EXIST,
+    SAME_ID_TO_CURRENT_USERS_ID,
+    RESOURCE_NOT_EXIST,
+    INSUFFICIENT_FUNDING,
     EMPTY_TRADE_HISTORY,
     SUCCESS;
 }
