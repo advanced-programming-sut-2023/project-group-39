@@ -1,59 +1,119 @@
 package control;
 
+import model.Game;
+import model.user.User;
+import view.GameMenu;
+import view.LoginSignupMenu;
+import view.enums.messages.LoginMenuMessage;
 import view.enums.messages.ProfileMenuMessage;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class ProfileControl {
     public static ProfileMenuMessage changeUsername(String username) {
-        return null;
+        for (User player : Game.getPlayers())
+            if (player.getUsername().equals(username))
+                return ProfileMenuMessage.USERNAME_EXISTS;
+
+        if (LoginSignupControl.checkUsername(username).equals(LoginMenuMessage.INVALIDUSERNAME))
+            return ProfileMenuMessage.INVALID_USERNAME_FORMAT;
+
+        Game.getCurrentUser().setUsername(username);
+        return ProfileMenuMessage.SUCCESS;
     }
 
     public static ProfileMenuMessage changeNickname(String nickname) {
-        return null;
+        if (nickname.equals(""))
+            return ProfileMenuMessage.INVALID_NICKNAME_FORMAT;
+
+        Game.getCurrentUser().setNickname(nickname);
+        return ProfileMenuMessage.SUCCESS;
     }
 
     public static ProfileMenuMessage changePassword(String newPassword, String oldPassword) {
-        return null;
+        if (!Game.getCurrentUser().getPassword().equals(oldPassword))
+            return ProfileMenuMessage.WRONG_PASSWORD;
+
+        else if (oldPassword.equals(newPassword))
+            return ProfileMenuMessage.SAME_PASSWORD;
+
+        else if (LoginSignupControl.validatePassword(newPassword) == null)
+            return ProfileMenuMessage.INVALID_PASSWORD_FORMAT;
+
+        else if (!LoginSignupControl.validatePassword(newPassword).equals(LoginMenuMessage.STRONGPASSWORD))
+            return ProfileMenuMessage.WEAK_PASSWORD;
+
+        else if (newPassword.equals("random"))
+            newPassword = LoginSignupControl.findRandomPassword(); // need to check this part
+
+        Game.getCurrentUser().setPassword(newPassword);
+        return ProfileMenuMessage.SUCCESS;
     }
 
     public static ProfileMenuMessage changeEmail(String email) {
-        return null;
+        for (User player : Game.getPlayers())
+            if (player.getEmail().equals(email))
+                return ProfileMenuMessage.EMAIL_EXISTS;
+
+        if (!LoginSignupControl.validateEmail(email).equals(LoginMenuMessage.SUCCESS))
+            return ProfileMenuMessage.INVALID_EMAIL_FORMAT;
+
+        Game.getCurrentUser().setEmail(email);
+        return ProfileMenuMessage.SUCCESS;
     }
 
     public static ProfileMenuMessage changeSlogan(String slogan) {
-        return null;
-    }
-
-    private static boolean validateUsername(String username) {
-        return false;
-    }
-
-    private static boolean validateOldPassword(String oldPassword) {
-        return false;
-    }
-    private static boolean validateNewPassword(String newPassword) {
-        return false;
+        if (slogan.equals(""))
+            return ProfileMenuMessage.EMPTY_SLOGAN;
+        else if (slogan.equals("random")) { // need to check this part
+            ArrayList<String> slogans = new ArrayList<>();
+            LoginSignupControl.randomSlogan(slogans);
+            Random random = new Random();
+            int result = random.nextInt(9);
+            Game.getCurrentUser().setSlogan(slogans.get(result));
+            return ProfileMenuMessage.SUCCESS;
+        }
+        Game.getCurrentUser().setSlogan(slogan);
+        return ProfileMenuMessage.SUCCESS;
     }
 
     public static ProfileMenuMessage removeSlogan() {
-        return null;
+        if (Game.getCurrentUser().getSlogan().equals(""))
+            return ProfileMenuMessage.EMPTY_SLOGAN;
+
+        Game.getCurrentUser().setSlogan("");
+        return ProfileMenuMessage.SUCCESS;
     }
 
     public static String displayHighScore() {
-        return null;
+        return String.valueOf(Game.getCurrentUser().getScore()); //need to check this function
     }
 
     public static String displayRank() {
-        return null;
+        return String.valueOf(Game.getCurrentUser().getRank());
     }
 
     public static String displaySlogan() {
-        return null;
+        return Game.getCurrentUser().getSlogan();
     }
 
     public static String displayProfile() {
-        return null;
+        StringBuilder result = new StringBuilder();
+        User user = Game.getCurrentUser();
+        result.append("username: ")
+                .append(user.getUsername());
+
+        if (!user.getSlogan().equals(""))
+            result.append("\nslogan: ")
+                    .append(user.getSlogan());
+
+        result.append("\nHighScore: ")
+                .append(user.getScore())
+                .append("\nrank: ")
+                .append(user.getRank());
+
+        return result.toString();
     }
 
     public static ProfileMenuMessage startGame(ArrayList <String> player) {

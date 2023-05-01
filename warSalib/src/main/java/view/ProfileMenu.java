@@ -157,55 +157,16 @@ public class ProfileMenu {
 
     }
     private static void displayHighScore() {
-        ProfileMenuMessage message = ProfileMenuMessage.valueOf(ProfileControl.displayHighScore());
-        switch (message) {
-            case SUCCESS:
-                System.out.println("***------------HighScore------------***");
-                break;
-            default:
-                System.out.println("invalid!!?");
-                break;
-        }
-
+        System.out.println(ProfileControl.displayHighScore());
     }
     private static void displayRank() {
-        ProfileMenuMessage message = ProfileMenuMessage.valueOf(ProfileControl.displayRank());
-        switch (message) {
-            case SUCCESS:
-                System.out.println("***------------rank------------***");
-                break;
-            default:
-                System.out.println("invalid!!?");
-                break;
-        }
-
+        System.out.println(ProfileControl.displayRank());
     }
     private static void displaySlogan() {
-        ProfileMenuMessage message = ProfileMenuMessage.valueOf(ProfileControl.displaySlogan());
-        switch (message) {
-            case EMPTY_SLOGAN:
-                System.out.println("Slogan is empty");
-                break;
-            case SUCCESS:
-                System.out.println("***------------slogan------------***");
-                break;
-            default:
-                System.out.println("invalid!!?");
-                break;
-        }
-
+        System.out.println(ProfileControl.displaySlogan());
     }
     private static void displayProfile() {
-        ProfileMenuMessage message = ProfileMenuMessage.valueOf(ProfileControl.displayProfile());
-        switch (message) {
-            case SUCCESS:
-                System.out.println("***------------Profile------------***");
-                break;
-            default:
-                System.out.println("invalid!!?");
-                break;
-        }
-
+        System.out.println(ProfileControl.displayProfile());
     }
 
     private static void startGame(Matcher matcher) {
