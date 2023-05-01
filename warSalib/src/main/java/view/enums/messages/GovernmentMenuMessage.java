@@ -6,6 +6,4 @@ public enum GovernmentMenuMessage {
     NOT_ENOUGH_INVENTORY,
     INVALID_FOOD_NAME,
     SUCCESS;
-
-
 }

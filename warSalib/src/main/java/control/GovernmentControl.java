@@ -42,7 +42,7 @@ public class GovernmentControl {
 
     public static GovernmentMenuMessage addToFoods(Food food, int numberOfFoods) {
         if (food == null) {
-            return GovernmentMenuMessage.INVALIDFOODNAME;
+            return GovernmentMenuMessage.INVALID_FOOD_NAME;
         }
         int value = 0;
         for (Map.Entry<Resource, Integer> foodResources : Game.getCurrentUser().getUserGovernment().getResourcesHashmap().entrySet()) {
