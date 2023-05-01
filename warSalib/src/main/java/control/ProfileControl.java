@@ -8,6 +8,7 @@ import view.enums.messages.LoginMenuMessage;
 import view.enums.messages.ProfileMenuMessage;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class ProfileControl {
     public static ProfileMenuMessage changeUsername(String username) {
@@ -44,7 +45,7 @@ public class ProfileControl {
             return ProfileMenuMessage.WEAK_PASSWORD;
 
         else if (newPassword.equals("random"))
-            newPassword = LoginSignupControl.findRandomPassword();
+            newPassword = LoginSignupControl.findRandomPassword(); // need to check this part
 
         Game.getCurrentUser().setPassword(newPassword);
         return ProfileMenuMessage.SUCCESS;
@@ -65,8 +66,14 @@ public class ProfileControl {
     public static ProfileMenuMessage changeSlogan(String slogan) {
         if (slogan.equals(""))
             return ProfileMenuMessage.EMPTY_SLOGAN;
-        // need to handle random slogan
-
+        else if (slogan.equals("random")) { // need to check this part
+            ArrayList<String> slogans = new ArrayList<>();
+            LoginSignupControl.randomSlogan(slogans);
+            Random random = new Random();
+            int result = random.nextInt(9);
+            Game.getCurrentUser().setSlogan(slogans.get(result));
+            return ProfileMenuMessage.SUCCESS;
+        }
         Game.getCurrentUser().setSlogan(slogan);
         return ProfileMenuMessage.SUCCESS;
     }
