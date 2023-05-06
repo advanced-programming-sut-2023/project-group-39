@@ -5,6 +5,7 @@ import model.government.building.group.GroupOfBuilding;
 import model.government.people.People;
 import model.government.resource.Resource;
 
+import java.beans.Introspector;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -12,6 +13,8 @@ abstract public class Building {
     private Government government;
     private HashMap<People, Integer> workerDataBase;
     private HashMap<People, Integer> workerWorked;
+
+    public HashMap<Resource, Integer> resourcesNeedToBuild;
     private int hp;
     private String type;
 
@@ -27,6 +30,7 @@ abstract public class Building {
         this.name = name;
         workerDataBase = new HashMap<>();
         workerWorked = new HashMap<>();
+        resourcesNeedToBuild=new HashMap<>();
     }
 
     public static GroupOfBuilding getGroupByType(String type) {
@@ -87,5 +91,9 @@ abstract public class Building {
 
     public void setWorkerDataBase(People people, int number) {
         workerDataBase.put(people,number);
+    }
+
+    public HashMap<Resource, Integer> getResourcesNeedToBuild() {
+        return resourcesNeedToBuild;
     }
 }

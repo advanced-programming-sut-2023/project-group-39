@@ -22,9 +22,10 @@ public enum GameMenuCommands {
 
     BUILDEQUIPMENT("build\\s+-q\\s+(?<equipment>.+)"),
 
+    BUILD_GATE("build\\s+-q\\s+(-x\\s+(?<x>[\\d]+)\\s+(-y\\s+(?<y>[\\d]+)\\s+(?<direction>[\\S]+)\\s+(?<gateName>.+)"),
     DISBANDUNIT("disband\\s+unit"),
 
-    MAKEGATE("make\\s+gate\\s+(?<direction>.+)"),
+   // MAKEGATE("make\\s+gate\\s+(?<direction>.+)"),
 
     MAKEWALL("make\\s+wall(\\-x\\s+(?<x>[\\d]+)\\s*()|\\-y\\s+(?<y>[\\d]+)\\s*()|\\-width\\s+(?<width>[\\d]+)\\s*()|\\-height\\s+(?<height>[\\d]+)\\s*()){4}\\3\\5\\7\\9$"),
 

@@ -12,16 +12,19 @@ public class Units extends People {
 
     protected State state;
 
+    protected int efficientAttackingPower;
+
 
     public Units(int xLocation, int yLocation, UnitsName unitsName, User ownerPerson) {
         this.jobsName=null;
         this.unitsName=unitsName;
         this.xLocation=xLocation;
         this.yLocation=yLocation;
-        this.hitPoint=100;
+        this.hitPoint=500;
         this.state=State.STANDING;
         this.hasHorse=false;
         this.ownerPerson=ownerPerson;
+        efficientAttackingPower=unitsName.getAttackingPower();
 
     }
 
@@ -47,5 +50,17 @@ public class Units extends People {
 
     public void setState(State state) {
         this.state = state;
+    }
+
+    public void changeEfficientAttackingPower(int x){
+        efficientAttackingPower+=x;
+    }
+
+    public int getEfficientAttackingPower() {
+        return efficientAttackingPower;
+    }
+
+    public void setEfficientAttackingPower(int efficientAttackingPower) {
+        this.efficientAttackingPower = efficientAttackingPower;
     }
 }

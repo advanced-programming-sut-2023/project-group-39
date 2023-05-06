@@ -138,6 +138,9 @@ public class GameMenu {
             case PROBLEM:
                 System.out.println("position is out of archer's position");
                 break;
+            case INVALIDUNIT:
+                System.out.println("selected unit isn't archer");
+                break;
             default:
                 System.out.println("invalid command!");
                 break;
@@ -172,6 +175,9 @@ public class GameMenu {
         switch (message) {
             case SUCCESS:
                 System.out.println("tunnel dig was successfully");
+                break;
+            case WRONG_AMOUNT:
+                System.out.println("you enter wrong amount of x and y");
                 break;
             case INVALIDUNIT:
                 System.out.println("unit is invalid");
@@ -215,10 +221,13 @@ public class GameMenu {
 
     private static void makeGate(Matcher matcher) {
         String direction = matcher.group("direction");
-        GameMenuMessage message = GameControl.makeGate(direction);
+        int x= Integer.parseInt(matcher.group("x"));
+        int y= Integer.parseInt(matcher.group("y"));
+        String name=matcher.group("gateName");
+        GameMenuMessage message = GameControl.makeGate(name,direction,x,y);
         switch (message) {
             case SUCCESS:
-                System.out.println("gate with " + direction + "  created successfully");
+                System.out.println("  "+name+" with " + direction + "  created successfully");
                 break;
             case INVALIDDIRECTION:
                 System.out.println("direction is invalid");
@@ -442,7 +451,7 @@ public class GameMenu {
     private static void fillingDitch(Matcher matcher) {
 
     }
-    private  static void showEnemys(Tile tile){
+    public static void showEnemys(Tile tile){
 
     }
 }

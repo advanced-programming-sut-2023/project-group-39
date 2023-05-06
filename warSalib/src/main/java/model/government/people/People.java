@@ -42,4 +42,5 @@ public class People {
     public void setyLocation(int yLocation) {
         this.yLocation = yLocation;
     }
+
 }

@@ -105,6 +105,10 @@ public class Government {
         return tax;
     }
 
+    public ArrayList<Building> getBuildings() {
+        return buildings;
+    }
+
     public void setTax(Tax tax) { this.tax = tax; }
 
     public Religion getReligions() {
@@ -164,5 +168,9 @@ public class Government {
 
     public void setTaxRate(int taxRate) {
         this.taxRate = taxRate;
+    }
+
+    public ArrayList<People> getPeople() {
+        return people;
     }
 }

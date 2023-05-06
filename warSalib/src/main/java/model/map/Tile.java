@@ -18,9 +18,16 @@ public class Tile {
     private ArrayList <People> peopleOnTile;
     private Resource resource;
 
+    private boolean hasTunnel;
+
+    public boolean isHasTunnel() {
+        return hasTunnel;
+    }
+
     public Tile() {
         this.type = Type.GROUND;
         peopleOnTile = new ArrayList<>();
+        this.hasTunnel=false;
     }
 
     public Type getType() {
@@ -72,5 +79,8 @@ public class Tile {
     }
     public void clearAllPeopleOnTile() {
         peopleOnTile.clear();
+    }
+    public void setHasTunnel(boolean hasTunnel) {
+        this.hasTunnel = hasTunnel;
     }
 }

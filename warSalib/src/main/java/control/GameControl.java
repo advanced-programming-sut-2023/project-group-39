@@ -1,13 +1,20 @@
 package control;
 
 import model.Game;
+import model.government.building.Building;
+import model.government.building.Gatehouse;
+import model.government.building.Hovel;
 import model.government.people.People;
+import model.government.people.units.Archers;
+import model.government.people.units.Combat;
 import model.government.people.units.State;
 import model.government.people.units.Units;
+import model.government.resource.Resource;
 import model.map.Tile;
 import view.GameMenu;
 import view.enums.messages.GameMenuMessage;
 
+import javax.crypto.spec.DHGenParameterSpec;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -26,13 +33,11 @@ public class GameControl {
                 }
             }
         }
-        if(currentUnits.size()!=0){
+        if (currentUnits.size() != 0) {
             return GameMenuMessage.SUCCESS;
-        }
-        else {
+        } else {
             return GameMenuMessage.WITHOUTUNIT;
         }
-
 
 
     }
@@ -40,19 +45,19 @@ public class GameControl {
 
     public static GameMenuMessage moveUnit(int x, int y) {
         int v = 200 * 200;
-            if (x >= 200 || y >= 200 || x < 0 || y < 0) {
-                return GameMenuMessage.WRONG_AMOUNT;
-            }
-            if(!Game.getMapInGame().getMap()[x][y].getType().getPermeability()){
-                return GameMenuMessage.SEA_HIGHHEIGHT;
+        if (x >= 200 || y >= 200 || x < 0 || y < 0) {
+            return GameMenuMessage.WRONG_AMOUNT;
+        }
+        if (!Game.getMapInGame().getMap()[x][y].getType().getPermeability()) {
+            return GameMenuMessage.SEA_HIGHHEIGHT;
 
-            }
+        }
         ArrayList<ArrayList<Integer>> tilesNeighbors = new ArrayList<ArrayList<Integer>>(v);
         for (int i = 0; i < v; i++) {
             tilesNeighbors.add(new ArrayList<Integer>());
         }
         addNeighbors(tilesNeighbors);
-        GameMenuMessage message=printShortestDistance(tilesNeighbors,(200* currentUnits.get(0).getxLocation())+ currentUnits.get(0).getyLocation() ,(200*x)+y , v);
+        GameMenuMessage message = printShortestDistance(tilesNeighbors, (200 * currentUnits.get(0).getxLocation()) + currentUnits.get(0).getyLocation(), (200 * x) + y, v);
         return message;
     }
 
@@ -82,7 +87,7 @@ public class GameControl {
     }
 
     public static GameMenuMessage printShortestDistance(ArrayList<ArrayList<Integer>> neighborTiles, int tile1, int tile2, int v) {
-        int counter=0;
+        int counter = 0;
         int pred[] = new int[v];
         int dist[] = new int[v];
         if (BFS(neighborTiles, tile1, tile2, v, pred, dist) == false) {
@@ -96,23 +101,22 @@ public class GameControl {
             path.add(pred[crawl]);
             crawl = pred[crawl];
         }
-        int i=0;
+        int i = 0;
         System.out.println("Shortest path length is: " + dist[tile2]);
         System.out.println("Path is ::");
         for (i = path.size() - 1; i >= 0; i--) {
-            System.out.print("x:  "+path.get(i)/200+"y:    " +path.get(i)%200);
-            for (int u=0;u<currentUnits.size()-1;u++) {
+            System.out.print("x:  " + path.get(i) / 200 + "y:    " + path.get(i) % 200);
+            for (int u = 0; u < currentUnits.size() - 1; u++) {
                 currentUnits.get(u).setxLocation(path.get(i) / 200);
                 currentUnits.get(u).setyLocation(path.get(i) % 200);
             }
             counter++;
-            if(counter==currentUnits.get(0).getUnitsName().getSpeed()/20)
+            if (counter == currentUnits.get(0).getUnitsName().getSpeed() / 20)
                 break;
         }
-        if(path.size()>counter){
+        if (path.size() > counter) {
             return GameMenuMessage.BIGGERTHANSPEED;
-        }
-        else{
+        } else {
             return GameMenuMessage.SUCCESS;
 
         }
@@ -170,30 +174,52 @@ public class GameControl {
     }
 
     public static GameMenuMessage attack(int x, int y) {
-        int previousX= currentUnits.get(0).getxLocation();
-        int previousY=currentUnits.get(0).getyLocation();
+        int previousX = currentUnits.get(0).getxLocation();
+        int previousY = currentUnits.get(0).getyLocation();
         if (x >= 200 || y >= 200 || x < 0 || y < 0) {
             return GameMenuMessage.WRONG_AMOUNT;
         }
-        GameMenuMessage message=moveUnit(x,y);
-        if(message.equals(GameMenuMessage.BIGGERTHANSPEED)){
-            moveUnit(previousX,previousY);
+        GameMenuMessage message = moveUnit(x, y);
+        if (message.equals(GameMenuMessage.BIGGERTHANSPEED)) {
+            moveUnit(previousX, previousY);
             return GameMenuMessage.BIGGERTHANSPEED;
         }
         Tile tile = Game.getMapInGame().getMap()[x][y];
-       // showEnemys(tile);
-
-
-        return null;
+        attackToTile(tile);
+        return GameMenuMessage.SUCCESS;
 
     }
 
     public static GameMenuMessage airAttack(int x, int y) {
+        if (x < 0 || x >= 200 || y <= 0 || y >= 200) {
+            return GameMenuMessage.WRONG_AMOUNT;
+        }
+        int xDistance = x - currentUnits.get(0).getxLocation();
+        int yDistance = y - currentUnits.get(0).getyLocation();
+        double distance = Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
+        int dis = (int) distance;
+        if (currentUnits.get(0) instanceof Archers) {
+            if ((((Archers) currentUnits.get(0)).getArrowRadius() / 20) < dis) {
+                return GameMenuMessage.PROBLEM;
+            }
+            else {                                    //TODO make arraylist for arrows or stones of each archer
+                Tile tile=Game.getMapInGame().getMap()[x][y];
+                for (People people:tile.getPeopleOnTile()){
+                    if(people instanceof Units&&!people.getOwnerPerson().equals(currentUnits.get(0).getOwnerPerson())){
+                        double efficiently=((Archers) currentUnits.get(0)).getFatality()*((Archers) currentUnits.get(0)).getPrecision()/100;
+                        int eff=(int)efficiently;
+                        ((Units) people).changeHitPoint(-1*eff);  //TODO some building have special abilities
+                    }
+                    return GameMenuMessage.SUCCESS;
+                }
+            }
+        } else {
+            return GameMenuMessage.INVALIDUNIT;
+        }
         return null;
-
     }
 
-    public static GameMenuMessage pourOil(String direction) {
+    public static GameMenuMessage pourOil(String direction) {  //TODO what i shall do with oil
         return null;
 
     }
@@ -203,21 +229,48 @@ public class GameControl {
     }
 
     public static GameMenuMessage digTunnel(int x, int y) {
-        return null;
-
+        if(!invalidLocation(x, y))
+            return GameMenuMessage.WRONG_AMOUNT;
+        if(currentUnits.get(0).getUnitsName().getName().equals("sperman")){
+            Tile tile=Game.getMapInGame().getMap()[x][y];
+            tile.setHasTunnel(true);
+            return GameMenuMessage.SUCCESS;
+        }
+        else {
+            return GameMenuMessage.INVALIDUNIT;
+        }
     }
 
     public static GameMenuMessage build(String equipmentName) {
         return null;
     }
-
     public static GameMenuMessage disbandUnit() {
+        for (Building building:  currentUnits.get(0).getOwnerPerson().getUserGovernment().getBuildings()){
+            if(building instanceof Hovel){
+                Tile tile=Game.getMapInGame().getMap()[building.getX()][building.getY()];
+                while (currentUnits.get(0).getxLocation()!=building.getX()&&currentUnits.get(0).getyLocation()!=building.getX()){
+                    moveUnit(building.getX(),building.getY());
+                }
+            }
+            return GameMenuMessage.SUCCESS;
+        }
         return null;
     }
 
-    public static GameMenuMessage makeGate(String direction) {    //faghat ye ghale dare har hokoomat?
-        return null;
+    public static GameMenuMessage makeGate(String name,String direction,int x,int y) {    //faghat ye ghale dare har hokoomat?
+        if(direction.equals("forward")||direction.equals("backward")){
+            if((Gatehouse.makeGatehouseByName(name,x,y,Game.getCurrentUser().getUserGovernment(),direction))!=null){
+                if(name.equals("big stone gatehouse")){
+                    Game.getCurrentUser().getUserGovernment().removeFromResources(Resource.STONE,20);
+                    return GameMenuMessage.SUCCESS;
+                }
+            }
+            return null;
+        }
+        else {
+            return GameMenuMessage.INVALIDDIRECTION;
 
+        }
     }
 
     public static GameMenuMessage makeWall(int x, int y, int width) {
@@ -276,7 +329,6 @@ public class GameControl {
 
     public static GameMenuMessage openGate() {
         return null;
-
     }
 
     public static GameMenuMessage makeProtection() {
@@ -301,10 +353,42 @@ public class GameControl {
     public static GameMenuMessage fillingDitch(int x, int y) {
         return null;
     }
-    private static void fight(Units unit1,Units unit2){
+
+    private static void fight(Units unit1, Units unit2) {
+        float unit1ChangeHitPoint = unit2.getUnitsName().getAttackingPower() * unit2.getEfficientAttackingPower() / 500;
+        float unit2ChangeHitPoint = unit1.getUnitsName().getAttackingPower() * unit1.getEfficientAttackingPower() / 500;
+
+        unit1.changeHitPoint((int) (Math.floor(-1 * unit1ChangeHitPoint * (100 - unit1.getUnitsName().getDefensingPower())) / 100));
+        unit2.changeHitPoint((int) (Math.floor(-1 * unit2ChangeHitPoint * (100 - unit2.getUnitsName().getDefensingPower())) / 100));
+        unit1.changeEfficientAttackingPower(-5);
+        unit2.changeEfficientAttackingPower(-5);
     }
-    public void showEnemys(Tile tile){
-        GameMenu.showEnemys(tile);
+
+    private static void attackToTile(Tile tile) {
+        ArrayList<Units> deathUnits = new ArrayList<>();
+        for (Units unit : currentUnits) {
+            for (People enemyUnit : tile.getPeopleOnTile()) {
+                if (enemyUnit instanceof Units && !enemyUnit.getOwnerPerson().equals(Game.getCurrentUser())) {
+                    fight(unit, (Units) enemyUnit);
+                    if (unit.getHitPoint() < 0) {
+                        deathUnits.add(unit);
+                    }
+                    if (((Units) enemyUnit).getHitPoint() < 0) {
+                        deathUnits.add((Units) enemyUnit);
+                    }
+                }
+            }
+
+        }
+        for (Units deathUnit : deathUnits) {
+            deathUnit.getOwnerPerson().getUserGovernment().getPeople().remove(deathUnit);
+            System.out.println("Unit " + deathUnit.getUnitsName().getName() + "for owner: " + deathUnit.getOwnerPerson().getUsername() + " died");
+        }
+    }
+    public static boolean invalidLocation(int x, int y){
+        if(x<0||x>=200||y<=0||y>=200)
+            return false;
+        return true;
     }
 
 }
