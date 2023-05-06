@@ -23,7 +23,6 @@ public class MakingForceBuilding extends Building{
             resource.put(Resource.STONE, 15);
             if (government.hasEnoughResources(resource)) {
                 HashMap<People, Integer> forceOfBarrack = new HashMap<>();
-                //TODO : add people to hasmap
                 MakingForceBuilding barrack = new MakingForceBuilding(x, y, government, 1000, name, forceOfBarrack);
                 return barrack;
             }

@@ -91,6 +91,9 @@ public class BuildingMenu {
             case WRONG_AMOUNT:
                 System.out.println("you enter wrong amount of x and y");
                 break;
+            case NOT_EXIST_UNIT:
+                System.out.println("you enter wrong type of units");
+                break;
             case NOT_ENOUGH_POPULATION:
                 System.out.println("you don't have enough population");
                 break;

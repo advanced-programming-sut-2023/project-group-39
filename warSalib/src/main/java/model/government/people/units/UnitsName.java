@@ -9,9 +9,9 @@ public enum UnitsName {
 
     SPEARMAN("spear man", 60, 50, 15,  UnitsType.ARMY, false),
 
-    PIKEMAN("pike man", 20, 50, 75,  UnitsType.COMBAT, true),
+    PIKE_MAN("pike man", 20, 50, 75,  UnitsType.COMBAT, true),
 
-    MACEMAN("mace man", 50, 75, 50, UnitsType.ARMY, false),
+    MACE_MAN("mace man", 50, 75, 50, UnitsType.ARMY, false),
 
     SWORDSMEN("swords men", 10, 85, 85,  UnitsType.COMBAT, true),
 
@@ -21,10 +21,10 @@ public enum UnitsName {
 
     LADDERMAN("ladder man", 75, 0, 10,  UnitsType.ARMY, false),
 
-    BLACKMONK("blackmonk", 25, 50, 50,  UnitsType.COMBAT, true),
+    BLACKMONK("black monk", 25, 50, 50,  UnitsType.COMBAT, true),
 
     //arab people
-    ARCHERBOW("archerbow", 75, 25, 25, UnitsType.ARCHER, false),
+    ARCHER_BOW("archer bow", 75, 25, 25, UnitsType.ARCHER, false),
 
     SLAVES("slaves", 75, 10, 10,  UnitsType.COMBAT, false),
 
@@ -32,11 +32,11 @@ public enum UnitsName {
 
     ASSASSINS("assassin", 50, 50, 50,  UnitsType.ARMY, false),
 
-    HORSEARCHERS("horsearchers", 85, 25, 50,  UnitsType.ARCHER, false),
+    HORSE_ARCHERS("horse archers", 85, 25, 50,  UnitsType.ARCHER, false),
 
-    ARABIANSWORDSSMEN("arabianswordsmen", 85, 75, 75,  UnitsType.COMBAT, false),
+    ARABIAN_SWORDSMEN("arabian swordsmen", 85, 75, 75,  UnitsType.COMBAT, false),
 
-    FIRETHOWERS("firethowers", 85, 75, 25,  UnitsType.ARCHER, false);
+    FIRE_TOWERS("fire towers", 85, 75, 25,  UnitsType.ARCHER, false);
 
 
     private String name;
@@ -47,14 +47,16 @@ public enum UnitsName {
 
     private boolean hasArmour;
 
+    private int cost;
 
-    UnitsName(String name, int speed, int attackingPower, int defensingPower,  UnitsType unitsType, boolean hasArmour) {
+    UnitsName(String name, int speed, int attackingPower, int defensingPower,  UnitsType unitsType, boolean hasArmour, int cost) {
         this.name = name;
         this.speed = speed;
         this.attackingPower = attackingPower;
         this.defensingPower = defensingPower;
         this.unitsType = unitsType;
         this.hasArmour = hasArmour;
+        this.cost = cost;
     }
 
     public int getSpeed() {
@@ -67,6 +69,10 @@ public enum UnitsName {
 
     public String getName() {
         return name;
+    }
+
+    public int getCost() {
+        return cost;
     }
 
     public int getDefensingPower() {

@@ -2,6 +2,7 @@ package control;
 
 import model.Game;
 import model.government.building.Building;
+import model.government.people.units.UnitsName;
 import model.map.type.Type;
 import view.enums.commands.BuildingCommands;
 import view.enums.messages.BuildingMessage;
@@ -53,6 +54,8 @@ public class BuildingControl {
     public static BuildingMessage createUnit(String type, int count) {
         if (count <= 0)
             return BuildingMessage.WRONG_AMOUNT;
+        if (!isCorrectType(type))
+            return BuildingMessage.NOT_EXIST_UNIT;
 
         return null;
     }
@@ -67,6 +70,13 @@ public class BuildingControl {
             return BuildingMessage.SUCCESS;
     }
 
+    private static boolean isCorrectType(String type) {
+        for (UnitsName unitsName:UnitsName.values()) {
+            if (unitsName.getName().equals(type))
+                return true;
+        }
+        return false;
+    }
     private static boolean isEnoughStone() {
         return false;
     }
