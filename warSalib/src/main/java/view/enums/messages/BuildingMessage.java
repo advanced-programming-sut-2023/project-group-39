@@ -13,5 +13,6 @@ public enum BuildingMessage {
     NOT_ENOUGH_STONE,
     NEAR_ENEMY,
     NOT_GOOD_BUILDING,
-    NOT_EXIST_UNIT;
+    NOT_EXIST_UNIT,
+    HAS_FULL_HP;
 }

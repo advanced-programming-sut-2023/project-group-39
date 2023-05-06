@@ -18,7 +18,7 @@ public class Inn extends Building{
     ArrayList<People> peopleOfInn;
 
     public Inn(int x, int y, Government government, int hp, String type, String name) {
-        super(x, y, government, hp, type, name);
+        super(x, y, government, hp, type, name, 500);
     }
 
     public static Inn makeInnByName(String name, int x , int y, Government government) {

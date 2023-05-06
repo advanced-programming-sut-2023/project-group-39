@@ -12,8 +12,8 @@ public class Church extends Building{
     private final int addToPopularity = 2;
     private ArrayList<People> people;
 
-    public Church(int x, int y, Government government, int hp, String name) {
-        super(x, y, government, hp, "town building", name);
+    public Church(int x, int y, Government government, int hp, String name, int maxHp) {
+        super(x, y, government, hp, "town building", name, maxHp);
         improvePopularity(government);
     }
 
@@ -22,7 +22,7 @@ public class Church extends Building{
             HashMap<Resource, Integer> resource= new HashMap<>();
             resource.put(Resource.COIN, 250);
             if (government.hasEnoughResources(resource)) {
-                Church church = new Church(x, y, government, 600, name);
+                Church church = new Church(x, y, government, 600, name, 600);
                 return church;
             }
         }
@@ -30,7 +30,7 @@ public class Church extends Building{
             HashMap<Resource, Integer> resource= new HashMap<>();
             resource.put(Resource.COIN, 1000);
             if (government.hasEnoughResources(resource)) {
-                Church cathedral = new Church(x, y, government, 1000, name);
+                Church cathedral = new Church(x, y, government, 1000, name, 1000);
                 //TODO : MAKE PRIEST
                 return cathedral;
             }

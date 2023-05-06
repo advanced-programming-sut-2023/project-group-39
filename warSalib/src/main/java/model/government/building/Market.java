@@ -12,7 +12,7 @@ public class Market extends Building{
     private HashMap<Resource, Integer>resources;
 
     public Market(int x, int y, Government government, int hp) {
-        super(x, y, government, hp, "industry", "market");
+        super(x, y, government, hp, "industry", "market", hp);
         resources = new HashMap<>();
     }
     public static Market makeMarketByName(String name, int x , int y, Government government) {

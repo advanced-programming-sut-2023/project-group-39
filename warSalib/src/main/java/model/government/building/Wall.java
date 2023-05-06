@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 public class Wall extends Building{
     public Wall(int x, int y, Government government, int hp, String type, String name) {
-        super(x, y, government, hp, type, name);
+        super(x, y, government, hp, type, name, hp);
     }
 
     public static Wall makeWallByName(String name, int x, int y, Government government) {

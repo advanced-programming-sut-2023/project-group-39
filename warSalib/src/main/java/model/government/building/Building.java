@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 abstract public class Building {
+
+    private boolean isNearEnemy = true;
     private Government government;
     private HashMap<String, Integer> workerDataBase;
     private ArrayList<People> workerWorked;
@@ -17,9 +19,10 @@ abstract public class Building {
     private String type;
 
     private String name;
+    private int maxHP;
     private int x, y;
 
-    public Building(int x, int y, Government government, int hp, String type, String name) {
+    public Building(int x, int y, Government government, int hp, String type, String name, int maxHP) {
         this.x = x;
         this.y = y;
         this.hp = hp;
@@ -28,6 +31,7 @@ abstract public class Building {
         this.name = name;
         workerDataBase = new HashMap<>();
         workerWorked = new ArrayList<>();
+        this.maxHP = maxHP;
     }
 
     public static GroupOfBuilding getGroupByName(String name) {
@@ -149,6 +153,22 @@ abstract public class Building {
 
     public void setWorkerDataBase(String people, int number) {
         workerDataBase.put(people, number);
+    }
+
+    public int getMaxHP() {
+        return maxHP;
+    }
+
+    public void setMaxHP(int maxHP) {
+        this.maxHP = maxHP;
+    }
+
+    public boolean isNearEnemy() {
+        return isNearEnemy;
+    }
+
+    public void setNearEnemy(boolean nearEnemy) {
+        isNearEnemy = nearEnemy;
     }
 
     public static boolean isAppropriateGround(Type type, String name) {

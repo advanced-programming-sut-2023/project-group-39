@@ -13,7 +13,7 @@ public class MineBuilding extends Building{
     private Resource resource;
 
     public MineBuilding(int x, int y, Government government, int hp, String name, int rate, Resource resource) {
-        super(x, y, government, hp, "industry", name);
+        super(x, y, government, hp, "industry", name, hp);
         this.rate = rate;
         this.resource = resource;
     }

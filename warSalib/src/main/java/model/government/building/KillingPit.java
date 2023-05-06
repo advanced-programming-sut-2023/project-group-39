@@ -10,7 +10,7 @@ public class KillingPit extends Building{
     private final int damage = 300;
 
     public KillingPit(int x, int y, Government government, int hp, String type, String name) {
-        super(x, y, government, hp, type, name);
+        super(x, y, government, hp, type, name, 600);
     }
 
     public static KillingPit makeKillingPitByName(String name, int x ,int y, Government government) {

@@ -14,7 +14,7 @@ public class Tower extends Building{
     ArrayList<People> peopleOfTower;
 
     public Tower(int x, int y, Government government, int hp, String type, String name, int defendRange) {
-        super(x, y, government, hp, type, name);
+        super(x, y, government, hp, type, name, hp);
         this.defendRange = defendRange;
     }
 

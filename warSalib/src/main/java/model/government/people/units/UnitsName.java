@@ -31,7 +31,7 @@ public enum UnitsName {
     LADDER_MAN("ladder man", 75, 0, 10,  UnitsType.ARMY, false
             , 15, "engineer guild"),
 
-    BLACKMONK("black monk", 25, 50, 50,  UnitsType.COMBAT, true
+    BLACK_MONK("black monk", 25, 50, 50,  UnitsType.COMBAT, true
             , 20, "barrack"),
 
     //arab people
@@ -70,7 +70,6 @@ public enum UnitsName {
 
     private int cost;
     private String building;
-
     UnitsName(String name, int speed, int attackingPower, int defensingPower,  UnitsType unitsType, boolean hasArmour, int cost
     ,String building) {
         this.name = name;

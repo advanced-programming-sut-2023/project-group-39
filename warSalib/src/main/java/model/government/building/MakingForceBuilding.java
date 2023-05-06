@@ -12,7 +12,7 @@ import java.util.HashMap;
 public class MakingForceBuilding extends Building{
 
     public MakingForceBuilding(int x, int y, Government government, int hp, String name) {
-        super(x, y, government, hp, "castle building", name);
+        super(x, y, government, hp, "castle building", name, hp);
     }
 
     public static MakingForceBuilding makeMakingForceBuildingByName(String name, int x ,int y, Government government) {

@@ -13,7 +13,7 @@ public class ProductiveBuilding extends Building {
 
     public ProductiveBuilding(int x, int y, Government government, int hp, String type, String name, int rate,
                               Resource resourceThatMake) {
-        super(x, y, government, hp, type, name);
+        super(x, y, government, hp, type, name, hp);
         this.rate = rate;
         this.resourceThatMake = resourceThatMake;
     }

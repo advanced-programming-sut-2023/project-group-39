@@ -21,8 +21,6 @@ public class Government {
     private User user;
     private HashMap<Food, Integer> foods;
 
-    private HashMap<Resource,Integer> resourcesHashmap;
-
     private int foodRate;
 
     private int taxRate;
@@ -34,7 +32,7 @@ public class Government {
     private ArrayList<Request> requests;
     private ArrayList<People> people;
     private ArrayList<Building> buildings;
-    public static HashMap<Resource, Integer> resources;
+    private HashMap<Resource, Integer> resources;
     public static LinkedHashMap<User, HashMap<Resource, Integer>> tradeHistory;
     private Fear fear;
 
@@ -55,12 +53,12 @@ public class Government {
 
 //    public HashMap<Resource, Integer> getResources() { return resources; }
 
-    public static void addToResources(Resource resource) {
+    public void addToResources(Resource resource) {
         if (resources.containsKey(resource)) resources.put(resource, resources.get(resource) + 1);
         else resources.put(resource, 1);
     }
 
-    public static void removeFromResources(Resource resource, int number) {
+    public void removeFromResources(Resource resource, int number) {
         if (resources.get(resource) < number) System.out.println("there are not enough resources in storehouse");
         else if (resources.get(resource) == number) resources.remove(resource);
         else resources.put(resource, resources.get(resource) - number);
@@ -125,15 +123,15 @@ public class Government {
         return requests;
     }
 
-    public static void changePopularityByFoods(HashMap<Integer, Food> foods) {
+    public void changePopularityByFoods(HashMap<Integer, Food> foods) {
 
     }
 
-    public static void changePopularityByFear(Fear fear) {
+    public void changePopularityByFear(Fear fear) {
 
     }
 
-    public static void changePopularityByTax(Tax tax) {
+    public void changePopularityByTax(Tax tax) {
 
     }
 
@@ -147,11 +145,6 @@ public class Government {
 
     public int getTaxRate() {
         return taxRate;
-    }
-
-
-    public HashMap<Resource, Integer> getResourcesHashmap() {
-        return resourcesHashmap;
     }
 
     public HashMap<Resource, Integer> getResources() {
