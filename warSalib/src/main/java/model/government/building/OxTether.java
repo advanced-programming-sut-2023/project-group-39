@@ -20,7 +20,7 @@ public class OxTether extends Building{
             resource.put(Resource.WOOD, 5);
             if (government.hasEnoughResources(resource)) {
                 OxTether oxTether = new OxTether(x, y, government, 150);
-                oxTether.setWorkerDataBase();
+                //oxTether.setWorkerDataBase();
                 return oxTether;
             }
         }

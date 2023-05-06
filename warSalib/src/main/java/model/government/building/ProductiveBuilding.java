@@ -35,7 +35,7 @@ public class ProductiveBuilding extends Building {
             if (government.hasEnoughResources(resource)) {
                 ProductiveBuilding oilSmelter = new ProductiveBuilding(x, y, government, 600, "industry",
                         "oil smelter", 50, Resource.OIL);
-                oilSmelter.setWorkerDataBase();
+                //oilSmelter.setWorkerDataBase();
                 return oilSmelter;
             }
         }
@@ -80,7 +80,7 @@ public class ProductiveBuilding extends Building {
             if (government.hasEnoughResources(resource)) {
                 ProductiveBuilding huntingPost = new ProductiveBuilding(x, y, government, 300, "farm building"
                         , "hunting post", 20, Resource.MEAT);
-                huntingPost.setWorkerDataBase();
+                //huntingPost.setWorkerDataBase();
                 return huntingPost;
             }
         }

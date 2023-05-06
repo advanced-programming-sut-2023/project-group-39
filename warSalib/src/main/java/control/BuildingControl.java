@@ -56,7 +56,7 @@ public class BuildingControl {
             return BuildingMessage.WRONG_AMOUNT;
         if (!isCorrectType(type))
             return BuildingMessage.NOT_EXIST_UNIT;
-
+        
         return null;
     }
     public static BuildingMessage repair() {

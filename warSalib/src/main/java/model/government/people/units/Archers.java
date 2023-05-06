@@ -50,7 +50,7 @@ public class Archers extends Units{
             this.arrowInMove=true;
             this.hasHorse=true;
         }
-        else if(unitsName.getName().equals("fire towers")){
+        else if(unitsName.getName().equals("fire throwers")){
             this.precision=80;
             this.arrowRadius=60;
             this.fatality=80;

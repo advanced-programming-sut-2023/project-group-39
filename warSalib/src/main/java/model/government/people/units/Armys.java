@@ -9,7 +9,7 @@ public class Armys extends Units {
 
     public Armys(int xLocation, int yLocation, UnitsName unitsName, User ownerPerson) {
         super(xLocation, yLocation, unitsName,ownerPerson);
-        if (unitsName.getName().equals("sper man")) {
+        if (unitsName.getName().equals("spear man")) {
             specialWorks.add(SpecialWorks.CANDIGMOAT);
             specialWorks.add(SpecialWorks.CANCLIMBLADDER);
         } else if (unitsName.getName().equals("mace man")) {

@@ -1,42 +1,63 @@
 package model.government.people.units;
 
+import model.government.people.engineer.Engineer;
 import model.wartool.wartoolenum;
 
 public enum UnitsName {
-    ARCHER("archer", 75, 25, 25,  UnitsType.ARCHER, false),
+    ARCHER("archer", 75, 25, 25,  UnitsType.ARCHER, false, 40
+            , "barrack"),
 
-    CROSSBOWMEN("crossbowmen", 20, 25,  100, UnitsType.ARCHER, false),
+    CROSSBOWMEN("crossbowmen", 20, 25,  100, UnitsType.ARCHER, false
+            , 20, "barrack"),
 
-    SPEARMAN("spear man", 60, 50, 15,  UnitsType.ARMY, false),
+    SPEARMAN("spear man", 60, 50, 15,  UnitsType.ARMY, false, 24
+            , "barrack"),
 
-    PIKE_MAN("pike man", 20, 50, 75,  UnitsType.COMBAT, true),
+    PIKE_MAN("pike man", 20, 50, 75,  UnitsType.COMBAT, true, 45
+            , "barrack"),
 
-    MACE_MAN("mace man", 50, 75, 50, UnitsType.ARMY, false),
+    MACE_MAN("mace man", 50, 75, 50, UnitsType.ARMY, false, 52
+            , "barrack"),
 
-    SWORDSMEN("swords men", 10, 85, 85,  UnitsType.COMBAT, true),
+    SWORDSMEN("swords men", 10, 85, 85,  UnitsType.COMBAT, true
+            , 80, "barrack"),
 
-    KNIGHT("knight", 85, 85, 80,  UnitsType.COMBAT, false),
+    KNIGHT("knight", 85, 85, 80,  UnitsType.COMBAT, false, 150
+            , "barrack"),
 
-    TUNNELER("tunneler", 75, 50, 10, UnitsType.ARMY, false),
+    TUNNELER("tunneler", 75, 50, 10, UnitsType.ARMY, false, 30
+            , "barrack"),
 
-    LADDERMAN("ladder man", 75, 0, 10,  UnitsType.ARMY, false),
+    LADDER_MAN("ladder man", 75, 0, 10,  UnitsType.ARMY, false
+            , 15, "engineer guild"),
 
-    BLACKMONK("black monk", 25, 50, 50,  UnitsType.COMBAT, true),
+    BLACKMONK("black monk", 25, 50, 50,  UnitsType.COMBAT, true
+            , 20, "barrack"),
 
     //arab people
-    ARCHER_BOW("archer bow", 75, 25, 25, UnitsType.ARCHER, false),
+    ARCHER_BOW("archer bow", 75, 25, 25, UnitsType.ARCHER, false,
+            35, "mercenary post"),
 
-    SLAVES("slaves", 75, 10, 10,  UnitsType.COMBAT, false),
+    SLAVES("slaves", 75, 10, 10,  UnitsType.COMBAT, false, 15
+            , "mercenary post"),
 
-    SLINGERS("slingers", 75, 25, 10,  UnitsType.ARCHER, false),
+    SLINGERS("slingers", 75, 25, 10,  UnitsType.ARCHER, false, 17
+            , "mercenary post"),
 
-    ASSASSINS("assassin", 50, 50, 50,  UnitsType.ARMY, false),
+    ASSASSINS("assassin", 50, 50, 50,  UnitsType.ARMY, false, 30,
+            "mercenary post"),
 
-    HORSE_ARCHERS("horse archers", 85, 25, 50,  UnitsType.ARCHER, false),
+    HORSE_ARCHERS("horse archers", 85, 25, 50,  UnitsType.ARCHER,
+            false, 35, "mercenary post"),
 
-    ARABIAN_SWORDSMEN("arabian swordsmen", 85, 75, 75,  UnitsType.COMBAT, false),
+    ARABIAN_SWORDSMEN("arabian swordsmen", 85, 75, 75,  UnitsType.COMBAT
+            , false, 70, "mercenary post"),
 
-    FIRE_TOWERS("fire towers", 85, 75, 25,  UnitsType.ARCHER, false);
+    FIRE_THROWERS("fire throwers", 85, 75, 25,  UnitsType.ARCHER
+            , false, 60, "mercenary post"),
+    ENGINEER("engineer", 40, 0, 20, UnitsType.ENGINEER
+            , false, 50, "engineer guild");
+    ;
 
 
     private String name;
@@ -48,8 +69,10 @@ public enum UnitsName {
     private boolean hasArmour;
 
     private int cost;
+    private String building;
 
-    UnitsName(String name, int speed, int attackingPower, int defensingPower,  UnitsType unitsType, boolean hasArmour, int cost) {
+    UnitsName(String name, int speed, int attackingPower, int defensingPower,  UnitsType unitsType, boolean hasArmour, int cost
+    ,String building) {
         this.name = name;
         this.speed = speed;
         this.attackingPower = attackingPower;
@@ -57,6 +80,7 @@ public enum UnitsName {
         this.unitsType = unitsType;
         this.hasArmour = hasArmour;
         this.cost = cost;
+        this.building = building;
     }
 
     public int getSpeed() {
@@ -77,6 +101,10 @@ public enum UnitsName {
 
     public int getDefensingPower() {
         return defensingPower;
+    }
+
+    public String getBuilding() {
+        return building;
     }
 
     public UnitsType getUnitsType() {
