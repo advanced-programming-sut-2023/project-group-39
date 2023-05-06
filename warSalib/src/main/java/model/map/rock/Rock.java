@@ -1,15 +1,16 @@
 package model.map.rock;
 
 import model.map.Tile;
+import model.map.type.Type;
 
 public class Rock {
 
     private String direction;
-    private Tile tile;
+    private Type type;
 
-    public Rock(String direction, Tile tile) {
+    public Rock(String direction, Type type) {
         this.direction = direction;
-        this.tile = tile;
+        this.type = type;
     }
 
     public String getDirection() {
@@ -20,11 +21,11 @@ public class Rock {
         this.direction = direction;
     }
 
-    public Tile getTile() {
-        return tile;
+    public Type getType() {
+        return type;
     }
 
-    public void setTile(Tile tile) {
-        this.tile = tile;
+    public void setType(Type type) {
+        this.type = type;
     }
 }

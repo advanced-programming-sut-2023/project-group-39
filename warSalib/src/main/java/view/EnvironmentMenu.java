@@ -113,6 +113,9 @@ public class EnvironmentMenu {
             case WRONG_AMOUNT:
                 System.out.println("you enter wrong x and y");
                 break;
+            case WRONG_TYPE:
+                System.out.println("you can't drop rock in this type");
+                break;
             case WRONG_DIRECTION:
                 System.out.println("you enter wrong direction");
                 break;
