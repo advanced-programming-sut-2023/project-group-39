@@ -63,7 +63,7 @@ public class BuildingControl {
             return BuildingMessage.NOT_ENOUGH_STONE;
         else if (isNearEnemyForce(Game.getSelectedBuilding()))
             return BuildingMessage.NEAR_ENEMY;
-        Game.getSelectedBuilding().setHp();
+
             return BuildingMessage.SUCCESS;
     }
 
