@@ -1,9 +1,7 @@
 package control;
 
 import model.Game;
-import model.government.building.Building;
-import model.government.building.Gatehouse;
-import model.government.building.Hovel;
+import model.government.building.*;
 import model.government.people.People;
 import model.government.people.units.Archers;
 import model.government.people.units.Combat;
@@ -201,14 +199,13 @@ public class GameControl {
         if (currentUnits.get(0) instanceof Archers) {
             if ((((Archers) currentUnits.get(0)).getArrowRadius() / 20) < dis) {
                 return GameMenuMessage.PROBLEM;
-            }
-            else {                                    //TODO make arraylist for arrows or stones of each archer
-                Tile tile=Game.getMapInGame().getMap()[x][y];
-                for (People people:tile.getPeopleOnTile()){
-                    if(people instanceof Units&&!people.getOwnerPerson().equals(currentUnits.get(0).getOwnerPerson())){
-                        double efficiently=((Archers) currentUnits.get(0)).getFatality()*((Archers) currentUnits.get(0)).getPrecision()/100;
-                        int eff=(int)efficiently;
-                        ((Units) people).changeHitPoint(-1*eff);  //TODO some building have special abilities
+            } else {                                    //TODO make arraylist for arrows or stones of each archer
+                Tile tile = Game.getMapInGame().getMap()[x][y];
+                for (People people : tile.getPeopleOnTile()) {
+                    if (people instanceof Units && !people.getOwnerPerson().equals(currentUnits.get(0).getOwnerPerson())) {
+                        double efficiently = ((Archers) currentUnits.get(0)).getFatality() * ((Archers) currentUnits.get(0)).getPrecision() / 100;
+                        int eff = (int) efficiently;
+                        ((Units) people).changeHitPoint(-1 * eff);  //TODO some building have special abilities
                     }
                     return GameMenuMessage.SUCCESS;
                 }
@@ -229,14 +226,17 @@ public class GameControl {
     }
 
     public static GameMenuMessage digTunnel(int x, int y) {
-        if(!invalidLocation(x, y))
+        if (!invalidLocation(x, y))
             return GameMenuMessage.WRONG_AMOUNT;
-        if(currentUnits.get(0).getUnitsName().getName().equals("sperman")){
-            Tile tile=Game.getMapInGame().getMap()[x][y];
+        if (currentUnits.get(0).getUnitsName().getName().equals("sperman")) {
+            Tile tile = Game.getMapInGame().getMap()[x][y];
+            if (tile.getBuilding().getName().equals("lookout tower") || tile.getBuilding().getName().equals("perimeter tower") || tile.getBuilding().getName().equals("square tower") || tile.getBuilding().getName().equals("circle tower")) {
+                return GameMenuMessage.CANT_DIG;
+
+            }
             tile.setHasTunnel(true);
             return GameMenuMessage.SUCCESS;
-        }
-        else {
+        } else {
             return GameMenuMessage.INVALIDUNIT;
         }
     }
@@ -244,12 +244,13 @@ public class GameControl {
     public static GameMenuMessage build(String equipmentName) {
         return null;
     }
+
     public static GameMenuMessage disbandUnit() {
-        for (Building building:  currentUnits.get(0).getOwnerPerson().getUserGovernment().getBuildings()){
-            if(building instanceof Hovel){
-                Tile tile=Game.getMapInGame().getMap()[building.getX()][building.getY()];
-                while (currentUnits.get(0).getxLocation()!=building.getX()&&currentUnits.get(0).getyLocation()!=building.getX()){
-                    moveUnit(building.getX(),building.getY());
+        for (Building building : currentUnits.get(0).getOwnerPerson().getUserGovernment().getBuildings()) {
+            if (building instanceof Hovel) {
+                Tile tile = Game.getMapInGame().getMap()[building.getX()][building.getY()];
+                while (currentUnits.get(0).getxLocation() != building.getX() && currentUnits.get(0).getyLocation() != building.getX()) {
+                    moveUnit(building.getX(), building.getY());
                 }
             }
             return GameMenuMessage.SUCCESS;
@@ -257,24 +258,52 @@ public class GameControl {
         return null;
     }
 
-    public static GameMenuMessage makeGate(String name,String direction,int x,int y) {    //faghat ye ghale dare har hokoomat?
-        if(direction.equals("forward")||direction.equals("backward")){
-            if((Gatehouse.makeGatehouseByName(name,x,y,Game.getCurrentUser().getUserGovernment(),direction))!=null){
-                if(name.equals("big stone gatehouse")){
-                    Game.getCurrentUser().getUserGovernment().removeFromResources(Resource.STONE,20);
+    public static GameMenuMessage makeGate(String name, String direction, int x, int y) {//faghat ye ghale dare har hokoomat?
+        if (!invalidLocation(x, y))
+            return GameMenuMessage.WRONG_AMOUNT;
+        Tile tile = Game.getMapInGame().getMap()[x][y];
+        Building building;
+        if (tile.getBuilding() != null)
+            return GameMenuMessage.HAS_BUILDING;
+        if (direction.equals("forward") || direction.equals("backward")) {
+            if ((building = (Gatehouse.makeGatehouseByName(name, x, y, Game.getCurrentUser().getUserGovernment(), direction))) != null) {
+                tile.setBuilding(building);
+
+                if (name.equals("big stone gatehouse")) {
+                    Game.getCurrentUser().getUserGovernment().removeFromResources(Resource.STONE, 20);
                     return GameMenuMessage.SUCCESS;
                 }
             }
             return null;
-        }
-        else {
+        } else {
             return GameMenuMessage.INVALIDDIRECTION;
 
         }
     }
 
-    public static GameMenuMessage makeWall(int x, int y, int width) {
-        return null;
+    public static GameMenuMessage makeWall(int x, int y, String type) {
+        if (!invalidLocation(x, y))
+            return GameMenuMessage.WRONG_AMOUNT;
+        if (type.equals("small wall") || type.equals("great wall")) {
+            Tile tile = Game.getMapInGame().getMap()[x][y];
+            if (tile.getBuilding() != null)
+                return GameMenuMessage.HAS_BUILDING;
+            Building building;
+            if ((building = Wall.makeWallByName(type, x, y, Game.getCurrentUser().getUserGovernment())) != null) {
+                tile.setBuilding(building);
+                if (type.equals("small wall")) {
+                    Game.getCurrentUser().getUserGovernment().removeFromResources(Resource.STONE, 2);
+                    return GameMenuMessage.SUCCESS;
+                } else {
+                    Game.getCurrentUser().getUserGovernment().removeFromResources(Resource.STONE, 4);
+                    return GameMenuMessage.SUCCESS;
+
+                }
+            }
+            return null;
+        } else {
+            return GameMenuMessage.INVALID_TYPE;
+        }
 
     }
 
@@ -283,11 +312,47 @@ public class GameControl {
 
     }
 
-    public static GameMenuMessage makeTower(String type) {
+    public static GameMenuMessage makeTower(int x, int y, String type) {
+        if (type.equals("lookout tower") || type.equals("perimeter tower") || type.equals("defensive tower") || type.equals("square tower") || type.equals("circle tower")) {
+            Tile tile = Game.getMapInGame().getMap()[x][y];
+            if (tile.getBuilding() != null)
+                return GameMenuMessage.HAS_BUILDING;
+            Building building;
+            if ((building = Tower.makeTowerByName(type, x, y, Game.getCurrentUser().getUserGovernment())) != null) {
+               tile.setBuilding(building);
+               if(building.getName().equals("lookout tower")) {
+                   Game.getCurrentUser().getUserGovernment().removeFromResources(Resource.STONE, 10);
+                   return GameMenuMessage.SUCCESS;
+               }
+                if(building.getName().equals("perimeter tower")) {
+                    Game.getCurrentUser().getUserGovernment().removeFromResources(Resource.STONE, 10);
+                    return GameMenuMessage.SUCCESS;
+                }
+                if(building.getName().equals("defensive tower")) {
+                    Game.getCurrentUser().getUserGovernment().removeFromResources(Resource.STONE, 15);
+                    return GameMenuMessage.SUCCESS;
+                }
+                if(building.getName().equals("square tower")) {
+                    Game.getCurrentUser().getUserGovernment().removeFromResources(Resource.STONE, 35);
+                    return GameMenuMessage.SUCCESS;
+                }
+                if(building.getName().equals("circle tower")) {
+                    Game.getCurrentUser().getUserGovernment().removeFromResources(Resource.STONE, 40);
+                    return GameMenuMessage.SUCCESS;
+                }
+
+
+
+            } else {
+                return null;
+            }
+        } else {
+            return GameMenuMessage.INVALID_TYPE;
+
+        }
         return null;
 
     }
-
 
     public static GameMenuMessage makeKillerTale(int x, int y) {
         return null;
@@ -385,8 +450,9 @@ public class GameControl {
             System.out.println("Unit " + deathUnit.getUnitsName().getName() + "for owner: " + deathUnit.getOwnerPerson().getUsername() + " died");
         }
     }
-    public static boolean invalidLocation(int x, int y){
-        if(x<0||x>=200||y<=0||y>=200)
+
+    public static boolean invalidLocation(int x, int y) {
+        if (x < 0 || x >= 200 || y <= 0 || y >= 200)
             return false;
         return true;
     }

@@ -179,6 +179,9 @@ public class GameMenu {
             case WRONG_AMOUNT:
                 System.out.println("you enter wrong amount of x and y");
                 break;
+            case CANT_DIG:
+                System.out.println("you cant dig tunnel on this location");
+                break;
             case INVALIDUNIT:
                 System.out.println("unit is invalid");
                 break;
@@ -229,6 +232,9 @@ public class GameMenu {
             case SUCCESS:
                 System.out.println("  "+name+" with " + direction + "  created successfully");
                 break;
+            case WRONG_AMOUNT:
+                System.out.println("you enter wrong amount of x and y");
+                break;
             case INVALIDDIRECTION:
                 System.out.println("direction is invalid");
                 break;
@@ -241,9 +247,8 @@ public class GameMenu {
     private static void makeWall(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
-        int width = Integer.parseInt(matcher.group("width"));
-        int height = Integer.parseInt(matcher.group("height"));
-        GameMenuMessage message = GameControl.makeWall(x, y, width);
+        String type=matcher.group("wall type").trim();
+        GameMenuMessage message = GameControl.makeWall(x, y, type);
         switch (message) {
             case SUCCESS:
                 System.out.println("wall build successfully");
@@ -251,8 +256,11 @@ public class GameMenu {
             case WRONG_AMOUNT:
                 System.out.println("you enter wrong amount of x and y");
                 break;
-            case NOTENOUGHRESOURCE:
-                System.out.println("your resource is not enough");
+            case INVALID_TYPE:
+                System.out.println("we dont have this format for wall");
+                break;
+            case HAS_BUILDING:
+                System.out.println("we have building on this location");
                 break;
             default:
                 System.out.println("invalid command!!");
@@ -263,14 +271,22 @@ public class GameMenu {
     }
 
     private static void makeTower(Matcher matcher) {
+        int x=Integer.parseInt(matcher.group("x"));
+        int y=Integer.parseInt(matcher.group("y"));
         String type = matcher.group("type");
-        GameMenuMessage message = GameControl.makeTower(type);
+        GameMenuMessage message = GameControl.makeTower(x,y,type);
         switch (message) {
             case SUCCESS:
                 System.out.println("tower build successfully");
                 break;
             case NOTENOUGHRESOURCE:
                 System.out.println("your resource is not enough");
+                break;
+            case INVALID_TYPE:
+                System.out.println("we dont have this format of tower");
+                break;
+            case HAS_BUILDING:
+                System.out.println("we have building on this location");
                 break;
             default:
                 System.out.println("invalid command!!");

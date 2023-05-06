@@ -27,9 +27,9 @@ public enum GameMenuCommands {
 
    // MAKEGATE("make\\s+gate\\s+(?<direction>.+)"),
 
-    MAKEWALL("make\\s+wall(\\-x\\s+(?<x>[\\d]+)\\s*()|\\-y\\s+(?<y>[\\d]+)\\s*()|\\-width\\s+(?<width>[\\d]+)\\s*()|\\-height\\s+(?<height>[\\d]+)\\s*()){4}\\3\\5\\7\\9$"),
+    MAKE_WALL("build\\s+\\s+-q\\s+(?<x>[\\d]+)\\s+(?<y>[\\d]+)\\s+(?<wall type>[\\S]+\\s+wall)"),
 
-   MAKETOWER("make\\s+(?<type>[\\S]+)\\s+tower"),
+   MAKETOWER("build\\s+-q\\s+(?<x>[\\d]+)\\s+(?<y>[\\d]+)\\s+(?<type>[\\S]+\\s+tower)"),
 
     MAKETALE("make\\s+tale(\\-x\\s+(?<x>[\\d]+)\\s*()|\\-y\\s+(?<y>[\\d]+)\\s*()){2}\\3\\5$"),
 

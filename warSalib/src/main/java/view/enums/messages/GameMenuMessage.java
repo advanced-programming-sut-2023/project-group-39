@@ -26,4 +26,10 @@ public enum GameMenuMessage {
     INVALIDPOSITION,
 
     INVALIDDITCH,
+
+    HAS_BUILDING,
+    INVALID_TYPE,
+
+    CANT_DIG,
+
 }
