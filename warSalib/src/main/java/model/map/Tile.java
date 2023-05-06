@@ -20,6 +20,13 @@ public class Tile {
 
     private boolean hasTunnel;
 
+    private boolean hasKillerTale;
+
+
+    private boolean hasStair;
+
+    private boolean hasOilTale;
+
     public boolean isHasTunnel() {
         return hasTunnel;
     }
@@ -82,5 +89,29 @@ public class Tile {
     }
     public void setHasTunnel(boolean hasTunnel) {
         this.hasTunnel = hasTunnel;
+    }
+
+    public boolean isHasStair() {
+        return hasStair;
+    }
+
+    public void setHasStair(boolean hasStair) {
+        this.hasStair = hasStair;
+    }
+
+    public boolean isHasKillerTale() {
+        return hasKillerTale;
+    }
+
+    public void setHasKillerTale(boolean hasKillerTale) {
+        this.hasKillerTale = hasKillerTale;
+    }
+
+    public void setHasOilTale(boolean hasOilTale) {
+        this.hasOilTale = hasOilTale;
+    }
+
+    public boolean isHasOilTale() {
+        return hasOilTale;
     }
 }

@@ -29,13 +29,17 @@ public enum GameMenuCommands {
 
     MAKE_WALL("build\\s+\\s+-q\\s+(?<x>[\\d]+)\\s+(?<y>[\\d]+)\\s+(?<wall type>[\\S]+\\s+wall)"),
 
-   MAKETOWER("build\\s+-q\\s+(?<x>[\\d]+)\\s+(?<y>[\\d]+)\\s+(?<type>[\\S]+\\s+tower)"),
+    MAKE_STAIR("build\\s+-q\\s+(?<x>[\\d]+)\\s+(?<y>[\\d]+)\\s+stair"),
+
+   MAKE_TOWER("build\\s+-q\\s+(?<x>[\\d]+)\\s+(?<y>[\\d]+)\\s+(?<type>[\\S]+\\s+tower)"),
 
     MAKETALE("make\\s+tale(\\-x\\s+(?<x>[\\d]+)\\s*()|\\-y\\s+(?<y>[\\d]+)\\s*()){2}\\3\\5$"),
 
-    MAKEKILLERTALE("make\\s+killer\\s+tale\\s+(\\-x\\s+(?<x>[\\d]+)()|\\-y\\s+(?<y>[\\d]+)\\s*())");
+    MAKE_KILLER_TALE("build\\s+-q\\s+(?<x>[\\d]+)\\s+(?<y>[\\d]+)\\s+killer\\stale"),
 
-   // MAKE
+    MAKE_OIL_TALE("build\\s+-q\\s+(?<x>[\\d]+)\\s+(?<y>[\\d]+)\\s+oil\\stale");
+
+
 
     private String regex;
 

@@ -16,11 +16,17 @@ public class Gatehouse extends Building {
 
     private ArrayList<People> peopleLiveIn;
 
+    private boolean openGate;
+
+    private boolean hasFlag;
+
     public Gatehouse(int x, int y, Government government, int hp, String name, int people,String direction) {
         super(x, y, government, hp, "castle building", name);
         this.people = people;
         peopleLiveIn = new ArrayList<>();
         this.direction=direction;
+        this.openGate=false;
+        this.hasFlag=false;
     }
 
     public static Gatehouse makeGatehouseByName(String name, int x, int y, Government government,String direction) {
@@ -61,5 +67,21 @@ public class Gatehouse extends Building {
 
     public ArrayList<People> getPeopleLiveIn() {
         return peopleLiveIn;
+    }
+
+    public void setOpenGate(boolean openGate) {
+        this.openGate = openGate;
+    }
+
+    public boolean isOpenGate() {
+        return openGate;
+    }
+
+    public void setHasFlag(boolean hasFlag) {
+        this.hasFlag = hasFlag;
+    }
+
+    public boolean isHasFlag() {
+        return hasFlag;
     }
 }

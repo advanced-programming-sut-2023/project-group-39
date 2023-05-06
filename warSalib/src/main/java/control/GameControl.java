@@ -243,7 +243,7 @@ public class GameControl {
 
     public static GameMenuMessage build(String equipmentName) {
         return null;
-    }
+    }  //TODO check be employee
 
     public static GameMenuMessage disbandUnit() {
         for (Building building : currentUnits.get(0).getOwnerPerson().getUserGovernment().getBuildings()) {
@@ -313,34 +313,35 @@ public class GameControl {
     }
 
     public static GameMenuMessage makeTower(int x, int y, String type) {
+        if(!invalidLocation(x, y))
+            return GameMenuMessage.WRONG_AMOUNT;
         if (type.equals("lookout tower") || type.equals("perimeter tower") || type.equals("defensive tower") || type.equals("square tower") || type.equals("circle tower")) {
             Tile tile = Game.getMapInGame().getMap()[x][y];
             if (tile.getBuilding() != null)
                 return GameMenuMessage.HAS_BUILDING;
             Building building;
             if ((building = Tower.makeTowerByName(type, x, y, Game.getCurrentUser().getUserGovernment())) != null) {
-               tile.setBuilding(building);
-               if(building.getName().equals("lookout tower")) {
-                   Game.getCurrentUser().getUserGovernment().removeFromResources(Resource.STONE, 10);
-                   return GameMenuMessage.SUCCESS;
-               }
-                if(building.getName().equals("perimeter tower")) {
+                tile.setBuilding(building);
+                if (building.getName().equals("lookout tower")) {
                     Game.getCurrentUser().getUserGovernment().removeFromResources(Resource.STONE, 10);
                     return GameMenuMessage.SUCCESS;
                 }
-                if(building.getName().equals("defensive tower")) {
+                if (building.getName().equals("perimeter tower")) {
+                    Game.getCurrentUser().getUserGovernment().removeFromResources(Resource.STONE, 10);
+                    return GameMenuMessage.SUCCESS;
+                }
+                if (building.getName().equals("defensive tower")) {
                     Game.getCurrentUser().getUserGovernment().removeFromResources(Resource.STONE, 15);
                     return GameMenuMessage.SUCCESS;
                 }
-                if(building.getName().equals("square tower")) {
+                if (building.getName().equals("square tower")) {
                     Game.getCurrentUser().getUserGovernment().removeFromResources(Resource.STONE, 35);
                     return GameMenuMessage.SUCCESS;
                 }
-                if(building.getName().equals("circle tower")) {
+                if (building.getName().equals("circle tower")) {
                     Game.getCurrentUser().getUserGovernment().removeFromResources(Resource.STONE, 40);
                     return GameMenuMessage.SUCCESS;
                 }
-
 
 
             } else {
@@ -354,47 +355,87 @@ public class GameControl {
 
     }
 
-    public static GameMenuMessage makeKillerTale(int x, int y) {
-        return null;
+    public static GameMenuMessage makeKillerTale(int x, int y) {    //TODO should make something for visibility of owner of tale
+        if(!invalidLocation(x, y))
+            return GameMenuMessage.WRONG_AMOUNT;
+        Tile tile=Game.getMapInGame().getMap()[x][y];
+        if(tile.isHasKillerTale()){
+           return GameMenuMessage.INVALIDPOSITION;
+        }
+        tile.setHasStair(true);
+        return GameMenuMessage.SUCCESS;
 
     }
 
-    public static GameMenuMessage makeOilTale(int x, int y) {
-        return null;
+    public static GameMenuMessage makeOilTale(int x, int y) {  //TODO we should do something for fire arrow
+        if(!invalidLocation(x, y))
+            return GameMenuMessage.WRONG_AMOUNT;
+        Tile tile=Game.getMapInGame().getMap()[x][y];
+        if(tile.isHasKillerTale()||tile.isHasOilTale()){
+            return GameMenuMessage.INVALIDPOSITION;
+        }
+        tile.setHasOilTale(true);
+        return GameMenuMessage.SUCCESS;
 
     }
 
     public static GameMenuMessage makeStair(int x, int y) {
-        return null;
-
+        if(!invalidLocation(x, y))
+            return GameMenuMessage.WRONG_AMOUNT;
+        Tile tile = Game.getMapInGame().getMap()[x][y];
+        if (tile.getBuilding().getName().equals("great wall") || tile.getBuilding().getName().equals("small wall") || tile.getBuilding().getName().equals("small stone gatehouse") || tile.getBuilding().getName().equals("big stone gatehouse")) {
+            tile.setHasStair(true);
+            return GameMenuMessage.SUCCESS;
+        }
+        else {
+            return GameMenuMessage.INVALIDPOSITION;
+        }
     }
 
-    public static GameMenuMessage diggingDitch(int x, int y) {
-        return null;
 
-    }
-
-    public static GameMenuMessage removeDitch(int x, int y) {
-        return null;
-    }
-
-    public static GameMenuMessage stopDitch(int x, int y) {
-        return null;
-    }
-
-    private static GameMenuMessage burningOil() {
+    private static GameMenuMessage burningOil() {   //TODO burning oil should be completed
 
         return null;
     }
 
     public static GameMenuMessage captureGate() {
+        ArrayList<Tile> neighbors=new ArrayList<>();
+        getNeighbors(currentUnits.get(0).getxLocation(),currentUnits.get(0).getyLocation(),neighbors);
+        for (Tile tile:neighbors){
+            if(tile.getBuilding() instanceof Gatehouse){
+                Gatehouse gatehouse= (Gatehouse) tile.getBuilding();
+                if(gatehouse.getGovernment()!=currentUnits.get(0).getOwnerPerson().getUserGovernment()){
+                    if(currentUnits.get(0).getUnitsName().getName().equals("spearman")||currentUnits.get(0).getUnitsName().getName().equals("maceman")){
+                        moveUnit(gatehouse.getX(),gatehouse.getY());
+                        gatehouse.setOpenGate(true);
+                        gatehouse.setHasFlag(true);
+                        return GameMenuMessage.SUCCESS;
+                    }
+                }
+            }
+        }
+        neighbors.clear();
+        for(int x=0;x<200;x++){
+            for (int y=0;y<200;y++){
+                Building building=Game.getMapInGame().getMap()[x][y].getBuilding();
+                if(building instanceof Gatehouse&&building.getGovernment().getUser()!=Game.getCurrentUser()){
+                    getNeighbors(x,y,neighbors);
+                    for (Tile tile:neighbors){
+                        Building building1=tile.getBuilding();
+                        if(building1 instanceof Tower&&building1.getGovernment().getUser()==Game.getCurrentUser()){
+                            ((Gatehouse) building).setOpenGate(true);
+                            ((Gatehouse) building).setHasFlag(true);
+                            return GameMenuMessage.SUCCESS;
 
-        return null;
+                        }
+                    }
+                }
+            }
+        }
+        return GameMenuMessage.PROBLEM;
+
     }
 
-    public static GameMenuMessage openGate() {
-        return null;
-    }
 
     public static GameMenuMessage makeProtection() {
         return null;
@@ -455,6 +496,16 @@ public class GameControl {
         if (x < 0 || x >= 200 || y <= 0 || y >= 200)
             return false;
         return true;
+    }
+    public static void getNeighbors(int x,int y,ArrayList<Tile> neighbors){
+        if(x+1<200)
+            neighbors.add(Game.getMapInGame().getMap()[x+1][y]);
+        if(x-1>=0)
+            neighbors.add(Game.getMapInGame().getMap()[x-1][y]);
+        if(y+1<200)
+            neighbors.add(Game.getMapInGame().getMap()[x][y+1]);
+        if(y-1>=0)
+            neighbors.add(Game.getMapInGame().getMap()[x][y-1]);
     }
 
 }

@@ -224,13 +224,13 @@ public class GameMenu {
 
     private static void makeGate(Matcher matcher) {
         String direction = matcher.group("direction");
-        int x= Integer.parseInt(matcher.group("x"));
-        int y= Integer.parseInt(matcher.group("y"));
-        String name=matcher.group("gateName");
-        GameMenuMessage message = GameControl.makeGate(name,direction,x,y);
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        String name = matcher.group("gateName");
+        GameMenuMessage message = GameControl.makeGate(name, direction, x, y);
         switch (message) {
             case SUCCESS:
-                System.out.println("  "+name+" with " + direction + "  created successfully");
+                System.out.println("  " + name + " with " + direction + "  created successfully");
                 break;
             case WRONG_AMOUNT:
                 System.out.println("you enter wrong amount of x and y");
@@ -247,7 +247,7 @@ public class GameMenu {
     private static void makeWall(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
-        String type=matcher.group("wall type").trim();
+        String type = matcher.group("wall type").trim();
         GameMenuMessage message = GameControl.makeWall(x, y, type);
         switch (message) {
             case SUCCESS:
@@ -271,16 +271,19 @@ public class GameMenu {
     }
 
     private static void makeTower(Matcher matcher) {
-        int x=Integer.parseInt(matcher.group("x"));
-        int y=Integer.parseInt(matcher.group("y"));
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
         String type = matcher.group("type");
-        GameMenuMessage message = GameControl.makeTower(x,y,type);
+        GameMenuMessage message = GameControl.makeTower(x, y, type);
         switch (message) {
             case SUCCESS:
                 System.out.println("tower build successfully");
                 break;
             case NOTENOUGHRESOURCE:
                 System.out.println("your resource is not enough");
+                break;
+            case WRONG_AMOUNT:
+                System.out.println("you enter wrong amount of x and y");
                 break;
             case INVALID_TYPE:
                 System.out.println("we dont have this format of tower");
@@ -303,8 +306,11 @@ public class GameMenu {
             case SUCCESS:
                 System.out.println("tale built successfully");
                 break;
+            case WRONG_AMOUNT:
+                System.out.println("you enter wrong amount of x and y");
+                break;
             case INVALIDPOSITION:
-                System.out.println("you cant make tale in this position");
+                System.out.println("you cant make stair in this position");
                 break;
             default:
                 System.out.println("invalid command!!");
@@ -320,6 +326,9 @@ public class GameMenu {
         switch (message) {
             case SUCCESS:
                 System.out.println("Killer tale built successfully");
+                break;
+            case WRONG_AMOUNT:
+                System.out.println("you enter wrong amount of x and y");
                 break;
             case INVALIDPOSITION:
                 System.out.println("you cant make tale in this position");
@@ -339,65 +348,8 @@ public class GameMenu {
             case SUCCESS:
                 System.out.println("oil tale built successfully");
                 break;
-            case INVALIDPOSITION:
-                System.out.println("you cant make tale in this position");
-                break;
-            default:
-                System.out.println("invalid command!!");
-                break;
-
-        }
-
-    }
-
-    private static void diggingDitch(Matcher matcher) {
-        //should complete with type of unit;
-        int x = Integer.parseInt(matcher.group("x"));
-        int y = Integer.parseInt(matcher.group("y"));
-        GameMenuMessage message = GameControl.diggingDitch(x, y);
-        switch (message) {
-            case SUCCESS:
-                System.out.println("Ditch dig was successfully");
-                break;
-            case INVALIDPOSITION:
-                System.out.println("you cant make tale in this position");
-                break;
-            case INVALIDUNIT:
-                System.out.println("This unit cant dig ditch");
-                break;
-            default:
-                System.out.println("invalid command!");
-                break;
-        }
-    }
-
-    private static void removeDitch(Matcher matcher) {
-        int x = Integer.parseInt(matcher.group("x"));
-        int y = Integer.parseInt(matcher.group("y"));
-        GameMenuMessage message = GameControl.removeDitch(x, y);
-        switch (message) {
-            case SUCCESS:
-                System.out.println("ditch removed successfully");
-                break;
-            case INVALIDPOSITION:
-                System.out.println("you cant make tale in this position");
-                break;
-            case INVALIDDITCH:
-                System.out.println("we dont have ditch on this position");
-                break;
-            default:
-                System.out.println("invalid command!!");
-                break;
-        }
-    }
-
-    private static void stopDitch(Matcher matcher) {
-        int x = Integer.parseInt(matcher.group("x"));
-        int y = Integer.parseInt(matcher.group("y"));
-        GameMenuMessage message = GameControl.stopDitch(x, y);
-        switch (message) {
-            case SUCCESS:
-                System.out.println("stop dig successfully");
+            case WRONG_AMOUNT:
+                System.out.println("you enter wrong amount of x and y");
                 break;
             case INVALIDPOSITION:
                 System.out.println("you cant make tale in this position");
@@ -407,7 +359,67 @@ public class GameMenu {
                 break;
 
         }
+
     }
+
+//    private static void diggingDitch(Matcher matcher) {
+//        //should complete with type of unit;
+//        int x = Integer.parseInt(matcher.group("x"));
+//        int y = Integer.parseInt(matcher.group("y"));
+//         GameMenuMessage message = GameControl.diggingDitch(x, y);
+//        switch (message) {
+//            case SUCCESS:
+//                System.out.println("Ditch dig was successfully");
+//                break;
+//            case INVALIDPOSITION:
+//                System.out.println("you cant make tale in this position");
+//                break;
+//            case INVALIDUNIT:
+//                System.out.println("This unit cant dig ditch");
+//                break;
+//            default:
+//                System.out.println("invalid command!");
+//                break;
+//        }
+//    }
+//
+//    private static void removeDitch(Matcher matcher) {
+//        int x = Integer.parseInt(matcher.group("x"));
+//        int y = Integer.parseInt(matcher.group("y"));
+//        GameMenuMessage message = GameControl.removeDitch(x, y);
+//        switch (message) {
+//            case SUCCESS:
+//                System.out.println("ditch removed successfully");
+//                break;
+//            case INVALIDPOSITION:
+//                System.out.println("you cant make tale in this position");
+//                break;
+//            case INVALIDDITCH:
+//                System.out.println("we dont have ditch on this position");
+//                break;
+//            default:
+//                System.out.println("invalid command!!");
+//                break;
+//        }
+//    }
+//
+//    private static void stopDitch(Matcher matcher) {
+//        int x = Integer.parseInt(matcher.group("x"));
+//        int y = Integer.parseInt(matcher.group("y"));
+//        GameMenuMessage message = GameControl.stopDitch(x, y);
+//        switch (message) {
+//            case SUCCESS:
+//                System.out.println("stop dig successfully");
+//                break;
+//            case INVALIDPOSITION:
+//                System.out.println("you cant make tale in this position");
+//                break;
+//            default:
+//                System.out.println("invalid command!!");
+//                break;
+//
+//        }
+//    }
 
     private static void burningOil(Matcher matcher) {
 
@@ -417,11 +429,17 @@ public class GameMenu {
         GameMenuMessage message = GameControl.captureGate();
         switch (message) {
             case SUCCESS:
-                GameMenuMessage message1 = GameControl.openGate();
+                GameMenuMessage message1 = GameControl.captureGate();
                 switch (message1) {
                     case SUCCESS:
                         System.out.println("Gate opened successfully");
                         break;
+                    case PROBLEM:
+                        System.out.println("now you cant capture gate");
+                    default:
+                        System.out.println("invalid command!!");
+                        break;
+
                 }
 
         }
@@ -467,7 +485,8 @@ public class GameMenu {
     private static void fillingDitch(Matcher matcher) {
 
     }
-    public static void showEnemys(Tile tile){
+
+    public static void showEnemys(Tile tile) {
 
     }
 }
