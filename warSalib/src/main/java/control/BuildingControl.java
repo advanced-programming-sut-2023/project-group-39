@@ -109,8 +109,6 @@ public class BuildingControl {
     }
 
     private static boolean isEnoughStone() {
-        Government government =Game.getSelectedBuilding().getGovernment();
-
-        government.hasEnoughResources()
+        return true;
     }
 }
