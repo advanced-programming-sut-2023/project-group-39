@@ -626,5 +626,28 @@ public class GameControl {
        }
 
     }
+    public static GameMenuMessage makeFieryStoneThrower(int x,int y){    //TODO make some features for playing with it in game
+        if(!invalidLocation(x, y))
+            return GameMenuMessage.WRONG_AMOUNT;
+        int unEmployedEngineers=0;
+        ArrayList<Engineer> engineersToFieryStone=new ArrayList<>();
+        for (Engineer engineer:Game.getCurrentUser().getUserGovernment().getEngineers()){
+            if(!engineer.isHasWork()) {
+                unEmployedEngineers++;
+                engineersToFieryStone.add(engineer);
+            }
+        }
+        if(unEmployedEngineers<4)
+            return GameMenuMessage.PROBLEM;
+        if((Game.getCurrentUser().getUserGovernment().numberOfResource(Resource.STONE))<25)
+            return GameMenuMessage.NOTENOUGHRESOURCE;
+        for (Engineer engineer:engineersToFieryStone){
+            engineer.setHasWork(true);
+        }
+        FieryStoneThrower fieryStoneThrower=new FieryStoneThrower(x, y);
+        return GameMenuMessage.SUCCESS;
+
+
+    }
 
 }
