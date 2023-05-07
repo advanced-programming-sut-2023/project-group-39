@@ -498,11 +498,76 @@ public class GameMenu {
     }
 
     private static void makeCatapult(Matcher matcher) {
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        GameMenuMessage message = GameControl.makeCatapult(x, y);
+        switch (message) {
+            case SUCCESS:
+                System.out.println("catapult was successful");
+                break;
+            case WRONG_AMOUNT:
+                System.out.println("you enter wrong amount of x and y");
+                break;
+            case PROBLEM:
+                System.out.println("we dont have unemployed engineer to make catapult");
+                break;
+            case NOTENOUGHRESOURCE:
+                System.out.println("you dont have enough resource to make catapult");
+                break;
+            default:
+                System.out.println("invalid command!!");
+                break;
+        }
+    }
 
+    private static void makeFixedCatapult(Matcher matcher){
+        int x= Integer.parseInt(matcher.group("x"));
+        int y= Integer.parseInt(matcher.group("y"));
+        GameMenuMessage message=GameControl.makeFixedCatapult(x,y);
+        switch (message) {
+            case SUCCESS:
+                System.out.println("fixed catapult was successful");
+                break;
+            case WRONG_AMOUNT:
+                System.out.println("you enter wrong amount of x and y");
+                break;
+            case PROBLEM:
+                System.out.println("we dont have unemployed engineer to make fixed catapult");
+                break;
+            case NOTENOUGHRESOURCE:
+                System.out.println("you dont have enough resource to make fixed catapult");
+                break;
+            default:
+                System.out.println("invalid command!!");
+                break;
+        }
     }
 
     private static void stoneTower(Matcher matcher) {
 
+    }
+
+    private static void makeSiegeTower(Matcher matcher) {
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        GameMenuMessage message = GameControl.makeSiegeTower(x, y);
+        switch (message) {
+            case SUCCESS:
+                System.out.println("makeSiege was successful");
+                break;
+            case WRONG_AMOUNT:
+                System.out.println("you enter wrong amount of x and y");
+                break;
+            case PROBLEM:
+                System.out.println("we dont have unemployed engineer to make SiegeTower");
+                break;
+            case NOTENOUGHRESOURCE:
+                System.out.println("you dont have enough resource to make siegeTower");
+                break;
+            default:
+                System.out.println("invalid command!!");
+                break;
+        }
     }
 
     private static void fillingDitch(Matcher matcher) {

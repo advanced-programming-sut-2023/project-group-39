@@ -1,5 +1,6 @@
 package control;
 
+import com.sun.source.tree.NewArrayTree;
 import model.Game;
 import model.government.Government;
 import model.government.building.*;
@@ -11,8 +12,7 @@ import model.government.people.units.State;
 import model.government.people.units.Units;
 import model.government.resource.Resource;
 import model.map.Tile;
-import model.wartool.BatteringRam;
-import model.wartool.wartoolenum;
+import model.wartool.*;
 import view.GameMenu;
 import view.enums.messages.GameMenuMessage;
 
@@ -494,8 +494,46 @@ public class GameControl {
 
     }
 
-    public static GameMenuMessage makeCatapult() {
-        return null;
+    public static GameMenuMessage makeCatapult(int x,int y) {
+        if(!invalidLocation(x, y))
+            return GameMenuMessage.WRONG_AMOUNT;
+        ArrayList<Engineer> unEmployedEngineers=new ArrayList<>();
+        unEmployedEngineers(unEmployedEngineers,Game.getCurrentUser().getUserGovernment());
+        if(unEmployedEngineers.size()<2)
+            return GameMenuMessage.PROBLEM;
+        if(Game.getCurrentUser().getUserGovernment().numberOfResource(Resource.STONE)<10)
+            return GameMenuMessage.NOTENOUGHRESOURCE;
+        int counter=0;
+        for (Engineer engineer:unEmployedEngineers){
+            engineer.setHasWork(true);
+            counter++;
+            if(counter==2)
+                break;;
+
+        }
+        CataPult cataPult=new CataPult(x, y);
+        return GameMenuMessage.SUCCESS;
+
+    }
+    public static GameMenuMessage makeFixedCatapult(int x,int y){
+        if(!invalidLocation(x, y))
+            return GameMenuMessage.WRONG_AMOUNT;
+        ArrayList<Engineer> unEmployedEngineers=new ArrayList<>();
+        unEmployedEngineers(unEmployedEngineers,Game.getCurrentUser().getUserGovernment());
+        if(unEmployedEngineers.size()<3)
+            return GameMenuMessage.PROBLEM;
+        if(Game.getCurrentUser().getUserGovernment().numberOfResource(Resource.STONE)<20)
+            return GameMenuMessage.NOTENOUGHRESOURCE;
+        int counter=0;
+        for (Engineer engineer:unEmployedEngineers){
+            engineer.setHasWork(true);
+            counter++;
+            if(counter==3)
+                break;
+
+        }
+        FixedCatapult fixedCatapult=new FixedCatapult(x, y);
+        return GameMenuMessage.SUCCESS;
 
     }
 
@@ -554,6 +592,39 @@ public class GameControl {
             neighbors.add(Game.getMapInGame().getMap()[x][y + 1]);
         if (y - 1 >= 0)
             neighbors.add(Game.getMapInGame().getMap()[x][y - 1]);
+    }
+    public static GameMenuMessage makeSiegeTower(int x,int y){  //TODO make features of siege tower in game
+        if(!invalidLocation(x, y))
+            return GameMenuMessage.WRONG_AMOUNT;
+        int unEmployedEngineers=0;
+        ArrayList<Engineer> engineersToSiegeTower=new ArrayList<>();
+        for (Engineer engineer:Game.getCurrentUser().getUserGovernment().getEngineers()){
+            if(!engineer.isHasWork()) {
+                unEmployedEngineers++;
+                engineersToSiegeTower.add(engineer);
+            }
+        }
+        if(unEmployedEngineers<4)
+            return GameMenuMessage.PROBLEM;
+        if((Game.getCurrentUser().getUserGovernment().numberOfResource(Resource.STONE))<30)
+            return GameMenuMessage.NOTENOUGHRESOURCE;
+        for (Engineer engineer:engineersToSiegeTower){
+            engineer.setHasWork(true);
+        }
+        SiegeTower siegeTower=new SiegeTower(x,y);
+        return GameMenuMessage.SUCCESS;
+
+
+    }
+    private static void unEmployedEngineers(ArrayList<Engineer> engineers,Government government){
+        int counter=0;
+       for (Engineer engineer:government.getEngineers()){
+           if(!engineer.isHasWork()){
+               engineers.add(engineer);
+               counter++;
+           }
+       }
+
     }
 
 }

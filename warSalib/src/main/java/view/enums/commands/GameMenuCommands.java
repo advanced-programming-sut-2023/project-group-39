@@ -41,7 +41,13 @@ public enum GameMenuCommands {
 
     MAKE_PROTECTION("make\\s+protection\\s+(?<x>[\\d]+)\\s+(?<y>[\\d]+)\\s+(<unitsName>.+)\\s*"),
 
-    MAKE_BATTERING_RAM("make\\s+battering\\s+ram(?<x>[\\d]+)\\s+(?<y>[\\d]+)");
+    MAKE_BATTERING_RAM("make\\s+battering\\s+ram(?<x>[\\d]+)\\s+(?<y>[\\d]+)\\s*"),
+
+    MAKE_SIEGE_TOWER("make\\s+siege\\s+tower\\s+(?<x>[\\d]+)\\s+(?<y>[\\d]+)\\s*"),
+
+    MAKE_CATAPULT("make\\s+catapult\\s+(?<x>[\\d]+)\\s+(?<y>[\\d]+)\\s*"),
+
+    MAKE_FIXED_CATAPULT("make\\s+fixed\\s+catapult\\s+(?<x>[\\d]+)\\s+(?<y>[\\d]+)\\s*");
 
 
 
