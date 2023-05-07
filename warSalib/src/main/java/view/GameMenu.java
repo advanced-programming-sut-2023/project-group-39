@@ -446,14 +446,26 @@ public class GameMenu {
     }
 
     private static void makeProtection(Matcher matcher) {
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        String unitsname = matcher.group("unitsName");
         //should be complete with units
-        GameMenuMessage message = GameControl.makeProtection();
+        GameMenuMessage message = GameControl.makeProtection(x, y, unitsname);
         switch (message) {
+            case WRONG_AMOUNT:
+                System.out.println("you enter wrong amount of x and y");
+                break;
             case SUCCESS:
                 System.out.println("protection built successfully");
                 break;
             case PROBLEM:
-                System.out.println("can't make protection");
+                System.out.println("we dont have unemployed engineer to make protection");
+                break;
+            case INVALIDUNIT:
+                System.out.println("we dont have this units is this tile");
+                break;
+            case NOTENOUGHRESOURCE:
+                System.out.println("you dont have enough resource to make protection");
                 break;
             default:
                 System.out.println("invalid command!!");
@@ -461,12 +473,23 @@ public class GameMenu {
         }
     }
 
-    private static void batteringRam(Matcher matcher) {
+    private static void makeBatteringRam(Matcher matcher) {
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
         //should be complete
-        GameMenuMessage message = GameControl.batteringRam();
+        GameMenuMessage message = GameControl.makeBatteringRam(x, y);
         switch (message) {
             case SUCCESS:
                 System.out.println("battering was successful");
+                break;
+            case WRONG_AMOUNT:
+                System.out.println("you enter wrong amount of x and y");
+                break;
+            case PROBLEM:
+                System.out.println("we dont have unemployed engineer to make protection");
+                break;
+            case NOTENOUGHRESOURCE:
+                System.out.println("you dont have enough resource to make protection");
                 break;
             default:
                 System.out.println("invalid command!!");

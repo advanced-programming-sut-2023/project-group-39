@@ -11,4 +11,6 @@ public enum wartoolenum {
     SWORD,
     STICK,
 
+    PORTABLE_PROTECTION,
+
 }

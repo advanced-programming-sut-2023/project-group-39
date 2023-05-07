@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 
 import model.government.building.Building;
 import model.government.people.People;
+import model.government.people.engineer.Engineer;
 import model.government.popularityfactor.Fear;
 import model.government.popularityfactor.Food;
 import model.government.popularityfactor.Religion;
@@ -37,6 +38,8 @@ public class Government {
     public static HashMap<Resource, Integer> resources;
     public static LinkedHashMap<User, HashMap<Resource, Integer>> tradeHistory;
     private Fear fear;
+
+    private ArrayList<Engineer> engineers=new ArrayList<>();
 
     public Government(int popularity, int population, User user) {
         this.wealth = 0;
@@ -75,6 +78,15 @@ public class Government {
                 return false;
         }
         return true;
+    }
+    public int numberOfResource(Resource resource){
+        for (Resource resource1:getResources().keySet()){
+            if(resource1.equals(resource)){
+                return getResources().get(resource1);
+            }
+
+        }
+        return 0;
     }
 
     public int getPopularity() {
@@ -172,5 +184,9 @@ public class Government {
 
     public ArrayList<People> getPeople() {
         return people;
+    }
+
+    public ArrayList<Engineer> getEngineers() {
+        return engineers;
     }
 }

@@ -37,7 +37,11 @@ public enum GameMenuCommands {
 
     MAKE_KILLER_TALE("build\\s+-q\\s+(?<x>[\\d]+)\\s+(?<y>[\\d]+)\\s+killer\\stale"),
 
-    MAKE_OIL_TALE("build\\s+-q\\s+(?<x>[\\d]+)\\s+(?<y>[\\d]+)\\s+oil\\stale");
+    MAKE_OIL_TALE("build\\s+-q\\s+(?<x>[\\d]+)\\s+(?<y>[\\d]+)\\s+oil\\stale"),
+
+    MAKE_PROTECTION("make\\s+protection\\s+(?<x>[\\d]+)\\s+(?<y>[\\d]+)\\s+(<unitsName>.+)\\s*"),
+
+    MAKE_BATTERING_RAM("make\\s+battering\\s+ram(?<x>[\\d]+)\\s+(?<y>[\\d]+)");
 
 
 
