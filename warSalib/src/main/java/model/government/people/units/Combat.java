@@ -7,7 +7,7 @@ public class Combat extends Units{
     private wartoolenum wartool;
     public Combat(int xLocation, int yLocation, UnitsName unitsName, User ownerPerson) {
         super(xLocation, yLocation, unitsName, ownerPerson);
-        if(unitsName.getName().equals("pikeman")){
+        if(unitsName.getName().equals("pike man")){
             this.wartool=wartoolenum.SPEAR;
         }
         else if(unitsName.getName().equals("swordsmen")){
@@ -16,13 +16,13 @@ public class Combat extends Units{
         else if(unitsName.getName().equals("knight")){
             this.hasHorse=true;
         }
-        else if(unitsName.getName().equals("blackmonk")){
+        else if(unitsName.getName().equals("black monk")){
             this.wartool=wartoolenum.STICK;
         }
         else if(unitsName.getName().equals("slaves")){
             this.wartool=wartoolenum.TORCH;
         }
-        else if(unitsName.getName().equals("arabianswordsmen")){
+        else if(unitsName.getName().equals("arabian swordsmen")){
             this.wartool=null;
         }
     }

@@ -7,7 +7,7 @@ public class PitchDitch extends Building{
     private boolean isOnFire;
 
     public PitchDitch(int x, int y, Government government) {
-        super(x, y, government, 0, "castle building", "pitch ditch");
+        super(x, y, government, 0, "castle building", "pitch ditch", 0);
         this.isOnFire = false;
     }
 

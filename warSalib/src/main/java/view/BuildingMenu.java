@@ -91,6 +91,9 @@ public class BuildingMenu {
             case WRONG_AMOUNT:
                 System.out.println("you enter wrong amount of x and y");
                 break;
+            case NOT_EXIST_UNIT:
+                System.out.println("you enter wrong type of units");
+                break;
             case NOT_ENOUGH_POPULATION:
                 System.out.println("you don't have enough population");
                 break;
@@ -115,8 +118,15 @@ public class BuildingMenu {
             case NEAR_ENEMY:
                 System.out.println("enemy near your town and can't repair");
                 break;
+            case HAS_FULL_HP:
+                System.out.println("your building has max hp and don't need to repair it");
+                break;
+            case NOT_GOOD_BUILDING:
+                System.out.println("not castle building");
+                break;
             case SUCCESS:
                 System.out.println("repair successfully");
+                break;
             default:
                 System.out.println("invalid!");
                 break;

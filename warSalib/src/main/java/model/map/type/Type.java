@@ -1,15 +1,25 @@
 package model.map.type;
 
 public enum Type {
-    GROUND(Area.BROWNAREA, true, "G"), GROUND_WITH_GRAVEL(Area.BROWNAREA, true,"Gg")
+    GROUND(Area.BROWNAREA, true, "G", "ground"),
+    GROUND_WITH_GRAVEL(Area.BROWNAREA, true,"Gg", "ground with gravel")
 
-    ,SLATE(Area.BROWNAREA, true, "Sl"), STONE(Area.BROWNAREA, false ,"St"),
-    IRON_GROUND(Area.BROWNAREA, true, "Ig"), GRASS(Area.BROWNAREA, true, "Gr"),
-    GRASSLAND(Area.BROWNAREA, true, "Gl"), DENSE_GRASSLAND(Area.BROWNAREA, true, "Dg") ,
-    OIL(Area.BLUEAREA, true, "O"), PLAIN(Area.BLUEAREA, true, "P"),
-    SHALLOW_WATER(Area.BLUEAREA, true, "Sw"), SEA(Area.BLUEAREA, false, "S")
-    ,BEACH(Area.BLUEAREA, true, "Be"), RIVER(Area.BLUEAREA, false, "R"),
-    BIG_POND(Area.BLUEAREA, false, "Bp"), SMALL_POND(Area.BLUEAREA, false, "Sp");
+    ,SLATE(Area.BROWNAREA, true, "Sl" , "slate"),
+
+    STONE(Area.BROWNAREA, false ,"St", "stone"),
+    IRON_GROUND(Area.BROWNAREA, true, "Ig", "iron ground"),
+    GRASS(Area.BROWNAREA, true, "Gr", "grass"),
+    GRASSLAND(Area.BROWNAREA, true, "Gl", "grass land"),
+    DENSE_GRASSLAND(Area.BROWNAREA, true, "Dg", "dense grass land") ,
+    OIL(Area.BLUEAREA, true, "O", "oil"),
+    PLAIN(Area.BLUEAREA, true, "P", "plain"),
+    SHALLOW_WATER(Area.BLUEAREA, true, "Sw", "shallow water"),
+    SEA(Area.BLUEAREA, false, "S", "sea")
+
+    ,BEACH(Area.BLUEAREA, true, "Be", "beach"),
+    RIVER(Area.BLUEAREA, false, "R", "river"),
+    BIG_POND(Area.BLUEAREA, false, "Bp", "big pound"),
+    SMALL_POND(Area.BLUEAREA, false, "Sp", "small pound");
 
     public enum Area {
         BLUEAREA,BROWNAREA;
@@ -18,11 +28,13 @@ public enum Type {
     private Area area;
     private String name;
     private boolean permeability;
+    private String ground;
 
-    Type(Area area, boolean permeability , String name) {
+    Type(Area area, boolean permeability , String name, String ground) {
         this.area = area;
         this.permeability = permeability;
         this.name = name;
+        this.ground = ground;
     }
 
     public Area getArea() {
@@ -35,5 +47,9 @@ public enum Type {
 
     public String getName() {
         return name;
+    }
+
+    public String getGround() {
+        return ground;
     }
 }

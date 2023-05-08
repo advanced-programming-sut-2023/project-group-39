@@ -3,6 +3,7 @@ package model.government.building;
 import model.government.Government;
 import model.government.building.group.GroupOfBuilding;
 import model.government.resource.Resource;
+import model.map.type.Type;
 
 import java.util.HashMap;
 
@@ -12,7 +13,7 @@ public class MineBuilding extends Building{
     private Resource resource;
 
     public MineBuilding(int x, int y, Government government, int hp, String name, int rate, Resource resource) {
-        super(x, y, government, hp, "industry", name);
+        super(x, y, government, hp, "industry", name, hp);
         this.rate = rate;
         this.resource = resource;
     }
@@ -23,6 +24,7 @@ public class MineBuilding extends Building{
             resource.put(Resource.WOOD, 20);
             if (government.hasEnoughResources(resource)) {
                 MineBuilding mineBuilding = new MineBuilding(x, y, government, 1000, name, 20, Resource.STONE);
+                //mineBuilding.setWorkerDataBase();
                 return mineBuilding;
             }
         }
@@ -31,6 +33,7 @@ public class MineBuilding extends Building{
             resource.put(Resource.WOOD, 20);
             if (government.hasEnoughResources(resource)) {
                 MineBuilding mineBuilding = new MineBuilding(x, y, government, 1100, name, 15, Resource.IRON);
+                //mineBuilding.setWorkerDataBase();
                 return mineBuilding;
             }
         }
@@ -39,15 +42,13 @@ public class MineBuilding extends Building{
             resource.put(Resource.WOOD, 20);
             if (government.hasEnoughResources(resource)) {
                 MineBuilding mineBuilding = new MineBuilding(x, y, government, 800, name, 30, Resource.PITCH);
+               // mineBuilding.setWorkerDataBase();
                 return mineBuilding;
             }
         }
         return null;
     }
 
-    private static boolean isAppropriateGround(String ground) {
-        return false;
-    }
 
     public int makeResourceWithRate() {
         //need to time to handle it

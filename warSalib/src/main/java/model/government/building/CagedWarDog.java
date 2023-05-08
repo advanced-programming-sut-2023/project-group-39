@@ -11,7 +11,7 @@ public class CagedWarDog extends Building {
     private boolean isOpen = false;
 
     public CagedWarDog(int x, int y, Government government, int hp, String type, String name) {
-        super(x, y, government, hp, type, name);
+        super(x, y, government, hp, type, name, 500);
         Dog dog = new Dog();
         dogs = new HashMap<>();
         dogs.put(dog, 5);

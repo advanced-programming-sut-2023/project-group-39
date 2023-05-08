@@ -2,6 +2,7 @@ package model.government.building;
 
 import model.government.Government;
 import model.government.people.People;
+import model.government.people.workingpersons.JobsName;
 import model.government.resource.Resource;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class Inn extends Building{
     ArrayList<People> peopleOfInn;
 
     public Inn(int x, int y, Government government, int hp, String type, String name) {
-        super(x, y, government, hp, type, name);
+        super(x, y, government, hp, type, name, 500);
     }
 
     public static Inn makeInnByName(String name, int x , int y, Government government) {
@@ -29,6 +30,7 @@ public class Inn extends Building{
                 Inn inn = new Inn(x, y, government, 500, "food processing building", name);
                 //DrinkServer drinkServer = new DrinkServer()
                 //inn.setWorkerDataBase();
+                inn.setWorkerDataBase(JobsName.DRINKSERVER.getJobsName(), 1);
                 return inn;
             }
         }

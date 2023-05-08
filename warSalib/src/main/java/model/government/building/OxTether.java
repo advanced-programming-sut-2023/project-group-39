@@ -11,7 +11,7 @@ public class OxTether extends Building{
     private final int rate = 12;
 
     public OxTether(int x, int y, Government government, int hp) {
-        super(x, y, government, hp, "industry", "ox tether");
+        super(x, y, government, hp, "industry", "ox tether", hp);
     }
 
     public static OxTether makeOxTetherByName(String name, int x , int y, Government government) {
@@ -20,6 +20,7 @@ public class OxTether extends Building{
             resource.put(Resource.WOOD, 5);
             if (government.hasEnoughResources(resource)) {
                 OxTether oxTether = new OxTether(x, y, government, 150);
+                //oxTether.setWorkerDataBase();
                 return oxTether;
             }
         }

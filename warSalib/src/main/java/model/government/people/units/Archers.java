@@ -26,7 +26,7 @@ public class Archers extends Units{
             this.arrowInMove=false;
             this.hasHorse=false;
         }
-        else if(unitsName.getName().equals("archerbow")){
+        else if(unitsName.getName().equals("archer bow")){
             this.precision=60;
             this.arrowRadius=60;
             this.fatality=50;
@@ -42,7 +42,7 @@ public class Archers extends Units{
             this.arrowInMove=false;
             this.hasHorse=false;
         }
-        else if(unitsName.getName().equals("horsearchers")){
+        else if(unitsName.getName().equals("horse archers")){
             this.precision=60;
             this.arrowRadius=60;
             this.fatality=50;
@@ -50,7 +50,7 @@ public class Archers extends Units{
             this.arrowInMove=true;
             this.hasHorse=true;
         }
-        else if(unitsName.getName().equals("firethowers")){
+        else if(unitsName.getName().equals("fire throwers")){
             this.precision=80;
             this.arrowRadius=60;
             this.fatality=80;

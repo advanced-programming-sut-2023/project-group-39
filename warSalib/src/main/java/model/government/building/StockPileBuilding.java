@@ -16,7 +16,7 @@ public class StockPileBuilding extends Building {
     private int capacity;
 
     public StockPileBuilding(int x, int y, Government government, int hp, String type, String name, int capacity) {
-        super(x, y, government, hp, type, name);
+        super(x, y, government, hp, type, name, hp);
         this.capacity = capacity;
         resources = new HashMap<>();
     }

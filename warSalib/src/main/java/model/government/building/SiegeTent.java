@@ -4,7 +4,7 @@ import model.government.Government;
 
 public class SiegeTent extends Building{
     public SiegeTent(int x, int y, Government government, int hp, String type, String name) {
-        super(x, y, government, hp, type, name);
+        super(x, y, government, hp, type, name, 40);
     }
 
     public static SiegeTent makeSiegeTentByName(String name, int x, int y, Government government) {

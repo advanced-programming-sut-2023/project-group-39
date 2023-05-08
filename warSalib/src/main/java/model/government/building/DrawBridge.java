@@ -12,7 +12,7 @@ public class DrawBridge extends Building{
     private double decreasingSpeed = 0.7;
 
     public DrawBridge(int x, int y, Government government, int upOrDown) {
-        super(x, y, government, 600, "castle building", "draw bridge");
+        super(x, y, government, 600, "castle building", "draw bridge", 600);
         this.upOrDown = upOrDown;
     }
 

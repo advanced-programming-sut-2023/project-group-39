@@ -10,7 +10,7 @@ public class Hovel extends Building{
 
 
     public Hovel(int x, int y, Government government, int hp, String type, String name) {
-        super(x, y, government, hp, type, name);
+        super(x, y, government, hp, type, name, 500);
         addPopulation();
     }
 
@@ -26,6 +26,7 @@ public class Hovel extends Building{
         return null;
     }
     private void addPopulation() {
+        //TODO : add people to arraylist
         getGovernment().setPopulation(getGovernment().getPopulation() + 8 );
     }
 
