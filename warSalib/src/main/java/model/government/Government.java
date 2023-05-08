@@ -21,21 +21,20 @@ public class Government {
     private User user;
     private HashMap<Food, Integer> foods;
 
-    private HashMap<Resource,Integer> resourcesHashmap;
-
     private int foodRate;
 
     private int taxRate;
 
-    private ArrayList<Food> governmentFoods=new ArrayList<>();
+    private int fearRate;
+
     Tax tax;
     Religion religion;
     //for trade to other governments
     private ArrayList<Request> requests;
     private ArrayList<People> people;
     private ArrayList<Building> buildings;
-    public static HashMap<Resource, Integer> resources;
-    public static LinkedHashMap<User, HashMap<Resource, Integer>> tradeHistory;
+    private HashMap<Resource, Integer> resources;
+    private LinkedHashMap<User, HashMap<Resource, Integer>> tradeHistory;
     private Fear fear;
 
     public Government(int popularity, int population, User user) {
@@ -51,16 +50,19 @@ public class Government {
         tradeHistory = new LinkedHashMap<>();
         tax = new Tax();
         fear = new Fear();
+        this.foodRate = -2;
+        this.taxRate = 0;
+        this.fearRate = 0;
     }
 
 //    public HashMap<Resource, Integer> getResources() { return resources; }
 
-    public static void addToResources(Resource resource) {
-        if (resources.containsKey(resource)) resources.put(resource, resources.get(resource) + 1);
+    public void addToResources(Resource resource, int number) {
+        if (resources.containsKey(resource)) resources.put(resource, resources.get(resource) + number);
         else resources.put(resource, 1);
     }
 
-    public static void removeFromResources(Resource resource, int number) {
+    public void removeFromResources(Resource resource, int number) {
         if (resources.get(resource) < number) System.out.println("there are not enough resources in storehouse");
         else if (resources.get(resource) == number) resources.remove(resource);
         else resources.put(resource, resources.get(resource) - number);
@@ -125,20 +127,16 @@ public class Government {
         return requests;
     }
 
-    public static void changePopularityByFoods(HashMap<Integer, Food> foods) {
+    public static void makeChangesByFoodRate(HashMap<Integer, Food> foods) {
 
     }
 
-    public static void changePopularityByFear(Fear fear) {
+    public static void makeChangesByFearRate(Fear fear) {
 
     }
 
-    public static void changePopularityByTax(Tax tax) {
+    public static void makeChangesByTaxRate(Tax tax) {
 
-    }
-
-    public ArrayList<Food> getGovernmentFoods() {
-        return governmentFoods;
     }
 
     public int getFoodRate() {
@@ -147,11 +145,6 @@ public class Government {
 
     public int getTaxRate() {
         return taxRate;
-    }
-
-
-    public HashMap<Resource, Integer> getResourcesHashmap() {
-        return resourcesHashmap;
     }
 
     public HashMap<Resource, Integer> getResources() {
@@ -165,4 +158,8 @@ public class Government {
     public void setTaxRate(int taxRate) {
         this.taxRate = taxRate;
     }
+
+    public int getFearRate() { return fearRate; }
+
+    public void setFearRate(int fearRate) { this.fearRate = fearRate; }
 }

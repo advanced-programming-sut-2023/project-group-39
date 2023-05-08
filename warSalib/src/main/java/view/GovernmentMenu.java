@@ -51,7 +51,8 @@ public class GovernmentMenu {
     }
 
     private static void showPopularity() {
-        System.out.println("***------------Popularity------------***" + Game.getCurrentUser().getUserGovernment().getPopulation());
+        System.out.println
+                ("***------------Popularity------------***" + Game.getCurrentUser().getUserGovernment().getPopulation());
     }
 
     private static void addFood(Matcher matcher) {
