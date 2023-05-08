@@ -26,6 +26,8 @@ public class GameControl {
 
     private static StartGame startGame;
 
+    private static int counterTurn=0;
+
     public static void setStartGame(StartGame startGame) {
         GameControl.startGame = startGame;
     }
@@ -54,7 +56,7 @@ public class GameControl {
     }
 
 
-    public static GameMenuMessage moveUnit(int x, int y) {
+    public static GameMenuMessage moveUnit(Units unit,int x, int y) {
         int v = 200 * 200;
         if (x >= 200 || y >= 200 || x < 0 || y < 0) {
             return GameMenuMessage.WRONG_AMOUNT;
@@ -68,7 +70,7 @@ public class GameControl {
             tilesNeighbors.add(new ArrayList<Integer>());
         }
         addNeighbors(tilesNeighbors);
-        GameMenuMessage message = printShortestDistance(tilesNeighbors, (200 * currentUnits.get(0).getxLocation()) + currentUnits.get(0).getyLocation(), (200 * x) + y, v);
+        GameMenuMessage message = printShortestDistance(unit,tilesNeighbors, (200 * currentUnits.get(0).getxLocation()) + currentUnits.get(0).getyLocation(), (200 * x) + y, v);
         return message;
     }
 
@@ -97,7 +99,7 @@ public class GameControl {
         return null;
     }
 
-    public static GameMenuMessage printShortestDistance(ArrayList<ArrayList<Integer>> neighborTiles, int tile1, int tile2, int v) {
+    public static GameMenuMessage printShortestDistance(Units unit,ArrayList<ArrayList<Integer>> neighborTiles, int tile1, int tile2, int v) {
         int counter = 0;
         int pred[] = new int[v];
         int dist[] = new int[v];
@@ -117,12 +119,10 @@ public class GameControl {
         System.out.println("Path is ::");
         for (i = path.size() - 1; i >= 0; i--) {
             System.out.print("x:  " + path.get(i) / 200 + "y:    " + path.get(i) % 200);
-            for (int u = 0; u < currentUnits.size() - 1; u++) {
-                currentUnits.get(u).setxLocation(path.get(i) / 200);
-                currentUnits.get(u).setyLocation(path.get(i) % 200);
-            }
+                unit.setxLocation(path.get(i) / 200);
+                unit.setyLocation(path.get(i) % 200);
             counter++;
-            if (counter == currentUnits.get(0).getUnitsName().getSpeed() / 20)
+            if (counter == unit.getUnitsName().getSpeed() / 20)
                 break;
         }
         if (path.size() > counter) {
@@ -185,14 +185,19 @@ public class GameControl {
     }
 
     public static GameMenuMessage attack(int x, int y) {
+        GameMenuMessage message = null;
         int previousX = currentUnits.get(0).getxLocation();
         int previousY = currentUnits.get(0).getyLocation();
         if (x >= 200 || y >= 200 || x < 0 || y < 0) {
             return GameMenuMessage.WRONG_AMOUNT;
         }
-        GameMenuMessage message = moveUnit(x, y);
+        for (Units units:currentUnits) {
+            message = moveUnit(units,x, y);
+        }
         if (message.equals(GameMenuMessage.BIGGERTHANSPEED)) {
-            moveUnit(previousX, previousY);
+            for (Units units:currentUnits) {
+                moveUnit(units,previousX, previousY);
+            }
             return GameMenuMessage.BIGGERTHANSPEED;
         }
         Tile tile = startGame.getMapInGame().getMap()[x][y];
@@ -263,7 +268,10 @@ public class GameControl {
             if (building instanceof Hovel) {
                 Tile tile = startGame.getMapInGame().getMap()[building.getX()][building.getY()];
                 while (currentUnits.get(0).getxLocation() != building.getX() && currentUnits.get(0).getyLocation() != building.getX()) {
-                    moveUnit(building.getX(), building.getY());
+                    for (Units unit:currentUnits){
+                        moveUnit(unit,building.getX(), building.getY());
+                    }
+
                 }
             }
             return GameMenuMessage.SUCCESS;
@@ -418,7 +426,9 @@ public class GameControl {
                 Gatehouse gatehouse = (Gatehouse) tile.getBuilding();
                 if (gatehouse.getGovernment() != currentUnits.get(0).getOwnerPerson().getUserGovernment()) {
                     if (currentUnits.get(0).getUnitsName().getName().equals("spearman") || currentUnits.get(0).getUnitsName().getName().equals("maceman")) {
-                        moveUnit(gatehouse.getX(), gatehouse.getY());
+                        for (Units units:currentUnits) {
+                            moveUnit(units,gatehouse.getX(), gatehouse.getY());
+                        }
                         gatehouse.setOpenGate(true);
                         gatehouse.setHasFlag(true);
                         return GameMenuMessage.SUCCESS;
@@ -658,7 +668,32 @@ public class GameControl {
 
 
     }
-    public static void nextTurn(){   //TODO should be completed !!!!a lot of work we have to do!
+    public static GameMenuMessage nextTurn(){//TODO should be completed !!!!a lot of work we have to do!
+       if(startGame.getPlayers().indexOf(startGame.getCurrentUser())==startGame.getPlayers().size()-1){
+           counterTurn++;
+           startGame.setCurrentUser(startGame.getGameStarter());
+           //TODO should be completed !!!!a lot of work we have to do!
+           for (int i=0;i<200;i++){
+               for (int j=0;j<200;j++){
+                   for (People people:startGame.getMapInGame().getMap()[i][j].getPeopleOnTile()){
+                       if(people instanceof Units){
+                           if(people.getToGoX()!=people.getxLocation()||people.getToGoY()!=people.getyLocation()){
+                               moveUnit((Units) people,people.getToGoX(),people.getToGoY());
+                           }
+                       }
+                   }
+               }
+           }
+           return GameMenuMessage.NEXT_TURN;
+       }
+       else {
+           startGame.setCurrentUser(startGame.getPlayers().get(startGame.getPlayers().indexOf(startGame.getCurrentUser())+1));
+           currentUnits.clear();
+           return GameMenuMessage.NEXT_PLAYER;
+       }
     }
 
+    public static StartGame getStartGame() {
+        return startGame;
+    }
 }

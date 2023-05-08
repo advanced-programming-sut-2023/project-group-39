@@ -32,4 +32,7 @@ public enum GameMenuMessage {
 
     CANT_DIG,
 
+    NEXT_PLAYER,
+
+    NEXT_TURN;
 }

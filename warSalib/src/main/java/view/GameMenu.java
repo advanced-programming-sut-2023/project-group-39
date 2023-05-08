@@ -592,5 +592,17 @@ public class GameMenu {
         }
 
     }
+    private static void nextTurn(Matcher matcher){
+        GameMenuMessage message=GameControl.nextTurn();
+        switch (message){
+            case NEXT_PLAYER :
+                System.out.println("Player:  "+GameControl.getStartGame().getCurrentUser().getUsername()+"   should be play now!");
+                break;
+            case NEXT_TURN:
+                System.out.println("nex turn");
+                System.out.println("Player:  "+GameControl.getStartGame().getCurrentUser().getUsername()+"   should be play now!");
+                break;
+        }
+    }
 
 }
