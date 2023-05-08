@@ -15,9 +15,14 @@ import model.government.resource.Resource;
 import model.user.User;
 
 public class Government {
-    private int wealth;
+    private float wealth;
     private int popularity;
     private int population;
+    private int populationCapacity;
+    private int fearEffect;
+    private int foodEffect;
+    private int religionEffect;
+    private int taxEffect;
     private User user;
     private HashMap<Food, Integer> foods;
 
@@ -67,9 +72,9 @@ public class Government {
         else if (resources.get(resource) == number) resources.remove(resource);
         else resources.put(resource, resources.get(resource) - number);
     }
-    public int getWealth() { return wealth; }
+    public float getWealth() { return wealth; }
 
-    public void setWealth(int wealth) { this.wealth = wealth; }
+    public void setWealth(float wealth) { this.wealth = wealth; }
 
     public boolean hasEnoughResources(HashMap<Resource, Integer> resources) {
         for (Resource resource : resources.keySet()) {
