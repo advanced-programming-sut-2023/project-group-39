@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 abstract public class Building {
-
-    private boolean isNearEnemy = true;
     private Government government;
     private HashMap<String, Integer> workerDataBase;
     private ArrayList<People> workerWorked;
@@ -165,14 +163,6 @@ abstract public class Building {
 
     public void setMaxHP(int maxHP) {
         this.maxHP = maxHP;
-    }
-
-    public boolean isNearEnemy() {
-        return isNearEnemy;
-    }
-
-    public void setNearEnemy(boolean nearEnemy) {
-        isNearEnemy = nearEnemy;
     }
 
     public HashMap<Resource, Integer> getResourceNeedToBuild() {

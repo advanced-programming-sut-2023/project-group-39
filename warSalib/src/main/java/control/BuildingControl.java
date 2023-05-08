@@ -3,12 +3,15 @@ package control;
 import model.Game;
 import model.government.Government;
 import model.government.building.Building;
+import model.government.people.People;
+import model.government.people.units.Units;
 import model.government.people.units.UnitsName;
 import model.government.resource.Resource;
 import model.map.type.Type;
 import view.enums.commands.BuildingCommands;
 import view.enums.messages.BuildingMessage;
 
+import javax.swing.plaf.ButtonUI;
 import java.util.HashMap;
 
 public class BuildingControl {
@@ -63,7 +66,8 @@ public class BuildingControl {
             return BuildingMessage.NOT_ENOUGH_SOURCE;
         if (!isRelatedBuilding(type))
             return BuildingMessage.NOT_APPROPRIATE_UNIT;
-
+        UnitsName unitsName = getUnitNameByType(type);
+        Building building = Game.getSelectedBuilding();
         return BuildingMessage.SUCCESS;
     }
     public static BuildingMessage repair() {
@@ -71,9 +75,9 @@ public class BuildingControl {
             return BuildingMessage.NOT_GOOD_BUILDING;
         if (Game.getSelectedBuilding().getHp() == Game.getSelectedBuilding().getMaxHP())
             return BuildingMessage.HAS_FULL_HP;
-        if (!isEnoughStone())
+        if (!isEnoughStone(Game.getSelectedBuilding()))
             return BuildingMessage.NOT_ENOUGH_STONE;
-        if (Game.getSelectedBuilding().isNearEnemy())
+        if (isNearEnemy(Game.getSelectedBuilding()))
             return BuildingMessage.NEAR_ENEMY;
             //TODO :delete resource in stock pile
         Game.getSelectedBuilding().setHp(Game.getSelectedBuilding().getMaxHP());
@@ -90,6 +94,19 @@ public class BuildingControl {
         return false;
     }
 
+    private static boolean isNearEnemy(Building building) {
+        int x = building.getX();
+        int y = building.getY();
+        for (int j = y -2; j <= y+2; j++) {
+            for (int i = x - 2; i <= x+2; i++) {
+                for(People people : Game.getMapInGame().getMap()[j][i].getPeopleOnTile()) {
+                    if (!people.getOwnerPerson().equals(building.getGovernment().getUser()))
+                        return true;
+                }
+            }
+        }
+            return false;
+    }
     private static UnitsName getUnitNameByType(String type) {
         for (UnitsName unitsName:UnitsName.values()) {
             if (unitsName.getName().equals(type))
@@ -107,7 +124,12 @@ public class BuildingControl {
         return Game.getSelectedBuilding().getGovernment().hasEnoughResources(resourceNeedUnit);
     }
 
-    private static boolean isEnoughStone() {
-        return true;
+    private static boolean isEnoughStone(Building building) {
+        int stoneCount = building.getResourceNeedToBuild().get(Resource.STONE) / 2;
+        HashMap <Resource, Integer> stoneResource = new HashMap<>();
+        stoneResource.put(Resource.STONE, stoneCount);
+        if (building.getGovernment().hasEnoughResources(stoneResource))
+            return true;
+        return false;
     }
 }
