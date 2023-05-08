@@ -1,5 +1,6 @@
 package control;
 
+import model.StartGame;
 import view.enums.messages.ProfileMenuMessage;
 
 import java.util.ArrayList;
@@ -56,7 +57,7 @@ public class ProfileControl {
         return null;
     }
 
-    public static ProfileMenuMessage startGame(ArrayList <String> player) {
+    public static StartGame startGame(ArrayList <String> player) {
         return null;
     }
 }

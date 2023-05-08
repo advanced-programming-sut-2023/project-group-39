@@ -10,6 +10,8 @@ public enum GameMenuCommands {
 
     PATROLUNIT("patrol\\s+unit\\s+(\\-x1\\s+(?<x1>[\\d]+)\\s*()|\\-y1\\s+(?<y1>[\\d]+)\\s*()|\\-x2\\s+(?<x2>[\\d]+)\\s*()|\\-y2\\s+(?<y2>[\\d]+)\\s*()){4}\\3\\5\\7\\9$"),
 
+    STOP_PATROL_UNIT("stop\\s+patrol\\s+unit(?<x>[\\d]+)\\s+(?<y>[\\d]+)\\s*"),
+
     SETMOODE("set\\s+(\\-x\\s+(?<x>[\\d]+)\\s*()|\\-y\\s+(?<y>[\\d]+)\\s*()|\\-s\\s+(?<moode>[\\S]+)\\s*()){3}\\3\\5\\7$"),
 
     ATTACK("attack\\s+-e\\s+(\\-x\\s+(?<x>[\\d]+)\\s*()|\\-y\\s+(?<y>[\\d]+)()){2}\\3\\5$"),

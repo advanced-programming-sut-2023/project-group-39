@@ -604,5 +604,21 @@ public class GameMenu {
                 break;
         }
     }
+    private static void stopPatrol(Matcher matcher){
+        int x=Integer.parseInt(matcher.group("x"));
+        int y=Integer.parseInt(matcher.group("y"));
+        GameMenuMessage message=GameControl.stopPatrol(x,y);
+        switch (message){
+            case WRONG_AMOUNT:
+                System.out.println("you enter wrong amount of x and y");
+                break;
+            case PROBLEM:
+                System.out.println("you dont have patrol unit in this tile to stop it");
+                break;
+            case SUCCESS:
+                System.out.println("patrol unit stopping successfully");
+                break;
+        }
+    }
 
 }

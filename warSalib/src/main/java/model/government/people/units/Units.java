@@ -10,6 +10,13 @@ public class Units extends People {
     protected int hitPoint;
     protected boolean hasHorse;
 
+    protected int patrolFromX;
+
+    protected int patrolFromY;
+
+    protected int patrolToX;
+
+    protected int patrolToY;
     protected State state;
 
     protected int efficientAttackingPower;
@@ -25,6 +32,10 @@ public class Units extends People {
         this.hasHorse=false;
         this.ownerPerson=ownerPerson;
         efficientAttackingPower=unitsName.getAttackingPower();
+        this.patrolFromX=-1;
+        this.patrolFromY=-1;
+        this.patrolToX=-1;
+        this.patrolToY=-1;
 
     }
 
@@ -62,5 +73,37 @@ public class Units extends People {
 
     public void setEfficientAttackingPower(int efficientAttackingPower) {
         this.efficientAttackingPower = efficientAttackingPower;
+    }
+
+    public void setPatrolFromX(int patrolFromX) {
+        this.patrolFromX = patrolFromX;
+    }
+
+    public void setPatrolFromY(int patrolFromY) {
+        this.patrolFromY = patrolFromY;
+    }
+
+    public void setPatrolToX(int patrolToX) {
+        this.patrolToX = patrolToX;
+    }
+
+    public void setPatrolToY(int patrolToY) {
+        this.patrolToY = patrolToY;
+    }
+
+    public int getPatrolFromX() {
+        return patrolFromX;
+    }
+
+    public int getPatrolFromY() {
+        return patrolFromY;
+    }
+
+    public int getPatrolToX() {
+        return patrolToX;
+    }
+
+    public int getPatrolToY() {
+        return patrolToY;
     }
 }
