@@ -5,21 +5,21 @@ import java.util.regex.Pattern;
 
 public enum LoginMenuCommands {
     USERCREATE("user\\s+create"),
-    USERNAME("-u\\s+((?<usernameWithoutSpace>[^\\\"\\s]+)|(?<usernameWithSpace>\\\".+\\\"))"),
+    USERNAME("-u\\s+((?<usernameWithoutSpace>[^\\\"\\s]+)|(?<usernameWithSpace>\\\"[^\\\"]+\\\"))"),
 
-    PASSWORD("-p\\s+((?<passwordWithoutSpace>[^\\\"\\s]+)|(?<passwordWithSpace>\\\".+\\\"))"),
+    PASSWORD("-p\\s+((?<passwordWithoutSpace>[^\\\"\\s]+)|(?<passwordWithSpace>\\\"[^\\\"]+\\\"))"),
 
 
-    PASSWORDCONFIRM("-c\\s+((?<passwordConfirmWithoutSpace>[^\\\"\\s]+)|(?<passwordConfirmWithSpace>\\\".+\\\"))"),
+    PASSWORD_CONFIRM("-c\\s+((?<passwordConfirmWithoutSpace>[^\\\"\\s]+)|(?<passwordConfirmWithSpace>\\\"[^\\\"]+\\\"))"),
 
     EMAIL("-email\\s+(?<emailAddress>[\\S]+)\\s*"),
 
-    NICKNAME("-n\\s+((?<nicknameWithoutSpace>[^\\\"\\s]+)|(?<usernameWithSpace>\\\".+\\\"))"),
+    NICKNAME("-n\\s+((?<nicknameWithoutSpace>[^\\\"\\s]+)|(?<nicknameWithSpace>\\\"[^\\\"]+\\\"))"),
 
 
-    SLOGAN("-s\\s+((?<sloganWithoutSpace>[^\\\"\\s]+)|(?<sloganWithSpace>\\\".+\\\"))"),
+    SLOGAN("-s\\s+((?<sloganWithoutSpace>[^\\\"\\s]+)|(?<sloganWithSpace>\\\"[^\\\"]+\\\"))"),
 
-    HAVESLOGAN("-s\\s"),
+    HAVE_SLOGAN("-s\\s"),
 
 
     VALIDUSERNAME("[a-zA-Z\\d\\_]+"),
@@ -40,9 +40,9 @@ public enum LoginMenuCommands {
 
     QUSETIONNUMBER("-q\\s(?<number>[\\d]+)"),
 
-    ANSWERQUESTION("-a\\s+((?<answerWithoutSpace>[\\S]+)|(?<answerWithSpace>\\\".+\\\"))"),
+    ANSWERQUESTION("-a\\s+((?<answerWithoutSpace>[\\S]+)|(?<answerWithSpace>\\\"[^\\\"]+\\\"))"),
 
-   CONFIRMANSWER("-c\\s+((?<answerWithoutSpace>[\\S]+)|(?<answerWithSpace>\\\".+\\\"))"),
+   CONFIRMANSWER("-c\\s+((?<answerWithoutSpace>[\\S]+)|(?<answerWithSpace>\\\"[^\\\"]+\\\"))"),
 
     LOGINUSER("user\\s+login\\s+(\\-u\\s+(?<username>.+)\\s*()|\\-p\\s+(?<password>[\\S]+)\\s*()){2}\\3\\5(?<loggedInFlag>--stay-logged-in)?\\s*$"),
 

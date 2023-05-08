@@ -15,6 +15,8 @@ public class Game {
     private static User turnedUserForGame;
     //governments need to we have all player government
     private static GameMap mapInGame;
+
+    private User GameStarter;
     private static Building selectedBuilding;
     private static ArrayList<Government> governments = new ArrayList<>();
     //how many player plays in game
@@ -23,6 +25,8 @@ public class Game {
     public static ArrayList<Government> getGovernments() {
         return governments;
     }
+
+    private ArrayList<User> playersInGame=new ArrayList<>();
     public static void addGovernment (Government government) {
         governments.add(government);
     }
@@ -37,6 +41,10 @@ public class Game {
 
     public static ArrayList<User> getPlayers() {
         return players;
+    }
+
+    public ArrayList<User> getPlayersInGame() {
+        return playersInGame;
     }
 
     public static void addPlayer(User user) {
@@ -65,5 +73,13 @@ public class Game {
 
     public static void setSelectedBuilding(Building selectedBuilding) {
         Game.selectedBuilding = selectedBuilding;
+    }
+
+    public void setGameStarter(User gameStarter) {
+        GameStarter = gameStarter;
+    }
+
+    public User getGameStarter() {
+        return GameStarter;
     }
 }

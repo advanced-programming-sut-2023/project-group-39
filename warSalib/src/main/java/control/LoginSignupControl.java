@@ -8,6 +8,8 @@ import org.passay.CharacterRule;
 import org.passay.EnglishCharacterData;
 import org.passay.PasswordGenerator;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.regex.Matcher;
@@ -65,20 +67,20 @@ public class LoginSignupControl {
 
         return null;
     }
-    public static  LoginMenuMessage createUser(String username,String password,String emailAddress,String nickname,String slogan,String securityAnswer){
+    public static  LoginMenuMessage createUser(String username,String password,String emailAddress,String nickname,String slogan,String securityAnswer)  {
         XStream xStream=new XStream();
         User user=new User(username,password,emailAddress,nickname,slogan,securityAnswer);
         Game.getPlayers().add(user);
-        String xml=xStream.toXML(user);
-        try {
-            FileWriter writer=new FileWriter("users.xml");
-            writer.write(xml);
-            writer.close();
-            System.out.println("salam");
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        String xml=xStream.toXML(user);      //TODO why all things will deleted after adding new one?
+//        try {
+//            FileWriter writer=new FileWriter("users.xml");
+//            writer.write(xml);
+//            writer.close();
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         return LoginMenuMessage.SUCCESS;
     }
 

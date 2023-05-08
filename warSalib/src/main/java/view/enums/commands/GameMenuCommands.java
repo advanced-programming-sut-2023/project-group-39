@@ -49,7 +49,9 @@ public enum GameMenuCommands {
 
     MAKE_FIXED_CATAPULT("make\\s+fixed\\s+catapult\\s+(?<x>[\\d]+)\\s+(?<y>[\\d]+)\\s*"),
 
-    MAKE_FIERY_STONE_THROWER("make\\s+firey\\s+stone\\s+thrower\\s+(?<x>[\\d]+)\\s+(?<y>[\\d]+)\\s*");
+    MAKE_FIERY_STONE_THROWER("make\\s+firey\\s+stone\\s+thrower\\s+(?<x>[\\d]+)\\s+(?<y>[\\d]+)\\s*"),
+
+    NEXT_TURN("next\\s+turn");
 
 
 

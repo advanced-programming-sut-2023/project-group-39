@@ -2,6 +2,7 @@ package control;
 
 import com.sun.source.tree.NewArrayTree;
 import model.Game;
+import model.StartGame;
 import model.government.Government;
 import model.government.building.*;
 import model.government.people.People;
@@ -12,6 +13,7 @@ import model.government.people.units.State;
 import model.government.people.units.Units;
 import model.government.resource.Resource;
 import model.map.Tile;
+import model.user.User;
 import model.wartool.*;
 import view.GameMenu;
 import view.enums.messages.GameMenuMessage;
@@ -21,16 +23,23 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class GameControl {
+
+    private static StartGame startGame;
+
+    public static void setStartGame(StartGame startGame) {
+        GameControl.startGame = startGame;
+    }
+
     public static ArrayList<Units> currentUnits;
 
     public static GameMenuMessage selectUnit(int x, int y, String name) {
         if (x >= 200 || y >= 200 || x < 0 || y < 0) {
             return GameMenuMessage.WRONG_AMOUNT;
         }
-        Tile tile = Game.getMapInGame().getMap()[x][y];
+        Tile tile = startGame.getMapInGame().getMap()[x][y];
         for (People people : tile.getPeopleOnTile()) {
             if (people instanceof Units) {
-                if (((Units) people).getUnitsName().getName().equals(name) && people.getOwnerPerson().equals(Game.getCurrentUser())) {
+                if (((Units) people).getUnitsName().getName().equals(name) && people.getOwnerPerson().equals(startGame.getCurrentUser())) {
                     currentUnits.add((Units) people);
                 }
             }
@@ -50,7 +59,7 @@ public class GameControl {
         if (x >= 200 || y >= 200 || x < 0 || y < 0) {
             return GameMenuMessage.WRONG_AMOUNT;
         }
-        if (!Game.getMapInGame().getMap()[x][y].getType().getPermeability()) {
+        if (!startGame.getMapInGame().getMap()[x][y].getType().getPermeability()) {
             return GameMenuMessage.SEA_HIGHHEIGHT;
 
         }
@@ -66,16 +75,16 @@ public class GameControl {
     private static void addNeighbors(ArrayList<ArrayList<Integer>> tileNeighbors) {
         for (int x = 0; x < 200; x++) {
             for (int y = 0; y < 200; y++) {
-                if ((x + 1) < 200 && (Game.getMapInGame().getMap()[x + 1][y].getRock() == null && Game.getMapInGame().getMap()[x + 1][y].getType().getPermeability())) {
+                if ((x + 1) < 200 && (startGame.getMapInGame().getMap()[x + 1][y].getRock() == null && startGame.getMapInGame().getMap()[x + 1][y].getType().getPermeability())) {
                     tileNeighbors.get((x * 200) + y).add(((x + 1) * 200) + y);
                 }
-                if ((x - 1) >= 0 && (Game.getMapInGame().getMap()[x - 1][y].getRock() == null && Game.getMapInGame().getMap()[x - 1][y].getType().getPermeability())) {
+                if ((x - 1) >= 0 && (startGame.getMapInGame().getMap()[x - 1][y].getRock() == null && startGame.getMapInGame().getMap()[x - 1][y].getType().getPermeability())) {
                     tileNeighbors.get((x * 200) + y).add(((x - 1) * 200) + y);
                 }
-                if ((y + 1) < 200 && (Game.getMapInGame().getMap()[x][y + 1].getRock() == null && Game.getMapInGame().getMap()[x][y + 1].getType().getPermeability())) {
+                if ((y + 1) < 200 && (startGame.getMapInGame().getMap()[x][y + 1].getRock() == null && startGame.getMapInGame().getMap()[x][y + 1].getType().getPermeability())) {
                     tileNeighbors.get((x * 200) + y).add(((x) * 200) + y + 1);
                 }
-                if ((y - 1) >= 0 && (Game.getMapInGame().getMap()[x][y - 1].getRock() == null && Game.getMapInGame().getMap()[x][y - 1].getType().getPermeability())) {
+                if ((y - 1) >= 0 && (startGame.getMapInGame().getMap()[x][y - 1].getRock() == null && startGame.getMapInGame().getMap()[x][y - 1].getType().getPermeability())) {
                     tileNeighbors.get((x * 200) + y).add(((x + 1) * 200) + y - 1);
                 }
 
@@ -166,9 +175,9 @@ public class GameControl {
         if (x >= 200 || y >= 200 || x < 0 || y < 0) {
             return GameMenuMessage.WRONG_AMOUNT;
         }
-        Tile tile = Game.getMapInGame().getMap()[x][y];
+        Tile tile = startGame.getMapInGame().getMap()[x][y];
         for (People people : tile.getPeopleOnTile()) {
-            if (people instanceof Units && people.getOwnerPerson().equals(Game.getCurrentUser())) {
+            if (people instanceof Units && people.getOwnerPerson().equals(startGame.getCurrentUser())) {
                 ((Units) people).setState(state);
             }
         }
@@ -186,7 +195,7 @@ public class GameControl {
             moveUnit(previousX, previousY);
             return GameMenuMessage.BIGGERTHANSPEED;
         }
-        Tile tile = Game.getMapInGame().getMap()[x][y];
+        Tile tile = startGame.getMapInGame().getMap()[x][y];
         attackToTile(tile);
         return GameMenuMessage.SUCCESS;
 
@@ -204,7 +213,7 @@ public class GameControl {
             if ((((Archers) currentUnits.get(0)).getArrowRadius() / 20) < dis) {
                 return GameMenuMessage.PROBLEM;
             } else {                                    //TODO make arraylist for arrows or stones of each archer
-                Tile tile = Game.getMapInGame().getMap()[x][y];
+                Tile tile = startGame.getMapInGame().getMap()[x][y];
                 for (People people : tile.getPeopleOnTile()) {
                     if (people instanceof Units && !people.getOwnerPerson().equals(currentUnits.get(0).getOwnerPerson())) {
                         double efficiently = ((Archers) currentUnits.get(0)).getFatality() * ((Archers) currentUnits.get(0)).getPrecision() / 100;
@@ -233,7 +242,7 @@ public class GameControl {
         if (!invalidLocation(x, y))
             return GameMenuMessage.WRONG_AMOUNT;
         if (currentUnits.get(0).getUnitsName().getName().equals("sperman")) {
-            Tile tile = Game.getMapInGame().getMap()[x][y];
+            Tile tile = startGame.getMapInGame().getMap()[x][y];
             if (tile.getBuilding().getName().equals("lookout tower") || tile.getBuilding().getName().equals("perimeter tower") || tile.getBuilding().getName().equals("square tower") || tile.getBuilding().getName().equals("circle tower")) {
                 return GameMenuMessage.CANT_DIG;
 
@@ -252,7 +261,7 @@ public class GameControl {
     public static GameMenuMessage disbandUnit() {
         for (Building building : currentUnits.get(0).getOwnerPerson().getUserGovernment().getBuildings()) {
             if (building instanceof Hovel) {
-                Tile tile = Game.getMapInGame().getMap()[building.getX()][building.getY()];
+                Tile tile = startGame.getMapInGame().getMap()[building.getX()][building.getY()];
                 while (currentUnits.get(0).getxLocation() != building.getX() && currentUnits.get(0).getyLocation() != building.getX()) {
                     moveUnit(building.getX(), building.getY());
                 }
@@ -265,16 +274,16 @@ public class GameControl {
     public static GameMenuMessage makeGate(String name, String direction, int x, int y) {//faghat ye ghale dare har hokoomat?
         if (!invalidLocation(x, y))
             return GameMenuMessage.WRONG_AMOUNT;
-        Tile tile = Game.getMapInGame().getMap()[x][y];
+        Tile tile = startGame.getMapInGame().getMap()[x][y];
         Building building;
         if (tile.getBuilding() != null)
             return GameMenuMessage.HAS_BUILDING;
         if (direction.equals("forward") || direction.equals("backward")) {
-            if ((building = (Gatehouse.makeGatehouseByName(name, x, y, Game.getCurrentUser().getUserGovernment(), direction))) != null) {
+            if ((building = (Gatehouse.makeGatehouseByName(name, x, y, startGame.getCurrentUser().getUserGovernment(), direction))) != null) {
                 tile.setBuilding(building);
 
                 if (name.equals("big stone gatehouse")) {
-                    Game.getCurrentUser().getUserGovernment().removeFromResources(Resource.STONE, 20);
+                    startGame.getCurrentUser().getUserGovernment().removeFromResources(Resource.STONE, 20);
                     return GameMenuMessage.SUCCESS;
                 }
             }
@@ -289,17 +298,17 @@ public class GameControl {
         if (!invalidLocation(x, y))
             return GameMenuMessage.WRONG_AMOUNT;
         if (type.equals("small wall") || type.equals("great wall")) {
-            Tile tile = Game.getMapInGame().getMap()[x][y];
+            Tile tile = startGame.getMapInGame().getMap()[x][y];
             if (tile.getBuilding() != null)
                 return GameMenuMessage.HAS_BUILDING;
             Building building;
-            if ((building = Wall.makeWallByName(type, x, y, Game.getCurrentUser().getUserGovernment())) != null) {
+            if ((building = Wall.makeWallByName(type, x, y, startGame.getCurrentUser().getUserGovernment())) != null) {
                 tile.setBuilding(building);
                 if (type.equals("small wall")) {
-                    Game.getCurrentUser().getUserGovernment().removeFromResources(Resource.STONE, 2);
+                    startGame.getCurrentUser().getUserGovernment().removeFromResources(Resource.STONE, 2);
                     return GameMenuMessage.SUCCESS;
                 } else {
-                    Game.getCurrentUser().getUserGovernment().removeFromResources(Resource.STONE, 4);
+                    startGame.getCurrentUser().getUserGovernment().removeFromResources(Resource.STONE, 4);
                     return GameMenuMessage.SUCCESS;
 
                 }
@@ -320,30 +329,30 @@ public class GameControl {
         if (!invalidLocation(x, y))
             return GameMenuMessage.WRONG_AMOUNT;
         if (type.equals("lookout tower") || type.equals("perimeter tower") || type.equals("defensive tower") || type.equals("square tower") || type.equals("circle tower")) {
-            Tile tile = Game.getMapInGame().getMap()[x][y];
+            Tile tile = startGame.getMapInGame().getMap()[x][y];
             if (tile.getBuilding() != null)
                 return GameMenuMessage.HAS_BUILDING;
             Building building;
-            if ((building = Tower.makeTowerByName(type, x, y, Game.getCurrentUser().getUserGovernment())) != null) {
+            if ((building = Tower.makeTowerByName(type, x, y, startGame.getCurrentUser().getUserGovernment())) != null) {
                 tile.setBuilding(building);
                 if (building.getName().equals("lookout tower")) {
-                    Game.getCurrentUser().getUserGovernment().removeFromResources(Resource.STONE, 10);
+                    startGame.getCurrentUser().getUserGovernment().removeFromResources(Resource.STONE, 10);
                     return GameMenuMessage.SUCCESS;
                 }
                 if (building.getName().equals("perimeter tower")) {
-                    Game.getCurrentUser().getUserGovernment().removeFromResources(Resource.STONE, 10);
+                    startGame.getCurrentUser().getUserGovernment().removeFromResources(Resource.STONE, 10);
                     return GameMenuMessage.SUCCESS;
                 }
                 if (building.getName().equals("defensive tower")) {
-                    Game.getCurrentUser().getUserGovernment().removeFromResources(Resource.STONE, 15);
+                    startGame.getCurrentUser().getUserGovernment().removeFromResources(Resource.STONE, 15);
                     return GameMenuMessage.SUCCESS;
                 }
                 if (building.getName().equals("square tower")) {
-                    Game.getCurrentUser().getUserGovernment().removeFromResources(Resource.STONE, 35);
+                    startGame.getCurrentUser().getUserGovernment().removeFromResources(Resource.STONE, 35);
                     return GameMenuMessage.SUCCESS;
                 }
                 if (building.getName().equals("circle tower")) {
-                    Game.getCurrentUser().getUserGovernment().removeFromResources(Resource.STONE, 40);
+                    startGame.getCurrentUser().getUserGovernment().removeFromResources(Resource.STONE, 40);
                     return GameMenuMessage.SUCCESS;
                 }
 
@@ -362,7 +371,7 @@ public class GameControl {
     public static GameMenuMessage makeKillerTale(int x, int y) {    //TODO should make something for visibility of owner of tale
         if (!invalidLocation(x, y))
             return GameMenuMessage.WRONG_AMOUNT;
-        Tile tile = Game.getMapInGame().getMap()[x][y];
+        Tile tile = startGame.getMapInGame().getMap()[x][y];
         if (tile.isHasKillerTale()) {
             return GameMenuMessage.INVALIDPOSITION;
         }
@@ -374,7 +383,7 @@ public class GameControl {
     public static GameMenuMessage makeOilTale(int x, int y) {  //TODO we should do something for fire arrow
         if (!invalidLocation(x, y))
             return GameMenuMessage.WRONG_AMOUNT;
-        Tile tile = Game.getMapInGame().getMap()[x][y];
+        Tile tile = startGame.getMapInGame().getMap()[x][y];
         if (tile.isHasKillerTale() || tile.isHasOilTale()) {
             return GameMenuMessage.INVALIDPOSITION;
         }
@@ -386,7 +395,7 @@ public class GameControl {
     public static GameMenuMessage makeStair(int x, int y) {
         if (!invalidLocation(x, y))
             return GameMenuMessage.WRONG_AMOUNT;
-        Tile tile = Game.getMapInGame().getMap()[x][y];
+        Tile tile = startGame.getMapInGame().getMap()[x][y];
         if (tile.getBuilding().getName().equals("great wall") || tile.getBuilding().getName().equals("small wall") || tile.getBuilding().getName().equals("small stone gatehouse") || tile.getBuilding().getName().equals("big stone gatehouse")) {
             tile.setHasStair(true);
             return GameMenuMessage.SUCCESS;
@@ -420,12 +429,12 @@ public class GameControl {
         neighbors.clear();
         for (int x = 0; x < 200; x++) {
             for (int y = 0; y < 200; y++) {
-                Building building = Game.getMapInGame().getMap()[x][y].getBuilding();
-                if (building instanceof Gatehouse && building.getGovernment().getUser() != Game.getCurrentUser()) {
+                Building building = startGame.getMapInGame().getMap()[x][y].getBuilding();
+                if (building instanceof Gatehouse && building.getGovernment().getUser() != startGame.getCurrentUser()) {
                     getNeighbors(x, y, neighbors);
                     for (Tile tile : neighbors) {
                         Building building1 = tile.getBuilding();
-                        if (building1 instanceof Tower && building1.getGovernment().getUser() == Game.getCurrentUser()) {
+                        if (building1 instanceof Tower && building1.getGovernment().getUser() == startGame.getCurrentUser()) {
                             ((Gatehouse) building).setOpenGate(true);
                             ((Gatehouse) building).setHasFlag(true);
                             return GameMenuMessage.SUCCESS;
@@ -443,7 +452,7 @@ public class GameControl {
     public static GameMenuMessage makeProtection(int x, int y, String unitsName) {
         if(!invalidLocation(x, y))
             return GameMenuMessage.WRONG_AMOUNT;
-        Tile tile = Game.getMapInGame().getMap()[x][y];
+        Tile tile = startGame.getMapInGame().getMap()[x][y];
         Combat combat = null;
         for (People people : tile.getPeopleOnTile()) {
             if (people instanceof Combat) {
@@ -455,9 +464,9 @@ public class GameControl {
             }
             return GameMenuMessage.INVALIDUNIT;
         }
-        for (Engineer engineer : Game.getCurrentUser().getUserGovernment().getEngineers()) {
+        for (Engineer engineer : startGame.getCurrentUser().getUserGovernment().getEngineers()) {
             if (!engineer.isHasWork()){
-                if(Game.getCurrentUser().getUserGovernment().numberOfResource(Resource.IRON)>=2) {
+                if(startGame.getCurrentUser().getUserGovernment().numberOfResource(Resource.IRON)>=2) {
                     engineer.setHasWork(true);
                     combat.setPortableProtection(wartoolenum.PORTABLE_PROTECTION);
                 }
@@ -475,7 +484,7 @@ public class GameControl {
             return GameMenuMessage.WRONG_AMOUNT;
         int counterUnemployed=0;
         ArrayList<Engineer> engineersToMakeBatteringRam=new ArrayList<>();
-        for (Engineer engineer:Game.getCurrentUser().getUserGovernment().getEngineers()){
+        for (Engineer engineer:startGame.getCurrentUser().getUserGovernment().getEngineers()){
             if(!engineer.isHasWork()) {
                 counterUnemployed++;
                 engineersToMakeBatteringRam.add(engineer);
@@ -483,12 +492,12 @@ public class GameControl {
         }
         if(counterUnemployed<4)
             return GameMenuMessage.PROBLEM;
-        if((Game.getCurrentUser().getUserGovernment().numberOfResource(Resource.STONE))<10)
+        if((startGame.getCurrentUser().getUserGovernment().numberOfResource(Resource.STONE))<10)
             return GameMenuMessage.NOTENOUGHRESOURCE;
         for (Engineer engineer:engineersToMakeBatteringRam){
             engineer.setHasWork(true);
         }
-        BatteringRam batteringRam=new BatteringRam(Game.getCurrentUser().getUserGovernment(),x,y);
+        BatteringRam batteringRam=new BatteringRam(startGame.getCurrentUser().getUserGovernment(),x,y);
         return GameMenuMessage.SUCCESS;
 
 
@@ -498,10 +507,10 @@ public class GameControl {
         if(!invalidLocation(x, y))
             return GameMenuMessage.WRONG_AMOUNT;
         ArrayList<Engineer> unEmployedEngineers=new ArrayList<>();
-        unEmployedEngineers(unEmployedEngineers,Game.getCurrentUser().getUserGovernment());
+        unEmployedEngineers(unEmployedEngineers,startGame.getCurrentUser().getUserGovernment());
         if(unEmployedEngineers.size()<2)
             return GameMenuMessage.PROBLEM;
-        if(Game.getCurrentUser().getUserGovernment().numberOfResource(Resource.STONE)<10)
+        if(startGame.getCurrentUser().getUserGovernment().numberOfResource(Resource.STONE)<10)
             return GameMenuMessage.NOTENOUGHRESOURCE;
         int counter=0;
         for (Engineer engineer:unEmployedEngineers){
@@ -519,10 +528,10 @@ public class GameControl {
         if(!invalidLocation(x, y))
             return GameMenuMessage.WRONG_AMOUNT;
         ArrayList<Engineer> unEmployedEngineers=new ArrayList<>();
-        unEmployedEngineers(unEmployedEngineers,Game.getCurrentUser().getUserGovernment());
+        unEmployedEngineers(unEmployedEngineers,startGame.getCurrentUser().getUserGovernment());
         if(unEmployedEngineers.size()<3)
             return GameMenuMessage.PROBLEM;
-        if(Game.getCurrentUser().getUserGovernment().numberOfResource(Resource.STONE)<20)
+        if(startGame.getCurrentUser().getUserGovernment().numberOfResource(Resource.STONE)<20)
             return GameMenuMessage.NOTENOUGHRESOURCE;
         int counter=0;
         for (Engineer engineer:unEmployedEngineers){
@@ -559,7 +568,7 @@ public class GameControl {
         ArrayList<Units> deathUnits = new ArrayList<>();
         for (Units unit : currentUnits) {
             for (People enemyUnit : tile.getPeopleOnTile()) {
-                if (enemyUnit instanceof Units && !enemyUnit.getOwnerPerson().equals(Game.getCurrentUser())) {
+                if (enemyUnit instanceof Units && !enemyUnit.getOwnerPerson().equals(startGame.getCurrentUser())) {
                     fight(unit, (Units) enemyUnit);
                     if (unit.getHitPoint() < 0) {
                         deathUnits.add(unit);
@@ -585,20 +594,20 @@ public class GameControl {
 
     public static void getNeighbors(int x, int y, ArrayList<Tile> neighbors) {
         if (x + 1 < 200)
-            neighbors.add(Game.getMapInGame().getMap()[x + 1][y]);
+            neighbors.add(startGame.getMapInGame().getMap()[x + 1][y]);
         if (x - 1 >= 0)
-            neighbors.add(Game.getMapInGame().getMap()[x - 1][y]);
+            neighbors.add(startGame.getMapInGame().getMap()[x - 1][y]);
         if (y + 1 < 200)
-            neighbors.add(Game.getMapInGame().getMap()[x][y + 1]);
+            neighbors.add(startGame.getMapInGame().getMap()[x][y + 1]);
         if (y - 1 >= 0)
-            neighbors.add(Game.getMapInGame().getMap()[x][y - 1]);
+            neighbors.add(startGame.getMapInGame().getMap()[x][y - 1]);
     }
     public static GameMenuMessage makeSiegeTower(int x,int y){  //TODO make features of siege tower in game
         if(!invalidLocation(x, y))
             return GameMenuMessage.WRONG_AMOUNT;
         int unEmployedEngineers=0;
         ArrayList<Engineer> engineersToSiegeTower=new ArrayList<>();
-        for (Engineer engineer:Game.getCurrentUser().getUserGovernment().getEngineers()){
+        for (Engineer engineer:startGame.getCurrentUser().getUserGovernment().getEngineers()){
             if(!engineer.isHasWork()) {
                 unEmployedEngineers++;
                 engineersToSiegeTower.add(engineer);
@@ -606,7 +615,7 @@ public class GameControl {
         }
         if(unEmployedEngineers<4)
             return GameMenuMessage.PROBLEM;
-        if((Game.getCurrentUser().getUserGovernment().numberOfResource(Resource.STONE))<30)
+        if((startGame.getCurrentUser().getUserGovernment().numberOfResource(Resource.STONE))<30)
             return GameMenuMessage.NOTENOUGHRESOURCE;
         for (Engineer engineer:engineersToSiegeTower){
             engineer.setHasWork(true);
@@ -631,7 +640,7 @@ public class GameControl {
             return GameMenuMessage.WRONG_AMOUNT;
         int unEmployedEngineers=0;
         ArrayList<Engineer> engineersToFieryStone=new ArrayList<>();
-        for (Engineer engineer:Game.getCurrentUser().getUserGovernment().getEngineers()){
+        for (Engineer engineer:startGame.getCurrentUser().getUserGovernment().getEngineers()){
             if(!engineer.isHasWork()) {
                 unEmployedEngineers++;
                 engineersToFieryStone.add(engineer);
@@ -639,7 +648,7 @@ public class GameControl {
         }
         if(unEmployedEngineers<4)
             return GameMenuMessage.PROBLEM;
-        if((Game.getCurrentUser().getUserGovernment().numberOfResource(Resource.STONE))<25)
+        if((startGame.getCurrentUser().getUserGovernment().numberOfResource(Resource.STONE))<25)
             return GameMenuMessage.NOTENOUGHRESOURCE;
         for (Engineer engineer:engineersToFieryStone){
             engineer.setHasWork(true);
@@ -648,6 +657,8 @@ public class GameControl {
         return GameMenuMessage.SUCCESS;
 
 
+    }
+    public static void nextTurn(){   //TODO should be completed !!!!a lot of work we have to do!
     }
 
 }

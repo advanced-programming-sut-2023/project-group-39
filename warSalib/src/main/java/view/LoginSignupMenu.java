@@ -33,6 +33,8 @@ public class LoginSignupMenu {
 
     static int counterWrongPassword = 0;
 
+    static int flagCreateUser=0;
+
     public static void run() {
         Scanner scanner = new Scanner(System.in);
         while (true) {
@@ -52,7 +54,8 @@ public class LoginSignupMenu {
                     } else {
                         username = matcher.group("usernameWithSpace");
                         username = username.trim();
-                        username = username.substring(1, username.length() - 2);
+                        username = username.substring(1, username.length() - 1);
+                        System.out.println(username);
                     }
                 } else {
                     System.out.println("your username field is empty!");
@@ -74,7 +77,7 @@ public class LoginSignupMenu {
 
                 }
                 if (randomPasswordFlag == 0) {
-                    if ((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.PASSWORDCONFIRM)) != null) {
+                    if ((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.PASSWORD_CONFIRM)) != null) {
                         if (matcher.group("passwordConfirmWithoutSpace") != null) {
                             confirmPassword = matcher.group("passwordConfirmWithoutSpace");
                         } else {
@@ -99,19 +102,22 @@ public class LoginSignupMenu {
                 if ((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.NICKNAME)) != null) {
                     if (matcher.group("nicknameWithoutSpace") != null) {
                         nickname = matcher.group("nicknameWithoutSpace");
-                    } else {
+                    } else   {
                         nickname = matcher.group("nicknameWithSpace");
                         nickname = nickname.trim();
-                        nickname = nickname.substring(1, nickname.length() - 2);
+                        nickname = nickname.substring(1, nickname.length() - 1);
                     }
                 } else {
                     System.out.println("your nickname field is empty!");
 
                 }
-                if ((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.HAVESLOGAN)) != null) {
+                if ((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.HAVE_SLOGAN)) != null) {
+                    hasSlogan=1;
                     if ((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.SLOGAN)) != null) {
                         if (matcher.group("sloganWithoutSpace") != null) {
-                            slogan = matcher.group("sloganWithoutSpace");
+                                slogan = matcher.group("sloganWithoutSpace");
+                                if(slogan.equals("random"))
+                                    randomSloganFlag=1;
                         } else {
                             slogan = matcher.group("sloganWithSpace");
                             slogan = slogan.trim();
@@ -122,6 +128,7 @@ public class LoginSignupMenu {
 
                     }
                 }
+                if(username!=null&&password!=null&&emailAddress!=null&&nickname!=null)
                 checkUsername(username);
             }
             else if ((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.USERLOGIN)) != null) {
@@ -330,6 +337,7 @@ public class LoginSignupMenu {
                     validEmail(emailAddress);
                 } else {
                     System.out.println("password is incorrect!");
+                    randomPasswordFlag=0;
 
                 }
             } else {
