@@ -14,14 +14,14 @@ public class Units extends People {
 
 
     public Units(int xLocation, int yLocation, UnitsName unitsName, User ownerPerson) {
-        this.jobsName=null;
-        this.unitsName=unitsName;
-        this.xLocation=xLocation;
-        this.yLocation=yLocation;
-        this.hitPoint=100;
-        this.state=State.STANDING;
-        this.hasHorse=false;
-        this.ownerPerson=ownerPerson;
+        this.jobsName = null;
+        this.unitsName = unitsName;
+        this.xLocation = xLocation;
+        this.yLocation = yLocation;
+        this.hitPoint = 100;
+        this.state = State.STANDING;
+        this.hasHorse = false;
+        this.ownerPerson = ownerPerson;
 
     }
 
@@ -38,11 +38,26 @@ public class Units extends People {
         return yLocation;
     }
 
+    public static Units makeUnit(int x, int y, UnitsName unitsName, User user) {
+        if (unitsName.getUnitsType().equals(UnitsType.ARCHER)) {
+            Archers archers = new Archers(x, y, unitsName, user);
+            return archers;
+        } else if (unitsName.getUnitsType().equals(UnitsType.ARMY)) {
+            Armys armys = new Armys(x, y, unitsName, user);
+            return armys;
+        } else if (unitsName.getUnitsType().equals(UnitsType.COMBAT)) {
+            Combat combat = new Combat(x, y, unitsName, user);
+            return combat;
+        }
+        return null;
+    }
+
     public UnitsName getUnitsName() {
         return unitsName;
     }
-    public void changeHitPoint(int x){
-        hitPoint+=x;
+
+    public void changeHitPoint(int x) {
+        hitPoint += x;
     }
 
     public void setState(State state) {

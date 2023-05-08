@@ -1,6 +1,4 @@
 package model.government.people.units;
-
-import model.government.people.engineer.Engineer;
 import model.wartool.wartoolenum;
 
 public enum UnitsName {
@@ -28,7 +26,7 @@ public enum UnitsName {
     TUNNELER("tunneler", 75, 50, 10, UnitsType.ARMY, false, 30
             , "barrack"),
 
-    LADDER_MAN("ladder man", 75, 0, 10,  UnitsType.ARMY, false
+    LADDER_MAN("ladder man", 75, 0, 10,  UnitsType.ENGINEER, false
             , 15, "engineer guild"),
 
     BLACK_MONK("black monk", 25, 50, 50,  UnitsType.COMBAT, true

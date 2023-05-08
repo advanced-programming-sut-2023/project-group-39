@@ -20,7 +20,6 @@ public class BuildingControl {
         else if (!isAppropriateGround(x, y, name))
             return BuildingMessage.BAD_GROUND;
         Building building = Building.makeBuildingByName(name, x, y, Game.getTurnedUserForGame().getUserGovernment());
-        //TODO : add territory
         if (building == null)
             return BuildingMessage.NOT_ENOUGH_SOURCE;
         return BuildingMessage.SUCCESS;
