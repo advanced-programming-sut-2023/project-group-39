@@ -10,8 +10,8 @@ public class OxTether extends Building{
     private final Resource resource = Resource.STONE;
     private final int rate = 12;
 
-    public OxTether(int x, int y, Government government, int hp) {
-        super(x, y, government, hp, "industry", "ox tether", hp);
+    public OxTether(int x, int y, Government government, int hp, HashMap<Resource, Integer> resource) {
+        super(x, y, government, hp, "industry", "ox tether", hp, resource);
     }
 
     public static OxTether makeOxTetherByName(String name, int x , int y, Government government) {
@@ -19,7 +19,7 @@ public class OxTether extends Building{
             HashMap<Resource, Integer> resource= new HashMap<>();
             resource.put(Resource.WOOD, 5);
             if (government.hasEnoughResources(resource)) {
-                OxTether oxTether = new OxTether(x, y, government, 150);
+                OxTether oxTether = new OxTether(x, y, government, 150, resource);
                 //oxTether.setWorkerDataBase();
                 return oxTether;
             }

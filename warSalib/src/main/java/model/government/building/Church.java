@@ -12,25 +12,25 @@ public class Church extends Building{
     private final int addToPopularity = 2;
     private ArrayList<People> people;
 
-    public Church(int x, int y, Government government, int hp, String name, int maxHp) {
-        super(x, y, government, hp, "town building", name, maxHp);
+    public Church(int x, int y, Government government, int hp, String name, int maxHp, HashMap<Resource, Integer>
+            resource) {
+        super(x, y, government, hp, "town building", name, maxHp, resource);
         improvePopularity(government);
     }
 
     public static Church makeChurchByName(String name, int x, int y, Government government) {
+        HashMap<Resource, Integer> resource = new HashMap<>();
         if (name.equals("church")) {
-            HashMap<Resource, Integer> resource= new HashMap<>();
             resource.put(Resource.COIN, 250);
             if (government.hasEnoughResources(resource)) {
-                Church church = new Church(x, y, government, 600, name, 600);
+                Church church = new Church(x, y, government, 600, name, 600, resource);
                 return church;
             }
         }
         if (name.equals("cathedral")) {
-            HashMap<Resource, Integer> resource= new HashMap<>();
             resource.put(Resource.COIN, 1000);
             if (government.hasEnoughResources(resource)) {
-                Church cathedral = new Church(x, y, government, 1000, name, 1000);
+                Church cathedral = new Church(x, y, government, 1000, name, 1000, resource);
                 //TODO : MAKE PRIEST
                 return cathedral;
             }

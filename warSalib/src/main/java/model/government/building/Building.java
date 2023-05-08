@@ -15,6 +15,8 @@ abstract public class Building {
     private Government government;
     private HashMap<String, Integer> workerDataBase;
     private ArrayList<People> workerWorked;
+
+    private HashMap<Resource, Integer> resourceNeedToBuild;
     private int hp;
     private String type;
 
@@ -22,7 +24,8 @@ abstract public class Building {
     private int maxHP;
     private int x, y;
 
-    public Building(int x, int y, Government government, int hp, String type, String name, int maxHP) {
+    public Building(int x, int y, Government government, int hp, String type, String name, int maxHP,
+                    HashMap<Resource, Integer> resourceNeedToBuild) {
         this.x = x;
         this.y = y;
         this.hp = hp;
@@ -32,6 +35,7 @@ abstract public class Building {
         workerDataBase = new HashMap<>();
         workerWorked = new ArrayList<>();
         this.maxHP = maxHP;
+        this.resourceNeedToBuild = resourceNeedToBuild;
     }
 
     public static GroupOfBuilding getGroupByName(String name) {
@@ -169,6 +173,10 @@ abstract public class Building {
 
     public void setNearEnemy(boolean nearEnemy) {
         isNearEnemy = nearEnemy;
+    }
+
+    public HashMap<Resource, Integer> getResourceNeedToBuild() {
+        return resourceNeedToBuild;
     }
 
     public static boolean isAppropriateGround(Type type, String name) {

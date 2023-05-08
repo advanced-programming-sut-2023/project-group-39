@@ -11,33 +11,32 @@ import java.util.HashMap;
 
 public class MakingForceBuilding extends Building{
 
-    public MakingForceBuilding(int x, int y, Government government, int hp, String name) {
-        super(x, y, government, hp, "castle building", name, hp);
+    public MakingForceBuilding(int x, int y, Government government, int hp, String name,
+                               HashMap<Resource, Integer> resource) {
+        super(x, y, government, hp, "castle building", name, hp, resource);
     }
 
     public static MakingForceBuilding makeMakingForceBuildingByName(String name, int x ,int y, Government government) {
+        HashMap<Resource, Integer> resource= new HashMap<>();
         if (name.equals("barrack")) {
-            HashMap<Resource, Integer> resource= new HashMap<>();
             resource.put(Resource.STONE, 15);
             if (government.hasEnoughResources(resource)) {
-                MakingForceBuilding barrack = new MakingForceBuilding(x, y, government, 1000, name);
+                MakingForceBuilding barrack = new MakingForceBuilding(x, y, government, 1000, name, resource);
                 return barrack;
             }
         }
         if (name.equals("engineer guild")) {
-            HashMap<Resource, Integer> resource= new HashMap<>();
             resource.put(Resource.WOOD, 10);
             resource.put(Resource.GOLD, 100);
             if (government.hasEnoughResources(resource)) {
-                MakingForceBuilding engineerGuild = new MakingForceBuilding(x, y, government, 800, name);
+                MakingForceBuilding engineerGuild = new MakingForceBuilding(x, y, government, 800, name, resource);
                 return engineerGuild;
             }
         }
         if (name.equals("mercenary post")) {
-            HashMap<Resource, Integer> resource= new HashMap<>();
             resource.put(Resource.WOOD, 10);
             if (government.hasEnoughResources(resource)) {
-                MakingForceBuilding mercenaryPost = new MakingForceBuilding(x, y, government, 1200, name);
+                MakingForceBuilding mercenaryPost = new MakingForceBuilding(x, y, government, 1200, name, resource);
                 return mercenaryPost;
             }
         }

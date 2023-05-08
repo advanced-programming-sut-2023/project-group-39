@@ -14,22 +14,24 @@ public class Gatehouse extends Building {
 
     private ArrayList<People> peopleLiveIn;
 
-    public Gatehouse(int x, int y, Government government, int hp, String name, int people, int maxHP) {
-        super(x, y, government, hp, "castle building", name, maxHP);
+    public Gatehouse(int x, int y, Government government, int hp, String name, int people, int maxHP,
+                     HashMap<Resource, Integer> resource) {
+        super(x, y, government, hp, "castle building", name, maxHP, resource);
         this.people = people;
         peopleLiveIn = new ArrayList<>();
     }
 
     public static Gatehouse makeGatehouseByName(String name, int x, int y, Government government) {
+        HashMap<Resource, Integer> resource= new HashMap<>();
         if (name.equals("small stone gatehouse")) {
-            Gatehouse smallGatehouse = new Gatehouse(x, y, government, 800, name, 8, 800);
+            Gatehouse smallGatehouse = new Gatehouse(x, y, government, 800, name, 8, 800, resource);
             return smallGatehouse;
         }
         else if (name.equals("big stone gatehouse")) {
-            HashMap<Resource, Integer> resource= new HashMap<>();
             resource.put(Resource.STONE, 20);
             if (government.hasEnoughResources(resource)) {
-                Gatehouse bigGatehouse = new Gatehouse(x, y, government, 1200, name, 10, 1200);
+                Gatehouse bigGatehouse = new Gatehouse(x, y, government, 1200, name, 10, 1200,
+                        resource);
                 return bigGatehouse;
             }
         }

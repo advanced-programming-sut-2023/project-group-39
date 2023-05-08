@@ -10,8 +10,9 @@ public class CagedWarDog extends Building {
     private HashMap<Dog, Integer> dogs;
     private boolean isOpen = false;
 
-    public CagedWarDog(int x, int y, Government government, int hp, String type, String name) {
-        super(x, y, government, hp, type, name, 500);
+    public CagedWarDog(int x, int y, Government government, int hp, String type, String name, HashMap<Resource, Integer>
+                       resource) {
+        super(x, y, government, hp, type, name, 500, resource);
         Dog dog = new Dog();
         dogs = new HashMap<>();
         dogs.put(dog, 5);
@@ -23,7 +24,8 @@ public class CagedWarDog extends Building {
             resource.put(Resource.WOOD, 10);
             resource.put(Resource.COIN, 100);
             if (government.hasEnoughResources(resource)) {
-                CagedWarDog cagedWarDog = new CagedWarDog(x, y, government, 500, "castle building", name);
+                CagedWarDog cagedWarDog = new CagedWarDog(x, y, government, 500, "castle building", name,
+                        resource);
                 return cagedWarDog;
             }
         }

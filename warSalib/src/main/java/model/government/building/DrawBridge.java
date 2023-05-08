@@ -11,8 +11,8 @@ public class DrawBridge extends Building{
 
     private double decreasingSpeed = 0.7;
 
-    public DrawBridge(int x, int y, Government government, int upOrDown) {
-        super(x, y, government, 600, "castle building", "draw bridge", 600);
+    public DrawBridge(int x, int y, Government government, int upOrDown, HashMap<Resource, Integer> resource) {
+        super(x, y, government, 600, "castle building", "draw bridge", 600, resource);
         this.upOrDown = upOrDown;
     }
 
@@ -21,7 +21,7 @@ public class DrawBridge extends Building{
             HashMap<Resource, Integer> resource= new HashMap<>();
             resource.put(Resource.WOOD, 10);
             if (government.hasEnoughResources(resource)) {
-                DrawBridge drawBridge = new DrawBridge(x, y, government, 0);
+                DrawBridge drawBridge = new DrawBridge(x, y, government, 0, resource);
                 return drawBridge;
             }
         }

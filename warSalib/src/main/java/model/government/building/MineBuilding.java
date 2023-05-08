@@ -12,36 +12,38 @@ public class MineBuilding extends Building{
     private int rate;
     private Resource resource;
 
-    public MineBuilding(int x, int y, Government government, int hp, String name, int rate, Resource resource) {
-        super(x, y, government, hp, "industry", name, hp);
+    public MineBuilding(int x, int y, Government government, int hp, String name, int rate, Resource resource,
+                        HashMap<Resource, Integer> resources) {
+        super(x, y, government, hp, "industry", name, hp, resources);
         this.rate = rate;
         this.resource = resource;
     }
 
     public static MineBuilding makeMineBuildingByName(String name , int x, int y, Government government) {
+        HashMap<Resource, Integer> resource= new HashMap<>();
         if (name.equals("quarry") ) {
-            HashMap<Resource, Integer> resource= new HashMap<>();
             resource.put(Resource.WOOD, 20);
             if (government.hasEnoughResources(resource)) {
-                MineBuilding mineBuilding = new MineBuilding(x, y, government, 1000, name, 20, Resource.STONE);
+                MineBuilding mineBuilding = new MineBuilding(x, y, government, 1000, name, 20, Resource.STONE
+                ,resource);
                 //mineBuilding.setWorkerDataBase();
                 return mineBuilding;
             }
         }
         if (name.equals("iron mine") ) {
-            HashMap<Resource, Integer> resource= new HashMap<>();
             resource.put(Resource.WOOD, 20);
             if (government.hasEnoughResources(resource)) {
-                MineBuilding mineBuilding = new MineBuilding(x, y, government, 1100, name, 15, Resource.IRON);
+                MineBuilding mineBuilding = new MineBuilding(x, y, government, 1100, name, 15, Resource.IRON,
+                        resource);
                 //mineBuilding.setWorkerDataBase();
                 return mineBuilding;
             }
         }
         if (name.equals("pitch rig") ) {
-            HashMap<Resource, Integer> resource= new HashMap<>();
             resource.put(Resource.WOOD, 20);
             if (government.hasEnoughResources(resource)) {
-                MineBuilding mineBuilding = new MineBuilding(x, y, government, 800, name, 30, Resource.PITCH);
+                MineBuilding mineBuilding = new MineBuilding(x, y, government, 800, name, 30, Resource.PITCH,
+                        resource);
                // mineBuilding.setWorkerDataBase();
                 return mineBuilding;
             }

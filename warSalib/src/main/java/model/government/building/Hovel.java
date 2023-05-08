@@ -9,8 +9,9 @@ import java.util.HashMap;
 public class Hovel extends Building{
 
 
-    public Hovel(int x, int y, Government government, int hp, String type, String name) {
-        super(x, y, government, hp, type, name, 500);
+    public Hovel(int x, int y, Government government, int hp, String type, String name,
+                 HashMap<Resource, Integer> resource) {
+        super(x, y, government, hp, type, name, 500, resource);
         addPopulation();
     }
 
@@ -19,7 +20,7 @@ public class Hovel extends Building{
             HashMap <Resource, Integer> resource= new HashMap<>();
             resource.put(Resource.WOOD , 6);
             if (government.hasEnoughResources(resource)) {
-                Hovel hovel = new Hovel(x, y, government, 500, "town building", name);
+                Hovel hovel = new Hovel(x, y, government, 500, "town building", name, resource);
                 return hovel;
             }
         }

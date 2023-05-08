@@ -15,33 +15,33 @@ public class StockPileBuilding extends Building {
 
     private int capacity;
 
-    public StockPileBuilding(int x, int y, Government government, int hp, String type, String name, int capacity) {
-        super(x, y, government, hp, type, name, hp);
+    public StockPileBuilding(int x, int y, Government government, int hp, String type, String name, int capacity,
+                             HashMap<Resource, Integer> resource) {
+        super(x, y, government, hp, type, name, hp, resource);
         this.capacity = capacity;
         resources = new HashMap<>();
     }
 
     public static StockPileBuilding makeStockPileBuildingByName(String name, int x, int y, Government government) {
+        HashMap<Resource, Integer> resource = new HashMap<>();
         if (name.equals("stock pile")) {
             StockPileBuilding stockPile = new StockPileBuilding(x, y, government, 500, "industry",
-                    "stock pile", 800);
+                    "stock pile", 800, resource);
             return stockPile;
         }
         if (name.equals("food stock pile")) {
-            HashMap<Resource, Integer> resource = new HashMap<>();
             resource.put(Resource.WOOD, 5);
             if (government.hasEnoughResources(resource)) {
                 StockPileBuilding foodStockPile = new StockPileBuilding(x, y, government, 400,
-                        "food processing building", "food stock pile", 700);
+                        "food processing building", "food stock pile", 700, resource);
                 return foodStockPile;
             }
         }
         if (name.equals("armoury")) {
-            HashMap<Resource, Integer> resource = new HashMap<>();
             resource.put(Resource.WOOD, 5);
             if (government.hasEnoughResources(resource)) {
                 StockPileBuilding armoury = new StockPileBuilding(x, y, government, 900, "castle building",
-                        "armoury", 700);
+                        "armoury", 700, resource);
                 return armoury;
             }
         }

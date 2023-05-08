@@ -13,8 +13,9 @@ public class Tower extends Building{
 
     ArrayList<People> peopleOfTower;
 
-    public Tower(int x, int y, Government government, int hp, String type, String name, int defendRange) {
-        super(x, y, government, hp, type, name, hp);
+    public Tower(int x, int y, Government government, int hp, String type, String name, int defendRange,
+                 HashMap<Resource, Integer> resource) {
+        super(x, y, government, hp, type, name, hp, resource);
         this.defendRange = defendRange;
     }
 
@@ -24,7 +25,7 @@ public class Tower extends Building{
             resource.put(Resource.STONE, 10);
             if (government.hasEnoughResources(resource)) {
                 Tower lookoutTower = new Tower(x, y, government, 1000, "castle building", name,
-                        1000);
+                        1000, resource);
                 return lookoutTower;
             }
         }
@@ -32,7 +33,7 @@ public class Tower extends Building{
             resource.put(Resource.STONE, 10);
             if (government.hasEnoughResources(resource)) {
                 Tower perimeterTower = new Tower(x, y, government, 800, "castle building", name,
-                        400);
+                        400, resource);
                 return perimeterTower;
             }
         }
@@ -40,7 +41,7 @@ public class Tower extends Building{
             resource.put(Resource.STONE, 15);
             if (government.hasEnoughResources(resource)) {
                 Tower defensiveTower = new Tower(x, y, government, 1200, "castle building", name,
-                        400);
+                        400, resource);
                 return defensiveTower;
             }
         }
@@ -48,7 +49,7 @@ public class Tower extends Building{
             resource.put(Resource.STONE, 35);
             if (government.hasEnoughResources(resource)) {
                 Tower squareTower = new Tower(x, y, government, 1500, "castle building", name,
-                        800);
+                        800, resource);
                 return squareTower;
             }
         }
@@ -56,7 +57,7 @@ public class Tower extends Building{
             resource.put(Resource.STONE, 40);
             if (government.hasEnoughResources(resource)) {
                 Tower circleTower = new Tower(x, y, government, 2000, "castle building", name,
-                        900);
+                        900, resource);
                 return circleTower;
             }
         }
