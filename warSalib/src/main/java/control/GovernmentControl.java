@@ -36,7 +36,7 @@ public class GovernmentControl {
             return GovernmentMenuMessage.INVALIDFOODNAME;
         }
         int value=0;
-       for(Map.Entry<Resource,Integer> foodResources:Game.getCurrentUser().getUserGovernment().getResourcesHashmap().entrySet()){
+       for(Map.Entry<Resource,Integer> foodResources:Game.getCurrentUser().getUserGovernment().getResources().entrySet()){
            if(food.getFoodname().equals(foodResources.getKey())){
                value=foodResources.getValue();
                break;

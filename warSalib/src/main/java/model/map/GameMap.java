@@ -1,5 +1,8 @@
 package model.map;
 
+import model.Game;
+import model.government.Government;
+
 public class GameMap {
 
    private int selectedX, selectedY;
@@ -10,13 +13,58 @@ public class GameMap {
         this.map = new Tile[200][200];
         for (int i = 0 ; i<200 ; i++) {
             for (int j = 0; j<200; j++) {
-                map[i][j] = new Tile();
+                this.map[i][j] = new Tile();
             }
+        }
+        for (int i = 0; i < Game.getGovernments().size(); i++) {
+            defineTerritory(i, Game.getGovernments().get(i), this.map);
         }
     }
 
     public Tile[][] getMap() {
         return map;
+    }
+
+    public void defineTerritory (int a , Government government, Tile[][] map) {
+        int rowDown = 0;
+        int colDown = 0;
+        if (a == 0) {
+            rowDown = 0;
+            colDown = 150;
+        }
+        else if (a == 1) {
+            rowDown = 100;
+            colDown = 50;
+        }
+        else if (a == 2) {
+            rowDown = 0;
+            colDown = 50;
+        }
+        else if (a == 3) {
+            rowDown = 100;
+            colDown = 150;
+        }
+        else if (a == 4) {
+            rowDown = 150;
+            colDown = 0;
+        }
+        else if (a == 5) {
+            rowDown = 50;
+            colDown = 100;
+        }
+        else if (a == 6) {
+            rowDown = 50;
+            colDown = 0;
+        }
+        else if (a == 7) {
+            rowDown = 150;
+            colDown = 100;
+        }
+        for (int j = colDown; j < colDown + 50; j++) {
+            for (int i = rowDown; i< rowDown + 50; i++) {
+                map[j][i].setGovernment(government);
+            }
+        }
     }
 
     public Tile [][] getMapAroundCoordinate(int x, int y) {
@@ -80,13 +128,6 @@ public class GameMap {
                 }
             }
         }
-    }
-    public Tile getTileWithItsCoordinate(int x, int y) {
-        return null;
-    }
-
-    public Tile [][] getRectangleOfTileWithCoordinates(int x, int y, int x1, int y1){
-        return null;
     }
     public boolean haveBuildingsAround (String name, int x , int y) {
         if (map[x-1][y].getBuilding().getName().equals(name))
