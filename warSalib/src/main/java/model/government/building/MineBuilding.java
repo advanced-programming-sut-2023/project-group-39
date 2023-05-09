@@ -1,7 +1,10 @@
 package model.government.building;
 
+import model.Game;
 import model.government.Government;
 import model.government.building.group.GroupOfBuilding;
+import model.government.people.People;
+import model.government.people.workingpersons.JobsName;
 import model.government.resource.Resource;
 import model.map.type.Type;
 
@@ -26,7 +29,14 @@ public class MineBuilding extends Building {
             if (government.hasEnoughResources(resource)) {
                 MineBuilding mineBuilding = new MineBuilding(x, y, government, 1000, name, 20, Resource.STONE
                 ,resource);
-                //mineBuilding.setWorkerDataBase();
+                mineBuilding.setWorkerDataBase(JobsName.QUARRY_WORKER.getJobsName(), 3);
+                if (government.getUnWorkedPeople().size() >= 3) {
+                    for (int i = 0; i < 3; i++) {
+                        People people1 = government.getUnWorkedPeople().get(0);
+                        Building.changePeople(people1, JobsName.QUARRY_WORKER);
+                        Game.getMapInGame().getMap()[y][x].addPeople(people1);
+                    }
+                }
                 return mineBuilding;
             }
         }
@@ -35,7 +45,14 @@ public class MineBuilding extends Building {
             if (government.hasEnoughResources(resource)) {
                 MineBuilding mineBuilding = new MineBuilding(x, y, government, 1100, name, 15, Resource.IRON,
                         resource);
-                //mineBuilding.setWorkerDataBase();
+                mineBuilding.setWorkerDataBase(JobsName.IRON_MINE_WORKER.getJobsName(), 2);
+                if (government.getUnWorkedPeople().size() >= 2) {
+                    for (int i = 0; i < 2; i++) {
+                        People people1 = government.getUnWorkedPeople().get(0);
+                        Building.changePeople(people1, JobsName.IRON_MINE_WORKER);
+                        Game.getMapInGame().getMap()[y][x].addPeople(people1);
+                    }
+                }
                 return mineBuilding;
             }
         }
@@ -44,7 +61,12 @@ public class MineBuilding extends Building {
             if (government.hasEnoughResources(resource)) {
                 MineBuilding mineBuilding = new MineBuilding(x, y, government, 800, name, 30, Resource.PITCH,
                         resource);
-               // mineBuilding.setWorkerDataBase();
+               mineBuilding.setWorkerDataBase(JobsName.PITCH_RIG_WORKER.getJobsName(), 1);
+                if (government.getUnWorkedPeople().size() >= 1) {
+                    People people1 = government.getUnWorkedPeople().get(0);
+                    Building.changePeople(people1, JobsName.PITCH_RIG_WORKER);
+                    Game.getMapInGame().getMap()[y][x].addPeople(people1);
+                }
                 return mineBuilding;
             }
         }

@@ -19,7 +19,8 @@ public enum GroupOfBuilding {
     MINE_BUILDING("quarry" , "pitch rig" , "iron mine") ,
     OX_TETHER("ox tether") ,
     PITCH_DITCH("pitch ditch") ,
-    PRODUCTIVE_BUILDING("apple garden" , "oil smelter" , "woodcutter" , "barley field" , "wheat field" , "hunting post" , "stable", "diary product","butchery","hop field") ,
+    PRODUCTIVE_BUILDING("apple garden" , "oil smelter" , "woodcutter" , "barley field" , "wheat field" , "hunting post"
+            , "stable", "diary product","butchery","hop field") ,
     STOCK_PILE_BUILDING("armoury" ,"stock pile" , "food stock pile") ,
     TOWER("lookout tower" , "perimeter tower" , "circular tower" , "square tower" , "defensive tower") ,
     WALL("great wall" , "small wall");

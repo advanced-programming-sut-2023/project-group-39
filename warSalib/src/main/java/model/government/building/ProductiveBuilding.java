@@ -5,6 +5,7 @@ import model.Game;
 import model.government.Government;
 import model.government.building.group.GroupOfBuilding;
 import model.government.people.People;
+import model.government.people.units.Units;
 import model.government.people.units.UnitsName;
 import model.government.people.workingpersons.JobsName;
 import model.government.resource.Resource;
@@ -45,6 +46,13 @@ public class ProductiveBuilding extends Building {
                 ProductiveBuilding oilSmelter = new ProductiveBuilding(x, y, government, 600, "industry",
                         "oil smelter", 50, Resource.OIL, resource);
                 oilSmelter.setWorkerDataBase(UnitsName.ENGINEER.getName(), 1);
+                if (government.getUnWorkedPeople().size() >= 1) {
+                    Units units = new Units(x, y, UnitsName.ENGINEER, government.getUser());
+                    People people = government.getUnWorkedPeople().get(0);
+                    government.removeUnWorkedPeople(people);
+                    government.addToPeople(units);
+                    Game.getMapInGame().getMap()[y][x].addPeople(units);
+                }
                 return oilSmelter;
             }
         }

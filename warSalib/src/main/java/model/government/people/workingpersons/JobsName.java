@@ -24,7 +24,11 @@ public enum JobsName {
     WHEAT_FARMER("wheatfarmer",GroupOfBuilding.PRODUCTIVE_BUILDING.getGroup()[4],null),
     BAKER("baker",GroupOfBuilding.PRODUCTIVE_BUILDING.getGroup()[5],Resource.FLOUR),
     HUNTER("hunter", GroupOfBuilding.PRODUCTIVE_BUILDING.getGroup()[5], Resource.MEAT),
-    OX_TETHER("ox tether", GroupOfBuilding.OX_TETHER.getGroup()[0], Resource.STONE)
+    OX_TETHER("ox tether", GroupOfBuilding.OX_TETHER.getGroup()[0], Resource.STONE),
+
+    IRON_MINE_WORKER("iron mine worker", GroupOfBuilding.MINE_BUILDING.getGroup()[2], Resource.IRON),
+    QUARRY_WORKER("quarry worker", GroupOfBuilding.MINE_BUILDING.getGroup()[0], Resource.STONE),
+    PITCH_RIG_WORKER("pitch rig worker", GroupOfBuilding.MINE_BUILDING.getGroup()[1], Resource.OIL)
 
     ,UNEMPLOYED("unemployed",GroupOfBuilding.HOVEL.getGroup()[0],null);
 
