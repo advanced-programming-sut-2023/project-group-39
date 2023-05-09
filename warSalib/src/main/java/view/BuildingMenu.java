@@ -1,6 +1,7 @@
 package view;
 
 import control.BuildingControl;
+import model.Game;
 import view.enums.commands.BuildingCommands;
 import view.enums.messages.BuildingMessage;
 
@@ -23,7 +24,9 @@ public class BuildingMenu {
                 selectBuilding(matcher);
             } else if ((matcher = BuildingCommands.getMatcher(input, BuildingCommands.CREATE_UNIT)) != null) {
                 createUnit(matcher);
-            } else System.out.println("invalid command!");
+            } else if ((matcher = BuildingCommands.getMatcher(input, BuildingCommands.OPEN_CAGE_DOG)) != null)
+                openCagedDog(matcher);
+            else System.out.println("invalid command!");
         }
     }
 
@@ -102,6 +105,25 @@ public class BuildingMenu {
                 break;
             case SUCCESS:
                 System.out.println("create units successfully");
+                break;
+            default:
+                System.out.println("invalid!");
+                break;
+        }
+    }
+
+    private static void openCagedDog (Matcher matcher) {
+        String state = matcher.group("open");
+        BuildingMessage message = BuildingControl.openCagedDog(state);
+        switch (message) {
+            case WRONG_AMOUNT :
+                System.out.println("you enter wrong amount");
+                break;
+            case NOT_GOOD_BUILDING:
+                System.out.println("it's not caged war dog");
+                break;
+            case SUCCESS:
+                System.out.println("succeed opened");
                 break;
             default:
                 System.out.println("invalid!");

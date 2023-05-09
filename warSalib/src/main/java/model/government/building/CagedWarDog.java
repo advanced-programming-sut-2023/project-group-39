@@ -40,7 +40,7 @@ public class CagedWarDog extends Building {
         return isOpen;
     }
 
-    public void openDoor() {
-        isOpen = true;
+    public void openDoor(boolean state) {
+        isOpen = state;
     }
 }

@@ -3,8 +3,10 @@ package control;
 import model.Game;
 import model.government.Government;
 import model.government.building.Building;
+import model.government.building.CagedWarDog;
 import model.government.building.StockPileBuilding;
 import model.government.people.People;
+import model.government.people.units.State;
 import model.government.people.units.Units;
 import model.government.people.units.UnitsName;
 import model.government.resource.Resource;
@@ -17,6 +19,7 @@ import java.util.HashMap;
 
 public class BuildingControl {
     public static BuildingMessage dropBuilding(int x, int y, String name) {
+        Game.setSelectedBuilding(null);
         if (!isAppropriateCoordinate(x, y))
             return BuildingMessage.WRONG_AMOUNT;
         else if (isAnotherBuilding(x, y))
@@ -52,6 +55,7 @@ public class BuildingControl {
     }
 
     public static BuildingMessage selectBuilding(int x, int y) {
+        Game.setSelectedBuilding(null);
         if (!isAppropriateCoordinate(x, y))
             return BuildingMessage.WRONG_AMOUNT;
         if (!isAnotherBuilding(x, y))
@@ -155,5 +159,17 @@ public class BuildingControl {
                 return stoneCount;
         }
         return -1;
+    }
+
+    public static BuildingMessage openCagedDog(String state) {
+        if (!state.equals("open") && !state.equals("close"))
+            return BuildingMessage.WRONG_AMOUNT;
+        if (!(Game.getSelectedBuilding() instanceof CagedWarDog))
+            return BuildingMessage.NOT_GOOD_BUILDING;
+        if (state.equals("open"))
+            ((CagedWarDog) Game.getSelectedBuilding()).openDoor(true);
+        if (state.equals("close"))
+            ((CagedWarDog) Game.getSelectedBuilding()).openDoor(false);
+        return BuildingMessage.SUCCESS;
     }
 }

@@ -22,7 +22,7 @@ public class Government {
     private int popularity;
     private int population;
 
-    private int populationCapacity;
+    private int populationCapacity = 0;
 
     private int fearEffect;
     private int foodEffect;
@@ -217,6 +217,13 @@ public class Government {
         }
     }
 
+    public int getPopulationCapacity() {
+        return populationCapacity;
+    }
+
+    public void setPopulationCapacity(int populationCapacity) {
+        this.populationCapacity = populationCapacity;
+    }
 
     public void setFoodRate(int foodRate) {
         this.foodRate = foodRate;

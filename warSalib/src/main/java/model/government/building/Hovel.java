@@ -27,8 +27,7 @@ public class Hovel extends Building{
         return null;
     }
     private void addPopulation() {
-        //TODO : add people to arraylist
-        getGovernment().setPopulation(getGovernment().getPopulation() + 8 );
+        getGovernment().setPopulationCapacity(getGovernment().getPopulationCapacity() + 8 );
     }
 
 }
