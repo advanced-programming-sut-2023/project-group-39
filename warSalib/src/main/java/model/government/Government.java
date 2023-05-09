@@ -23,6 +23,7 @@ public class Government {
     private int foodEffect;
     private int religionEffect;
     private int taxEffect;
+    private float efficiency;
     private User user;
     private HashMap<Food, Integer> foods;
 
@@ -58,6 +59,7 @@ public class Government {
         this.foodRate = -2;
         this.taxRate = 0;
         this.fearRate = 0;
+        this.efficiency = 1;
     }
 
 //    public HashMap<Resource, Integer> getResources() { return resources; }
@@ -75,6 +77,10 @@ public class Government {
     public float getWealth() { return wealth; }
 
     public void setWealth(float wealth) { this.wealth = wealth; }
+
+    public float getEfficiency() { return efficiency; }
+
+    public void setEfficiency(float efficiency) { this.efficiency = efficiency; }
 
     public boolean hasEnoughResources(HashMap<Resource, Integer> resources) {
         for (Resource resource : resources.keySet()) {
@@ -132,39 +138,45 @@ public class Government {
         return requests;
     }
 
-    public static void makeChangesByFoodRate(HashMap<Integer, Food> foods) {
+    public static void makeChangesCausedByFoodRate(HashMap<Integer, Food> foods) {
 
     }
 
-    public static void makeChangesByFearRate(Fear fear) {
+    public static void makeChangesCausedByFearRate(Fear fear) {
 
     }
 
-    public static void makeChangesByTaxRate(Tax tax) {
+    public static void makeChangesCausedByTaxRate(Tax tax) {
 
     }
 
-    public int getFoodRate() {
-        return foodRate;
-    }
+    public int getFoodRate() { return foodRate; }
 
-    public int getTaxRate() {
-        return taxRate;
-    }
+    public int getTaxRate() { return taxRate; }
 
-    public HashMap<Resource, Integer> getResources() {
-        return resources;
-    }
+    public HashMap<Resource, Integer> getResources() { return resources; }
 
-    public void setFoodRate(int foodRate) {
-        this.foodRate = foodRate;
-    }
+    public void setFoodRate(int foodRate) { this.foodRate = foodRate; }
 
-    public void setTaxRate(int taxRate) {
-        this.taxRate = taxRate;
-    }
+    public void setTaxRate(int taxRate) { this.taxRate = taxRate; }
 
     public int getFearRate() { return fearRate; }
 
     public void setFearRate(int fearRate) { this.fearRate = fearRate; }
+
+    public int getFearEffect() { return fearEffect; }
+
+    public int getFoodEffect() { return foodEffect; }
+
+    public int getReligionEffect() { return religionEffect; }
+
+    public int getTaxEffect() { return taxEffect; }
+
+    public void setFearEffect(int fearEffect) { this.fearEffect = fearEffect; }
+
+    public void setFoodEffect(int foodEffect) { this.foodEffect = foodEffect; }
+
+    public void setReligionEffect(int religionEffect) { this.religionEffect = religionEffect; }
+
+    public void setTaxEffect(int taxEffect) { this.taxEffect = taxEffect; }
 }

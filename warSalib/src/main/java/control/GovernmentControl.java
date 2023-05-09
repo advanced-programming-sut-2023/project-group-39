@@ -5,9 +5,7 @@ import model.government.Government;
 import model.government.people.People;
 import model.government.people.units.Units;
 import model.government.popularityfactor.Food;
-import model.government.popularityfactor.PopularityFactor;
 import model.government.resource.Resource;
-import view.GovernmentMenu;
 import view.enums.messages.GovernmentMenuMessage;
 
 import java.util.HashMap;
@@ -15,6 +13,7 @@ import java.util.Map;
 
 public class GovernmentControl {
     private static Government government = Game.getCurrentUser().getUserGovernment();
+
     public static String showPopularityFactors() {
         StringBuilder result = new StringBuilder();
         result.append("Popularity factors:\n")
@@ -87,14 +86,15 @@ public class GovernmentControl {
         return GovernmentMenuMessage.SUCCESS;
     }
 
-    public static GovernmentMenuMessage changeWorkersActivities(int fearRate) {
-        return null;
+    public static void changeWorkersActivities(int fearRate) {
+        government.setEfficiency((float) (government.getEfficiency() + 0.1 * fearRate));
+        // check here
     }
 
     public static void changeSoldiersMorality(int fearRate) {
         for (int i = 0; i < 200; i++)
             for (int j = 0; j < 200; j++)
-                for (People people:Game.getMapInGame().getMap()[i][j].getPeopleOnTile())
+                for (People people : Game.getMapInGame().getMap()[i][j].getPeopleOnTile())
                     if (people instanceof Units)
                         people.changeEfficientAttackingPower(-5 * fearRate);
     }
@@ -103,7 +103,7 @@ public class GovernmentControl {
         if (!validateRateNumber("food", rate))
             return GovernmentMenuMessage.INVALID_RATE;
         government.setFoodRate(rate);
-        makeChangesByFoodRate(rate, government);
+        makeChangesCausedByFoodRate(rate, government);
         return GovernmentMenuMessage.SUCCESS;
     }
 
@@ -111,7 +111,7 @@ public class GovernmentControl {
         if (!validateRateNumber("tax", rate))
             return GovernmentMenuMessage.INVALID_RATE;
         government.setTaxRate(rate);
-        makeChangesByTaxRate(rate, government);
+        makeChangesCausedByTaxRate(rate, government);
         return GovernmentMenuMessage.SUCCESS;
     }
 
@@ -119,21 +119,77 @@ public class GovernmentControl {
         if (!validateRateNumber("fear", rate))
             return GovernmentMenuMessage.INVALID_RATE;
         government.setFearRate(rate);
-        makeChangesByFearRate(rate, government);
+        makeChangesCausedByFearRate(rate, government);
         return GovernmentMenuMessage.SUCCESS;
     }
 
-    public static void makeChangesByFoodRate(int rate, Government government) {
-
-
+    public static void makeChangesCausedByFoodRate(int rate, Government government) {
+        int popularity = government.getPopularity();
+        if (rate == -2)
+            popularity -= 8;
+        else if (rate == -1) {
+            popularity -= 4;
+            // handle giving half of food to each person of your people
+        } else if (rate == 0) {
+            // handle giving one food to each person
+        } else if (rate == 1) {
+            popularity += 4;
+            // handle giving 1.5 food to each person
+        } else {
+            popularity += 8;
+            // handle giving 2 foods to each person
+        }
+        government.setPopularity(popularity);
     }
 
-    public static void makeChangesByTaxRate(int rate, Government government) {
-
+    public static void makeChangesCausedByTaxRate(int rate, Government government) {
+        int popularity = government.getPopularity();
+        float wealth = government.getWealth();
+        int population = government.getPopulation();
+        if (rate == -3) {
+            popularity += 7;
+            wealth -= population * 1;
+        } else if (rate == -2) {
+            popularity += 5;
+            wealth -= population * 0.8;
+        } else if (rate == -1) {
+            popularity += 3;
+            wealth -= population * 0.6;
+        } else if (rate == 0)
+            popularity++;
+        else if (rate == 1) {
+            popularity -= 2;
+            wealth += population * 0.6;
+        } else if (rate == 2) {
+            popularity -= 4;
+            wealth += population * 0.8;
+        } else if (rate == 3) {
+            popularity -= 6;
+            wealth += population * 1;
+        } else if (rate == 4) {
+            popularity -= 8;
+            wealth += population * 1.2;
+        } else if (rate == 5) {
+            popularity -= 12;
+            wealth += population * 1.4;
+        } else if (rate == 6) {
+            popularity -= 16;
+            wealth += population * 1.6;
+        } else if (rate == 7) {
+            popularity -= 20;
+            wealth += population * 1.8;
+        } else {
+            popularity -= 24;
+            wealth += population * 2;
+        }
+        government.setPopularity(popularity);
+        government.setWealth(wealth);
     }
 
-    public static void makeChangesByFearRate(int rate, Government government) {
-
+    public static void makeChangesCausedByFearRate(int rate, Government government) {
+        government.setPopularity(government.getPopularity() + rate);
+        changeWorkersActivities(rate);
+        changeSoldiersMorality(rate);
     }
 
     public static GovernmentMenuMessage showFoodList() {
@@ -180,10 +236,10 @@ public class GovernmentControl {
     public static boolean validateRateNumber(String type, int rate) {
         if (type.equals("food"))
             if (rate > 2 || rate < -2) return false;
-        else if (type.equals("tax"))
-            if (rate > 8 || rate < -3) return false;
-        else if (type.equals("fear"))
-            if (rate > 5 || rate < -5) return false;
+            else if (type.equals("tax"))
+                if (rate > 8 || rate < -3) return false;
+                else if (type.equals("fear"))
+                    if (rate > 5 || rate < -5) return false;
         return true;
     }
 }
