@@ -221,6 +221,9 @@ public class Government {
         return populationCapacity;
     }
 
+    public void removeBuilding(Building building) {
+        buildings.remove(building);
+    }
     public void setPopulationCapacity(int populationCapacity) {
         this.populationCapacity = populationCapacity;
     }

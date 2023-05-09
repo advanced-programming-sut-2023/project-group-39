@@ -2,6 +2,7 @@ package model.map;
 
 import model.Game;
 import model.government.Government;
+import model.government.building.Keep;
 
 public class GameMap {
 
@@ -63,6 +64,11 @@ public class GameMap {
         for (int j = colDown; j < colDown + 50; j++) {
             for (int i = rowDown; i< rowDown + 50; i++) {
                 map[j][i].setGovernment(government);
+                if(i == rowDown + 24 && j == colDown + 24) {
+                    Keep keep = new Keep(i, j, government, "keep");
+                    map[j][i].setBuilding(keep);
+                    government.addBuilding(keep);
+                }
             }
         }
     }
