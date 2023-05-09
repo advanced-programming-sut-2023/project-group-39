@@ -7,7 +7,7 @@ import model.map.type.Type;
 
 import java.util.HashMap;
 
-public class MineBuilding extends Building{
+public class MineBuilding extends Building {
     //change Group by GroupOfBuilding.Mine
     private int rate;
     private Resource resource;

@@ -2,6 +2,7 @@ package model.government.building;
 
 import model.government.Government;
 import model.government.building.group.GroupOfBuilding;
+import model.government.people.workingpersons.JobsName;
 import model.government.resource.Resource;
 
 import java.util.HashMap;
@@ -20,7 +21,7 @@ public class OxTether extends Building{
             resource.put(Resource.WOOD, 5);
             if (government.hasEnoughResources(resource)) {
                 OxTether oxTether = new OxTether(x, y, government, 150, resource);
-                //oxTether.setWorkerDataBase();
+                oxTether.setWorkerDataBase(JobsName.OX_TETHER.getJobsName(), 1);
                 return oxTether;
             }
         }

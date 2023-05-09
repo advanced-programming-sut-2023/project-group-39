@@ -31,7 +31,7 @@ public class Church extends Building{
             resource.put(Resource.COIN, 1000);
             if (government.hasEnoughResources(resource)) {
                 Church cathedral = new Church(x, y, government, 1000, name, 1000, resource);
-                //TODO : MAKE PRIEST
+
                 return cathedral;
             }
         }

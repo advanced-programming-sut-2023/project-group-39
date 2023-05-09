@@ -29,9 +29,7 @@ public class Inn extends Building{
             resource.put(Resource.WOOD, 20);
             if (government.hasEnoughResources(resource)) {
                 Inn inn = new Inn(x, y, government, 500, "food processing building", name, resource);
-                //DrinkServer drinkServer = new DrinkServer()
-                //inn.setWorkerDataBase();
-                inn.setWorkerDataBase(JobsName.DRINKSERVER.getJobsName(), 1);
+                inn.setWorkerDataBase(JobsName.DRINK_SERVER.getJobsName(), 1);
                 return inn;
             }
         }

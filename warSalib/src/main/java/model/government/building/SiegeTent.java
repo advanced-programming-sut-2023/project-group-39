@@ -1,6 +1,7 @@
 package model.government.building;
 
 import model.government.Government;
+import model.government.people.units.UnitsName;
 import model.government.resource.Resource;
 
 import java.util.HashMap;
@@ -15,6 +16,7 @@ public class SiegeTent extends Building{
         HashMap<Resource, Integer> resource = new HashMap<>();
         if (name.equals("siege tent")) {
             SiegeTent siegeTent = new SiegeTent(x ,y , government, 40, "castle building" , name, resource);
+            siegeTent.setWorkerDataBase(UnitsName.ENGINEER.getName(), 1);
             return siegeTent;
         }
         return null;

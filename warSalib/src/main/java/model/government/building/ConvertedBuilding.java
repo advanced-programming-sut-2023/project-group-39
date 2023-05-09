@@ -73,7 +73,7 @@ public class ConvertedBuilding extends Building {
             if (government.hasEnoughResources(resource)) {
                 ConvertedBuilding poleTurner = new ConvertedBuilding(x, y, government, 500, "weapon",
                         name, 10, 1, Resource.WOOD, Resource.SPEAR, 500, resource);
-                poleTurner.setWorkerDataBase(JobsName.POLETURNER.getJobsName(), 1);
+                poleTurner.setWorkerDataBase(JobsName.POLE_TURNER.getJobsName(), 1);
                 return poleTurner;
             }
         }

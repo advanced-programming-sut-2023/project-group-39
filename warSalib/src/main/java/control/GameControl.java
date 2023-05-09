@@ -35,6 +35,7 @@ public class GameControl {
     }
 
     public static GameMenuMessage moveUnit(int x, int y) {
+        return null;
     }
 
     public static GameMenuMessage patrolUnit(int x1, int y1,int x2,int y2) {

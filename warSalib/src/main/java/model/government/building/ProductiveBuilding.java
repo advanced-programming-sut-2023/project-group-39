@@ -3,6 +3,7 @@ package model.government.building;
 import com.sun.jdi.request.BreakpointRequest;
 import model.government.Government;
 import model.government.building.group.GroupOfBuilding;
+import model.government.people.units.UnitsName;
 import model.government.people.workingpersons.JobsName;
 import model.government.resource.Resource;
 
@@ -36,7 +37,7 @@ public class ProductiveBuilding extends Building {
             if (government.hasEnoughResources(resource)) {
                 ProductiveBuilding oilSmelter = new ProductiveBuilding(x, y, government, 600, "industry",
                         "oil smelter", 50, Resource.OIL, resource);
-                //oilSmelter.setWorkerDataBase();
+                oilSmelter.setWorkerDataBase(UnitsName.ENGINEER.getName(), 1);
                 return oilSmelter;
             }
         }
@@ -54,7 +55,7 @@ public class ProductiveBuilding extends Building {
             if (government.hasEnoughResources(resource)) {
                 ProductiveBuilding appleGarden = new ProductiveBuilding(x, y, government, 300, "farm building"
                         , "apple garden", 100, Resource.APPLE, resource);
-                appleGarden.setWorkerDataBase(JobsName.APPLEFARMER.getJobsName(), 1);
+                appleGarden.setWorkerDataBase(JobsName.APPLE_FARMER.getJobsName(), 1);
                 return appleGarden;
             }
         }
@@ -63,7 +64,7 @@ public class ProductiveBuilding extends Building {
             if (government.hasEnoughResources(resource)) {
                 ProductiveBuilding diaryProduct = new ProductiveBuilding(x, y, government, 200, "farm building"
                         , "diary product", 30, Resource.CHEESE, resource);
-                diaryProduct.setWorkerDataBase(JobsName.DIARYPRODUCER.getJobsName(), 1);
+                diaryProduct.setWorkerDataBase(JobsName.DIARY_PRODUCER.getJobsName(), 1);
                 return diaryProduct;
             }
         }
@@ -72,7 +73,7 @@ public class ProductiveBuilding extends Building {
             if (government.hasEnoughResources(resource)) {
                 ProductiveBuilding barleyField = new ProductiveBuilding(x, y, government, 100, "farm building"
                         , "barley field", 80, Resource.HOP, resource);
-                barleyField.setWorkerDataBase(JobsName.HOPFARMER.getJobsName(), 1);
+                barleyField.setWorkerDataBase(JobsName.HOP_FARMER.getJobsName(), 1);
                 return barleyField;
             }
         }
@@ -81,7 +82,7 @@ public class ProductiveBuilding extends Building {
             if (government.hasEnoughResources(resource)) {
                 ProductiveBuilding huntingPost = new ProductiveBuilding(x, y, government, 300, "farm building"
                         , "hunting post", 20, Resource.MEAT, resource);
-                //huntingPost.setWorkerDataBase();
+                huntingPost.setWorkerDataBase(JobsName.HUNTER.getJobsName(), 1);
                 return huntingPost;
             }
         }
@@ -90,7 +91,7 @@ public class ProductiveBuilding extends Building {
             if (government.hasEnoughResources(resource)) {
                 ProductiveBuilding wheatField = new ProductiveBuilding(x, y, government, 100, "farm building"
                         , "wheat field", 70, Resource.WHEAT, resource);
-                wheatField.setWorkerDataBase(JobsName.WHEATFARMER.getJobsName(), 1);
+                wheatField.setWorkerDataBase(JobsName.WHEAT_FARMER.getJobsName(), 1);
                 return wheatField;
             }
         }
