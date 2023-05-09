@@ -18,9 +18,23 @@ public class Tile {
     private ArrayList <People> peopleOnTile;
     private Resource resource;
 
+    private boolean hasTunnel;
+
+    private boolean hasKillerTale;
+
+
+    private boolean hasStair;
+
+    private boolean hasOilTale;
+
+    public boolean isHasTunnel() {
+        return hasTunnel;
+    }
+
     public Tile() {
         this.type = Type.GROUND;
         peopleOnTile = new ArrayList<>();
+        this.hasTunnel=false;
     }
 
     public Type getType() {
@@ -72,5 +86,32 @@ public class Tile {
     }
     public void clearAllPeopleOnTile() {
         peopleOnTile.clear();
+    }
+    public void setHasTunnel(boolean hasTunnel) {
+        this.hasTunnel = hasTunnel;
+    }
+
+    public boolean isHasStair() {
+        return hasStair;
+    }
+
+    public void setHasStair(boolean hasStair) {
+        this.hasStair = hasStair;
+    }
+
+    public boolean isHasKillerTale() {
+        return hasKillerTale;
+    }
+
+    public void setHasKillerTale(boolean hasKillerTale) {
+        this.hasKillerTale = hasKillerTale;
+    }
+
+    public void setHasOilTale(boolean hasOilTale) {
+        this.hasOilTale = hasOilTale;
+    }
+
+    public boolean isHasOilTale() {
+        return hasOilTale;
     }
 }

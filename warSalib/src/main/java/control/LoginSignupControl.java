@@ -1,5 +1,8 @@
 package control;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.thoughtworks.xstream.security.AnyTypePermission;
 import model.Game;
 import model.user.User;
 import view.enums.commands.LoginMenuCommands;
@@ -8,11 +11,14 @@ import org.passay.CharacterRule;
 import org.passay.EnglishCharacterData;
 import org.passay.PasswordGenerator;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.regex.Matcher;
-import java.io.FileWriter;
-import java.io.IOException;
+
 import com.thoughtworks.xstream.XStream;
 
 
@@ -65,20 +71,26 @@ public class LoginSignupControl {
 
         return null;
     }
-    public static  LoginMenuMessage createUser(String username,String password,String emailAddress,String nickname,String slogan,String securityAnswer){
-        XStream xStream=new XStream();
+    public static  LoginMenuMessage createUser(String username,String password,String emailAddress,String nickname,String slogan,String securityAnswer)  {
+      //  XStream xStream=new XStream();
         User user=new User(username,password,emailAddress,nickname,slogan,securityAnswer);
         Game.getPlayers().add(user);
-        String xml=xStream.toXML(user);
         try {
-            FileWriter writer=new FileWriter("users.xml");
-            writer.write(xml);
-            writer.close();
-            System.out.println("salam");
-
+            FileWriter fileWriter=new FileWriter("users.json");
+            fileWriter.write(new Gson().toJson(Game.getPlayers()));
+            fileWriter.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
+        // String xml=xStream.toXML(Game.getPlayers());
+       // try {
+         //   FileWriter writer=new FileWriter("users.xml");
+         //   writer.write(xml);
+         //   writer.close();
+
+       // } catch (IOException e) {
+         //   e.printStackTrace();
+      // }
         return LoginMenuMessage.SUCCESS;
     }
 
@@ -170,5 +182,15 @@ public class LoginSignupControl {
             }
         }
         return null;
+    }
+    public static void readUsersData() throws IOException, ClassNotFoundException {
+        String json=null;
+        json=new String(Files.readAllBytes(Paths.get("users.json")));
+        ArrayList<User> data=new Gson().fromJson(json,new TypeToken<ArrayList<User>>(){}.getType());
+        if(data!=null)
+            Game.setPlayers(data);
+        for (User user:Game.getPlayers()){
+            System.out.println(user.getUsername());
+        }
     }
 }

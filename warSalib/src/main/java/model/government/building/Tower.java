@@ -11,6 +11,8 @@ public class Tower extends Building{
     private int defendRange;
     private final double fireRange = 1.2;
 
+    private final int maxPeople=10;
+
     ArrayList<People> peopleOfTower;
 
     public Tower(int x, int y, Government government, int hp, String type, String name, int defendRange) {
@@ -27,6 +29,9 @@ public class Tower extends Building{
                         1000);
                 return lookoutTower;
             }
+            else {
+                System.out.println("we dont have enough resource to make it");
+            }
         }
         if (name.equals("perimeter tower")) {
             HashMap<Resource, Integer> resource = new HashMap<>();
@@ -35,6 +40,9 @@ public class Tower extends Building{
                 Tower perimeterTower = new Tower(x, y, government, 800, "castle building", name,
                         400);
                 return perimeterTower;
+            }
+            else {
+                System.out.println("we dont have enough resource to make it");
             }
         }
         if (name.equals("defensive tower")) {
@@ -45,6 +53,9 @@ public class Tower extends Building{
                         400);
                 return defensiveTower;
             }
+            else {
+                System.out.println("we dont have enough resource to make it");
+            }
         }
         if (name.equals("square tower")) {
             HashMap<Resource, Integer> resource = new HashMap<>();
@@ -52,6 +63,9 @@ public class Tower extends Building{
             if (government.hasEnoughResources(resource)) {
                 Tower squareTower = new Tower(x, y, government, 1500, "castle building", name, 800);
                 return squareTower;
+            }
+            else {
+                System.out.println("we dont have enough resource to make it");
             }
         }
         if (name.equals("circle tower")) {
@@ -61,12 +75,19 @@ public class Tower extends Building{
                 Tower circleTower = new Tower(x, y, government, 2000, "castle building", name, 900);
                 return circleTower;
             }
+            else {
+                System.out.println("we dont have enough resource to make it");
+            }
         }
         return null;
     }
 
     public int addTowerDefending () {
         return 0;
+    }
+
+    public int getMaxPeople() {
+        return maxPeople;
     }
 
     public double getFireRange() {
