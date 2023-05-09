@@ -3,6 +3,8 @@ package model.government.building;
 import model.government.Government;
 import model.government.building.group.GroupOfBuilding;
 import model.government.people.People;
+import model.government.people.workingpersons.JobsName;
+import model.government.people.workingpersons.WorkingPerson;
 import model.government.resource.Resource;
 
 import java.util.ArrayList;
@@ -31,7 +33,8 @@ public class Church extends Building{
             resource.put(Resource.COIN, 1000);
             if (government.hasEnoughResources(resource)) {
                 Church cathedral = new Church(x, y, government, 1000, name, 1000, resource);
-
+                WorkingPerson priest = new WorkingPerson(x, y, JobsName.PRIEST, government.getUser());
+                government.addToPeople(priest);
                 return cathedral;
             }
         }

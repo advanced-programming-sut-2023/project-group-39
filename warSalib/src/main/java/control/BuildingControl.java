@@ -25,6 +25,7 @@ public class BuildingControl {
         Building building = Building.makeBuildingByName(name, x, y, Game.getTurnedUserForGame().getUserGovernment());
         if (building == null)
             return BuildingMessage.NOT_ENOUGH_SOURCE;
+        Game.getTurnedUserForGame().getUserGovernment().addBuilding(building);
         return BuildingMessage.SUCCESS;
     }
     private static boolean isAppropriateCoordinate(int x, int y) {
@@ -66,8 +67,18 @@ public class BuildingControl {
             return BuildingMessage.NOT_ENOUGH_SOURCE;
         if (!isRelatedBuilding(type))
             return BuildingMessage.NOT_APPROPRIATE_UNIT;
+        if (Game.getSelectedBuilding().getGovernment().getUnWorkedPeople().size() < count)
+            return BuildingMessage.NOT_ENOUGH_POPULATION;
         UnitsName unitsName = getUnitNameByType(type);
         Building building = Game.getSelectedBuilding();
+        Government government = building.getGovernment();
+        for (int i = 0; i < count; i++) {
+            Units units = new Units(building.getX(), building.getY(), unitsName, building.getGovernment().getUser());
+            People people = government.getUnWorkedPeople().get(0);
+            government.removeUnWorkedPeople(people);
+            government.addToPeople(units);
+            Game.getMapInGame().getMap()[building.getY()][building.getX()].addPeople(people);
+        }
         return BuildingMessage.SUCCESS;
     }
     public static BuildingMessage repair() {

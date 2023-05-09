@@ -49,6 +49,10 @@ public class Tile {
         return resource;
     }
 
+    public void removePeople(People people) {
+        peopleOnTile.remove(people);
+    }
+
     public void addPeople(People people) {
         peopleOnTile.add(people);
     }

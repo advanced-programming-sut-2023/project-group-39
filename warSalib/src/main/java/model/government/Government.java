@@ -28,6 +28,8 @@ public class Government {
     private int religionEffect;
     private int taxEffect;
     private User user;
+
+    private ArrayList<People> unWorkedPeople;
     private HashMap<Food, Integer> foods;
 
     private int foodRate;
@@ -57,6 +59,7 @@ public class Government {
         resources = new HashMap<>();
         tradeHistory = new LinkedHashMap<>();
         governmentFoods = new ArrayList<>();
+        unWorkedPeople = new ArrayList<>();
         tax = new Tax();
         fear = new Fear();
     }
@@ -153,8 +156,22 @@ public class Government {
 
     }
 
+    public void addToPeople (People people1) {
+        people.add(people1);
+    }
+
     public ArrayList<Food> getGovernmentFoods() {
         return governmentFoods;
+    }
+
+    public ArrayList<People> getUnWorkedPeople() {
+        return unWorkedPeople;
+    }
+
+    public void removeUnWorkedPeople(People people1) {
+        Game.getMapInGame().getMap()[people1.getyLocation()][people1.getxLocation()].removePeople(people1);
+        unWorkedPeople.remove(people1);
+        people.remove(people1);
     }
 
     public int getFoodRate() {
@@ -167,6 +184,10 @@ public class Government {
 
     public HashMap<Resource, Integer> getResources() {
         return resources;
+    }
+
+    public void addBuilding (Building building) {
+        buildings.add(building);
     }
 
     public void setFoodRate(int foodRate) {
