@@ -16,11 +16,11 @@ public class MakingForceBuilding extends Building{
         super(x, y, government, hp, "castle building", name, hp, resource);
     }
 
-    public static MakingForceBuilding makeMakingForceBuildingByName(String name, int x ,int y, Government government) {
+    public static MakingForceBuilding makeMakingForceBuildingByName(String name, int x ,int y, Government government, int flag) {
         HashMap<Resource, Integer> resource= new HashMap<>();
         if (name.equals("barrack")) {
             resource.put(Resource.STONE, 15);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 MakingForceBuilding barrack = new MakingForceBuilding(x, y, government, 1000, name, resource);
                 return barrack;
             }
@@ -28,14 +28,14 @@ public class MakingForceBuilding extends Building{
         if (name.equals("engineer guild")) {
             resource.put(Resource.WOOD, 10);
             resource.put(Resource.GOLD, 100);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 MakingForceBuilding engineerGuild = new MakingForceBuilding(x, y, government, 800, name, resource);
                 return engineerGuild;
             }
         }
         if (name.equals("mercenary post")) {
             resource.put(Resource.WOOD, 10);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 MakingForceBuilding mercenaryPost = new MakingForceBuilding(x, y, government, 1200, name, resource);
                 return mercenaryPost;
             }

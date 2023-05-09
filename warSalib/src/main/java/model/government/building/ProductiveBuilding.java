@@ -23,11 +23,12 @@ public class ProductiveBuilding extends Building {
         this.resourceThatMake = resourceThatMake;
     }
 
-    public static ProductiveBuilding makeProductiveBuildingByName(String name, int x, int y, Government government) {
+    public static ProductiveBuilding makeProductiveBuildingByName(String name, int x, int y, Government government,
+                                                                  int flag) {
         HashMap<Resource, Integer> resource = new HashMap<>();
         if (name.equals("wood cutter")) {
             resource.put(Resource.WOOD, 3);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 ProductiveBuilding woodCutter = new ProductiveBuilding(x, y, government, 300, "industry",
                         "wood cutter", 30, Resource.WOOD, resource);
                 woodCutter.setWorkerDataBase(JobsName.WOODCUTTER.getJobsName(), 1);
@@ -42,7 +43,7 @@ public class ProductiveBuilding extends Building {
         if (name.equals("oil smelter")) {
             resource.put(Resource.IRON, 10);
             resource.put(Resource.COIN, 100);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 ProductiveBuilding oilSmelter = new ProductiveBuilding(x, y, government, 600, "industry",
                         "oil smelter", 50, Resource.OIL, resource);
                 oilSmelter.setWorkerDataBase(UnitsName.ENGINEER.getName(), 1);
@@ -59,7 +60,7 @@ public class ProductiveBuilding extends Building {
         if (name.equals("stable")) {
             resource.put(Resource.WOOD, 20);
             resource.put(Resource.COIN, 400);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 ProductiveBuilding stable = new ProductiveBuilding(x, y, government, 400, "castle building",
                         "stable", 4, Resource.HORSE, resource);
                 return stable;
@@ -67,7 +68,7 @@ public class ProductiveBuilding extends Building {
         }
         if (name.equals("apple garden")) {
             resource.put(Resource.WOOD, 5);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 ProductiveBuilding appleGarden = new ProductiveBuilding(x, y, government, 300, "farm building"
                         , "apple garden", 100, Resource.APPLE, resource);
                 appleGarden.setWorkerDataBase(JobsName.APPLE_FARMER.getJobsName(), 1);
@@ -81,7 +82,7 @@ public class ProductiveBuilding extends Building {
         }
         if (name.equals("diary product")) {
             resource.put(Resource.WOOD, 10);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 ProductiveBuilding diaryProduct = new ProductiveBuilding(x, y, government, 200, "farm building"
                         , "diary product", 30, Resource.CHEESE, resource);
                 diaryProduct.setWorkerDataBase(JobsName.DIARY_PRODUCER.getJobsName(), 1);
@@ -95,7 +96,7 @@ public class ProductiveBuilding extends Building {
         }
         if (name.equals("barley field")) {
             resource.put(Resource.WOOD, 15);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 ProductiveBuilding barleyField = new ProductiveBuilding(x, y, government, 100, "farm building"
                         , "barley field", 80, Resource.HOP, resource);
                 barleyField.setWorkerDataBase(JobsName.HOP_FARMER.getJobsName(), 1);
@@ -109,7 +110,7 @@ public class ProductiveBuilding extends Building {
         }
         if (name.equals("hunting post")) {
             resource.put(Resource.WOOD, 5);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 ProductiveBuilding huntingPost = new ProductiveBuilding(x, y, government, 300, "farm building"
                         , "hunting post", 20, Resource.MEAT, resource);
                 huntingPost.setWorkerDataBase(JobsName.HUNTER.getJobsName(), 1);
@@ -123,7 +124,7 @@ public class ProductiveBuilding extends Building {
         }
         if (name.equals("wheat field")) {
             resource.put(Resource.WOOD, 15);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 ProductiveBuilding wheatField = new ProductiveBuilding(x, y, government, 100, "farm building"
                         , "wheat field", 70, Resource.WHEAT, resource);
                 wheatField.setWorkerDataBase(JobsName.WHEAT_FARMER.getJobsName(), 1);

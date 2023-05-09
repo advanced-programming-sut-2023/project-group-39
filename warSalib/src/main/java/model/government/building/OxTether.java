@@ -17,11 +17,11 @@ public class OxTether extends Building{
         super(x, y, government, hp, "industry", "ox tether", hp, resource);
     }
 
-    public static OxTether makeOxTetherByName(String name, int x , int y, Government government) {
+    public static OxTether makeOxTetherByName(String name, int x , int y, Government government, int flag) {
         if (name.equals("ox tether")) {
             HashMap<Resource, Integer> resource= new HashMap<>();
             resource.put(Resource.WOOD, 5);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 OxTether oxTether = new OxTether(x, y, government, 150, resource);
                 oxTether.setWorkerDataBase(JobsName.OX_TETHER.getJobsName(), 1);
                 if (government.getUnWorkedPeople().size() >= 1) {

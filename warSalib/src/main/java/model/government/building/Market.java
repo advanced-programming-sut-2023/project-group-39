@@ -17,11 +17,11 @@ public class Market extends Building{
         super(x, y, government, hp, "industry", "market", hp, resource);
         resources = new HashMap<>();
     }
-    public static Market makeMarketByName(String name, int x , int y, Government government) {
+    public static Market makeMarketByName(String name, int x , int y, Government government, int flag) {
         if (name.equals("market")) {
             HashMap<Resource, Integer> resource= new HashMap<>();
             resource.put(Resource.WOOD, 5);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 Market market = new Market(x, y, government, 500, resource);
                 market.setWorkerDataBase(JobsName.SHOPPER.getJobsName(), 1);
                 if (government.getUnWorkedPeople().size() >= 1) {

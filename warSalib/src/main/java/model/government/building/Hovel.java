@@ -15,11 +15,11 @@ public class Hovel extends Building{
         addPopulation();
     }
 
-    public static Hovel makeHovelByName(String name, int x , int y, Government government) {
+    public static Hovel makeHovelByName(String name, int x , int y, Government government, int flag) {
         if(name.equals("hovel")) {
             HashMap <Resource, Integer> resource= new HashMap<>();
             resource.put(Resource.WOOD , 6);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 Hovel hovel = new Hovel(x, y, government, 500, "town building", name, resource);
                 return hovel;
             }

@@ -14,7 +14,7 @@ public class PitchDitch extends Building{
         this.isOnFire = false;
     }
 
-    public static PitchDitch makePitchDitchByName(String name, int x , int y, Government government) {
+    public static PitchDitch makePitchDitchByName(String name, int x , int y, Government government, int flag) {
         HashMap<Resource, Integer> resource = new HashMap<>();
         if (name.equals("pitch ditch")) {
             PitchDitch pitchDitch = new PitchDitch(x, y, government,resource);

@@ -16,7 +16,7 @@ public class SiegeTent extends Building{
         super(x, y, government, hp, type, name, 40, resource);
     }
 
-    public static SiegeTent makeSiegeTentByName(String name, int x, int y, Government government) {
+    public static SiegeTent makeSiegeTentByName(String name, int x, int y, Government government, int flag) {
         HashMap<Resource, Integer> resource = new HashMap<>();
         if (name.equals("siege tent")) {
             SiegeTent siegeTent = new SiegeTent(x ,y , government, 40, "castle building" , name, resource);

@@ -22,11 +22,11 @@ public class MineBuilding extends Building {
         this.resource = resource;
     }
 
-    public static MineBuilding makeMineBuildingByName(String name , int x, int y, Government government) {
+    public static MineBuilding makeMineBuildingByName(String name , int x, int y, Government government, int flag) {
         HashMap<Resource, Integer> resource= new HashMap<>();
         if (name.equals("quarry") ) {
             resource.put(Resource.WOOD, 20);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 MineBuilding mineBuilding = new MineBuilding(x, y, government, 1000, name, 20, Resource.STONE
                 ,resource);
                 mineBuilding.setWorkerDataBase(JobsName.QUARRY_WORKER.getJobsName(), 3);
@@ -42,7 +42,7 @@ public class MineBuilding extends Building {
         }
         if (name.equals("iron mine") ) {
             resource.put(Resource.WOOD, 20);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 MineBuilding mineBuilding = new MineBuilding(x, y, government, 1100, name, 15, Resource.IRON,
                         resource);
                 mineBuilding.setWorkerDataBase(JobsName.IRON_MINE_WORKER.getJobsName(), 2);
@@ -58,7 +58,7 @@ public class MineBuilding extends Building {
         }
         if (name.equals("pitch rig") ) {
             resource.put(Resource.WOOD, 20);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 MineBuilding mineBuilding = new MineBuilding(x, y, government, 800, name, 30, Resource.PITCH,
                         resource);
                mineBuilding.setWorkerDataBase(JobsName.PITCH_RIG_WORKER.getJobsName(), 1);

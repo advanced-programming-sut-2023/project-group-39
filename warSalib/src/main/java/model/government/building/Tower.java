@@ -19,11 +19,11 @@ public class Tower extends Building{
         this.defendRange = defendRange;
     }
 
-    public static Tower makeTowerByName(String name, int x, int y, Government government) {
+    public static Tower makeTowerByName(String name, int x, int y, Government government, int flag) {
         HashMap<Resource, Integer> resource= new HashMap<>();
         if (name.equals("lookout tower")) {
             resource.put(Resource.STONE, 10);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 Tower lookoutTower = new Tower(x, y, government, 1000, "castle building", name,
                         1000, resource);
                 return lookoutTower;
@@ -31,7 +31,7 @@ public class Tower extends Building{
         }
         if (name.equals("perimeter tower")) {
             resource.put(Resource.STONE, 10);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 Tower perimeterTower = new Tower(x, y, government, 800, "castle building", name,
                         400, resource);
                 return perimeterTower;
@@ -39,7 +39,7 @@ public class Tower extends Building{
         }
         if (name.equals("defensive tower")) {
             resource.put(Resource.STONE, 15);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 Tower defensiveTower = new Tower(x, y, government, 1200, "castle building", name,
                         400, resource);
                 return defensiveTower;
@@ -47,7 +47,7 @@ public class Tower extends Building{
         }
         if (name.equals("square tower")) {
             resource.put(Resource.STONE, 35);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 Tower squareTower = new Tower(x, y, government, 1500, "castle building", name,
                         800, resource);
                 return squareTower;
@@ -55,7 +55,7 @@ public class Tower extends Building{
         }
         if (name.equals("circle tower")) {
             resource.put(Resource.STONE, 40);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 Tower circleTower = new Tower(x, y, government, 2000, "castle building", name,
                         900, resource);
                 return circleTower;

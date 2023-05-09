@@ -23,12 +23,12 @@ public class Inn extends Building{
         super(x, y, government, hp, type, name, 500, resource);
     }
 
-    public static Inn makeInnByName(String name, int x , int y, Government government) {
+    public static Inn makeInnByName(String name, int x , int y, Government government, int flag) {
         if (name.equals("inn")) {
             HashMap<Resource, Integer> resource= new HashMap<>();
             resource.put(Resource.GOLD , 100);
             resource.put(Resource.WOOD, 20);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 Inn inn = new Inn(x, y, government, 500, "food processing building", name, resource);
                 inn.setWorkerDataBase(JobsName.DRINK_SERVER.getJobsName(), 1);
                 if (government.getUnWorkedPeople().size() >= 1) {

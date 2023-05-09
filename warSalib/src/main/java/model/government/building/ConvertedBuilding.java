@@ -24,11 +24,11 @@ public class ConvertedBuilding extends Building {
         this.finalResource = finalResource;
     }
 
-    public static ConvertedBuilding makeConvertedBuildingByName(String name, int x, int y, Government government) {
+    public static ConvertedBuilding makeConvertedBuildingByName(String name, int x, int y, Government government, int flag) {
         HashMap<Resource, Integer> resource = new HashMap<>();
         if (name.equals("mill")) {
             resource.put(Resource.WOOD, 20);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 ConvertedBuilding mill = new ConvertedBuilding(x, y, government, 300,
                         "food processing building"
                         , name, 1, 20, Resource.WHEAT, Resource.FLOUR, 300,
@@ -47,7 +47,7 @@ public class ConvertedBuilding extends Building {
         if (name.equals("armourer")) {
             resource.put(Resource.WOOD, 20);
             resource.put(Resource.COIN, 100);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 ConvertedBuilding armourer = new ConvertedBuilding(x, y, government, 600, "weapon", name,
                         6, 1, Resource.IRON, Resource.ARMOUR, 600, resource);
                 armourer.setWorkerDataBase(JobsName.ARMOUR.getJobsName(), 1);
@@ -62,7 +62,7 @@ public class ConvertedBuilding extends Building {
         if (name.equals("blacksmith")) {
             resource.put(Resource.WOOD, 20);
             resource.put(Resource.COIN, 100);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 ConvertedBuilding blacksmith = new ConvertedBuilding(x, y, government, 700, "weapon", name,
                         4, 1, Resource.IRON, Resource.SWORD, 700, resource);
                 blacksmith.setWorkerDataBase(JobsName.BLACKSMITH.getJobsName(), 1);
@@ -77,7 +77,7 @@ public class ConvertedBuilding extends Building {
         if (name.equals("fletcher")) {
             resource.put(Resource.WOOD, 20);
             resource.put(Resource.COIN, 100);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 ConvertedBuilding fletcher = new ConvertedBuilding(x, y, government, 600, "weapon",
                         name, 5, 1, Resource.WOOD, Resource.ARCHER, 600, resource);
                 fletcher.setWorkerDataBase(JobsName.FLETCHER.getJobsName(), 1);
@@ -92,7 +92,7 @@ public class ConvertedBuilding extends Building {
         if (name.equals("pole turner")) {
             resource.put(Resource.WOOD, 20);
             resource.put(Resource.COIN, 100);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 ConvertedBuilding poleTurner = new ConvertedBuilding(x, y, government, 500, "weapon",
                         name, 10, 1, Resource.WOOD, Resource.SPEAR, 500, resource);
                 poleTurner.setWorkerDataBase(JobsName.POLE_TURNER.getJobsName(), 1);
@@ -106,7 +106,7 @@ public class ConvertedBuilding extends Building {
         }
         if (name.equals("bakery")) {
             resource.put(Resource.WOOD, 10);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 ConvertedBuilding bakery = new ConvertedBuilding(x, y, government, 200,
                         "food processing building",
                         name, 10, 1, Resource.FLOUR, Resource.BREAD, 200, resource);
@@ -121,7 +121,7 @@ public class ConvertedBuilding extends Building {
         }
         if (name.equals("brewery")) {
             resource.put(Resource.WOOD, 10);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 ConvertedBuilding brewery = new ConvertedBuilding(x, y, government, 350,
                         "food processing building",
                         name, 1, 30, Resource.HOP, Resource.BEAR, 350, resource);

@@ -1,7 +1,10 @@
 package control;
 
 import model.Game;
+import model.government.Government;
 import model.government.building.Building;
+import model.government.building.StockPileBuilding;
+import model.government.people.units.Units;
 import model.government.people.units.UnitsName;
 import model.map.GameMap;
 import model.map.rock.Rock;
@@ -121,8 +124,10 @@ public class EnvironmentControl {
             return EnvironmentMenuMessage.WRONG_AMOUNT;
         if (Building.getGroupByName(type) == null)
             return EnvironmentMenuMessage.WRONG_TYPE;
-        //Building building = Building.makeBuildingByName(type, x, y, Game.getMapInGame().getMap()[y][x]);
-        //Game.getMapInGame().getMap()[y][x].setBuilding(building);
+        Building building = Building.makeBuildingByName(type, x, y, Game.getMapInGame().getMap()[y][x].getGovernment(), 1);
+        Game.getTurnedUserForGame().getUserGovernment().addBuilding(building);
+        if (building instanceof StockPileBuilding)
+            building.getGovernment().addStockPile((StockPileBuilding) building);
         return EnvironmentMenuMessage.SUCCESS;
     }
 
@@ -135,7 +140,22 @@ public class EnvironmentControl {
             return EnvironmentMenuMessage.WRONG_TYPE;
         if (!isGroundAppropriateForUnit(Game.getMapInGame().getMap()[y][x].getType()))
             return EnvironmentMenuMessage.NOT_APPROPRIATE_GROUND;
+        UnitsName unitsName = getUnitNameByType(type);
+        Government government = Game.getTurnedUserForGame().getUserGovernment();
+        for (int i = 0; i < count; i++) {
+            Units unit = new Units(x, y, unitsName, government.getUser());
+            government.addToPeople(unit);
+            Game.getMapInGame().getMap()[y][x].addPeople(unit);
+        }
         return EnvironmentMenuMessage.SUCCESS;
+    }
+
+    private static UnitsName getUnitNameByType(String type) {
+        for (UnitsName unitsName:UnitsName.values()) {
+            if (unitsName.getName().equals(type))
+                return unitsName;
+        }
+        return null;
     }
 
     private static Tree getTypeOfTree(String type) {

@@ -21,18 +21,18 @@ public class Church extends Building{
         improvePopularity(government);
     }
 
-    public static Church makeChurchByName(String name, int x, int y, Government government) {
+    public static Church makeChurchByName(String name, int x, int y, Government government, int flag) {
         HashMap<Resource, Integer> resource = new HashMap<>();
         if (name.equals("church")) {
             resource.put(Resource.COIN, 250);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 Church church = new Church(x, y, government, 600, name, 600, resource);
                 return church;
             }
         }
         if (name.equals("cathedral")) {
             resource.put(Resource.COIN, 1000);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 Church cathedral = new Church(x, y, government, 1000, name, 1000, resource);
                 if (government.getUnWorkedPeople().get(0) != null) {
                     People people1 = government.getUnWorkedPeople().get(0);

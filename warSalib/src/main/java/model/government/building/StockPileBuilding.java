@@ -22,7 +22,8 @@ public class StockPileBuilding extends Building {
         resources = new HashMap<>();
     }
 
-    public static StockPileBuilding makeStockPileBuildingByName(String name, int x, int y, Government government) {
+    public static StockPileBuilding makeStockPileBuildingByName(String name, int x, int y, Government government,
+                                                                int flag) {
         HashMap<Resource, Integer> resource = new HashMap<>();
         if (name.equals("stock pile")) {
             StockPileBuilding stockPile = new StockPileBuilding(x, y, government, 500, "industry",
@@ -31,7 +32,7 @@ public class StockPileBuilding extends Building {
         }
         if (name.equals("food stock pile")) {
             resource.put(Resource.WOOD, 5);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 StockPileBuilding foodStockPile = new StockPileBuilding(x, y, government, 400,
                         "food processing building", "food stock pile", 700, resource);
                 return foodStockPile;
@@ -39,7 +40,7 @@ public class StockPileBuilding extends Building {
         }
         if (name.equals("armoury")) {
             resource.put(Resource.WOOD, 5);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 StockPileBuilding armoury = new StockPileBuilding(x, y, government, 900, "castle building",
                         "armoury", 700, resource);
                 return armoury;

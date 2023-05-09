@@ -16,11 +16,11 @@ public class DrawBridge extends Building{
         this.upOrDown = upOrDown;
     }
 
-    public static DrawBridge makeDrawBridgeByName(String name, int x, int y, Government government) {
+    public static DrawBridge makeDrawBridgeByName(String name, int x, int y, Government government, int flag) {
         if (name.equals("draw bridge")) {
             HashMap<Resource, Integer> resource= new HashMap<>();
             resource.put(Resource.WOOD, 10);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 DrawBridge drawBridge = new DrawBridge(x, y, government, 0, resource);
                 return drawBridge;
             }

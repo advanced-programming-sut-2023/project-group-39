@@ -21,7 +21,7 @@ public class Gatehouse extends Building {
         peopleLiveIn = new ArrayList<>();
     }
 
-    public static Gatehouse makeGatehouseByName(String name, int x, int y, Government government) {
+    public static Gatehouse makeGatehouseByName(String name, int x, int y, Government government, int flag) {
         HashMap<Resource, Integer> resource= new HashMap<>();
         if (name.equals("small stone gatehouse")) {
             Gatehouse smallGatehouse = new Gatehouse(x, y, government, 800, name, 8, 800, resource);
@@ -29,7 +29,7 @@ public class Gatehouse extends Building {
         }
         else if (name.equals("big stone gatehouse")) {
             resource.put(Resource.STONE, 20);
-            if (government.hasEnoughResources(resource)) {
+            if (government.hasEnoughResources(resource) || flag == 1) {
                 Gatehouse bigGatehouse = new Gatehouse(x, y, government, 1200, name, 10, 1200,
                         resource);
                 return bigGatehouse;

@@ -23,7 +23,7 @@ public class BuildingControl {
             return BuildingMessage.EXIST;
         else if (!isAppropriateGround(x, y, name))
             return BuildingMessage.BAD_GROUND;
-        Building building = Building.makeBuildingByName(name, x, y, Game.getTurnedUserForGame().getUserGovernment());
+        Building building = Building.makeBuildingByName(name, x, y, Game.getTurnedUserForGame().getUserGovernment(), 0);
         if (building == null)
             return BuildingMessage.NOT_ENOUGH_SOURCE;
         Game.getTurnedUserForGame().getUserGovernment().addBuilding(building);
