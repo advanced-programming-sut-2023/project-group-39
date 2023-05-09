@@ -274,7 +274,7 @@ public class LoginSignupMenu {
         }
 
     }
-    private static void checkUsername(String username){
+    private static void checkUsername(String userName){
         if(username==null)
             return;
         LoginMenuMessage message = LoginSignupControl.checkUsername(username);
@@ -284,11 +284,13 @@ public class LoginSignupMenu {
                 break;
             case SUCCESS:
                 validPassword(password);
-
                 break;
             case SAMEUSERNAME:
-                if(makeSuggestionUsername(username)!=null)
+                username=makeSuggestionUsername(userName);
+                System.out.println(userName);
+                if(username!=null) {
                     validPassword(password);
+                }
                 break;
         }
 
@@ -317,6 +319,7 @@ public class LoginSignupMenu {
         Scanner scanner=new Scanner(System.in);
         String check=scanner.nextLine();
         if(check.equals("yes")) {
+         //   System.out.println(username);
             return username;
         }
         else {

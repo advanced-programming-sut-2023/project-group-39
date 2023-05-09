@@ -82,4 +82,8 @@ public class Game {
     public User getGameStarter() {
         return GameStarter;
     }
+
+    public static void setPlayers(ArrayList<User> players) {
+        Game.players = players;
+    }
 }

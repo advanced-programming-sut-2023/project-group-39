@@ -737,7 +737,6 @@ public class GameControl {
        if(startGame.getPlayers().indexOf(startGame.getCurrentUser())==startGame.getPlayers().size()-1){
            counterTurn++;
            startGame.setCurrentUser(startGame.getGameStarter());
-           //TODO should be completed !!!!a lot of work we have to do!
            for (int i=0;i<200;i++){
                for (int j=0;j<200;j++){
                    for (People people:startGame.getMapInGame().getMap()[i][j].getPeopleOnTile()){
