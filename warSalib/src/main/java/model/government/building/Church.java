@@ -1,5 +1,6 @@
 package model.government.building;
 
+import model.Game;
 import model.government.Government;
 import model.government.building.group.GroupOfBuilding;
 import model.government.people.People;
@@ -33,8 +34,11 @@ public class Church extends Building{
             resource.put(Resource.COIN, 1000);
             if (government.hasEnoughResources(resource)) {
                 Church cathedral = new Church(x, y, government, 1000, name, 1000, resource);
-                WorkingPerson priest = new WorkingPerson(x, y, JobsName.PRIEST, government.getUser());
-                government.addToPeople(priest);
+                if (government.getUnWorkedPeople().get(0) != null) {
+                    People people1 = government.getUnWorkedPeople().get(0);
+                    Building.changePeople(people1, JobsName.PRIEST);
+                    Game.getMapInGame().getMap()[y][x].addPeople(people1);
+                }
                 return cathedral;
             }
         }
@@ -45,9 +49,6 @@ public class Church extends Building{
     }
 
     public void changeNormalToFightingMonk(People people) {
-
-    }
-    public void makePriest(People people){
 
     }
 }

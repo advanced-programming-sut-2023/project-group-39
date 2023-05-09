@@ -1,7 +1,9 @@
 package model.government.building;
 
+import model.Game;
 import model.government.Government;
 import model.government.building.group.GroupOfBuilding;
+import model.government.people.People;
 import model.government.people.workingpersons.JobsName;
 import model.government.resource.Resource;
 
@@ -22,6 +24,11 @@ public class Market extends Building{
             if (government.hasEnoughResources(resource)) {
                 Market market = new Market(x, y, government, 500, resource);
                 market.setWorkerDataBase(JobsName.SHOPPER.getJobsName(), 1);
+                if (government.getUnWorkedPeople().size() >= 1) {
+                    People people1 = government.getUnWorkedPeople().get(0);
+                    Building.changePeople(people1, JobsName.SHOPPER);
+                    Game.getMapInGame().getMap()[y][x].addPeople(people1);
+                }
                 return market;
             }
         }

@@ -1,11 +1,14 @@
 package model.government.building;
 
+import model.Game;
 import model.government.Government;
 import model.government.building.group.GroupOfBuilding;
 import model.government.people.People;
+import model.government.people.workingpersons.JobsName;
 import model.government.resource.Resource;
 import model.map.type.Type;
 
+import java.awt.datatransfer.MimeTypeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -182,5 +185,11 @@ abstract public class Building {
                 !(type.equals(Type.GRASS) || type.equals(Type.DENSE_GRASSLAND)))
             return false;
         return true;
+    }
+
+    public static void changePeople(People people, JobsName jobsName) {
+        people.setJobsName(jobsName);
+        people.getOwnerPerson().getUserGovernment().getUnWorkedPeople().remove(people);
+        Game.getMapInGame().getMap()[people.getyLocation()][people.getxLocation()].removePeople(people);
     }
 }

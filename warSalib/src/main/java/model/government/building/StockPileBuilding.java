@@ -57,7 +57,6 @@ public class StockPileBuilding extends Building {
     }
 
     private static boolean isGoodPlace(String name, Type type,int x, int y, int numberOfBuilding) {
-        //TODO:add this method to building control for stone and blue area
         if (name.equals("stock pile")) {
             if (Game.getMapInGame().haveBuildingsAround(name, x, y))
                 return true;

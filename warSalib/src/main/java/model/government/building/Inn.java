@@ -1,5 +1,6 @@
 package model.government.building;
 
+import model.Game;
 import model.government.Government;
 import model.government.people.People;
 import model.government.people.workingpersons.JobsName;
@@ -30,6 +31,11 @@ public class Inn extends Building{
             if (government.hasEnoughResources(resource)) {
                 Inn inn = new Inn(x, y, government, 500, "food processing building", name, resource);
                 inn.setWorkerDataBase(JobsName.DRINK_SERVER.getJobsName(), 1);
+                if (government.getUnWorkedPeople().size() >= 1) {
+                    People people1 = government.getUnWorkedPeople().get(0);
+                    Building.changePeople(people1, JobsName.DRINK_SERVER);
+                    Game.getMapInGame().getMap()[y][x].addPeople(people1);
+                }
                 return inn;
             }
         }

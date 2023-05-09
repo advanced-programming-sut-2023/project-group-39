@@ -77,7 +77,7 @@ public class BuildingControl {
             People people = government.getUnWorkedPeople().get(0);
             government.removeUnWorkedPeople(people);
             government.addToPeople(units);
-            Game.getMapInGame().getMap()[building.getY()][building.getX()].addPeople(people);
+            Game.getMapInGame().getMap()[building.getY()][building.getX()].addPeople(units);
         }
         return BuildingMessage.SUCCESS;
     }
