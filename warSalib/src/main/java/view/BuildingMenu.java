@@ -26,6 +26,8 @@ public class BuildingMenu {
                 createUnit(matcher);
             } else if ((matcher = BuildingCommands.getMatcher(input, BuildingCommands.OPEN_CAGE_DOG)) != null)
                 openCagedDog(matcher);
+            else if ((matcher = BuildingCommands.getMatcher(input, BuildingCommands.CHANGE_TAX_RATE)) != null)
+                changeTaxRate(matcher);
             else System.out.println("invalid command!");
         }
     }
@@ -53,6 +55,25 @@ public class BuildingMenu {
                 break;
             default:
                 System.out.println("invalid!!?");
+                break;
+        }
+    }
+
+    private static void changeTaxRate (Matcher matcher) {
+        int taxRate = Integer.parseInt(matcher.group("rate"));
+        BuildingMessage message = BuildingControl.changeTaxRate(taxRate);
+        switch (message) {
+            case WRONG_AMOUNT :
+                System.out.println("you enter wrong amount");
+                break;
+            case NOT_GOOD_BUILDING:
+                System.out.println("it's not gatehouse");
+                break;
+            case SUCCESS:
+                System.out.println("you chang rate successfully");
+                break;
+            default:
+                System.out.println("invalid!");
                 break;
         }
     }

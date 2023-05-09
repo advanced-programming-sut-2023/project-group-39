@@ -4,6 +4,7 @@ import model.Game;
 import model.government.Government;
 import model.government.building.Building;
 import model.government.building.CagedWarDog;
+import model.government.building.Gatehouse;
 import model.government.building.StockPileBuilding;
 import model.government.people.People;
 import model.government.people.units.State;
@@ -170,6 +171,15 @@ public class BuildingControl {
             ((CagedWarDog) Game.getSelectedBuilding()).openDoor(true);
         if (state.equals("close"))
             ((CagedWarDog) Game.getSelectedBuilding()).openDoor(false);
+        return BuildingMessage.SUCCESS;
+    }
+
+    public static BuildingMessage changeTaxRate(int taxRate) {
+        if (taxRate < -3  || taxRate > 8)
+            return BuildingMessage.WRONG_AMOUNT;
+        if (!(Game.getSelectedBuilding() instanceof Gatehouse))
+            return BuildingMessage.NOT_GOOD_BUILDING;
+        ((Gatehouse) Game.getSelectedBuilding()).changeTaxRate(taxRate);
         return BuildingMessage.SUCCESS;
     }
 }
