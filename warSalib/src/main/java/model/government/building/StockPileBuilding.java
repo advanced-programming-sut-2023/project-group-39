@@ -101,13 +101,15 @@ public class StockPileBuilding extends Building {
         }
     }
 
-    public boolean useResource(Resource resource, int number) {
+    public int useResource(Resource resource, int number) {
         if (resources.containsKey(resource)) {
-            if (resources.get(resource) < number)
-                return false;
+            if (resources.get(resource) < number) {
+                resources.replace(resource, 0);
+                return number - resources.get(resource);
+            }
             resources.replace(resource,resources.get(resource) - number);
-            return true;
+            return 0;
         } else
-            return false;
+            return number;
     }
 }

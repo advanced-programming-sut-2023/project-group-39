@@ -3,6 +3,7 @@ package control;
 import model.Game;
 import model.government.Government;
 import model.government.building.Building;
+import model.government.building.StockPileBuilding;
 import model.government.people.People;
 import model.government.people.units.Units;
 import model.government.people.units.UnitsName;
@@ -26,6 +27,8 @@ public class BuildingControl {
         if (building == null)
             return BuildingMessage.NOT_ENOUGH_SOURCE;
         Game.getTurnedUserForGame().getUserGovernment().addBuilding(building);
+        if (building instanceof StockPileBuilding)
+            building.getGovernment().addStockPile((StockPileBuilding) building);
         return BuildingMessage.SUCCESS;
     }
     private static boolean isAppropriateCoordinate(int x, int y) {

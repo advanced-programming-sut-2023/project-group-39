@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 
 import model.Game;
 import model.government.building.Building;
+import model.government.building.StockPileBuilding;
 import model.government.people.People;
 import model.government.popularityfactor.Fear;
 import model.government.popularityfactor.Food;
@@ -31,6 +32,8 @@ public class Government {
 
     private ArrayList<People> unWorkedPeople;
     private HashMap<Food, Integer> foods;
+
+    private ArrayList<StockPileBuilding> stockPileBuildings;
 
     private int foodRate;
 
@@ -58,6 +61,7 @@ public class Government {
         buildings = new ArrayList<>();
         resources = new HashMap<>();
         tradeHistory = new LinkedHashMap<>();
+        stockPileBuildings = new ArrayList<>();
         governmentFoods = new ArrayList<>();
         unWorkedPeople = new ArrayList<>();
         tax = new Tax();
@@ -189,6 +193,30 @@ public class Government {
     public void addBuilding (Building building) {
         buildings.add(building);
     }
+
+    public ArrayList<StockPileBuilding> getStockPileBuildings() {
+        return stockPileBuildings;
+    }
+
+    public void addStockPile (StockPileBuilding stockPileBuilding) {
+        stockPileBuildings.add(stockPileBuilding);
+    }
+
+    public void removeResourceFromStockPile (Resource resource, int count) {
+        for (StockPileBuilding stockPileBuilding: stockPileBuildings) {
+             if (stockPileBuilding.getType().equals("stock pile") &&
+                     resource.getTypeOfResource().equals(Resource.TypeOfResource.INDUSTRY))
+                 count = stockPileBuilding.useResource(resource, count);
+             else if (stockPileBuilding.getType().equals("food stock pile") &&
+                     resource.getTypeOfResource().equals(Resource.TypeOfResource.FOOD))
+                 count = stockPileBuilding.useResource(resource, count);
+             else if (stockPileBuilding.getType().equals("armoury") &&
+                     resource.getTypeOfResource().equals(Resource.TypeOfResource.WEAPON))
+                 count = stockPileBuilding.useResource(resource, count);
+             if (count == 0) break;
+        }
+    }
+
 
     public void setFoodRate(int foodRate) {
         this.foodRate = foodRate;
