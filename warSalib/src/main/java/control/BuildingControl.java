@@ -29,6 +29,12 @@ public class BuildingControl {
         Game.getTurnedUserForGame().getUserGovernment().addBuilding(building);
         if (building instanceof StockPileBuilding)
             building.getGovernment().addStockPile((StockPileBuilding) building);
+        if (!building.getResourceNeedToBuild().isEmpty()) {
+            for (Resource resource : building.getResourceNeedToBuild().keySet()) {
+                building.getGovernment().removeFromResources(resource , building.getResourceNeedToBuild().get(resource));
+                building.getGovernment().removeResourceFromStockPile(resource, building.getResourceNeedToBuild().get(resource));
+            }
+        }
         return BuildingMessage.SUCCESS;
     }
     private static boolean isAppropriateCoordinate(int x, int y) {
@@ -89,12 +95,14 @@ public class BuildingControl {
             return BuildingMessage.NOT_GOOD_BUILDING;
         if (Game.getSelectedBuilding().getHp() == Game.getSelectedBuilding().getMaxHP())
             return BuildingMessage.HAS_FULL_HP;
-        if (!isEnoughStone(Game.getSelectedBuilding()))
+        int count;
+        if ( (count =isEnoughStone(Game.getSelectedBuilding())) == -1)
             return BuildingMessage.NOT_ENOUGH_STONE;
         if (isNearEnemy(Game.getSelectedBuilding()))
             return BuildingMessage.NEAR_ENEMY;
-            //TODO :delete resource in stock pile
         Game.getSelectedBuilding().setHp(Game.getSelectedBuilding().getMaxHP());
+        Game.getSelectedBuilding().getGovernment().removeResourceFromStockPile(Resource.STONE, count);
+        Game.getSelectedBuilding().getGovernment().removeFromResources(Resource.STONE, count);
             return BuildingMessage.SUCCESS;
     }
 
@@ -138,12 +146,14 @@ public class BuildingControl {
         return Game.getSelectedBuilding().getGovernment().hasEnoughResources(resourceNeedUnit);
     }
 
-    private static boolean isEnoughStone(Building building) {
-        int stoneCount = building.getResourceNeedToBuild().get(Resource.STONE) / 2;
-        HashMap <Resource, Integer> stoneResource = new HashMap<>();
-        stoneResource.put(Resource.STONE, stoneCount);
-        if (building.getGovernment().hasEnoughResources(stoneResource))
-            return true;
-        return false;
+    private static int isEnoughStone(Building building) {
+        if (building.getResourceNeedToBuild().containsKey(Resource.STONE)) {
+            int stoneCount = building.getResourceNeedToBuild().get(Resource.STONE) / 2;
+            HashMap<Resource, Integer> stoneResource = new HashMap<>();
+            stoneResource.put(Resource.STONE, stoneCount);
+            if (building.getGovernment().hasEnoughResources(stoneResource))
+                return stoneCount;
+        }
+        return -1;
     }
 }
