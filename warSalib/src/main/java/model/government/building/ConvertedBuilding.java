@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 public class ConvertedBuilding extends Building {
     private int numberOfPrimitive;
-    private int NumberOfFinal;
+    private int numberOfFinal;
     private Resource primitiveResource;
     private Resource finalResource;
 
@@ -19,7 +19,7 @@ public class ConvertedBuilding extends Building {
     , int maxHp, HashMap<Resource, Integer> resource) {
         super(x, y, government, hp, type, name, maxHp, resource);
         this.numberOfPrimitive = numberOfPrimitive;
-        this.NumberOfFinal = NumberOfFinal;
+        this.numberOfFinal = NumberOfFinal;
         this.primitiveResource = primitiveResource;
         this.finalResource = finalResource;
     }
@@ -137,8 +137,15 @@ public class ConvertedBuilding extends Building {
         return null;
     }
 
-    public int convertResourceToAnotherWithRate() {
-        return 0;
+    public void convertResourceToAnotherWithRate() {
+        HashMap <Resource, Integer> resourceThatAssume = new HashMap<>();
+        resourceThatAssume.put(primitiveResource, numberOfPrimitive);
+        if (this.getGovernment().hasEnoughResources(resourceThatAssume)) {
+            this.getGovernment().removeFromResources(primitiveResource, numberOfPrimitive);
+            this.getGovernment().removeResourceFromStockPile(primitiveResource, numberOfPrimitive);
+            this.getGovernment().addToResources(finalResource, numberOfFinal);
+            this.getGovernment().addResourceToStockPile(finalResource, numberOfFinal);
+        }
     }
 
     public int getNumberOfPrimitive() {
@@ -146,6 +153,6 @@ public class ConvertedBuilding extends Building {
     }
 
     public int getNumberOfFinal() {
-        return NumberOfFinal;
+        return numberOfFinal;
     }
 }
