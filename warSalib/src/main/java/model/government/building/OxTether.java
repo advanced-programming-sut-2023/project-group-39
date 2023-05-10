@@ -34,10 +34,20 @@ public class OxTether extends Building{
         }
         return null;
     }
-    public Resource caryResourceWithRate() {
-        return null;
+    public void caryStoneWithRate() {
+        if (hasQuarry(this.getGovernment())){
+            this.getGovernment().addResourceToStockPile(Resource.STONE, rate);
+            this.getGovernment().addToResources(Resource.STONE, rate);
+        }
     }
 
+    public boolean hasQuarry (Government government) {
+        for (Building building : government.getBuildings()) {
+            if (building.getName().equals("quarry"))
+                return true;
+        }
+        return false;
+    }
     public Resource getResource() {
         return resource;
     }

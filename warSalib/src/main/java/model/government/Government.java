@@ -249,4 +249,8 @@ public class Government {
     public void setTaxRate(int taxRate) {
         this.taxRate = taxRate;
     }
+
+    public ArrayList<Building> getBuildings() {
+        return buildings;
+    }
 }
