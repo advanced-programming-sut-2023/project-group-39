@@ -14,5 +14,6 @@ public enum BuildingMessage {
     NEAR_ENEMY,
     NOT_GOOD_BUILDING,
     NOT_EXIST_UNIT,
-    HAS_FULL_HP;
+    HAS_FULL_HP,
+    SELECT_MARKET;
 }

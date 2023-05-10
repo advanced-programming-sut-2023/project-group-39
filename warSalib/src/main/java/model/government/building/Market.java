@@ -16,6 +16,12 @@ public class Market extends Building{
     public Market(int x, int y, Government government, int hp, HashMap<Resource, Integer> resource) {
         super(x, y, government, hp, "industry", "market", hp, resource);
         resources = new HashMap<>();
+        resources.put(Resource.STONE, 100);
+        resources.put(Resource.IRON, 60);
+        resources.put(Resource.HOP, 50);
+        resources.put(Resource.WOOD, 100);
+        resources.put(Resource.ARCHER, 20);
+        resources.put(Resource.ARMOUR, 10);
     }
     public static Market makeMarketByName(String name, int x , int y, Government government, int flag) {
         if (name.equals("market")) {
@@ -38,11 +44,28 @@ public class Market extends Building{
     public void addResourceToMarket(Resource resource, int number) {
         resources.put(resource, number);
     }
-    public Resource buyResource(Resource resource) {
-        return null;
+
+    public HashMap<Resource, Integer> getResources() {
+        return resources;
+    }
+
+    public boolean buyResource(Resource resource, int amount) {
+       if (resources.containsKey(resource)) {
+           if (resources.get(resource) >= amount) {
+                resources.replace(resource, resources.get(resource) - amount);
+               return true;
+           }
+           return false;
+       }
+       return false;
     }
 
     public void sellResource(Resource resource, int number){
-
+        if (resources.containsKey(resource)) {
+            resources.replace(resource, resources.get(resource) + number);
+        }
+        else {
+            resources.put(resource, number);
+        }
     }
 }

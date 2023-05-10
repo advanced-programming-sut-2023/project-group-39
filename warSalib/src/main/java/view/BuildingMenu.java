@@ -21,7 +21,7 @@ public class BuildingMenu {
             } else if ((matcher = BuildingCommands.getMatcher(input, BuildingCommands.DROP_BUILDING)) != null) {
                 dropBuilding(matcher);
             } else if ((matcher = BuildingCommands.getMatcher(input, BuildingCommands.SELECT_BUILDING)) != null) {
-                selectBuilding(matcher);
+                selectBuilding(matcher, scanner);
             } else if ((matcher = BuildingCommands.getMatcher(input, BuildingCommands.CREATE_UNIT)) != null) {
                 createUnit(matcher);
             } else if ((matcher = BuildingCommands.getMatcher(input, BuildingCommands.OPEN_CAGE_DOG)) != null)
@@ -78,7 +78,7 @@ public class BuildingMenu {
         }
     }
 
-    private static void selectBuilding(Matcher matcher) {
+    private static void selectBuilding(Matcher matcher, Scanner scanner) {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
         BuildingMessage message = BuildingControl.selectBuilding(x, y);
@@ -91,6 +91,10 @@ public class BuildingMenu {
                 break;
             case NOT_BELONG_TO_YOU:
                 System.out.println("this tile not belong to you!");
+                break;
+            case SELECT_MARKET:
+                System.out.println("you enter shop Menu");
+                StoreMenu.run(scanner);
                 break;
             case SUCCESS:
                 System.out.println("select successfully");

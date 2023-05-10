@@ -12,6 +12,7 @@ import model.government.people.units.Units;
 import model.government.people.units.UnitsName;
 import model.government.resource.Resource;
 import model.map.type.Type;
+import view.StoreMenu;
 import view.enums.commands.BuildingCommands;
 import view.enums.messages.BuildingMessage;
 
@@ -64,6 +65,9 @@ public class BuildingControl {
         if (isBuildingForCurrentUser(x, y))
             return BuildingMessage.NOT_BELONG_TO_YOU;
         Game.setSelectedBuilding(Game.getMapInGame().getMap()[y][x].getBuilding());
+        if (Game.getSelectedBuilding().getName().equals("market")) {
+            return BuildingMessage.SELECT_MARKET;
+        }
         return BuildingMessage.SUCCESS;
     }
 

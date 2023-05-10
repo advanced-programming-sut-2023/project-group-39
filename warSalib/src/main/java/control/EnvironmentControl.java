@@ -15,9 +15,6 @@ import view.enums.messages.EnvironmentMenuMessage;
 import java.util.Random;
 
 public class EnvironmentControl {
-    public static EnvironmentMenuMessage chooseMap(int number) {
-        return null;
-    }
 
     private static boolean validNumberOfMap(int number) {
         return false;
@@ -203,9 +200,5 @@ public class EnvironmentControl {
             }
         }
         return false;
-    }
-
-    public static EnvironmentMenuMessage setKeep(String color) {
-        return null;
     }
 }
