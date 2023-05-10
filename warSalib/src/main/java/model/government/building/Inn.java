@@ -19,8 +19,9 @@ public class Inn extends Building{
     ArrayList<People> peopleOfInn;
 
     public Inn(int x, int y, Government government, int hp, String type, String name,
-               HashMap<Resource, Integer> resource) {
+               HashMap<Resource, Integer> resource, int rate) {
         super(x, y, government, hp, type, name, 500, resource);
+        this.rate = rate;
     }
 
     public static Inn makeInnByName(String name, int x , int y, Government government, int flag) {
@@ -29,7 +30,7 @@ public class Inn extends Building{
             resource.put(Resource.GOLD , 100);
             resource.put(Resource.WOOD, 20);
             if (government.hasEnoughResources(resource) || flag == 1) {
-                Inn inn = new Inn(x, y, government, 500, "food processing building", name, resource);
+                Inn inn = new Inn(x, y, government, 500, "food processing building", name, resource, 20);
                 inn.setWorkerDataBase(JobsName.DRINK_SERVER.getJobsName(), 1);
                 if (government.getUnWorkedPeople().size() >= 1) {
                     People people1 = government.getUnWorkedPeople().get(0);
@@ -42,12 +43,18 @@ public class Inn extends Building{
         return null;
     }
 
-    public int improvePopularityBaseRate() {
-        return 0;
+    public void improvePopularityBaseRate() {
+        this.getGovernment().setPopularity(this.getGovernment().getPopularity() + 1);
     }
 
-    public int serveBeerWithRate() {
-        return 0;
+    public void serveBeerWithRate() {
+        HashMap<Resource, Integer> ratedResource = new HashMap<>();
+        ratedResource.put(Resource.BEAR, rate);
+        if (this.getGovernment().hasEnoughResources(ratedResource)) {
+            this.getGovernment().removeFromResources(Resource.BEAR, rate);
+            this.getGovernment().removeResourceFromStockPile(Resource.BEAR, rate);
+            improvePopularityBaseRate();
+        }
     }
 
     public void addPeople(People people) {
