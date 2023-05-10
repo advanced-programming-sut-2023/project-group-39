@@ -27,7 +27,7 @@ public class MineBuilding extends Building {
         if (name.equals("quarry") ) {
             resource.put(Resource.WOOD, 20);
             if (government.hasEnoughResources(resource) || flag == 1) {
-                MineBuilding mineBuilding = new MineBuilding(x, y, government, 1000, name, 20, Resource.STONE
+                MineBuilding mineBuilding = new MineBuilding(x, y, government, 1000, name, 200, Resource.STONE
                 ,resource);
                 mineBuilding.setWorkerDataBase(JobsName.QUARRY_WORKER.getJobsName(), 3);
                 if (government.getUnWorkedPeople().size() >= 3) {
@@ -43,7 +43,7 @@ public class MineBuilding extends Building {
         if (name.equals("iron mine") ) {
             resource.put(Resource.WOOD, 20);
             if (government.hasEnoughResources(resource) || flag == 1) {
-                MineBuilding mineBuilding = new MineBuilding(x, y, government, 1100, name, 15, Resource.IRON,
+                MineBuilding mineBuilding = new MineBuilding(x, y, government, 1100, name, 40, Resource.IRON,
                         resource);
                 mineBuilding.setWorkerDataBase(JobsName.IRON_MINE_WORKER.getJobsName(), 2);
                 if (government.getUnWorkedPeople().size() >= 2) {
@@ -59,7 +59,7 @@ public class MineBuilding extends Building {
         if (name.equals("pitch rig") ) {
             resource.put(Resource.WOOD, 20);
             if (government.hasEnoughResources(resource) || flag == 1) {
-                MineBuilding mineBuilding = new MineBuilding(x, y, government, 800, name, 30, Resource.PITCH,
+                MineBuilding mineBuilding = new MineBuilding(x, y, government, 800, name, 50, Resource.PITCH,
                         resource);
                mineBuilding.setWorkerDataBase(JobsName.PITCH_RIG_WORKER.getJobsName(), 1);
                 if (government.getUnWorkedPeople().size() >= 1) {
@@ -74,9 +74,14 @@ public class MineBuilding extends Building {
     }
 
 
-    public int makeResourceWithRate() {
-        //need to time to handle it
-        return 0;
+    public void makeResourceWithRate() {
+        if (this.getName().equals("quarry")) {
+
+        }
+        else {
+            this.getGovernment().addToResources(resource, rate);
+            this.getGovernment().addResourceToStockPile(resource, rate);
+        }
     }
 
 }
