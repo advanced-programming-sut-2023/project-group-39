@@ -27,14 +27,14 @@ public class StockPileBuilding extends Building {
         HashMap<Resource, Integer> resource = new HashMap<>();
         if (name.equals("stock pile")) {
             StockPileBuilding stockPile = new StockPileBuilding(x, y, government, 500, "industry",
-                    "stock pile", 800, resource);
+                    "stock pile", 2000, resource);
             return stockPile;
         }
         if (name.equals("food stock pile")) {
             resource.put(Resource.WOOD, 5);
             if (government.hasEnoughResources(resource) || flag == 1) {
                 StockPileBuilding foodStockPile = new StockPileBuilding(x, y, government, 400,
-                        "food processing building", "food stock pile", 700, resource);
+                        "food processing building", "food stock pile", 3000, resource);
                 return foodStockPile;
             }
         }
@@ -42,7 +42,7 @@ public class StockPileBuilding extends Building {
             resource.put(Resource.WOOD, 5);
             if (government.hasEnoughResources(resource) || flag == 1) {
                 StockPileBuilding armoury = new StockPileBuilding(x, y, government, 900, "castle building",
-                        "armoury", 700, resource);
+                        "armoury", 1700, resource);
                 return armoury;
             }
         }
@@ -74,7 +74,7 @@ public class StockPileBuilding extends Building {
 
     public void addToResources(Resource resource, int number) {
         if (getName().equals("stock pile")) {
-            if (resource.getTypeOfResource() == Resource.TypeOfResource.INDUSTRY) {
+            if (resource.getTypeOfResource() == Resource.TypeOfResource.INDUSTRY && capacity - number >0) {
                 if (resources.containsKey(resource))
                     resources.replace(resource, resources.get(resource) + number);
                 else
@@ -83,7 +83,7 @@ public class StockPileBuilding extends Building {
             }
         }
         if (getName().equals("food stock pile")) {
-            if (resource.getTypeOfResource() == Resource.TypeOfResource.FOOD) {
+            if (resource.getTypeOfResource() == Resource.TypeOfResource.FOOD && capacity - number > 0) {
                 if (resources.containsKey(resource))
                     resources.replace(resource, resources.get(resource) + number);
                 else
@@ -92,7 +92,7 @@ public class StockPileBuilding extends Building {
             }
         }
         if (getName().equals("armoury")) {
-            if (resource.getTypeOfResource() == Resource.TypeOfResource.WEAPON) {
+            if (resource.getTypeOfResource() == Resource.TypeOfResource.WEAPON && capacity - number > 0) {
                 if (resources.containsKey(resource))
                     resources.replace(resource, resources.get(resource) + number);
                 else

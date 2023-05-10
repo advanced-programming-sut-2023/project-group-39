@@ -139,8 +139,9 @@ public class ProductiveBuilding extends Building {
         return null;
     }
 
-    public Resource makeResourceWithRate() {
-        return null;
+    public void makeResourceWithRate() {
+        this.getGovernment().addResourceToStockPile(resourceThatMake, rate);
+        this.getGovernment().addToResources(resourceThatMake, rate);
     }
 
     public int getRate() {

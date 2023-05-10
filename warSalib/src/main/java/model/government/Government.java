@@ -70,9 +70,9 @@ public class Government {
 
 //    public HashMap<Resource, Integer> getResources() { return resources; }
 
-    public void addToResources(Resource resource) {
-        if (resources.containsKey(resource)) resources.put(resource, resources.get(resource) + 1);
-        else resources.put(resource, 1);
+    public void addToResources(Resource resource, int number) {
+        if (resources.containsKey(resource)) resources.put(resource, resources.get(resource) + number);
+        else resources.put(resource, number);
     }
 
     public void removeFromResources(Resource resource, int number) {
@@ -214,6 +214,20 @@ public class Government {
                      resource.getTypeOfResource().equals(Resource.TypeOfResource.WEAPON))
                  count = stockPileBuilding.useResource(resource, count);
              if (count == 0) break;
+        }
+    }
+
+    public void addResourceToStockPile (Resource resource, int count) {
+        for (StockPileBuilding stockPileBuilding: stockPileBuildings) {
+            if (stockPileBuilding.getType().equals("stock pile") &&
+                    resource.getTypeOfResource().equals(Resource.TypeOfResource.INDUSTRY))
+                stockPileBuilding.addToResources(resource, count);
+            else if (stockPileBuilding.getType().equals("food stock pile") &&
+                    resource.getTypeOfResource().equals(Resource.TypeOfResource.FOOD))
+                stockPileBuilding.addToResources(resource, count);
+            else if (stockPileBuilding.getType().equals("armoury") &&
+                    resource.getTypeOfResource().equals(Resource.TypeOfResource.WEAPON))
+                stockPileBuilding.addToResources(resource, count);
         }
     }
 
