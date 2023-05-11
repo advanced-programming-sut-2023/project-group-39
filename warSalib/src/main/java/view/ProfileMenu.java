@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 
 public class ProfileMenu {
     private User currentUser;
-    public static void run() {
+    public static int run() {
         String input;
         Scanner scanner = new Scanner(System.in);
         while (true) {
@@ -37,7 +37,9 @@ public class ProfileMenu {
             else if (input.matches(String.valueOf(ProfileMenuCommands.DISPLAY_PROFILE)))
                 displayProfile();
             else if (input.matches("^\\s*back\\s*$"))
-                break;
+                return 0;
+            else if (input.matches("^\\s*loggout\\s*$"))
+                return 1;
             else System.out.println("invalid command!");
         }
 
