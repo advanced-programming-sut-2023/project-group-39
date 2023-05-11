@@ -4,6 +4,7 @@ import control.GameControl;
 import model.government.people.units.State;
 import model.government.people.units.Units;
 import model.map.Tile;
+import view.enums.commands.MapMenuCommands;
 import view.enums.messages.GameMenuMessage;
 
 import javax.sound.midi.SysexMessage;
@@ -14,6 +15,24 @@ public class GameMenu {
     static String type;
 
     public static void run() {
+        // other than map
+        Scanner scanner = new Scanner(System.in);
+        String input;
+        while (true) {
+            input = scanner.nextLine();
+            Matcher matcher;
+            if ((matcher = MapMenuCommands.getMatcher(input, MapMenuCommands.SHOW_MAP)) != null)
+                MapMenu.run(input, scanner);
+            else if (input.matches("^\\s*enter\\s+building\\s+menu\\s*$"))
+                BuildingMenu.run(scanner);
+            else if (input.matches("^\\s*enter\\s+government\\s+menu\\s*$"))
+                GovernmentMenu.run(scanner);
+            else if (input.matches("^\\s*enter\\s+store\\s+menu\\s*$"))
+                StoreMenu.run(scanner);
+            else if (input.matches("^\\s*enter\\s+trade\\s+menu\\s*$"))
+                TradeMenu.run(scanner);
+            else System.out.println("invalid command");
+        }
     }
 
     private static void selectUnit(Matcher matcher) {
