@@ -69,7 +69,7 @@ public class LoginSignupControl {
         else if ((matcher1 = LoginMenuCommands.getMatcher(password, LoginMenuCommands.HASSPECIALCHARACTER)) == null)
             return LoginMenuMessage.WITHOUTSPECIALCHARACTER;
 
-        return null;
+        return LoginMenuMessage.LOW_LENGTH_PASS;
     }
     public static  LoginMenuMessage createUser(String username,String password,String emailAddress,String nickname,String slogan,String securityAnswer)  {
       //  XStream xStream=new XStream();
@@ -164,8 +164,10 @@ public class LoginSignupControl {
         return LoginMenuMessage.INVALIDUSERNAME;
     }
     public  static LoginMenuMessage checkSecurityAnswer(String username,String answer){
+        System.out.println(answer);
         for(User user:Game.getPlayers()){
             if(user.getUsername().equals(username)){
+                System.out.println(user.getSecurityQuestionAnswer());
                 if(user.getSecurityQuestionAnswer().equals(answer)){
                     return LoginMenuMessage.SUCCESS;
                 }

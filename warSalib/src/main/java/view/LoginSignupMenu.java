@@ -70,7 +70,7 @@ public class LoginSignupMenu {
                     } else {
                         password = matcher.group("passwordWithSpace");
                         password = password.trim();
-                        password = password.substring(1, password.length() - 2);
+                        password = password.substring(1, password.length() - 1);
                     }
                 } else {
                     System.out.println("your password field is empty!");
@@ -83,7 +83,7 @@ public class LoginSignupMenu {
                         } else {
                             confirmPassword = matcher.group("passwordConfirmWithSpace");
                             confirmPassword = confirmPassword.trim();
-                            confirmPassword = confirmPassword.substring(1, confirmPassword.length() - 2);
+                            confirmPassword = confirmPassword.substring(1, confirmPassword.length() - 1);
                         }
                     } else {
                         System.out.println("your Confirm password field is empty!");
@@ -121,7 +121,7 @@ public class LoginSignupMenu {
                         } else {
                             slogan = matcher.group("sloganWithSpace");
                             slogan = slogan.trim();
-                            slogan = slogan.substring(1, slogan.length() - 2);
+                            slogan = slogan.substring(1, slogan.length() - 1);
                         }
                     } else {
                         System.out.println("your slogan field is empty!");
@@ -170,12 +170,14 @@ public class LoginSignupMenu {
                 LoginMenuMessage message1 = LoginSignupControl.checkSecurityAnswer(username, answer);
                 switch (message1) {
                     case SUCCESS:
+                        System.out.println("type your new password");
                         makeNewPassword(username);
                         break;
                     case INVALIDANSWER:
                         System.out.println("your answer was incorrect");
                         break;
                 }
+                break;
         }
     }
 
@@ -237,7 +239,7 @@ public class LoginSignupMenu {
                     else {
                         answer = matcher.group("answerWithSpace");
                         answer.trim();
-                        answer = answer.substring(1, answer.length() - 2);
+                        answer = answer.substring(1, answer.length() - 1);
                     }
                 } else {
                     System.out.println("your answer field is empty!");
@@ -248,7 +250,7 @@ public class LoginSignupMenu {
                     else {
                         confirmAnswer = matcher.group("answerWithSpace");
                         confirmAnswer.trim();
-                        confirmAnswer = confirmAnswer.substring(1, confirmAnswer.length() - 2);
+                        confirmAnswer = confirmAnswer.substring(1, confirmAnswer.length() - 1);
                     }
                 } else {
                     System.out.println("your answer field is empty!");
@@ -358,8 +360,12 @@ public class LoginSignupMenu {
                     case WITHOUTNUMBER:
                         System.out.println("you dont have number in your password!");
                         break;
+                    case LOW_LENGTH_PASS:
+                        System.out.println("your password is short");
+                        break;
                     case WITHOUTSPECIALCHARACTER:
                         System.out.println("you dont have character except number and alphabetical letters in your password!");
+                        break;
                 }
             }
         }
@@ -407,7 +413,7 @@ public class LoginSignupMenu {
 
         private static void removeQutation (String mystring){
             if (mystring.charAt(0) == '"' && mystring.charAt(mystring.length() - 1) == '"')
-                mystring = mystring.substring(1, mystring.length() - 2);
+                mystring = mystring.substring(1, mystring.length() - 1);
 
         }
 
