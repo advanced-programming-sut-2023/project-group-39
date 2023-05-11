@@ -1,16 +1,18 @@
 package model.government.people.units;
 
+import model.government.resource.Resource;
 import model.user.User;
 import model.wartool.wartoolenum;
 
 public class Combat extends Units{
-    private wartoolenum wartool;
+    //  private wartoolenum wartool;
 
+    private Resource wartool;
     private wartoolenum portableProtection;
     public Combat(int xLocation, int yLocation, UnitsName unitsName, User ownerPerson) {
         super(xLocation, yLocation, unitsName, ownerPerson);
         if(unitsName.getName().equals("pikeman")){
-            this.wartool=wartoolenum.SPEAR;
+            this.wartool=Resource.SPEAR;
             this.portableProtection=null;
         }
         else if(unitsName.getName().equals("swordsmen")){
@@ -22,11 +24,11 @@ public class Combat extends Units{
             this.portableProtection=null;
         }
         else if(unitsName.getName().equals("blackmonk")){
-            this.wartool=wartoolenum.STICK;
+            this.wartool=Resource.STICK;
             this.portableProtection=null;
         }
         else if(unitsName.getName().equals("slaves")){
-            this.wartool=wartoolenum.TORCH;
+            this.wartool=Resource.TORCH;
             this.portableProtection=null;
         }
         else if(unitsName.getName().equals("arabianswordsmen")){
@@ -35,7 +37,7 @@ public class Combat extends Units{
         }
     }
 
-    public wartoolenum getWartool() {
+    public Resource getWartool() {
         return wartool;
     }
 

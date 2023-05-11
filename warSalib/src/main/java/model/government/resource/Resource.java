@@ -3,6 +3,10 @@ package model.government.resource;
 public enum Resource {
     STONE(TypeOfResource.INDUSTRY), IRON(TypeOfResource.INDUSTRY), PITCH(TypeOfResource.INDUSTRY), WHEAT(TypeOfResource.FOOD),
     FLOUR(TypeOfResource.FOOD), BREAD(TypeOfResource.FOOD), HOP(TypeOfResource.FOOD), BEAR(TypeOfResource.FOOD),
+
+    BOW(TypeOfResource.WEAPON), ARROW(TypeOfResource.WEAPON), TORCH(TypeOfResource.WEAPON), FIRECRACKER(TypeOfResource.WEAPON),
+
+    PORTABLE_PROTECTION(TypeOfResource.WEAPON), STICK(TypeOfResource.WEAPON),
     ARMOUR(TypeOfResource.WEAPON), SWORD(TypeOfResource.WEAPON), ARCHER(TypeOfResource.WEAPON), SPEAR(TypeOfResource.WEAPON),
     WOOD(TypeOfResource.INDUSTRY), OIL(TypeOfResource.INDUSTRY), HORSE(TypeOfResource.INDUSTRY), APPLE(TypeOfResource.FOOD),
     CHEESE(TypeOfResource.FOOD), MEAT(TypeOfResource.FOOD), GOLD(TypeOfResource.INDUSTRY), COIN(TypeOfResource.INDUSTRY),

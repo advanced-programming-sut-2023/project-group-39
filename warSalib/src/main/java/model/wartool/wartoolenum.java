@@ -2,15 +2,15 @@ package model.wartool;
 
 public enum wartoolenum {
     ARMOUR,
-    BOW,
-    ARROW,
+    BOW,  //add
+    ARROW,  //add
     SPEAR,
-    TORCH,
+    TORCH,  //add
     STONE,
-    FIRECRACKER,
+    FIRECRACKER,  //add
     SWORD,
-    STICK,
+    STICK,  //add
 
-    PORTABLE_PROTECTION,
+    PORTABLE_PROTECTION,  //add
 
 }
