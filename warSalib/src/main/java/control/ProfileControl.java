@@ -1,5 +1,6 @@
 package control;
 
+import com.google.gson.Gson;
 import model.Game;
 import model.user.User;
 import view.GameMenu;
@@ -7,6 +8,8 @@ import view.LoginSignupMenu;
 import view.enums.messages.LoginMenuMessage;
 import view.enums.messages.ProfileMenuMessage;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -20,6 +23,13 @@ public class ProfileControl {
             return ProfileMenuMessage.INVALID_USERNAME_FORMAT;
 
         Game.getCurrentUser().setUsername(username);
+        try {
+            FileWriter fileWriter=new FileWriter("users.json");
+            fileWriter.write(new Gson().toJson(Game.getPlayers()));
+            fileWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         return ProfileMenuMessage.SUCCESS;
     }
 
@@ -48,6 +58,13 @@ public class ProfileControl {
             newPassword = LoginSignupControl.findRandomPassword(); // need to check this part
 
         Game.getCurrentUser().setPassword(newPassword);
+        try {
+            FileWriter fileWriter=new FileWriter("users.json");
+            fileWriter.write(new Gson().toJson(Game.getPlayers()));
+            fileWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         return ProfileMenuMessage.SUCCESS;
     }
 
@@ -60,6 +77,13 @@ public class ProfileControl {
             return ProfileMenuMessage.INVALID_EMAIL_FORMAT;
 
         Game.getCurrentUser().setEmail(email);
+        try {
+            FileWriter fileWriter=new FileWriter("users.json");
+            fileWriter.write(new Gson().toJson(Game.getPlayers()));
+            fileWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         return ProfileMenuMessage.SUCCESS;
     }
 
@@ -75,6 +99,13 @@ public class ProfileControl {
             return ProfileMenuMessage.SUCCESS;
         }
         Game.getCurrentUser().setSlogan(slogan);
+        try {
+            FileWriter fileWriter=new FileWriter("users.json");
+            fileWriter.write(new Gson().toJson(Game.getPlayers()));
+            fileWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         return ProfileMenuMessage.SUCCESS;
     }
 
@@ -83,6 +114,13 @@ public class ProfileControl {
             return ProfileMenuMessage.EMPTY_SLOGAN;
 
         Game.getCurrentUser().setSlogan("");
+        try {
+            FileWriter fileWriter=new FileWriter("users.json");
+            fileWriter.write(new Gson().toJson(Game.getPlayers()));
+            fileWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         return ProfileMenuMessage.SUCCESS;
     }
 
@@ -95,6 +133,8 @@ public class ProfileControl {
     }
 
     public static String displaySlogan() {
+        if (Game.getCurrentUser().getSlogan().equals(""))
+            return "Slogan is empty!";
         return Game.getCurrentUser().getSlogan();
     }
 

@@ -24,6 +24,8 @@ public enum LoginMenuCommands {
 
     VALIDUSERNAME("[a-zA-Z\\d\\_]+"),
 
+    INVALID_USER_NAME("[^a-zA-Z\\d\\_]"),
+
     STRONGPASSWORD("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z\\d])[\\S]{6,}"),
 
     VALIDEMAIL("[a-zA-Z\\d\\_\\.]+@[a-zA-Z\\_\\.]+\\.[a-zA-Z\\_\\.]+"),
@@ -40,9 +42,9 @@ public enum LoginMenuCommands {
 
     QUSETIONNUMBER("-q\\s(?<number>[\\d]+)"),
 
-    ANSWERQUESTION("-a\\s+((?<answerWithoutSpace>[\\S]+)|(?<answerWithSpace>\\\"[^\\\"]+\\\"))"),
+    ANSWERQUESTION("-a\\s+((?<answerWithoutSpace>[^\\\"\\s]+)|(?<answerWithSpace>\\\"[^\\\"]+\\\"))"),
 
-   CONFIRMANSWER("-c\\s+((?<answerWithoutSpace>[\\S]+)|(?<answerWithSpace>\\\"[^\\\"]+\\\"))"),
+   CONFIRMANSWER("-c\\s+((?<answerWithoutSpace>[^\\\"\\s]+)|(?<answerWithSpace>\\\"[^\\\"]+\\\"))"),
 
     LOGINUSER("user\\s+login\\s+(\\-u\\s+(?<username>.+)\\s*()|\\-p\\s+(?<password>[\\S]+)\\s*()){2}\\3\\5(?<loggedInFlag>--stay-logged-in)?\\s*$"),
 

@@ -26,19 +26,19 @@ public class ProfileMenu {
                 changeEmail(matcher);
             else if ((matcher = ProfileMenuCommands.getMatcher(input, ProfileMenuCommands.CHANGE_SLOGAN)) != null)
                 changeSlogan(matcher);
-            else if (input.matches(String.valueOf(ProfileMenuCommands.REMOVE_SLOGAN)))
+            else if (input.matches("^\\s*profile\\s+remove\\s+slogan\\s*$"))
                 removeSlogan();
-            else if (input.matches(String.valueOf(ProfileMenuCommands.DISPLAY_HIGHSCORE)))
+            else if (input.matches("^\\s*profile\\s+display\\s+highscore\\s*$"))
                 displayHighScore();
-            else if (input.matches(String.valueOf(ProfileMenuCommands.DISPLAY_RANK)))
+            else if (input.matches("^\\s*profile\\s+display\\s+rank\\s*$"))
                 displayRank();
-            else if (input.matches(String.valueOf(ProfileMenuCommands.DISPLAY_SLOGAN)))
+            else if (input.matches("^\\s*profile\\s+display\\s+slogan\\s*$"))
                 displaySlogan();
-            else if (input.matches(String.valueOf(ProfileMenuCommands.DISPLAY_PROFILE)))
+            else if ((input.matches("^\\s*profile\\s+display\\s*$")))
                 displayProfile();
             else if (input.matches("^\\s*back\\s*$"))
                 return 0;
-            else if (input.matches("^\\s*loggout\\s*$"))
+            else if (input.matches("^\\s*logout\\s*$"))
                 return 1;
             else System.out.println("invalid command!");
         }

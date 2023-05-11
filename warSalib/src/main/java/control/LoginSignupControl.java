@@ -29,8 +29,8 @@ public class LoginSignupControl {
                 if(user.getPassword().equals(password)){
                     if(loggedInflag==1){
                         user.setLoggedIn(true);
-                        Game.setCurrentUser(user);
                     }
+                    Game.setCurrentUser(user);
                     return LoginMenuMessage.SUCCESS;
 
                 }
@@ -133,7 +133,7 @@ public class LoginSignupControl {
 
     public static LoginMenuMessage checkUsername(String username) {
         Matcher matcher;
-        if ((matcher = LoginMenuCommands.getMatcher(username, LoginMenuCommands.VALIDUSERNAME)) == null) {
+        if ((matcher = LoginMenuCommands.getMatcher(username, LoginMenuCommands.INVALID_USER_NAME)) != null) {
             return LoginMenuMessage.INVALIDUSERNAME;
         }
         for (User user : Game.getPlayers()) {
