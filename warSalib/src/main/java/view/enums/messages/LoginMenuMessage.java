@@ -26,5 +26,6 @@ public enum LoginMenuMessage {
     USERNOTFOUND,
 
     INCORRECTPASSWORD,
-    INVALIDANSWER;
+    INVALIDANSWER,
+    LOW_LENGTH_PASS;
 }
