@@ -20,14 +20,13 @@ public class Gatehouse extends Building {
 
     private boolean hasFlag;
 
-    public Gatehouse(int x, int y, Government government, int hp, String name, int people,String direction) {
-        super(x, y, government, hp, "castle building", name);
+
     public Gatehouse(int x, int y, Government government, int hp, String name, int people, int maxHP,
                      HashMap<Resource, Integer> resource) {
         super(x, y, government, hp, "castle building", name, maxHP, resource);
         this.people = people;
         peopleLiveIn = new ArrayList<>();
-        this.direction=direction;
+        this.direction="right";
         this.openGate=false;
         this.hasFlag=false;
     }

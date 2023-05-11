@@ -6,4 +6,11 @@ public class Engineer extends Units{
     public Engineer(int xLocation, int yLocation, UnitsName unitsName, User ownerPerson) {
         super(xLocation, yLocation, unitsName, ownerPerson);
     }
+
+    public void setHasWork(boolean b) {
+    }
+
+    public boolean isHasWork() {
+        return false;
+    }
 }

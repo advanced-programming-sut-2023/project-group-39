@@ -6,11 +6,7 @@ import model.StartGame;
 import model.government.Government;
 import model.government.building.*;
 import model.government.people.People;
-import model.government.people.engineer.Engineer;
-import model.government.people.units.Archers;
-import model.government.people.units.Combat;
-import model.government.people.units.State;
-import model.government.people.units.Units;
+import model.government.people.units.*;
 import model.government.resource.Resource;
 import model.map.Tile;
 import model.user.User;
@@ -353,7 +349,7 @@ public class GameControl {
         if (tile.getBuilding() != null)
             return GameMenuMessage.HAS_BUILDING;
         if (direction.equals("forward") || direction.equals("backward")) {
-            if ((building = (Gatehouse.makeGatehouseByName(name, x, y, startGame.getCurrentUser().getUserGovernment(), direction))) != null) {
+            if ((building = (Gatehouse.makeGatehouseByName(name, x, y, startGame.getCurrentUser().getUserGovernment(), 1))) != null) {
                 tile.setBuilding(building);
 
                 if (name.equals("big stone gatehouse")) {
@@ -376,7 +372,7 @@ public class GameControl {
             if (tile.getBuilding() != null)
                 return GameMenuMessage.HAS_BUILDING;
             Building building;
-            if ((building = Wall.makeWallByName(type, x, y, startGame.getCurrentUser().getUserGovernment())) != null) {
+            if ((building = Wall.makeWallByName(type, x, y, startGame.getCurrentUser().getUserGovernment(), 1)) != null) {
                 tile.setBuilding(building);
                 if (type.equals("small wall")) {
                     startGame.getCurrentUser().getUserGovernment().removeFromResources(Resource.STONE, 2);
@@ -407,7 +403,7 @@ public class GameControl {
             if (tile.getBuilding() != null)
                 return GameMenuMessage.HAS_BUILDING;
             Building building;
-            if ((building = Tower.makeTowerByName(type, x, y, startGame.getCurrentUser().getUserGovernment())) != null) {
+            if ((building = Tower.makeTowerByName(type, x, y, startGame.getCurrentUser().getUserGovernment(), 1)) != null) {
                 tile.setBuilding(building);
                 if (building.getName().equals("lookout tower")) {
                     startGame.getCurrentUser().getUserGovernment().removeFromResources(Resource.STONE, 10);

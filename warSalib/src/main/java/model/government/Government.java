@@ -8,6 +8,7 @@ import model.Game;
 import model.government.building.Building;
 import model.government.building.StockPileBuilding;
 import model.government.people.People;
+import model.government.people.units.Engineer;
 import model.government.popularityfactor.Fear;
 import model.government.popularityfactor.Food;
 import model.government.popularityfactor.Religion;
@@ -23,6 +24,8 @@ public class Government {
     private int population;
 
     private int populationCapacity = 0;
+
+    private ArrayList<Engineer> engineers ;
 
     private int fearEffect;
     private int foodEffect;
@@ -64,6 +67,7 @@ public class Government {
         stockPileBuildings = new ArrayList<>();
         governmentFoods = new ArrayList<>();
         unWorkedPeople = new ArrayList<>();
+        engineers = new ArrayList<>();
         tax = new Tax();
         fear = new Fear();
     }
@@ -198,6 +202,10 @@ public class Government {
         buildings.add(building);
     }
 
+    public ArrayList<People> getPeople() {
+        return people;
+    }
+
     public ArrayList<StockPileBuilding> getStockPileBuildings() {
         return stockPileBuildings;
     }
@@ -239,6 +247,10 @@ public class Government {
         return populationCapacity;
     }
 
+    public ArrayList<Engineer> getEngineers() {
+        return engineers;
+    }
+
     public void removeBuilding(Building building) {
         buildings.remove(building);
     }
@@ -252,5 +264,9 @@ public class Government {
 
     public void setTaxRate(int taxRate) {
         this.taxRate = taxRate;
+    }
+
+    public int numberOfResource(Resource resource) {
+        return 0;
     }
 }
