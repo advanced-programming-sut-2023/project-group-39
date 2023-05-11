@@ -26,7 +26,7 @@ public class Game {
         return governments;
     }
 
-    private ArrayList<User> playersInGame=new ArrayList<>();
+    private static ArrayList<User> playersInGame=new ArrayList<>();
     public static void addGovernment (Government government) {
         governments.add(government);
     }
@@ -43,7 +43,7 @@ public class Game {
         return players;
     }
 
-    public ArrayList<User> getPlayersInGame() {
+    public static ArrayList<User> getPlayersInGame() {
         return playersInGame;
     }
 

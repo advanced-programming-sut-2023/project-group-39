@@ -5,7 +5,9 @@ import java.util.regex.Pattern;
 
 public enum MainMenuCommands {
     PROFILE_MENU("^\\s*enter\\s+profile\\s+menu\\s*$"),
-    START_GAME("^\\s*start\\s+game\\s*$");
+    START_GAME("^\\s*start\\s+game\\s*$"),
+
+    ADD_PLAYER("^\\s*add\\s+player\\s+-u\\s+(?<username>.+)");
 
     private String regex;
 
