@@ -125,69 +125,92 @@ public class GovernmentControl {
 
     public static void makeChangesCausedByFoodRate(int rate, Government government) {
         int popularity = government.getPopularity();
-        if (rate == -2)
+        int foodEffect = 0;
+        if (rate == -2) {
             popularity -= 8;
+            foodEffect = -8;
+        }
         else if (rate == -1) {
             popularity -= 4;
+            foodEffect = -4;
             // handle giving half of food to each person of your people
         } else if (rate == 0) {
             // handle giving one food to each person
         } else if (rate == 1) {
             popularity += 4;
+            foodEffect = 4;
             // handle giving 1.5 food to each person
         } else {
             popularity += 8;
+            foodEffect = 8;
             // handle giving 2 foods to each person
         }
         government.setPopularity(popularity);
+        government.setFoodEffect(foodEffect);
     }
 
     public static void makeChangesCausedByTaxRate(int rate, Government government) {
         int popularity = government.getPopularity();
         float wealth = government.getWealth();
         int population = government.getPopulation();
+        int taxEffect = 0;
         if (rate == -3) {
             popularity += 7;
+            taxEffect = 7;
             wealth -= population * 1;
         } else if (rate == -2) {
             popularity += 5;
+            taxEffect = 5;
             wealth -= population * 0.8;
         } else if (rate == -1) {
             popularity += 3;
+            taxEffect = 3;
             wealth -= population * 0.6;
-        } else if (rate == 0)
+        } else if (rate == 0) {
             popularity++;
+            taxEffect++;
+        }
         else if (rate == 1) {
             popularity -= 2;
+            taxEffect = -2;
             wealth += population * 0.6;
         } else if (rate == 2) {
             popularity -= 4;
+            taxEffect = -4;
             wealth += population * 0.8;
         } else if (rate == 3) {
             popularity -= 6;
+            taxEffect = -6;
             wealth += population * 1;
         } else if (rate == 4) {
             popularity -= 8;
+            taxEffect = -8;
             wealth += population * 1.2;
         } else if (rate == 5) {
             popularity -= 12;
+            taxEffect = -12;
             wealth += population * 1.4;
         } else if (rate == 6) {
             popularity -= 16;
+            taxEffect = -16;
             wealth += population * 1.6;
         } else if (rate == 7) {
             popularity -= 20;
+            taxEffect = -20;
             wealth += population * 1.8;
         } else {
             popularity -= 24;
+            taxEffect = -24;
             wealth += population * 2;
         }
         government.setPopularity(popularity);
+        government.setTaxEffect(taxEffect);
         government.setWealth(wealth);
     }
 
     public static void makeChangesCausedByFearRate(int rate, Government government) {
         government.setPopularity(government.getPopularity() + rate);
+        government.setFearEffect(rate);
         changeWorkersActivities(rate);
         changeSoldiersMorality(rate);
     }

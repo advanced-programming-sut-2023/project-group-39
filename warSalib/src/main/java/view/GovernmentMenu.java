@@ -43,16 +43,11 @@ public class GovernmentMenu {
     }
 
     private static void showPopularityFactors() {
-        System.out.println("***------------Popularity Factors------------***");
-        System.out.println("food");
-        System.out.println("tax");
-        System.out.println("fear");
-        System.out.println("religion");
+        System.out.println(GovernmentControl.showPopularityFactors());
     }
 
     private static void showPopularity() {
-        System.out.println
-                ("***------------Popularity------------***" + Game.getCurrentUser().getUserGovernment().getPopulation());
+        System.out.println(GovernmentControl.showPopularity());
     }
 
     private static void addFood(Matcher matcher) {
@@ -113,13 +108,11 @@ public class GovernmentMenu {
         GovernmentMenuMessage message = GovernmentControl.showFoodList();
         switch (message) {
             case EMPTY_FOOD_LIST:
-                System.out.println("empty,there are no foods in your list");
+                System.out.println("empty, there are no foods in your list");
                 break;
             case SUCCESS:
-                for (Map.Entry<Food, Integer> foods : Game.getCurrentUser().getUserGovernment().getFoods().entrySet()) {
+                for (Map.Entry<Food, Integer> foods : Game.getCurrentUser().getUserGovernment().getFoods().entrySet())
                     System.out.println(foods.getKey().getFoodName() + "  :  " + foods.getValue());
-
-                }
                 break;
             default:
                 System.out.println("invalid!!?");
@@ -145,7 +138,7 @@ public class GovernmentMenu {
     }
 
     private static void showFoodRate() {
-        System.out.println("***------------Food Rate------------***" + Game.getCurrentUser().getUserGovernment().getFoodRate());
+        System.out.println("Food Rate: " + Game.getCurrentUser().getUserGovernment().getFoodRate());
     }
 
     private static void rateTax(Matcher matcher) {
@@ -166,7 +159,7 @@ public class GovernmentMenu {
     }
 
     private static void showTaxRate() {
-        System.out.println("***------------Tax Rate------------***" + Game.getCurrentUser().getUserGovernment().getTaxRate());
+        System.out.println("Tax Rate: " + Game.getCurrentUser().getUserGovernment().getTaxRate());
     }
 
     private static void rateFear(Matcher matcher) {
