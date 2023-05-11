@@ -24,6 +24,12 @@ public class MapControl {
         Game.getMapInGame().setSelectedY(y);
         for (int j = 0; j < 10; j++) {
             for (int i = 0; i < 10; i++) {
+                if (i == 4) {
+                    System.out.print("  |  ");
+                }
+                if (j == 4) {
+                    System.out.print("---------------------------");
+                }
                 if (smallMap[j][i] == null)
                     continue;
                 else if (hasUnits(smallMap[j][i].getPeopleOnTile())) {
