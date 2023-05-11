@@ -4,4 +4,5 @@ public enum UnitsType {
     ARCHER,
     ARMY,
     COMBAT,
+    ENGINEER;
 }

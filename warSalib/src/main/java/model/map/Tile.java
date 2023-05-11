@@ -1,5 +1,6 @@
 package model.map;
 
+import model.government.Government;
 import model.government.building.Building;
 import model.government.people.People;
 import model.government.resource.Resource;
@@ -13,6 +14,7 @@ public class Tile {
     private Type type;
     private Rock rock;
 
+    private Government government;
     private Tree tree;
     private Building building;
     private ArrayList <People> peopleOnTile;
@@ -61,8 +63,20 @@ public class Tile {
         return resource;
     }
 
+    public void removePeople(People people) {
+        peopleOnTile.remove(people);
+    }
+
     public void addPeople(People people) {
         peopleOnTile.add(people);
+    }
+
+    public Government getGovernment() {
+        return government;
+    }
+
+    public void setGovernment(Government government) {
+        this.government = government;
     }
 
     public void setType(Type type) {

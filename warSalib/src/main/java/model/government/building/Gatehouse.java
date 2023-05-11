@@ -22,6 +22,9 @@ public class Gatehouse extends Building {
 
     public Gatehouse(int x, int y, Government government, int hp, String name, int people,String direction) {
         super(x, y, government, hp, "castle building", name);
+    public Gatehouse(int x, int y, Government government, int hp, String name, int people, int maxHP,
+                     HashMap<Resource, Integer> resource) {
+        super(x, y, government, hp, "castle building", name, maxHP, resource);
         this.people = people;
         peopleLiveIn = new ArrayList<>();
         this.direction=direction;
@@ -29,15 +32,17 @@ public class Gatehouse extends Building {
         this.hasFlag=false;
     }
 
-    public static Gatehouse makeGatehouseByName(String name, int x, int y, Government government,String direction) {
+    public static Gatehouse makeGatehouseByName(String name, int x, int y, Government government, int flag) {
+        HashMap<Resource, Integer> resource= new HashMap<>();
         if (name.equals("small stone gatehouse")) {
-            Gatehouse smallGatehouse = new Gatehouse(x, y, government, 800, name, 8,direction);
+            Gatehouse smallGatehouse = new Gatehouse(x, y, government, 800, name, 8, 800, resource);
             return smallGatehouse;
-        } else if (name.equals("big stone gatehouse")) {
-            HashMap<Resource, Integer> resource = new HashMap<>();
+        }
+        else if (name.equals("big stone gatehouse")) {
             resource.put(Resource.STONE, 20);
-            if (government.hasEnoughResources(resource)) {
-                Gatehouse bigGatehouse = new Gatehouse(x, y, government, 1200, name, 10,direction);
+            if (government.hasEnoughResources(resource) || flag == 1) {
+                Gatehouse bigGatehouse = new Gatehouse(x, y, government, 1200, name, 10, 1200,
+                        resource);
                 return bigGatehouse;
             } else {
                 System.out.println("we dont have enough stone to build it");

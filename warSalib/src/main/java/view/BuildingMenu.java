@@ -1,6 +1,7 @@
 package view;
 
 import control.BuildingControl;
+import model.Game;
 import view.enums.commands.BuildingCommands;
 import view.enums.messages.BuildingMessage;
 
@@ -20,10 +21,14 @@ public class BuildingMenu {
             } else if ((matcher = BuildingCommands.getMatcher(input, BuildingCommands.DROP_BUILDING)) != null) {
                 dropBuilding(matcher);
             } else if ((matcher = BuildingCommands.getMatcher(input, BuildingCommands.SELECT_BUILDING)) != null) {
-                selectBuilding(matcher);
+                selectBuilding(matcher, scanner);
             } else if ((matcher = BuildingCommands.getMatcher(input, BuildingCommands.CREATE_UNIT)) != null) {
                 createUnit(matcher);
-            } else System.out.println("invalid command!");
+            } else if ((matcher = BuildingCommands.getMatcher(input, BuildingCommands.OPEN_CAGE_DOG)) != null)
+                openCagedDog(matcher);
+            else if ((matcher = BuildingCommands.getMatcher(input, BuildingCommands.CHANGE_TAX_RATE)) != null)
+                changeTaxRate(matcher);
+            else System.out.println("invalid command!");
         }
     }
 
@@ -54,7 +59,26 @@ public class BuildingMenu {
         }
     }
 
-    private static void selectBuilding(Matcher matcher) {
+    private static void changeTaxRate (Matcher matcher) {
+        int taxRate = Integer.parseInt(matcher.group("rate"));
+        BuildingMessage message = BuildingControl.changeTaxRate(taxRate);
+        switch (message) {
+            case WRONG_AMOUNT :
+                System.out.println("you enter wrong amount");
+                break;
+            case NOT_GOOD_BUILDING:
+                System.out.println("it's not gatehouse");
+                break;
+            case SUCCESS:
+                System.out.println("you chang rate successfully");
+                break;
+            default:
+                System.out.println("invalid!");
+                break;
+        }
+    }
+
+    private static void selectBuilding(Matcher matcher, Scanner scanner) {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
         BuildingMessage message = BuildingControl.selectBuilding(x, y);
@@ -67,6 +91,10 @@ public class BuildingMenu {
                 break;
             case NOT_BELONG_TO_YOU:
                 System.out.println("this tile not belong to you!");
+                break;
+            case SELECT_MARKET:
+                System.out.println("you enter shop Menu");
+                StoreMenu.run(scanner);
                 break;
             case SUCCESS:
                 System.out.println("select successfully");
@@ -91,6 +119,9 @@ public class BuildingMenu {
             case WRONG_AMOUNT:
                 System.out.println("you enter wrong amount of x and y");
                 break;
+            case NOT_EXIST_UNIT:
+                System.out.println("you enter wrong type of units");
+                break;
             case NOT_ENOUGH_POPULATION:
                 System.out.println("you don't have enough population");
                 break;
@@ -99,6 +130,25 @@ public class BuildingMenu {
                 break;
             case SUCCESS:
                 System.out.println("create units successfully");
+                break;
+            default:
+                System.out.println("invalid!");
+                break;
+        }
+    }
+
+    private static void openCagedDog (Matcher matcher) {
+        String state = matcher.group("open");
+        BuildingMessage message = BuildingControl.openCagedDog(state);
+        switch (message) {
+            case WRONG_AMOUNT :
+                System.out.println("you enter wrong amount");
+                break;
+            case NOT_GOOD_BUILDING:
+                System.out.println("it's not caged war dog");
+                break;
+            case SUCCESS:
+                System.out.println("succeed opened");
                 break;
             default:
                 System.out.println("invalid!");
@@ -115,8 +165,15 @@ public class BuildingMenu {
             case NEAR_ENEMY:
                 System.out.println("enemy near your town and can't repair");
                 break;
+            case HAS_FULL_HP:
+                System.out.println("your building has max hp and don't need to repair it");
+                break;
+            case NOT_GOOD_BUILDING:
+                System.out.println("not castle building");
+                break;
             case SUCCESS:
                 System.out.println("repair successfully");
+                break;
             default:
                 System.out.println("invalid!");
                 break;

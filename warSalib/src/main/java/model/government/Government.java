@@ -6,8 +6,8 @@ import java.util.LinkedHashMap;
 
 import model.Game;
 import model.government.building.Building;
+import model.government.building.StockPileBuilding;
 import model.government.people.People;
-import model.government.people.engineer.Engineer;
 import model.government.popularityfactor.Fear;
 import model.government.popularityfactor.Food;
 import model.government.popularityfactor.Religion;
@@ -18,13 +18,22 @@ import model.user.User;
 import view.TradeMenu;
 
 public class Government {
-    private int wealth;
+    private float wealth;
     private int popularity;
     private int population;
+
+    private int populationCapacity = 0;
+
+    private int fearEffect;
+    private int foodEffect;
+    private int religionEffect;
+    private int taxEffect;
     private User user;
+
+    private ArrayList<People> unWorkedPeople;
     private HashMap<Food, Integer> foods;
 
-    private HashMap<Resource,Integer> resourcesHashmap;
+    private ArrayList<StockPileBuilding> stockPileBuildings;
 
     private int foodRate;
 
@@ -37,11 +46,9 @@ public class Government {
     private ArrayList<Request> requests;
     private ArrayList<People> people;
     private ArrayList<Building> buildings;
-    public static HashMap<Resource, Integer> resources;
-    private LinkedHashMap<User, HashMap<Resource, Integer>> tradeHistory;
+    private HashMap<Resource, Integer> resources;
+    public static LinkedHashMap<User, HashMap<Resource, Integer>> tradeHistory;
     private Fear fear;
-
-    private ArrayList<Engineer> engineers=new ArrayList<>();
 
     public Government(int popularity, int population, User user) {
         this.wealth = 0;
@@ -54,26 +61,28 @@ public class Government {
         buildings = new ArrayList<>();
         resources = new HashMap<>();
         tradeHistory = new LinkedHashMap<>();
+        stockPileBuildings = new ArrayList<>();
         governmentFoods = new ArrayList<>();
+        unWorkedPeople = new ArrayList<>();
         tax = new Tax();
         fear = new Fear();
     }
 
 //    public HashMap<Resource, Integer> getResources() { return resources; }
 
-    public static void addToResources(Resource resource, int number) {
+    public void addToResources(Resource resource, int number) {
         if (resources.containsKey(resource)) resources.put(resource, resources.get(resource) + number);
-        else resources.put(resource, 1);
+        else resources.put(resource, number);
     }
 
-    public static void removeFromResources(Resource resource, int number) {
+    public void removeFromResources(Resource resource, int number) {
         if (resources.get(resource) < number) System.out.println("there are not enough resources in storehouse");
         else if (resources.get(resource) == number) resources.remove(resource);
         else resources.put(resource, resources.get(resource) - number);
     }
-    public int getWealth() { return wealth; }
+    public float getWealth() { return wealth; }
 
-    public void setWealth(int wealth) { this.wealth = wealth; }
+    public void setWealth(float wealth) { this.wealth = wealth; }
 
     public boolean hasEnoughResources(HashMap<Resource, Integer> resources) {
         for (Resource resource : resources.keySet()) {
@@ -81,15 +90,6 @@ public class Government {
                 return false;
         }
         return true;
-    }
-    public int numberOfResource(Resource resource){
-        for (Resource resource1:getResources().keySet()){
-            if(resource1.equals(resource)){
-                return getResources().get(resource1);
-            }
-
-        }
-        return 0;
     }
 
     public void addToTradeHistory(User user, Resource resource, int number) {
@@ -152,20 +152,34 @@ public class Government {
         return requests;
     }
 
-    public static void changePopularityByFoods(HashMap<Integer, Food> foods) {
+    public void changePopularityByFoods(HashMap<Integer, Food> foods) {
 
     }
 
-    public static void changePopularityByFear(Fear fear) {
+    public void changePopularityByFear(Fear fear) {
 
     }
 
-    public static void changePopularityByTax(Tax tax) {
+    public void changePopularityByTax(Tax tax) {
 
+    }
+
+    public void addToPeople (People people1) {
+        people.add(people1);
     }
 
     public ArrayList<Food> getGovernmentFoods() {
         return governmentFoods;
+    }
+
+    public ArrayList<People> getUnWorkedPeople() {
+        return unWorkedPeople;
+    }
+
+    public void removeUnWorkedPeople(People people1) {
+        Game.getMapInGame().getMap()[people1.getyLocation()][people1.getxLocation()].removePeople(people1);
+        unWorkedPeople.remove(people1);
+        people.remove(people1);
     }
 
     public int getFoodRate() {
@@ -176,13 +190,60 @@ public class Government {
         return taxRate;
     }
 
-
-    public HashMap<Resource, Integer> getResourcesHashmap() {
-        return resourcesHashmap;
-    }
-
     public HashMap<Resource, Integer> getResources() {
         return resources;
+    }
+
+    public void addBuilding (Building building) {
+        buildings.add(building);
+    }
+
+    public ArrayList<StockPileBuilding> getStockPileBuildings() {
+        return stockPileBuildings;
+    }
+
+    public void addStockPile (StockPileBuilding stockPileBuilding) {
+        stockPileBuildings.add(stockPileBuilding);
+    }
+
+    public void removeResourceFromStockPile (Resource resource, int count) {
+        for (StockPileBuilding stockPileBuilding: stockPileBuildings) {
+             if (stockPileBuilding.getType().equals("stock pile") &&
+                     resource.getTypeOfResource().equals(Resource.TypeOfResource.INDUSTRY))
+                 count = stockPileBuilding.useResource(resource, count);
+             else if (stockPileBuilding.getType().equals("food stock pile") &&
+                     resource.getTypeOfResource().equals(Resource.TypeOfResource.FOOD))
+                 count = stockPileBuilding.useResource(resource, count);
+             else if (stockPileBuilding.getType().equals("armoury") &&
+                     resource.getTypeOfResource().equals(Resource.TypeOfResource.WEAPON))
+                 count = stockPileBuilding.useResource(resource, count);
+             if (count == 0) break;
+        }
+    }
+
+    public void addResourceToStockPile (Resource resource, int count) {
+        for (StockPileBuilding stockPileBuilding: stockPileBuildings) {
+            if (stockPileBuilding.getType().equals("stock pile") &&
+                    resource.getTypeOfResource().equals(Resource.TypeOfResource.INDUSTRY))
+                stockPileBuilding.addToResources(resource, count);
+            else if (stockPileBuilding.getType().equals("food stock pile") &&
+                    resource.getTypeOfResource().equals(Resource.TypeOfResource.FOOD))
+                stockPileBuilding.addToResources(resource, count);
+            else if (stockPileBuilding.getType().equals("armoury") &&
+                    resource.getTypeOfResource().equals(Resource.TypeOfResource.WEAPON))
+                stockPileBuilding.addToResources(resource, count);
+        }
+    }
+
+    public int getPopulationCapacity() {
+        return populationCapacity;
+    }
+
+    public void removeBuilding(Building building) {
+        buildings.remove(building);
+    }
+    public void setPopulationCapacity(int populationCapacity) {
+        this.populationCapacity = populationCapacity;
     }
 
     public void setFoodRate(int foodRate) {
@@ -191,13 +252,5 @@ public class Government {
 
     public void setTaxRate(int taxRate) {
         this.taxRate = taxRate;
-    }
-
-    public ArrayList<People> getPeople() {
-        return people;
-    }
-
-    public ArrayList<Engineer> getEngineers() {
-        return engineers;
     }
 }

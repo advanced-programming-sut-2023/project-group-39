@@ -1,27 +1,41 @@
 package model.government.resource;
 
 public enum Resource {
-    STONE(TypeOfResource.INDUSTRY), IRON(TypeOfResource.INDUSTRY), PITCH(TypeOfResource.INDUSTRY), WHEAT(TypeOfResource.FOOD),
-    FLOUR(TypeOfResource.FOOD), BREAD(TypeOfResource.FOOD), HOP(TypeOfResource.FOOD), BEAR(TypeOfResource.FOOD),
-
-    BOW(TypeOfResource.WEAPON), ARROW(TypeOfResource.WEAPON), TORCH(TypeOfResource.WEAPON), FIRECRACKER(TypeOfResource.WEAPON),
-
-    PORTABLE_PROTECTION(TypeOfResource.WEAPON), STICK(TypeOfResource.WEAPON),
-    ARMOUR(TypeOfResource.WEAPON), SWORD(TypeOfResource.WEAPON), ARCHER(TypeOfResource.WEAPON), SPEAR(TypeOfResource.WEAPON),
-    WOOD(TypeOfResource.INDUSTRY), OIL(TypeOfResource.INDUSTRY), HORSE(TypeOfResource.INDUSTRY), APPLE(TypeOfResource.FOOD),
-    CHEESE(TypeOfResource.FOOD), MEAT(TypeOfResource.FOOD), GOLD(TypeOfResource.INDUSTRY), COIN(TypeOfResource.INDUSTRY),
-    COW(TypeOfResource.ANIMAL);
+    STONE("stone",TypeOfResource.INDUSTRY , 5), IRON("iron",TypeOfResource.INDUSTRY, 10),
+    PITCH("pitch",TypeOfResource.INDUSTRY, 2), WHEAT("wheat",TypeOfResource.FOOD, 5),
+    FLOUR("flour" ,TypeOfResource.FOOD , 3), BREAD("bread" ,TypeOfResource.FOOD, 3),
+    HOP("hop" ,TypeOfResource.FOOD, 4), BEAR( "bear" ,TypeOfResource.FOOD, 10),
+    ARMOUR( "armour" ,TypeOfResource.WEAPON, 90), SWORD( "sword" ,TypeOfResource.WEAPON, 70),
+    ARCHER( "archer",TypeOfResource.WEAPON, 90), SPEAR( "spear", TypeOfResource.WEAPON, 50),
+    WOOD("wood"  ,TypeOfResource.INDUSTRY, 3), OIL( "oil" ,TypeOfResource.INDUSTRY, 15),
+    HORSE( "horse" ,TypeOfResource.INDUSTRY, 100), APPLE(  "apple" ,TypeOfResource.FOOD, 3),
+    CHEESE( "cheese" ,TypeOfResource.FOOD, 8), MEAT(  "meat" ,TypeOfResource.FOOD, 20),
+    GOLD(  "gold" ,TypeOfResource.INDUSTRY, 30),
+    COIN(  "coin" ,TypeOfResource.INDUSTRY, 1), COW(  "cow" ,TypeOfResource.ANIMAL, 70);
     public enum TypeOfResource {
         INDUSTRY, WEAPON, FOOD,ANIMAL
     }
 
+    private String name;
     TypeOfResource typeOfResource;
 
-    Resource(TypeOfResource typeOfResource) {
+    private int cost;
+
+    Resource(String name ,TypeOfResource typeOfResource, int cost) {
+        this.name = name;
         this.typeOfResource = typeOfResource;
+        this.cost = cost;
     }
 
     public TypeOfResource getTypeOfResource() {
         return typeOfResource;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getCost() {
+        return cost;
     }
 }

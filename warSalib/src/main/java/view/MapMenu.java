@@ -57,7 +57,6 @@ public class MapMenu {
                 right = Integer.parseInt(matcher.group("right"));
             else right = 1;
         }
-        //handle map up up
         System.out.println(MapControl.moveMap(up, down, right, left));
     }
 

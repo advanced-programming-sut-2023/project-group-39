@@ -49,6 +49,9 @@ public class EnvironmentMenu {
             case EXIST_BUILDING:
                 System.out.println("you can't set texture for building");
                 break;
+            case WRONG_TYPE:
+                System.out.println("yoe enter wrong type");
+                break;
             case SUCCESS:
                 System.out.println("set successfully");
                 break;
@@ -71,6 +74,9 @@ public class EnvironmentMenu {
                 break;
             case EXIST_BUILDING:
                 System.out.println("you can't set texture these tiles for building");
+                break;
+            case WRONG_TYPE:
+                System.out.println("yoe enter wrong type");
                 break;
             case SUCCESS:
                 System.out.println("set texture successfully");
@@ -106,6 +112,9 @@ public class EnvironmentMenu {
         switch (message) {
             case WRONG_AMOUNT:
                 System.out.println("you enter wrong x and y");
+                break;
+            case WRONG_TYPE:
+                System.out.println("you can't drop rock in this type");
                 break;
             case WRONG_DIRECTION:
                 System.out.println("you enter wrong direction");

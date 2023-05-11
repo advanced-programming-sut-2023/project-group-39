@@ -1,8 +1,11 @@
 package model.government.building;
 
+import model.Game;
 import model.government.Government;
 import model.government.building.group.GroupOfBuilding;
 import model.government.people.People;
+import model.government.people.workingpersons.JobsName;
+import model.government.people.workingpersons.WorkingPerson;
 import model.government.resource.Resource;
 
 import java.util.ArrayList;
@@ -12,26 +15,30 @@ public class Church extends Building{
     private final int addToPopularity = 2;
     private ArrayList<People> people;
 
-    public Church(int x, int y, Government government, int hp, String name) {
-        super(x, y, government, hp, "town building", name);
+    public Church(int x, int y, Government government, int hp, String name, int maxHp, HashMap<Resource, Integer>
+            resource) {
+        super(x, y, government, hp, "town building", name, maxHp, resource);
         improvePopularity(government);
     }
 
-    public static Church makeChurchByName(String name, int x, int y, Government government) {
+    public static Church makeChurchByName(String name, int x, int y, Government government, int flag) {
+        HashMap<Resource, Integer> resource = new HashMap<>();
         if (name.equals("church")) {
-            HashMap<Resource, Integer> resource= new HashMap<>();
             resource.put(Resource.COIN, 250);
-            if (government.hasEnoughResources(resource)) {
-                Church church = new Church(x, y, government, 600, name);
+            if (government.hasEnoughResources(resource) || flag == 1) {
+                Church church = new Church(x, y, government, 600, name, 600, resource);
                 return church;
             }
         }
         if (name.equals("cathedral")) {
-            HashMap<Resource, Integer> resource= new HashMap<>();
             resource.put(Resource.COIN, 1000);
-            if (government.hasEnoughResources(resource)) {
-                Church cathedral = new Church(x, y, government, 1000, name);
-                //TODO : MAKE PRIEST
+            if (government.hasEnoughResources(resource) || flag == 1) {
+                Church cathedral = new Church(x, y, government, 1000, name, 1000, resource);
+                if (government.getUnWorkedPeople().get(0) != null) {
+                    People people1 = government.getUnWorkedPeople().get(0);
+                    Building.changePeople(people1, JobsName.PRIEST);
+                    Game.getMapInGame().getMap()[y][x].addPeople(people1);
+                }
                 return cathedral;
             }
         }
@@ -42,9 +49,6 @@ public class Church extends Building{
     }
 
     public void changeNormalToFightingMonk(People people) {
-
-    }
-    public void makePriest(People people){
 
     }
 }
