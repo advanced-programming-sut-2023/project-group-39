@@ -189,8 +189,5 @@ public class LoginSignupControl {
         ArrayList<User> data=new Gson().fromJson(json,new TypeToken<ArrayList<User>>(){}.getType());
         if(data!=null)
             Game.setPlayers(data);
-        for (User user:Game.getPlayers()){
-            System.out.println(user.getUsername());
-        }
     }
 }
