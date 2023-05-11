@@ -133,7 +133,7 @@ public class LoginSignupControl {
 
     public static LoginMenuMessage checkUsername(String username) {
         Matcher matcher;
-        if ((matcher = LoginMenuCommands.getMatcher(username, LoginMenuCommands.VALIDUSERNAME)) == null) {
+        if ((matcher = LoginMenuCommands.getMatcher(username, LoginMenuCommands.INVALID_USER_NAME)) != null) {
             return LoginMenuMessage.INVALIDUSERNAME;
         }
         for (User user : Game.getPlayers()) {

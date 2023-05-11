@@ -55,7 +55,6 @@ public class LoginSignupMenu {
                         username = matcher.group("usernameWithSpace");
                         username = username.trim();
                         username = username.substring(1, username.length() - 1);
-                        System.out.println(username);
                     }
                 } else {
                     System.out.println("your username field is empty!");
