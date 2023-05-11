@@ -123,8 +123,13 @@ public class EnvironmentControl {
             return EnvironmentMenuMessage.WRONG_TYPE;
         if (!isAppropriateGroundForBuilding(x, y, type))
             return EnvironmentMenuMessage.NOT_APPROPRIATE_GROUND;
+        if (Game.getMapInGame().getMap()[y][x].getGovernment() == null)
+            return EnvironmentMenuMessage.NOT_HAVE_GOVERNMENT;
+        if (hasBuilding(x,y,x,y))
+            return EnvironmentMenuMessage.EXIST_BUILDING;
         Building building = Building.makeBuildingByName(type, x, y, Game.getMapInGame().getMap()[y][x].getGovernment(), 1);
-        Game.getTurnedUserForGame().getUserGovernment().addBuilding(building);
+        Government government = Game.getMapInGame().getMap()[y][x].getGovernment();
+        government.addBuilding(building);
         if (building instanceof StockPileBuilding)
             building.getGovernment().addStockPile((StockPileBuilding) building);
         return EnvironmentMenuMessage.SUCCESS;

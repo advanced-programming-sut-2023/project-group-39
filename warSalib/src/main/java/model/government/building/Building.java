@@ -59,49 +59,49 @@ abstract public class Building {
             return ConvertedBuilding.makeConvertedBuildingByName(name, x, y, government, flag);
 
         else if (group.equals(GroupOfBuilding.CAGED_WAR_DOG))
-            return CagedWarDog.makeBuildingByName(name, x, y, government, flag);
+            return CagedWarDog.makeCagedWarDogByName(name, x, y, government, flag);
 
         else if (group.equals(GroupOfBuilding.CHURCH))
-            return Church.makeBuildingByName(name, x, y, government, flag);
+            return Church.makeChurchByName(name, x, y, government, flag);
 
         else if (group.equals(GroupOfBuilding.DRAWBRIDGE))
-            return DrawBridge.makeBuildingByName(name, x, y, government, flag);
+            return DrawBridge.makeDrawBridgeByName(name, x, y, government, flag);
 
         else if (group.equals(GroupOfBuilding.GATEHOUSE))
-            return Gatehouse.makeBuildingByName(name, x, y, government, flag);
+            return Gatehouse.makeGatehouseByName(name, x, y, government, flag);
 
         else if (group.equals(GroupOfBuilding.HOVEL))
-            return Hovel.makeBuildingByName(name, x, y, government, flag);
+            return Hovel.makeHovelByName(name, x, y, government, flag);
 
         else if (group.equals(GroupOfBuilding.INN))
-            return Inn.makeBuildingByName(name, x, y, government, flag);
+            return Inn.makeInnByName(name, x, y, government, flag);
 
         else if (group.equals(GroupOfBuilding.KILLING_PIT))
-            return KillingPit.makeBuildingByName(name, x, y, government, flag);
+            return KillingPit.makeKillingPitByName(name, x, y, government, flag);
 
         else if (group.equals(GroupOfBuilding.MAKING_FORCE_BUILDING))
-            return MakingForceBuilding.makeBuildingByName(name, x, y, government, flag);
+            return MakingForceBuilding.makeMakingForceBuildingByName(name, x, y, government, flag);
 
         else if (group.equals(GroupOfBuilding.MARKET))
-            return Market.makeBuildingByName(name, x, y, government, flag);
+            return Market.makeMarketByName(name, x, y, government, flag);
 
         else if (group.equals(GroupOfBuilding.MINE_BUILDING))
-            return MineBuilding.makeBuildingByName(name, x, y, government, flag);
+            return MineBuilding.makeMineBuildingByName(name, x, y, government, flag);
 
         else if (group.equals(GroupOfBuilding.OX_TETHER))
-            return OxTether.makeBuildingByName(name, x, y, government, flag);
+            return OxTether.makeOxTetherByName(name, x, y, government, flag);
 
         else if (group.equals(GroupOfBuilding.PITCH_DITCH))
-            return PitchDitch.makeBuildingByName(name, x, y, government, flag);
+            return PitchDitch.makePitchDitchByName(name, x, y, government, flag);
 
         else if (group.equals(GroupOfBuilding.PRODUCTIVE_BUILDING))
             return ProductiveBuilding.makeProductiveBuildingByName(name, x, y, government, flag);
 
         else if (group.equals(GroupOfBuilding.SIEGE_TENT))
-            return SiegeTent.makeBuildingByName(name, x, y, government, flag);
+            return SiegeTent.makeSiegeTentByName(name, x, y, government, flag);
 
         else if (group.equals(GroupOfBuilding.STOCK_PILE_BUILDING))
-            return StockPileBuilding.makeBuildingByName(name, x, y, government,flag);
+            return StockPileBuilding.makeStockPileBuildingByName(name, x, y, government,flag);
 
         else if (group.equals(GroupOfBuilding.TOWER))
             return Tower.makeTowerByName(name, x, y, government, flag);

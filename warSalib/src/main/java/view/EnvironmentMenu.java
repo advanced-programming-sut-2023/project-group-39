@@ -169,6 +169,12 @@ public class EnvironmentMenu {
             case NOT_APPROPRIATE_GROUND:
                 System.out.println("it's not good ground for this building");
                 break;
+            case NOT_HAVE_GOVERNMENT:
+                System.out.println("in this tile hasn't government");
+                break;
+            case EXIST_BUILDING:
+                System.out.println("is another building in this tile");
+                break;
             case SUCCESS:
                 System.out.println("drop building successfully");
                 break;

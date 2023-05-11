@@ -1,6 +1,7 @@
 package view;
 
 import model.Game;
+import model.government.Government;
 import model.map.GameMap;
 import model.user.User;
 import view.enums.commands.MainMenuCommands;
@@ -52,6 +53,8 @@ public class MainMenu {
                         System.out.println("you have maximum of players in your game");
                     }
                     Game.getPlayersInGame().add(getUserByName(username));
+                    Government government = new Government(0, 30, getUserByName(username));
+                    Game.addGovernment(government);
                     counter++;
                     System.out.println("added successfully");
                 }

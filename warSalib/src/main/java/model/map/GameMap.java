@@ -17,6 +17,7 @@ public class GameMap {
                 this.map[i][j] = new Tile();
             }
         }
+        Game.setMapInGame(this);
         for (int i = 0; i < Game.getGovernments().size(); i++) {
             defineTerritory(i, Game.getGovernments().get(i), this.map);
         }

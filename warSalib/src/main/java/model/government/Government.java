@@ -90,6 +90,8 @@ public class Government {
 
     public boolean hasEnoughResources(HashMap<Resource, Integer> resources) {
         for (Resource resource : resources.keySet()) {
+            if (getResources().get(resource)==null)
+                return false;
             if (getResources().get(resource) < resources.get(resource))
                 return false;
         }
