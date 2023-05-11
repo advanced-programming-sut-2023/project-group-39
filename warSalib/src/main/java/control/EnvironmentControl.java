@@ -33,7 +33,7 @@ public class EnvironmentControl {
     }
 
     public static EnvironmentMenuMessage setTextureWithRectangle(int x, int y, int x1, int y1, String type) {
-        if (!validCoordinate(x, y) && !validCoordinate(x1, y1) && x <= x1 && y1 <= y)
+        if (!validCoordinate(x, y) || !validCoordinate(x1, y1) || x1 < x || y < y1)
             return EnvironmentMenuMessage.WRONG_AMOUNT;
         if (getTypeByName(type) == null)
             return EnvironmentMenuMessage.WRONG_TYPE;
@@ -50,7 +50,7 @@ public class EnvironmentControl {
 
     private static Type getTypeByName(String type) {
         for (Type type1 : Type.values()) {
-            if (type1.getName().equals(type))
+            if (type1.getGround().equals(type))
                 return type1;
         }
         return null;
@@ -121,11 +121,17 @@ public class EnvironmentControl {
             return EnvironmentMenuMessage.WRONG_AMOUNT;
         if (Building.getGroupByName(type) == null)
             return EnvironmentMenuMessage.WRONG_TYPE;
+        if (!isAppropriateGroundForBuilding(x, y, type))
+            return EnvironmentMenuMessage.NOT_APPROPRIATE_GROUND;
         Building building = Building.makeBuildingByName(type, x, y, Game.getMapInGame().getMap()[y][x].getGovernment(), 1);
         Game.getTurnedUserForGame().getUserGovernment().addBuilding(building);
         if (building instanceof StockPileBuilding)
             building.getGovernment().addStockPile((StockPileBuilding) building);
         return EnvironmentMenuMessage.SUCCESS;
+    }
+
+    private static boolean isAppropriateGroundForBuilding(int x,int y, String name) {
+        return Building.isAppropriateGround(Game.getMapInGame().getMap()[y][x].getType(), name);
     }
 
     public static EnvironmentMenuMessage dropUnit(int x, int y, String type, int count) {

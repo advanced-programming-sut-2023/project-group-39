@@ -29,6 +29,7 @@ public class MainMenu {
             }
             else if ((matcher = MainMenuCommands.getMatcher(input, MainMenuCommands.START_GAME)) != null) {
                 letStartGame();
+                System.out.println("game started");
                 EnvironmentMenu.run(scanner);
             } else System.out.println("invalid command!");
 
@@ -40,6 +41,7 @@ public class MainMenu {
         Game.getPlayersInGame().add(Game.getCurrentUser());
         counter++;
         Scanner scanner=new Scanner(System.in);
+        System.out.println("add player");
         while (true){
             String add=scanner.nextLine();
             Matcher matcher;
@@ -51,13 +53,15 @@ public class MainMenu {
                     }
                     Game.getPlayersInGame().add(getUserByName(username));
                     counter++;
+                    System.out.println("added successfully");
                 }
                 else
-                    System.out.println("we dont have this user");
+                    System.out.println("we don't have this user");
 
             } else if (add.matches("^\\s*make\\s+map\\s*$")){
                 GameMap gameMap = new GameMap();
                 Game.setMapInGame(gameMap);
+                System.out.println("map created and set your favorite map");
                 break;
             }
             else {

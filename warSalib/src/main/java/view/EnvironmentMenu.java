@@ -13,8 +13,10 @@ public class EnvironmentMenu {
         Matcher matcher;
         while (true) {
             input = scanner.nextLine();
-            if (input.matches("\s*back\s*"))
+            if (input.matches("^\\s*generate\\s+map\\s*$")) {
+                GameMenu.run();
                 break;
+            }
             else if ((matcher = EnvironmentMenuCommands.getMatcher(input, EnvironmentMenuCommands.SET_TEXTURE)) != null)
                 setTexture(matcher);
             else if ((matcher = EnvironmentMenuCommands.getMatcher(input, EnvironmentMenuCommands.SET_TEXTURE_RECTANGLE)) != null)
