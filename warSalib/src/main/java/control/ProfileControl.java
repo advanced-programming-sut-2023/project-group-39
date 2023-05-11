@@ -95,6 +95,8 @@ public class ProfileControl {
     }
 
     public static String displaySlogan() {
+        if (Game.getCurrentUser().getSlogan().equals(""))
+            return "Slogan is empty!";
         return Game.getCurrentUser().getSlogan();
     }
 

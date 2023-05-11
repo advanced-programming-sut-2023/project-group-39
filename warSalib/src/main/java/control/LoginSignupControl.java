@@ -29,8 +29,8 @@ public class LoginSignupControl {
                 if(user.getPassword().equals(password)){
                     if(loggedInflag==1){
                         user.setLoggedIn(true);
-                        Game.setCurrentUser(user);
                     }
+                    Game.setCurrentUser(user);
                     return LoginMenuMessage.SUCCESS;
 
                 }

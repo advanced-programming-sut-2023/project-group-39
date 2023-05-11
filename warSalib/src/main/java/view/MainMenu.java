@@ -12,12 +12,17 @@ public class MainMenu {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             input = scanner.nextLine();
-            if (input.matches("^\\s*loggout\\s*$"))
+            if (input.matches("^\\s*logout\\s*$")) {
+                System.out.println("user logged out");
                 break;
+            }
             else if ((matcher = MainMenuCommands.getMatcher(input, MainMenuCommands.PROFILE_MENU)) != null) {
+                System.out.println("entered profile menu");
                int flag = ProfileMenu.run();
-                if (flag == 1)
+                if (flag == 1) {
+                    System.out.println("logged out");
                     break;
+                }
             }
             else if ((matcher = MainMenuCommands.getMatcher(input, MainMenuCommands.START_GAME)) != null) {
 

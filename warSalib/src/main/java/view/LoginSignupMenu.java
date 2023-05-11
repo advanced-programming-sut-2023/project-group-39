@@ -200,7 +200,7 @@ public class LoginSignupMenu {
             case SUCCESS:
                 System.out.println("you logged in successfully");
                 counterWrongPassword = 0;
-                ProfileMenu.run();
+                MainMenu.run();
                 break;
             case USERNOTFOUND:
                 System.out.println("username not found");
