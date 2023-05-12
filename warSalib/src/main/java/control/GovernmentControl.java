@@ -29,7 +29,7 @@ public class GovernmentControl {
         else if (foodRate == 1) foodEffect += 4;
         else if (foodRate == 2) foodEffect += 8;
         result.append(foodEffect)
-                .append("tax:\n\trate: ")
+                .append("\n\ttax:\n\trate: ")
                 .append(government.getTaxRate())
                 .append("\n\teffect: ");
         int taxEffect = 0;
@@ -47,12 +47,12 @@ public class GovernmentControl {
         else if (taxRate == 7) taxEffect += 20;
         else if (taxRate == 8) taxEffect += 24;
         result.append(taxEffect)
-                .append("fear:\n\trate: ")
+                .append("\n\tfear:\n\trate: ")
                 .append(government.getFearRate())
                 .append("\n\teffect: ");
         int fearEffect = government.getFearRate();
         result.append(fearEffect)
-                .append("religion:\n\teffect: ");
+                .append("\n\treligion:\n\teffect: ");
         // handle effect of religion in popularity
         //--------------------------------------------------------------------------------------------//
         int religionEffect = government.getPopularity() - foodEffect - taxEffect - fearEffect;
@@ -256,12 +256,15 @@ public class GovernmentControl {
     }
 
     public static boolean validateRateNumber(String type, int rate) {
-        if (type.equals("food"))
+        if (type.equals("food")) {
             if (rate > 2 || rate < -2) return false;
-            else if (type.equals("tax"))
-                if (rate > 8 || rate < -3) return false;
-                else if (type.equals("fear"))
-                    if (rate > 5 || rate < -5) return false;
+        }
+        if (type.equals("tax")) {
+            if (rate > 8 || rate < -3) return false;
+        }
+        if (type.equals("fear")){
+            if (rate > 5 || rate < -5) return false;
+            }
         return true;
     }
 }

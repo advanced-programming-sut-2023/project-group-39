@@ -155,11 +155,12 @@ public class BuildingControl {
     }
     private static boolean hasEnoughWeaponAndGold(String type) {
         UnitsName unitsName = getUnitNameByType(type);
+        boolean isTrue = false;
         if (unitsName==null)
             return false;
         HashMap <Resource, Integer> resourceNeedUnit = new HashMap<>();
-        resourceNeedUnit.put(Resource.COIN, unitsName.getCost());
-        //TODO : add weapon
+        if (Game.getTurnedUserForGame().getUserGovernment().getWealth() > unitsName.getCost())
+            isTrue = true;
         return Game.getSelectedBuilding().getGovernment().hasEnoughResources(resourceNeedUnit);
     }
 

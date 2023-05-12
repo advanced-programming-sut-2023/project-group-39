@@ -33,6 +33,10 @@ public class Government {
     private float efficiency;
     private User user;
 
+    private int xLeft;
+
+    private int yDown;
+
     private ArrayList<People> unWorkedPeople;
     private HashMap<Resource, Integer> foods;
 
@@ -55,7 +59,7 @@ public class Government {
     private Fear fear;
 
     public Government(int popularity, int population, User user) {
-        this.wealth = 0;
+        this.wealth = 2000;
         this.popularity = popularity;
         this.population = population;
         this.user = user;
@@ -74,6 +78,12 @@ public class Government {
         this.taxRate = 0;
         this.fearRate = 0;
         this.efficiency = 1;
+        addToResources(Resource.STONE, 100);
+        addToResources(Resource.WOOD, 100);
+        addToResources(Resource.IRON, 60);
+        addResourceToStockPile(Resource.STONE, 100);
+        addResourceToStockPile(Resource.WOOD, 100);
+        addResourceToStockPile(Resource.IRON, 60);
     }
 
 //    public HashMap<Resource, Integer> getResources() { return resources; }
@@ -81,6 +91,10 @@ public class Government {
     public void addToResources(Resource resource, int number) {
         if (resources.containsKey(resource)) resources.put(resource, resources.get(resource) + number);
         else resources.put(resource, number);
+    }
+
+    public void addToUnworkedPeople (People people) {
+        unWorkedPeople.add(people);
     }
 
     public void removeFromResources(Resource resource, int number) {
@@ -275,6 +289,22 @@ public class Government {
     public int getReligionEffect() { return religionEffect; }
 
     public int getTaxEffect() { return taxEffect; }
+
+    public int getXLeft() {
+        return xLeft;
+    }
+
+    public void setXLeft(int xLeft) {
+        this.xLeft = xLeft;
+    }
+
+    public int getYDown() {
+        return yDown;
+    }
+
+    public void setYDown(int yDown) {
+        this.yDown = yDown;
+    }
 
     public void setFearEffect(int fearEffect) { this.fearEffect = fearEffect; }
 

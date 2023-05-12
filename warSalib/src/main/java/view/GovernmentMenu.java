@@ -16,21 +16,21 @@ public class GovernmentMenu {
         while (true) {
             input = scanner.nextLine();
             Matcher matcher;
-            if (input.matches(String.valueOf(GovernmentMenuCommands.SHOW_POPULARITY_FACTORS)))
+            if (((matcher = GovernmentMenuCommands.getMatcher(input, GovernmentMenuCommands.SHOW_POPULARITY_FACTORS))!= null))
                 showPopularityFactors();
             else if ((matcher = GovernmentMenuCommands.getMatcher(input, GovernmentMenuCommands.ADD_FOOD)) != null)
                 addFood(matcher);
-            else if (input.matches(String.valueOf(GovernmentMenuCommands.SHOW_POPULARITY)))
+            else if ((matcher = GovernmentMenuCommands.getMatcher(input, GovernmentMenuCommands.SHOW_POPULARITY)) != null)
                 showPopularity();
-            else if (input.matches(String.valueOf(GovernmentMenuCommands.SHOW_FOOD_LIST)))
+            else if ((matcher = GovernmentMenuCommands.getMatcher(input, GovernmentMenuCommands.SHOW_FOOD_LIST)) != null)
                 showFoodList();
             else if ((matcher = GovernmentMenuCommands.getMatcher(input, GovernmentMenuCommands.CHANGE_FOOD_RATE)) != null)
                 rateFood(matcher);
-            else if (input.matches(String.valueOf(GovernmentMenuCommands.SHOW_FOOD_RATE)))
+            else if ((matcher = GovernmentMenuCommands.getMatcher(input, GovernmentMenuCommands.SHOW_FOOD_RATE)) != null)
                 showFoodRate();
             else if ((matcher = GovernmentMenuCommands.getMatcher(input, GovernmentMenuCommands.CHANGE_TAX_RATE)) != null)
                 rateTax(matcher);
-            else if (input.matches(String.valueOf(GovernmentMenuCommands.SHOW_TAX_RATE)))
+            else if ((matcher = GovernmentMenuCommands.getMatcher(input, GovernmentMenuCommands.SHOW_TAX_RATE)) != null)
                 showTaxRate();
             else if ((matcher = GovernmentMenuCommands.getMatcher(input, GovernmentMenuCommands.CHANGE_FEAR_RATE)) != null)
                 rateFear(matcher);

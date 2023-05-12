@@ -5,6 +5,7 @@ import model.government.Government;
 import model.government.building.*;
 import model.government.people.People;
 import model.government.people.units.*;
+import model.government.people.workingpersons.JobsName;
 import model.government.resource.Resource;
 import model.map.Tile;
 import model.wartool.*;
@@ -777,6 +778,20 @@ public class GameControl {
         }
     }
 
+    private static void addPeopleToGovernment() {
+        Government government = Game.getTurnedUserForGame().getUserGovernment();
+        int counter = 0;
+        for (Resource resource : government.getFoods().keySet()) {
+            counter += government.getFoods().get(resource);
+        }
+        int numberOfPeople = counter / 5;
+        for (int i = 0 ; i<numberOfPeople; i++) {
+            People people = new People(government.getXLeft() + 10, government.getYDown()+10,
+                    JobsName.UNEMPLOYED,government.getUser());
+            government.addToPeople(people);
+            government.addToUnworkedPeople(people);
+        }
+    }
     private static void changeFoodsInventory() {
         Government government=Game.getTurnedUserForGame().getUserGovernment();
         if(government.getFoodRate()==-2){

@@ -35,6 +35,7 @@ public class GameMap {
         if (a == 0) {
             rowDown = 0;
             colDown = 150;
+
         }
         else if (a == 1) {
             rowDown = 100;
@@ -64,6 +65,8 @@ public class GameMap {
             rowDown = 150;
             colDown = 100;
         }
+        government.setYDown(colDown);
+        government.setXLeft(rowDown);
         for (int j = colDown; j < colDown + 50; j++) {
             for (int i = rowDown; i< rowDown + 50; i++) {
                 map[j][i].setGovernment(government);
