@@ -24,21 +24,21 @@ public class Church extends Building {
     public static Church makeChurchByName(String name, int x, int y, Government government, int flag) {
         HashMap<Resource, Integer> resource = new HashMap<>();
         if (name.equals("church")) {
-            resource.put(Resource.COIN, 250);
-            if (government.hasEnoughResources(resource) || flag == 1) {
+            if (government.getWealth() > 250 || flag == 1) {
                 Church church = new Church(x, y, government, 600, name, 600, resource);
+                government.setWealth(government.getWealth() - 250);
                 return church;
             }
         }
         if (name.equals("cathedral")) {
-            resource.put(Resource.COIN, 1000);
-            if (government.hasEnoughResources(resource) || flag == 1) {
+            if (government.getWealth() > 1000 || flag == 1) {
                 Church cathedral = new Church(x, y, government, 1000, name, 1000, resource);
                 if (government.getUnWorkedPeople().get(0) != null) {
                     People people1 = government.getUnWorkedPeople().get(0);
                     Building.changePeople(people1, JobsName.PRIEST);
                     Game.getMapInGame().getMap()[y][x].addPeople(people1);
                 }
+                government.setWealth(government.getWealth() - 1000);
                 return cathedral;
             }
         }

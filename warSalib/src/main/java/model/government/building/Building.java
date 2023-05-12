@@ -21,6 +21,8 @@ abstract public class Building {
     private int hp;
     private String type;
 
+    private int wealth;
+
     private String name;
     private int maxHP;
     private int x, y;
@@ -192,5 +194,13 @@ abstract public class Building {
         people.setJobsName(jobsName);
         people.getOwnerPerson().getUserGovernment().getUnWorkedPeople().remove(people);
         Game.getMapInGame().getMap()[people.getyLocation()][people.getxLocation()].removePeople(people);
+    }
+
+    public int getWealth() {
+        return wealth;
+    }
+
+    public void setWealth(int wealth) {
+        this.wealth = wealth;
     }
 }

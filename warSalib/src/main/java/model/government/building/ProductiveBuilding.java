@@ -42,8 +42,7 @@ public class ProductiveBuilding extends Building {
         }
         if (name.equals("oil smelter")) {
             resource.put(Resource.IRON, 10);
-            resource.put(Resource.COIN, 100);
-            if (government.hasEnoughResources(resource) || flag == 1) {
+            if ((government.getWealth() > 100 && government.hasEnoughResources(resource)) || flag == 1) {
                 ProductiveBuilding oilSmelter = new ProductiveBuilding(x, y, government, 600, "industry",
                         "oil smelter", 50, Resource.OIL, resource);
                 oilSmelter.setWorkerDataBase(UnitsName.ENGINEER.getName(), 1);
@@ -54,15 +53,16 @@ public class ProductiveBuilding extends Building {
                     government.addToPeople(units);
                     Game.getMapInGame().getMap()[y][x].addPeople(units);
                 }
+                government.setWealth(government.getWealth() - 100);
                 return oilSmelter;
             }
         }
         if (name.equals("stable")) {
             resource.put(Resource.WOOD, 20);
-            resource.put(Resource.COIN, 400);
-            if (government.hasEnoughResources(resource) || flag == 1) {
+            if ((government.getWealth() > 400 && government.hasEnoughResources(resource)) || flag == 1) {
                 ProductiveBuilding stable = new ProductiveBuilding(x, y, government, 400, "castle building",
                         "stable", 4, Resource.HORSE, resource);
+                government.setWealth(government.getWealth() - 400);
                 return stable;
             }
         }
