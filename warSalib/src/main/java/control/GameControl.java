@@ -780,12 +780,41 @@ public class GameControl {
     private static void changeFoodsInventory() {
         Government government=Game.getTurnedUserForGame().getUserGovernment();
         if(government.getFoodRate()==-2){
+        }
+        else if(government.getFoodRate()==-1){
+            for (Resource resource:government.getFoods().keySet()){
+                government.getFoods().put(resource, (int) (government.getFoods().get(resource) - Math.floor(0.5*government.getPopulation())));
+                if(government.getFoods().get(resource)<=0){
+                    government.removeFromFoods(resource);
 
+                }
+            }
         }
         else if(government.getFoodRate()==0){
             for (Resource resource:government.getFoods().keySet()){
-                government.getFoods().put(resource, (government.getFoods().get(resource) - government.getPopulation()));
+                government.getFoods().put(resource, (int) (government.getFoods().get(resource) - Math.floor(government.getPopulation())));
+                if(government.getFoods().get(resource)<=0){
+                    government.removeFromFoods(resource);
 
+                }
+            }
+        }
+        else if(government.getFoodRate()==1){
+            for (Resource resource:government.getFoods().keySet()){
+                government.getFoods().put(resource, (int) (government.getFoods().get(resource) - Math.floor(1.5*government.getPopulation())));
+                if(government.getFoods().get(resource)<=0){
+                    government.removeFromFoods(resource);
+
+                }
+            }
+        }
+        else if(government.getFoodRate()==2){
+            for (Resource resource:government.getFoods().keySet()){
+                government.getFoods().put(resource, (int) (government.getFoods().get(resource) - Math.floor(2*government.getPopulation())));
+                if(government.getFoods().get(resource)<=0){
+                    government.removeFromFoods(resource);
+
+                }
             }
         }
     }
