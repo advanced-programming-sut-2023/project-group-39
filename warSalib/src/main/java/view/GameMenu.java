@@ -4,6 +4,8 @@ import control.GameControl;
 import model.government.people.units.State;
 import model.government.people.units.Units;
 import model.map.Tile;
+import view.enums.commands.GameMenuCommands;
+import view.enums.commands.ProfileMenuCommands;
 import view.enums.messages.GameMenuMessage;
 
 import javax.sound.midi.SysexMessage;
@@ -14,6 +16,63 @@ public class GameMenu {
     static String type;
 
     public static void run() {
+        String input;
+        Scanner scanner=new Scanner(System.in);
+        Matcher matcher;
+        while (true) {
+            input=scanner.nextLine();
+            if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.SELECTUNIT)) != null)
+                selectUnit(matcher);
+            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.MOVEUNIT)) != null)
+                moveUnit(matcher);
+            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.PATROLUNIT)) != null)
+                patrolUnit(matcher);
+            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.SETMOODE)) != null)
+                setMode(matcher);
+            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.ATTACK)) != null)
+                attack(matcher);
+           else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.AIRATTACK)) != null)
+                airAttack(matcher);
+            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.SELECTUNIT)) != null)
+                selectUnit(matcher);
+           else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.POUROIL)) != null)
+                pourOil(matcher);
+            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.DIGTUNNEL)) != null)
+                digTunnel(matcher);
+           else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.DISBANDUNIT)) != null)
+                disbandUnit(matcher);
+            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.MAKE_GATE)) != null)
+                makeGate(matcher);
+           else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.MAKE_WALL)) != null)
+                makeWall(matcher);
+            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.MAKE_TOWER)) != null)
+                makeTower(matcher);
+            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.MAKE_STAIR)) != null)
+                makeStair(matcher);
+            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.MAKE_KILLER_TALE)) != null)
+                makeKillerTale(matcher);
+            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.MAKE_OIL_TALE)) != null)
+                makeOilTale(matcher);
+           else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.MAKE_PROTECTION)) != null)
+                makeProtection(matcher);
+           else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.CAPTURE_GATE)) != null)
+                captureGate(matcher);
+            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.MAKE_BATTERING_RAM)) != null)
+                makeBatteringRam(matcher);
+            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.MAKE_CATAPULT)) != null)
+                makeCatapult(matcher);
+            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.MAKE_FIXED_CATAPULT)) != null)
+                makeFixedCatapult(matcher);
+            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.MAKE_SIEGE_TOWER)) != null)
+                makeSiegeTower(matcher);
+            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.MAKE_FIERY_STONE_THROWER)) != null)
+                makeFieryStoneThrower(matcher);
+            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.NEXT_TURN)) != null)
+                nextTurn(matcher);
+            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.STOP_PATROL_UNIT)) != null)
+                stopPatrol(matcher);
+
+        }
     }
 
     private static void selectUnit(Matcher matcher) {
@@ -141,6 +200,9 @@ public class GameMenu {
             case INVALIDUNIT:
                 System.out.println("selected unit isn't archer");
                 break;
+            case NOTENOUGHRESOURCE:
+                System.out.println("you dont have enough resource to air attack");
+                break;
             default:
                 System.out.println("invalid command!");
                 break;
@@ -193,21 +255,6 @@ public class GameMenu {
 
     }
 
-    private static void build(Matcher matcher) {
-        String equipment = matcher.group("equipment");
-        GameMenuMessage message = GameControl.build(equipment);
-        switch (message) {
-            case SUCCESS:
-                System.out.println("equipment maked successfully");
-                break;
-            case WITHOUTENGINNER:
-                System.out.println("we dont have any engineer");
-                break;
-            default:
-                System.out.println("invalid command!!");
-                break;
-        }
-    }
 
     private static void disbandUnit(Matcher matcher) {
         GameMenuMessage message = GameControl.disbandUnit();
@@ -227,6 +274,7 @@ public class GameMenu {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
         String name = matcher.group("gateName");
+        name=name.trim();
         GameMenuMessage message = GameControl.makeGate(name, direction, x, y);
         switch (message) {
             case SUCCESS:
