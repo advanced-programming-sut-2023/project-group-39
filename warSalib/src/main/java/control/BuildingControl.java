@@ -103,9 +103,51 @@ public class BuildingControl {
             government.removeUnWorkedPeople(people);
             government.addToPeople(units);
             Game.getMapInGame().getMap()[building.getY()][building.getX()].addPeople(units);
+            removeResourceInCreate(unitsName);
         }
         return BuildingMessage.SUCCESS;
     }
+
+    private static void removeResourceInCreate(UnitsName unitsName) {
+        Government government=Game.getCurrentUser().getUserGovernment();
+        Resource resource = Resource.APPLE;
+        government.setWealth(government.getWealth() - unitsName.getCost());
+        if(unitsName.getUnitsType().equals(UnitsType.COMBAT)) {
+            if (unitsName.getName().equals("pikeman")) {
+                resource = Resource.SPEAR;
+            } else if (unitsName.getName().equals("balckman")) {
+                resource = Resource.STICK;
+            } else if (unitsName.getName().equals("slaves")) {
+                resource = Resource.TORCH;
+            }
+            else return;
+        }
+        else if(unitsName.getUnitsType().equals(UnitsType.ARCHER)){
+            if(unitsName.getName().equals("archer")){
+                resource = Resource.ARROW;
+            }
+            else if(unitsName.getName().equals("crossbowmen")){
+                resource = Resource.ARROW;
+            }
+            else if(unitsName.getName().equals("archerbow")){
+                resource = Resource.ARROW;
+            }
+            else if(unitsName.getName().equals("slingers")){
+                resource = Resource.STONE;
+            }
+            else if(unitsName.getName().equals("horsearchers")){
+                resource = Resource.ARROW;
+            }
+            else if(unitsName.getName().equals("firethowers")){
+                resource = Resource.FIRECRACKER;;
+            } else return;
+        }
+        if (resource.equals(Resource.APPLE))
+            return;
+        government.removeFromResources(resource,1);
+        government.removeResourceFromStockPile(resource, 1);
+    }
+
     public static BuildingMessage repair() {
         if (Game.getSelectedBuilding() == null)
             return BuildingMessage.NOT_SELECT_BUILDING;
@@ -164,18 +206,16 @@ public class BuildingControl {
         if(Game.getTurnedUserForGame().getUserGovernment().getWealth()>unitsName.getCost()){
             isTrue=true;
         }
-        //TODO : add weapon
-        if(unitsName.getUnitsType().equals(UnitsType.COMBAT)){
-            if(unitsName.getName().equals("pikeman")){
+        if(unitsName.getUnitsType().equals(UnitsType.COMBAT)) {
+            if (unitsName.getName().equals("pikeman")) {
                 resourceNeedUnit.put(Resource.SPEAR, 1);
-            }
-            else if(unitsName.getName().equals("balckman")){
+            } else if (unitsName.getName().equals("balckman")) {
                 resourceNeedUnit.put(Resource.STICK, 1);
-            }
-            else if(unitsName.getName().equals("slaves")){
+            } else if (unitsName.getName().equals("slaves")) {
                 resourceNeedUnit.put(Resource.TORCH, 1);
             }
 
+        }
             else if(unitsName.getUnitsType().equals(UnitsType.ARCHER)){
                 if(unitsName.getName().equals("archer")){
                     resourceNeedUnit.put(Resource.ARROW, 1);
@@ -196,9 +236,8 @@ public class BuildingControl {
                     resourceNeedUnit.put(Resource.FIRECRACKER, 1);
                 }
             }
-
-        }
-        return Game.getSelectedBuilding().getGovernment().hasEnoughResources(resourceNeedUnit);
+            isTrue &= Game.getSelectedBuilding().getGovernment().hasEnoughResources(resourceNeedUnit);
+        return isTrue;
     }
 
     private static int isEnoughStone(Building building) {
