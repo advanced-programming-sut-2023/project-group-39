@@ -3,12 +3,14 @@ package control;
 import model.Game;
 import model.government.Government;
 import model.government.building.*;
+import model.government.building.group.GroupOfBuilding;
 import model.government.people.People;
 import model.government.people.units.*;
 import model.government.people.workingpersons.JobsName;
 import model.government.resource.Resource;
 import model.map.Tile;
 import model.wartool.*;
+import view.GovernmentMenu;
 import view.enums.messages.GameMenuMessage;
 
 import java.util.ArrayList;
@@ -274,7 +276,7 @@ public class GameControl {
             if ((((Archers) currentUnits.get(0)).getArrowRadius() / 20) < dis) {
                 return GameMenuMessage.PROBLEM;
             } else {
-                if ((((Archers) currentUnits.get(0)).getInventories().size() < 1||Game.getTurnedUserForGame().getUserGovernment().numberOfResource(((Archers) currentUnits.get(0)).getWartool())<currentUnits.size())) {
+                if ((((Archers) currentUnits.get(0)).getInventories().size() < 1 || Game.getTurnedUserForGame().getUserGovernment().numberOfResource(((Archers) currentUnits.get(0)).getWartool()) < currentUnits.size())) {
                     return GameMenuMessage.NOTENOUGHRESOURCE;
                 }
                 Tile tile = Game.getMapInGame().getMap()[x][y];
@@ -284,12 +286,12 @@ public class GameControl {
                         int eff = (int) efficiently;
                         ((Units) people).changeHitPoint(-1 * eff);
                         for (Units units : currentUnits) {
-                                if(units instanceof Archers){
-                                    Resource resource=((Archers) units).getInventories().get(0);
-                                    ((Archers) units).getInventories().remove(resource);
-                                    Game.getTurnedUserForGame().getUserGovernment().removeFromResources(resource,1);
+                            if (units instanceof Archers) {
+                                Resource resource = ((Archers) units).getInventories().get(0);
+                                ((Archers) units).getInventories().remove(resource);
+                                Game.getTurnedUserForGame().getUserGovernment().removeFromResources(resource, 1);
 
-                                }
+                            }
                         }
 
 
@@ -504,11 +506,11 @@ public class GameControl {
         for (int x = 0; x < 200; x++) {
             for (int y = 0; y < 200; y++) {
                 Building building = Game.getMapInGame().getMap()[x][y].getBuilding();
-                if (building instanceof Gatehouse && building.getGovernment().getUser() !=  Game.getTurnedUserForGame()) {
+                if (building instanceof Gatehouse && building.getGovernment().getUser() != Game.getTurnedUserForGame()) {
                     getNeighbors(x, y, neighbors);
                     for (Tile tile : neighbors) {
                         Building building1 = tile.getBuilding();
-                        if (building1 instanceof Tower && building1.getGovernment().getUser() ==  Game.getTurnedUserForGame()) {
+                        if (building1 instanceof Tower && building1.getGovernment().getUser() == Game.getTurnedUserForGame()) {
                             ((Gatehouse) building).setOpenGate(true);
                             ((Gatehouse) building).setHasFlag(true);
                             return GameMenuMessage.SUCCESS;
@@ -538,9 +540,9 @@ public class GameControl {
             }
             return GameMenuMessage.INVALIDUNIT;
         }
-        for (Engineer engineer :  Game.getTurnedUserForGame().getUserGovernment().getEngineers()) {
+        for (Engineer engineer : Game.getTurnedUserForGame().getUserGovernment().getEngineers()) {
             if (!engineer.isHasWork()) {
-                if ( Game.getTurnedUserForGame().getUserGovernment().numberOfResource(Resource.IRON) >= 2) {
+                if (Game.getTurnedUserForGame().getUserGovernment().numberOfResource(Resource.IRON) >= 2) {
                     engineer.setHasWork(true);
                     combat.setPortableProtection(wartoolenum.PORTABLE_PROTECTION);
                 } else {
@@ -557,7 +559,7 @@ public class GameControl {
             return GameMenuMessage.WRONG_AMOUNT;
         int counterUnemployed = 0;
         ArrayList<Engineer> engineersToMakeBatteringRam = new ArrayList<>();
-        for (Engineer engineer :  Game.getTurnedUserForGame().getUserGovernment().getEngineers()) {
+        for (Engineer engineer : Game.getTurnedUserForGame().getUserGovernment().getEngineers()) {
             if (!engineer.isHasWork()) {
                 counterUnemployed++;
                 engineersToMakeBatteringRam.add(engineer);
@@ -565,12 +567,12 @@ public class GameControl {
         }
         if (counterUnemployed < 4)
             return GameMenuMessage.PROBLEM;
-        if (( Game.getTurnedUserForGame().getUserGovernment().numberOfResource(Resource.STONE)) < 10)
+        if ((Game.getTurnedUserForGame().getUserGovernment().numberOfResource(Resource.STONE)) < 10)
             return GameMenuMessage.NOTENOUGHRESOURCE;
         for (Engineer engineer : engineersToMakeBatteringRam) {
             engineer.setHasWork(true);
         }
-        BatteringRam batteringRam = new BatteringRam( Game.getTurnedUserForGame().getUserGovernment(), x, y);
+        BatteringRam batteringRam = new BatteringRam(Game.getTurnedUserForGame().getUserGovernment(), x, y);
         return GameMenuMessage.SUCCESS;
 
 
@@ -580,10 +582,10 @@ public class GameControl {
         if (!invalidLocation(x, y))
             return GameMenuMessage.WRONG_AMOUNT;
         ArrayList<Engineer> unEmployedEngineers = new ArrayList<>();
-        unEmployedEngineers(unEmployedEngineers,  Game.getTurnedUserForGame().getUserGovernment());
+        unEmployedEngineers(unEmployedEngineers, Game.getTurnedUserForGame().getUserGovernment());
         if (unEmployedEngineers.size() < 2)
             return GameMenuMessage.PROBLEM;
-        if ( Game.getTurnedUserForGame().getUserGovernment().numberOfResource(Resource.STONE) < 10)
+        if (Game.getTurnedUserForGame().getUserGovernment().numberOfResource(Resource.STONE) < 10)
             return GameMenuMessage.NOTENOUGHRESOURCE;
         int counter = 0;
         for (Engineer engineer : unEmployedEngineers) {
@@ -603,10 +605,10 @@ public class GameControl {
         if (!invalidLocation(x, y))
             return GameMenuMessage.WRONG_AMOUNT;
         ArrayList<Engineer> unEmployedEngineers = new ArrayList<>();
-        unEmployedEngineers(unEmployedEngineers,  Game.getTurnedUserForGame().getUserGovernment());
+        unEmployedEngineers(unEmployedEngineers, Game.getTurnedUserForGame().getUserGovernment());
         if (unEmployedEngineers.size() < 3)
             return GameMenuMessage.PROBLEM;
-        if ( Game.getTurnedUserForGame().getUserGovernment().numberOfResource(Resource.STONE) < 20)
+        if (Game.getTurnedUserForGame().getUserGovernment().numberOfResource(Resource.STONE) < 20)
             return GameMenuMessage.NOTENOUGHRESOURCE;
         int counter = 0;
         for (Engineer engineer : unEmployedEngineers) {
@@ -643,7 +645,7 @@ public class GameControl {
         ArrayList<Units> deathUnits = new ArrayList<>();
         for (Units unit : currentUnits) {
             for (People enemyUnit : tile.getPeopleOnTile()) {
-                if (enemyUnit instanceof Units && !enemyUnit.getOwnerPerson().equals( Game.getTurnedUserForGame())) {
+                if (enemyUnit instanceof Units && !enemyUnit.getOwnerPerson().equals(Game.getTurnedUserForGame())) {
                     fight(unit, (Units) enemyUnit);
                     if (unit.getHitPoint() < 0) {
                         deathUnits.add(unit);
@@ -683,7 +685,7 @@ public class GameControl {
             return GameMenuMessage.WRONG_AMOUNT;
         int unEmployedEngineers = 0;
         ArrayList<Engineer> engineersToSiegeTower = new ArrayList<>();
-        for (Engineer engineer :  Game.getTurnedUserForGame().getUserGovernment().getEngineers()) {
+        for (Engineer engineer : Game.getTurnedUserForGame().getUserGovernment().getEngineers()) {
             if (!engineer.isHasWork()) {
                 unEmployedEngineers++;
                 engineersToSiegeTower.add(engineer);
@@ -691,7 +693,7 @@ public class GameControl {
         }
         if (unEmployedEngineers < 4)
             return GameMenuMessage.PROBLEM;
-        if (( Game.getTurnedUserForGame().getUserGovernment().numberOfResource(Resource.STONE)) < 30)
+        if ((Game.getTurnedUserForGame().getUserGovernment().numberOfResource(Resource.STONE)) < 30)
             return GameMenuMessage.NOTENOUGHRESOURCE;
         for (Engineer engineer : engineersToSiegeTower) {
             engineer.setHasWork(true);
@@ -713,12 +715,29 @@ public class GameControl {
 
     }
 
+    private static void applyRateBuilding() {
+        for (Government government : Game.getGovernments()) {
+            for (Building building : government.getBuildings()) {
+                if (Building.getGroupByName(building.getName()).equals(GroupOfBuilding.CONVERTED_BUILDING))
+                    ((ConvertedBuilding) building).convertResourceToAnotherWithRate();
+                else if (Building.getGroupByName(building.getName()).equals(GroupOfBuilding.INN))
+                    ((Inn) building).serveBeerWithRate();
+                else if (Building.getGroupByName(building.getName()).equals(GroupOfBuilding.MINE_BUILDING))
+                    ((MineBuilding) building).makeResourceWithRate();
+                else if (Building.getGroupByName(building.getName()).equals(GroupOfBuilding.OX_TETHER))
+                    ((OxTether) building).caryStoneWithRate();
+                else if (Building.getGroupByName(building.getName()).equals(GroupOfBuilding.PRODUCTIVE_BUILDING))
+                    ((ProductiveBuilding) building).makeResourceWithRate();
+            }
+        }
+    }
+
     public static GameMenuMessage makeFieryStoneThrower(int x, int y) {    //TODO make some features for playing with it in game
         if (!invalidLocation(x, y))
             return GameMenuMessage.WRONG_AMOUNT;
         int unEmployedEngineers = 0;
         ArrayList<Engineer> engineersToFieryStone = new ArrayList<>();
-        for (Engineer engineer :  Game.getTurnedUserForGame().getUserGovernment().getEngineers()) {
+        for (Engineer engineer : Game.getTurnedUserForGame().getUserGovernment().getEngineers()) {
             if (!engineer.isHasWork()) {
                 unEmployedEngineers++;
                 engineersToFieryStone.add(engineer);
@@ -726,7 +745,7 @@ public class GameControl {
         }
         if (unEmployedEngineers < 4)
             return GameMenuMessage.PROBLEM;
-        if (( Game.getTurnedUserForGame().getUserGovernment().numberOfResource(Resource.STONE)) < 25)
+        if ((Game.getTurnedUserForGame().getUserGovernment().numberOfResource(Resource.STONE)) < 25)
             return GameMenuMessage.NOTENOUGHRESOURCE;
         for (Engineer engineer : engineersToFieryStone) {
             engineer.setHasWork(true);
@@ -739,7 +758,7 @@ public class GameControl {
 
     public static GameMenuMessage nextTurn() {//TODO should be completed !!!!a lot of work we have to do!
         changeFoodsInventory();
-        if (Game.getPlayers().indexOf( Game.getTurnedUserForGame()) == Game.getPlayers().size() - 1) {
+        if (Game.getPlayers().indexOf(Game.getTurnedUserForGame()) == Game.getPlayers().size() - 1) {
             counterTurn++;
             Game.setTurnedUserForGame(Game.getGameStarter());
             for (int i = 0; i < 200; i++) {
@@ -785,49 +804,46 @@ public class GameControl {
             counter += government.getFoods().get(resource);
         }
         int numberOfPeople = counter / 5;
-        for (int i = 0 ; i<numberOfPeople; i++) {
-            People people = new People(government.getXLeft() + 10, government.getYDown()+10,
-                    JobsName.UNEMPLOYED,government.getUser());
+        for (int i = 0; i < numberOfPeople; i++) {
+            People people = new People(government.getXLeft() + 10, government.getYDown() + 10,
+                    JobsName.UNEMPLOYED, government.getUser());
             government.addToPeople(people);
             government.addToUnworkedPeople(people);
         }
     }
+
     private static void changeFoodsInventory() {
-        Government government=Game.getTurnedUserForGame().getUserGovernment();
-        if(government.getFoodRate()==-2){
-        }
-        else if(government.getFoodRate()==-1){
-            for (Resource resource:government.getFoods().keySet()){
-                government.getFoods().put(resource, (int) (government.getFoods().get(resource) - Math.floor(0.5*government.getPopulation())));
-                if(government.getFoods().get(resource)<=0){
+        Government government = Game.getTurnedUserForGame().getUserGovernment();
+        if (government.getFoodRate() == -2) {
+        } else if (government.getFoodRate() == -1) {
+            for (Resource resource : government.getFoods().keySet()) {
+                government.getFoods().put(resource, (int) (government.getFoods().get(resource) - Math.floor(0.5 * government.getPopulation())));
+                if (government.getFoods().get(resource) <= 0) {
                     government.removeFromFoods(resource);
 
                 }
             }
-        }
-        else if(government.getFoodRate()==0){
-            for (Resource resource:government.getFoods().keySet()){
+        } else if (government.getFoodRate() == 0) {
+            for (Resource resource : government.getFoods().keySet()) {
                 government.getFoods().put(resource, (int) (government.getFoods().get(resource) - Math.floor(government.getPopulation())));
-                if(government.getFoods().get(resource)<=0){
+                if (government.getFoods().get(resource) <= 0) {
                     government.removeFromFoods(resource);
 
                 }
             }
-        }
-        else if(government.getFoodRate()==1){
-            for (Resource resource:government.getFoods().keySet()){
-                government.getFoods().put(resource, (int) (government.getFoods().get(resource) - Math.floor(1.5*government.getPopulation())));
-                if(government.getFoods().get(resource)<=0){
+        } else if (government.getFoodRate() == 1) {
+            for (Resource resource : government.getFoods().keySet()) {
+                government.getFoods().put(resource, (int) (government.getFoods().get(resource) - Math.floor(1.5 * government.getPopulation())));
+                if (government.getFoods().get(resource) <= 0) {
                     government.removeFromFoods(resource);
 
                 }
             }
 
-        }
-        else if(government.getFoodRate()==2){
-            for (Resource resource:government.getFoods().keySet()){
-                government.getFoods().put(resource, (int) (government.getFoods().get(resource) - Math.floor(2*government.getPopulation())));
-                if(government.getFoods().get(resource)<=0){
+        } else if (government.getFoodRate() == 2) {
+            for (Resource resource : government.getFoods().keySet()) {
+                government.getFoods().put(resource, (int) (government.getFoods().get(resource) - Math.floor(2 * government.getPopulation())));
+                if (government.getFoods().get(resource) <= 0) {
                     government.removeFromFoods(resource);
 
                 }
