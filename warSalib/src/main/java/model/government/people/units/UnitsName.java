@@ -8,16 +8,16 @@ public enum UnitsName {
     CROSSBOWMEN("crossbowmen", 20, 25,  100, UnitsType.ARCHER, false
             , 20, "barrack"),
 
-    SPEARMAN("spear man", 60, 50, 15,  UnitsType.ARMY, false, 24
+    SPEARMAN("spearman", 60, 50, 15,  UnitsType.ARMY, false, 24
             , "barrack"),
 
-    PIKE_MAN("pike man", 20, 50, 75,  UnitsType.COMBAT, true, 45
+    PIKE_MAN("pikeman", 20, 50, 75,  UnitsType.COMBAT, true, 45
             , "barrack"),
 
-    MACE_MAN("mace man", 50, 75, 50, UnitsType.ARMY, false, 52
+    MACE_MAN("maceman", 50, 75, 50, UnitsType.ARMY, false, 52
             , "barrack"),
 
-    SWORDSMEN("swords men", 10, 85, 85,  UnitsType.COMBAT, true
+    SWORDSMEN("swordsmen", 10, 85, 85,  UnitsType.COMBAT, true
             , 80, "barrack"),
 
     KNIGHT("knight", 85, 85, 80,  UnitsType.COMBAT, false, 150
@@ -26,14 +26,14 @@ public enum UnitsName {
     TUNNELER("tunneler", 75, 50, 10, UnitsType.ARMY, false, 30
             , "barrack"),
 
-    LADDER_MAN("ladder man", 75, 0, 10,  UnitsType.ENGINEER, false
+    LADDER_MAN("ladderman", 75, 0, 10,  UnitsType.ENGINEER, false
             , 15, "engineer guild"),
 
-    BLACK_MONK("black monk", 25, 50, 50,  UnitsType.COMBAT, true
+    BLACK_MONK("blackmonk", 25, 50, 50,  UnitsType.COMBAT, true
             , 20, "barrack"),
 
     //arab people
-    ARCHER_BOW("archer bow", 75, 25, 25, UnitsType.ARCHER, false,
+    ARCHER_BOW("archerbow", 75, 25, 25, UnitsType.ARCHER, false,
             35, "mercenary post"),
 
     SLAVES("slaves", 75, 10, 10,  UnitsType.COMBAT, false, 15
@@ -45,13 +45,13 @@ public enum UnitsName {
     ASSASSINS("assassin", 50, 50, 50,  UnitsType.ARMY, false, 30,
             "mercenary post"),
 
-    HORSE_ARCHERS("horse archers", 85, 25, 50,  UnitsType.ARCHER,
+    HORSE_ARCHERS("horsearchers", 85, 25, 50,  UnitsType.ARCHER,
             false, 35, "mercenary post"),
 
-    ARABIAN_SWORDSMEN("arabian swordsmen", 85, 75, 75,  UnitsType.COMBAT
+    ARABIAN_SWORDSMEN("arabianswordsmen", 85, 75, 75,  UnitsType.COMBAT
             , false, 70, "mercenary post"),
 
-    FIRE_THROWERS("fire throwers", 85, 75, 25,  UnitsType.ARCHER
+    FIRE_THROWERS("firethrowers", 85, 75, 25,  UnitsType.ARCHER
             , false, 60, "mercenary post"),
     ENGINEER("engineer", 40, 0, 20, UnitsType.ENGINEER
             , false, 50, "engineer guild");

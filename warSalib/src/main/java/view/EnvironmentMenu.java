@@ -201,6 +201,9 @@ public class EnvironmentMenu {
             case WRONG_COUNT:
                 System.out.println("you enter wrong count");
                 break;
+            case NOT_HAVE_GOVERNMENT:
+                System.out.println("in this tile hasn't government");
+                break;
             case NOT_APPROPRIATE_GROUND:
                 System.out.println("can't stay units in this ground");
                 break;

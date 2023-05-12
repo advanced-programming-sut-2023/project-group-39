@@ -142,14 +142,16 @@ public class EnvironmentControl {
     public static EnvironmentMenuMessage dropUnit(int x, int y, String type, int count) {
         if (!validCoordinate(x, y))
             return EnvironmentMenuMessage.WRONG_AMOUNT;
-        if (count >= 0)
+        if (count < 0)
             return EnvironmentMenuMessage.WRONG_COUNT;
         if (!isCorrectType(type))
             return EnvironmentMenuMessage.WRONG_TYPE;
         if (!isGroundAppropriateForUnit(Game.getMapInGame().getMap()[y][x].getType()))
             return EnvironmentMenuMessage.NOT_APPROPRIATE_GROUND;
+        Government government = Game.getMapInGame().getMap()[y][x].getGovernment();
+        if (government == null)
+            return EnvironmentMenuMessage.NOT_HAVE_GOVERNMENT;
         UnitsName unitsName = getUnitNameByType(type);
-        Government government = Game.getTurnedUserForGame().getUserGovernment();
         for (int i = 0; i < count; i++) {
             Units unit = new Units(x, y, unitsName, government.getUser());
             government.addToPeople(unit);
@@ -198,7 +200,7 @@ public class EnvironmentControl {
 
     private static boolean isCorrectType (String type) {
         for (UnitsName unitsName : UnitsName.values()) {
-            if (unitsName.equals(type))
+            if (unitsName.getName().equals(type))
                 return true;
         }
         return false;
