@@ -83,10 +83,6 @@ public class GameMenu {
                 System.out.println("enter government menu");
                 GovernmentMenu.run(scanner);
             }
-            else if (input.matches("^\\s*enter\\s+store\\s+menu\\s*$")) {
-                System.out.println("enter store menu");
-                StoreMenu.run(scanner);
-            }
             else if (input.matches("^\\s*enter\\s+trade\\s+menu\\s*$")) {
                 System.out.println("enter trade menu");
                 TradeMenu.run(scanner);

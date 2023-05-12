@@ -13,8 +13,10 @@ public class StoreMenu {
         Matcher matcher;
         while (true) {
             input = scanner.nextLine();
-            if (input.matches("\s*back\s*"))
+            if (input.matches("\s*back\s*")) {
+                System.out.println("back to building menu");
                 break;
+            }
             else if (input.matches("\s*show\s+price\s+list\s*"))
                 showPriceList();
             else if ((matcher = StoreMenuCommands.getMatcher(input, StoreMenuCommands.BUY)) != null)
@@ -56,7 +58,7 @@ public class StoreMenu {
     private static void sellFromStore(Matcher matcher) {
         int amount = Integer.parseInt(matcher.group("amount"));
         String item = getItemWithoutDoubleQuotation(matcher.group("item"));
-        StoreMenuMessage message = StoreControl.buyFromStore(item, amount);
+        StoreMenuMessage message = StoreControl.sellFromStore(item, amount);
         switch (message) {
             case WRONG_ITEM:
                 System.out.println("you enter wrong item");
@@ -66,6 +68,9 @@ public class StoreMenu {
                 break;
             case DONT_HAVE_BUDGET:
                 System.out.println("buyer dosen't  have enough money");
+                break;
+            case NOT_ENOUGH_RESOURCE:
+                System.out.println("not enough resources");
                 break;
             case SUCCESS:
                 System.out.println("sell successfully");

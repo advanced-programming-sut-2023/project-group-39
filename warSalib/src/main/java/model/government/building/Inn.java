@@ -45,6 +45,7 @@ public class Inn extends Building{
 
     public void improvePopularityBaseRate() {
         this.getGovernment().setPopularity(this.getGovernment().getPopularity() + 1);
+        this.getGovernment().setFoodEffect(this.getGovernment().getFoodEffect() + 1);
     }
 
     public void serveBeerWithRate() {

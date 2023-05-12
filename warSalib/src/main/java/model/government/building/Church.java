@@ -11,7 +11,7 @@ import model.government.resource.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Church extends Building{
+public class Church extends Building {
     private final int addToPopularity = 2;
     private ArrayList<People> people;
 
@@ -44,8 +44,10 @@ public class Church extends Building{
         }
         return null;
     }
+
     private void improvePopularity(Government government) {
         government.setPopularity(government.getPopularity() + 2);
+        government.setReligionEffect(government.getReligionEffect() + 2);
     }
 
     public void changeNormalToFightingMonk(People people) {
