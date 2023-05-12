@@ -76,15 +76,15 @@ public class GameMenu {
             else if ((matcher = MapMenuCommands.getMatcher(input, MapMenuCommands.SHOW_MAP)) != null)
                 MapMenu.run(input, scanner);
             else if (input.matches("^\\s*enter\\s+building\\s+menu\\s*$")) {
-                System.out.println("enter building menu");
+                System.out.println("entered building menu");
                 BuildingMenu.run(scanner);
             }
             else if (input.matches("^\\s*enter\\s+government\\s+menu\\s*$")) {
-                System.out.println("enter government menu");
+                System.out.println("entered government menu");
                 GovernmentMenu.run(scanner);
             }
             else if (input.matches("^\\s*enter\\s+trade\\s+menu\\s*$")) {
-                System.out.println("enter trade menu");
+                System.out.println("entered trade menu");
                 TradeMenu.run(scanner);
             }
             else System.out.println("invalid command");

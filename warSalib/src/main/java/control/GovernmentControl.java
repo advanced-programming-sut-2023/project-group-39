@@ -29,7 +29,7 @@ public class GovernmentControl {
         else if (foodRate == 1) foodEffect += 4;
         else if (foodRate == 2) foodEffect += 8;
         result.append(foodEffect)
-                .append("\n\ttax:\n\trate: ")
+                .append("\ntax:\n\trate: ")
                 .append(government.getTaxRate())
                 .append("\n\teffect: ");
         int taxEffect = 0;
@@ -47,12 +47,12 @@ public class GovernmentControl {
         else if (taxRate == 7) taxEffect += 20;
         else if (taxRate == 8) taxEffect += 24;
         result.append(taxEffect)
-                .append("\n\tfear:\n\trate: ")
+                .append("\nfear:\n\trate: ")
                 .append(government.getFearRate())
                 .append("\n\teffect: ");
         int fearEffect = government.getFearRate();
         result.append(fearEffect)
-                .append("\n\treligion:\n\teffect: ");
+                .append("\nreligion:\n\teffect: ");
         // handle effect of religion in popularity
         //--------------------------------------------------------------------------------------------//
         int religionEffect = government.getPopularity() - foodEffect - taxEffect - fearEffect;
