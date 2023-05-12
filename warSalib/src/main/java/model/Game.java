@@ -16,7 +16,7 @@ public class Game {
     //governments need to we have all player government
     private static GameMap mapInGame;
 
-    private User GameStarter;
+    private static User GameStarter;
     private static Building selectedBuilding;
     private static ArrayList<Government> governments = new ArrayList<>();
     //how many player plays in game
@@ -79,11 +79,12 @@ public class Game {
         GameStarter = gameStarter;
     }
 
-    public User getGameStarter() {
+    public static User getGameStarter() {
         return GameStarter;
     }
 
     public static void setPlayers(ArrayList<User> players) {
         Game.players = players;
     }
+
 }
