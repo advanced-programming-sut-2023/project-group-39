@@ -14,6 +14,7 @@ public class EnvironmentMenu {
         while (true) {
             input = scanner.nextLine();
             if (input.matches("^\\s*generate\\s+map\\s*$")) {
+                System.out.println("generated map and go to the main game menu");
                 GameMenu.run();
                 break;
             }
