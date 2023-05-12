@@ -10,6 +10,7 @@ import model.government.people.People;
 import model.government.people.units.State;
 import model.government.people.units.Units;
 import model.government.people.units.UnitsName;
+import model.government.people.units.UnitsType;
 import model.government.resource.Resource;
 import model.map.type.Type;
 import view.StoreMenu;
@@ -155,12 +156,48 @@ public class BuildingControl {
     }
     private static boolean hasEnoughWeaponAndGold(String type) {
         UnitsName unitsName = getUnitNameByType(type);
-        boolean isTrue = false;
+        Government government=Game.getCurrentUser().getUserGovernment();
+        boolean isTrue=false;
         if (unitsName==null)
             return false;
         HashMap <Resource, Integer> resourceNeedUnit = new HashMap<>();
-        if (Game.getTurnedUserForGame().getUserGovernment().getWealth() > unitsName.getCost())
-            isTrue = true;
+        if(Game.getTurnedUserForGame().getUserGovernment().getWealth()>unitsName.getCost()){
+            isTrue=true;
+        }
+        //TODO : add weapon
+        if(unitsName.getUnitsType().equals(UnitsType.COMBAT)){
+            if(unitsName.getName().equals("pikeman")){
+                resourceNeedUnit.put(Resource.SPEAR, 1);
+            }
+            else if(unitsName.getName().equals("balckman")){
+                resourceNeedUnit.put(Resource.STICK, 1);
+            }
+            else if(unitsName.getName().equals("slaves")){
+                resourceNeedUnit.put(Resource.TORCH, 1);
+            }
+
+            else if(unitsName.getUnitsType().equals(UnitsType.ARCHER)){
+                if(unitsName.getName().equals("archer")){
+                    resourceNeedUnit.put(Resource.ARROW, 1);
+                }
+                else if(unitsName.getName().equals("crossbowmen")){
+                    resourceNeedUnit.put(Resource.ARROW, 1);
+                }
+                else if(unitsName.getName().equals("archerbow")){
+                    resourceNeedUnit.put(Resource.ARROW, 1);
+                }
+                else if(unitsName.getName().equals("slingers")){
+                    resourceNeedUnit.put(Resource.STONE, 1);
+                }
+                else if(unitsName.getName().equals("horsearchers")){
+                    resourceNeedUnit.put(Resource.ARROW, 1);
+                }
+                else if(unitsName.getName().equals("firethowers")){
+                    resourceNeedUnit.put(Resource.FIRECRACKER, 1);
+                }
+            }
+
+        }
         return Game.getSelectedBuilding().getGovernment().hasEnoughResources(resourceNeedUnit);
     }
 

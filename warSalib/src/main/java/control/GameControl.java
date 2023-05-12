@@ -822,6 +822,7 @@ public class GameControl {
 
                 }
             }
+
         }
         else if(government.getFoodRate()==2){
             for (Resource resource:government.getFoods().keySet()){
@@ -832,6 +833,7 @@ public class GameControl {
                 }
             }
         }
+
     }
 
 }
