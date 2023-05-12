@@ -24,6 +24,8 @@ public class BuildingControl {
         Game.setSelectedBuilding(null);
         if (!isAppropriateCoordinate(x, y))
             return BuildingMessage.WRONG_AMOUNT;
+        else if (Building.getGroupByName(name) == null)
+            return BuildingMessage.WRONG_TYPE;
         else if (isAnotherBuilding(x, y))
             return BuildingMessage.EXIST;
         else if (!isAppropriateGround(x, y, name))

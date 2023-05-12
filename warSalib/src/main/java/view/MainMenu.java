@@ -40,6 +40,8 @@ public class MainMenu {
         Game.getPlayersInGame();
         int counter=0;
         Game.getPlayersInGame().add(Game.getCurrentUser());
+        Government governmentOfCurrentUser = new Government(0 , 30, Game.getCurrentUser());
+        Game.getCurrentUser().setUserGovernment(governmentOfCurrentUser);
         counter++;
         Scanner scanner=new Scanner(System.in);
         System.out.println("add player");
@@ -55,6 +57,7 @@ public class MainMenu {
                     Game.getPlayersInGame().add(getUserByName(username));
                     Government government = new Government(0, 30, getUserByName(username));
                     Game.addGovernment(government);
+                    getUserByName(username).setUserGovernment(government);
                     counter++;
                     System.out.println("added successfully");
                 }

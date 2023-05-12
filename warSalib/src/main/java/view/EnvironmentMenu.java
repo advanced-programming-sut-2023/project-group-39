@@ -1,6 +1,7 @@
 package view;
 
 import control.EnvironmentControl;
+import model.Game;
 import view.enums.commands.EnvironmentMenuCommands;
 import view.enums.messages.EnvironmentMenuMessage;
 
@@ -15,6 +16,7 @@ public class EnvironmentMenu {
             input = scanner.nextLine();
             if (input.matches("^\\s*generate\\s+map\\s*$")) {
                 System.out.println("generated map and go to the main game menu");
+                Game.setTurnedUserForGame(Game.getCurrentUser());
                 GameMenu.run();
                 break;
             }

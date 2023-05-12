@@ -74,14 +74,22 @@ public class GameMenu {
                 stopPatrol(matcher);
             else if ((matcher = MapMenuCommands.getMatcher(input, MapMenuCommands.SHOW_MAP)) != null)
                 MapMenu.run(input, scanner);
-            else if (input.matches("^\\s*enter\\s+building\\s+menu\\s*$"))
+            else if (input.matches("^\\s*enter\\s+building\\s+menu\\s*$")) {
+                System.out.println("enter building menu");
                 BuildingMenu.run(scanner);
-            else if (input.matches("^\\s*enter\\s+government\\s+menu\\s*$"))
+            }
+            else if (input.matches("^\\s*enter\\s+government\\s+menu\\s*$")) {
+                System.out.println("enter government menu");
                 GovernmentMenu.run(scanner);
-            else if (input.matches("^\\s*enter\\s+store\\s+menu\\s*$"))
+            }
+            else if (input.matches("^\\s*enter\\s+store\\s+menu\\s*$")) {
+                System.out.println("enter store menu");
                 StoreMenu.run(scanner);
-            else if (input.matches("^\\s*enter\\s+trade\\s+menu\\s*$"))
+            }
+            else if (input.matches("^\\s*enter\\s+trade\\s+menu\\s*$")) {
+                System.out.println("enter trade menu");
                 TradeMenu.run(scanner);
+            }
             else System.out.println("invalid command");
         }
     }
@@ -306,7 +314,7 @@ public class GameMenu {
     private static void makeWall(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
-        String type = matcher.group("wall type").trim();
+        String type = matcher.group("wallType").trim();
         GameMenuMessage message = GameControl.makeWall(x, y, type);
         switch (message) {
             case SUCCESS:

@@ -50,6 +50,12 @@ public class BuildingMenu {
             case EXIST:
                 System.out.println("has building in this tile");
                 break;
+           case WRONG_TYPE:
+               System.out.println("you enter wrong type");
+               break;
+           case NOT_ENOUGH_SOURCE:
+               System.out.println("not enough resource");
+               break;
             case SUCCESS:
                 System.out.println("you drop it successfully");
                 break;
