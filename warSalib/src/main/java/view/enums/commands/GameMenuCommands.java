@@ -18,7 +18,7 @@ public enum GameMenuCommands {
 
     AIRATTACK("attack\\s+(\\-x\\s+(?<x>[\\d]+)\\s*()|\\-y\\s+(?<y>[\\d]+)\\s*()){2}{2}\\3\\5$"),
 
-    POUROIL("pour\\s+oil\\s+-d\\s+(?<directin>[\\S]+)\\s*"),
+    POUROIL("pour\\s+oil\\s+-d\\s+(?<direction>[\\S]+)\\s*"),
 
     DIGTUNNEL("dig\\s+tunnel\\s+(\\-x\\s+(?<x>[\\d]+)\\s*()|\\-y\\s+(?<y>[\\d]+)\\s*()){2}\\3\\5$"),
 
@@ -29,7 +29,7 @@ public enum GameMenuCommands {
 
     MAKE_GATE("make\\s+gate\\s+-x\\s+(?<x>[\\d]+)\\s+-y\\s+(?<y>[\\d]+)\\s+(?<direction>[\\S]+)\\s+(?<gateName>.+)"),
 
-    MAKE_WALL("build\\s+\\s+-q\\s+(?<x>[\\d]+)\\s+(?<y>[\\d]+)\\s+(?<wall type>[\\S]+\\s+wall)"),
+    MAKE_WALL("build\\s+\\s+-q\\s+(?<x>[\\d]+)\\s+(?<y>[\\d]+)\\s+(?<wallType>[\\S]+\\s+wall)"),
 
     MAKE_STAIR("build\\s+-q\\s+(?<x>[\\d]+)\\s+(?<y>[\\d]+)\\s+stair"),
 
