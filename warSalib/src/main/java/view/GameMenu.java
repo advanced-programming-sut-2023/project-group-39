@@ -6,6 +6,7 @@ import model.government.people.units.Units;
 import model.map.Tile;
 import view.enums.commands.GameMenuCommands;
 import view.enums.commands.ProfileMenuCommands;
+import view.enums.commands.MapMenuCommands;
 import view.enums.messages.GameMenuMessage;
 
 import javax.sound.midi.SysexMessage;
@@ -71,7 +72,17 @@ public class GameMenu {
                 nextTurn(matcher);
             else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.STOP_PATROL_UNIT)) != null)
                 stopPatrol(matcher);
-
+            else if ((matcher = MapMenuCommands.getMatcher(input, MapMenuCommands.SHOW_MAP)) != null)
+                MapMenu.run(input, scanner);
+            else if (input.matches("^\\s*enter\\s+building\\s+menu\\s*$"))
+                BuildingMenu.run(scanner);
+            else if (input.matches("^\\s*enter\\s+government\\s+menu\\s*$"))
+                GovernmentMenu.run(scanner);
+            else if (input.matches("^\\s*enter\\s+store\\s+menu\\s*$"))
+                StoreMenu.run(scanner);
+            else if (input.matches("^\\s*enter\\s+trade\\s+menu\\s*$"))
+                TradeMenu.run(scanner);
+            else System.out.println("invalid command");
         }
     }
 

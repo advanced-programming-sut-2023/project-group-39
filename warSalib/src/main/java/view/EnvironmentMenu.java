@@ -13,8 +13,11 @@ public class EnvironmentMenu {
         Matcher matcher;
         while (true) {
             input = scanner.nextLine();
-            if (input.matches("\s*back\s*"))
+            if (input.matches("^\\s*generate\\s+map\\s*$")) {
+                System.out.println("generated map and go to the main game menu");
+                GameMenu.run();
                 break;
+            }
             else if ((matcher = EnvironmentMenuCommands.getMatcher(input, EnvironmentMenuCommands.SET_TEXTURE)) != null)
                 setTexture(matcher);
             else if ((matcher = EnvironmentMenuCommands.getMatcher(input, EnvironmentMenuCommands.SET_TEXTURE_RECTANGLE)) != null)
@@ -167,6 +170,12 @@ public class EnvironmentMenu {
             case NOT_APPROPRIATE_GROUND:
                 System.out.println("it's not good ground for this building");
                 break;
+            case NOT_HAVE_GOVERNMENT:
+                System.out.println("in this tile hasn't government");
+                break;
+            case EXIST_BUILDING:
+                System.out.println("is another building in this tile");
+                break;
             case SUCCESS:
                 System.out.println("drop building successfully");
                 break;
@@ -192,6 +201,9 @@ public class EnvironmentMenu {
                 break;
             case WRONG_COUNT:
                 System.out.println("you enter wrong count");
+                break;
+            case NOT_HAVE_GOVERNMENT:
+                System.out.println("in this tile hasn't government");
                 break;
             case NOT_APPROPRIATE_GROUND:
                 System.out.println("can't stay units in this ground");

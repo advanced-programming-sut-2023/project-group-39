@@ -1,6 +1,7 @@
 package view;
 
 import model.Game;
+import model.government.Government;
 import model.map.GameMap;
 import model.user.User;
 import view.enums.commands.MainMenuCommands;
@@ -29,6 +30,7 @@ public class MainMenu {
             }
             else if ((matcher = MainMenuCommands.getMatcher(input, MainMenuCommands.START_GAME)) != null) {
                 letStartGame();
+                System.out.println("game started");
                 EnvironmentMenu.run(scanner);
             } else System.out.println("invalid command!");
 
@@ -40,6 +42,7 @@ public class MainMenu {
         Game.getPlayersInGame().add(Game.getCurrentUser());
         counter++;
         Scanner scanner=new Scanner(System.in);
+        System.out.println("add player");
         while (true){
             String add=scanner.nextLine();
             Matcher matcher;
@@ -50,14 +53,18 @@ public class MainMenu {
                         System.out.println("you have maximum of players in your game");
                     }
                     Game.getPlayersInGame().add(getUserByName(username));
+                    Government government = new Government(0, 30, getUserByName(username));
+                    Game.addGovernment(government);
                     counter++;
+                    System.out.println("added successfully");
                 }
                 else
-                    System.out.println("we dont have this user");
+                    System.out.println("we don't have this user");
 
             } else if (add.matches("^\\s*make\\s+map\\s*$")){
                 GameMap gameMap = new GameMap();
                 Game.setMapInGame(gameMap);
+                System.out.println("map created and set your favorite map");
                 break;
             }
             else {

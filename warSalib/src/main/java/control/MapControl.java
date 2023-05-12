@@ -24,17 +24,24 @@ public class MapControl {
         Game.getMapInGame().setSelectedY(y);
         for (int j = 0; j < 10; j++) {
             for (int i = 0; i < 10; i++) {
+                if (i == 5) {
+                    result += " | ";
+                }
+                if (j == 5 && i ==0) {
+                    result += "---------------------------\n";
+                }
                 if (smallMap[j][i] == null)
                     continue;
                 else if (hasUnits(smallMap[j][i].getPeopleOnTile())) {
                     result += " S";
                 }
-                else if ((c = hasBuilding(smallMap, x, y)) != 'N') {
+                else if ((c = hasBuilding(smallMap, i, j)) != 'N') {
                     result += " " + c;
                 } else if (smallMap[j][i].getTree() != null) {
                     result += " T";
                 } else result += " " + smallMap[j][i].getType().getName();
             }
+            result += "\n";
         }
         return result;
     }

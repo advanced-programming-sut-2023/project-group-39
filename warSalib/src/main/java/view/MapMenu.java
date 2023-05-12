@@ -27,7 +27,11 @@ public class MapMenu {
         int x = Integer.parseInt(matcher.group("x"));
         matcher = MapMenuCommands.getMatcher(input, MapMenuCommands.MAP_CHECK_Y);
         int y = Integer.parseInt(matcher.group("y"));
-        System.out.println(MapControl.showMap(x, y));
+        String result;
+        if (!(result = MapControl.showMap(x, y)) .equals(""))
+            System.out.println(result);
+        else
+        System.out.println("you enter wrong x and y");
     }
 
     private static void moveMap(String input) {

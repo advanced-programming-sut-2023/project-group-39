@@ -156,7 +156,4 @@ public class ProfileControl {
         return result.toString();
     }
 
-    public static ProfileMenuMessage startGame(ArrayList <String> player) {
-        return null;
-    }
 }

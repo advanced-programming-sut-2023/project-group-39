@@ -14,7 +14,7 @@ public enum Type {
     OIL(Area.BLUEAREA, true, "O", "oil"),
     PLAIN(Area.BLUEAREA, true, "P", "plain"),
     SHALLOW_WATER(Area.BLUEAREA, true, "Sw", "shallow water"),
-    SEA(Area.BLUEAREA, false, "S", "sea")
+    SEA(Area.BLUEAREA, false, "Se", "sea")
 
     ,BEACH(Area.BLUEAREA, true, "Be", "beach"),
     RIVER(Area.BLUEAREA, false, "R", "river"),

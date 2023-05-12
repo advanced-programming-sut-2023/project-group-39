@@ -7,5 +7,7 @@ public enum EnvironmentMenuMessage {
     WRONG_TYPE,
     NOT_APPROPRIATE_GROUND,
     WRONG_COUNT,
-    SUCCESS;
+    SUCCESS,
+
+    NOT_HAVE_GOVERNMENT;
 }
