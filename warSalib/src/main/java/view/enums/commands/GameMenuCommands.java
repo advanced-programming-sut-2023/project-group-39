@@ -27,7 +27,7 @@ public enum GameMenuCommands {
     BUILD_GATE("build\\s+-q\\s+(-x\\s+(?<x>[\\d]+)\\s+(-y\\s+(?<y>[\\d]+)\\s+(?<direction>[\\S]+)\\s+(?<gateName>.+)"),
     DISBANDUNIT("disband\\s+unit"),
 
-   // MAKEGATE("make\\s+gate\\s+(?<direction>.+)"),
+    MAKE_GATE("make\\s+gate\\s+-x\\s+(?<x>[\\d]+)\\s+-y\\s+(?<y>[\\d]+)\\s+(?<direction>[\\S]+)\\s+(?<gateName>.+)"),
 
     MAKE_WALL("build\\s+\\s+-q\\s+(?<x>[\\d]+)\\s+(?<y>[\\d]+)\\s+(?<wall type>[\\S]+\\s+wall)"),
 
@@ -40,6 +40,8 @@ public enum GameMenuCommands {
     MAKE_KILLER_TALE("build\\s+-q\\s+(?<x>[\\d]+)\\s+(?<y>[\\d]+)\\s+killer\\stale"),
 
     MAKE_OIL_TALE("build\\s+-q\\s+(?<x>[\\d]+)\\s+(?<y>[\\d]+)\\s+oil\\stale"),
+
+    CAPTURE_GATE("capture\\s+gate\\s+-x\\s+(?<x>[\\d]+)\\s+-y\\s+(?<y>[\\d]+)"),
 
     MAKE_PROTECTION("make\\s+protection\\s+(?<x>[\\d]+)\\s+(?<y>[\\d]+)\\s+(<unitsName>.+)\\s*"),
 

@@ -4,13 +4,15 @@ import model.government.resource.Resource;
 import model.user.User;
 import model.wartool.wartoolenum;
 
+import java.util.ArrayList;
+
 public class Archers extends Units{
     private int precision;
     private int arrowRadius;
     private int fatality;
     private Resource wartool;
 
-    private Resource resource;
+    private ArrayList<Resource> inventories;
     private boolean arrowInMove;
     public Archers(int xLocation, int yLocation, UnitsName unitsName, User ownerPerson) {
         super(xLocation, yLocation, unitsName,ownerPerson);
@@ -18,6 +20,7 @@ public class Archers extends Units{
             this.precision=60;
             this.arrowRadius=60;
             this.fatality=50;
+            this.inventories=new ArrayList<>();
             this.wartool= Resource.ARROW;
             this.arrowInMove=false;
         }
@@ -63,6 +66,10 @@ public class Archers extends Units{
         }
     }
 
+    public ArrayList<Resource> getInventories() {
+        return inventories;
+    }
+
     public int getPrecision() {
         return precision;
     }
@@ -75,4 +82,7 @@ public class Archers extends Units{
         return fatality;
     }
 
+    public Resource getWartool() {
+        return wartool;
+    }
 }

@@ -22,7 +22,7 @@ public class GameControl {
 
     private static StartGame startGame;
 
-    private static int counterTurn=0;
+    private static int counterTurn = 0;
 
     public static void setStartGame(StartGame startGame) {
         GameControl.startGame = startGame;
@@ -71,7 +71,8 @@ public class GameControl {
         GameMenuMessage message = printShortestDistance(tilesNeighbors, (200 * currentUnits.get(0).getxLocation()) + currentUnits.get(0).getyLocation(), (200 * x) + y, v);
         return message;
     }
-    public static void SpecialMoveUnit(Units units,int x, int y) {
+
+    public static void SpecialMoveUnit(Units units, int x, int y) {
         int v = 200 * 200;
         ArrayList<ArrayList<Integer>> tilesNeighbors = new ArrayList<ArrayList<Integer>>(v);
         for (int i = 0; i < v; i++) {
@@ -102,34 +103,35 @@ public class GameControl {
     }
 
     public static GameMenuMessage patrolUnit(int x1, int y1, int x2, int y2) {
-            for (Units unit:currentUnits){
-                unit.setPatrolFromX(x1);
-                unit.setPatrolFromY(y1);
-                unit.setPatrolToX(x2);
-                unit.setPatrolToY(y2);
-            }
+        for (Units unit : currentUnits) {
+            unit.setPatrolFromX(x1);
+            unit.setPatrolFromY(y1);
+            unit.setPatrolToX(x2);
+            unit.setPatrolToY(y2);
+        }
         return null;
     }
-    public static GameMenuMessage stopPatrol(int x,int y){
-        int hasUnitFlag=0;
-        if(!invalidLocation(x, y))
-            return GameMenuMessage.WRONG_AMOUNT;
-     Tile tile=startGame.getMapInGame().getMap()[x][y];
-     for (People people:tile.getPeopleOnTile()) {
-         if (people instanceof Units) {
-             if (((Units) people).getPatrolToX() != -1 && ((Units) people).getPatrolToY() != -1) {
-                 ((Units) people).setPatrolToX(-1);
-                 ((Units) people).setPatrolToY(-1);
-                 hasUnitFlag = 1;
 
-             }
-         }
-     }
-         if(hasUnitFlag==1)
-         return GameMenuMessage.SUCCESS;
-         else
-             return GameMenuMessage.PROBLEM;
-     }
+    public static GameMenuMessage stopPatrol(int x, int y) {
+        int hasUnitFlag = 0;
+        if (!invalidLocation(x, y))
+            return GameMenuMessage.WRONG_AMOUNT;
+        Tile tile = startGame.getMapInGame().getMap()[x][y];
+        for (People people : tile.getPeopleOnTile()) {
+            if (people instanceof Units) {
+                if (((Units) people).getPatrolToX() != -1 && ((Units) people).getPatrolToY() != -1) {
+                    ((Units) people).setPatrolToX(-1);
+                    ((Units) people).setPatrolToY(-1);
+                    hasUnitFlag = 1;
+
+                }
+            }
+        }
+        if (hasUnitFlag == 1)
+            return GameMenuMessage.SUCCESS;
+        else
+            return GameMenuMessage.PROBLEM;
+    }
 
     public static GameMenuMessage printShortestDistance(ArrayList<ArrayList<Integer>> neighborTiles, int tile1, int tile2, int v) {
         int counter = 0;
@@ -151,10 +153,10 @@ public class GameControl {
         System.out.println("Path is ::");
         for (i = path.size() - 1; i >= 0; i--) {
             System.out.print("x:  " + path.get(i) / 200 + "y:    " + path.get(i) % 200);
-                for (Units units:currentUnits) {
-                    units.setxLocation(path.get(i) / 200);
-                    units.setyLocation(path.get(i) % 200);
-                }
+            for (Units units : currentUnits) {
+                units.setxLocation(path.get(i) / 200);
+                units.setyLocation(path.get(i) % 200);
+            }
             counter++;
             if (counter == currentUnits.get(0).getUnitsName().getSpeed() / 20)
                 break;
@@ -166,7 +168,8 @@ public class GameControl {
 
         }
     }
-    public static GameMenuMessage printShortestDistance(Units unit,ArrayList<ArrayList<Integer>> neighborTiles, int tile1, int tile2, int v) {
+
+    public static GameMenuMessage printShortestDistance(Units unit, ArrayList<ArrayList<Integer>> neighborTiles, int tile1, int tile2, int v) {
         int counter = 0;
         int pred[] = new int[v];
         int dist[] = new int[v];
@@ -186,8 +189,8 @@ public class GameControl {
         System.out.println("Path is ::");
         for (i = path.size() - 1; i >= 0; i--) {
             System.out.print("x:  " + path.get(i) / 200 + "y:    " + path.get(i) % 200);
-                unit.setxLocation(path.get(i) / 200);
-                unit.setyLocation(path.get(i) % 200);
+            unit.setxLocation(path.get(i) / 200);
+            unit.setyLocation(path.get(i) % 200);
             counter++;
             if (counter == unit.getUnitsName().getSpeed() / 20)
                 break;
@@ -258,9 +261,9 @@ public class GameControl {
         if (x >= 200 || y >= 200 || x < 0 || y < 0) {
             return GameMenuMessage.WRONG_AMOUNT;
         }
-            message = moveUnit(x, y);
+        message = moveUnit(x, y);
         if (message.equals(GameMenuMessage.BIGGERTHANSPEED)) {
-                moveUnit(previousX, previousY);
+            moveUnit(previousX, previousY);
             return GameMenuMessage.BIGGERTHANSPEED;
         }
         Tile tile = startGame.getMapInGame().getMap()[x][y];
@@ -280,13 +283,26 @@ public class GameControl {
         if (currentUnits.get(0) instanceof Archers) {
             if ((((Archers) currentUnits.get(0)).getArrowRadius() / 20) < dis) {
                 return GameMenuMessage.PROBLEM;
-            } else {                                    //TODO make arraylist for arrows or stones of each archer
+            } else {
+                if ((((Archers) currentUnits.get(0)).getInventories().size() < 1||startGame.getCurrentUser().getUserGovernment().numberOfResource(((Archers) currentUnits.get(0)).getWartool())<currentUnits.size())) {
+                    return GameMenuMessage.NOTENOUGHRESOURCE;
+                }
                 Tile tile = startGame.getMapInGame().getMap()[x][y];
                 for (People people : tile.getPeopleOnTile()) {
                     if (people instanceof Units && !people.getOwnerPerson().equals(currentUnits.get(0).getOwnerPerson())) {
                         double efficiently = ((Archers) currentUnits.get(0)).getFatality() * ((Archers) currentUnits.get(0)).getPrecision() / 100;
                         int eff = (int) efficiently;
-                        ((Units) people).changeHitPoint(-1 * eff);  //TODO some building have special abilities
+                        ((Units) people).changeHitPoint(-1 * eff);
+                        for (Units units : currentUnits) {
+                                if(units instanceof Archers){
+                                    Resource resource=((Archers) units).getInventories().get(0);
+                                    ((Archers) units).getInventories().remove(resource);
+                                    startGame.getCurrentUser().getUserGovernment().removeFromResources(resource,1);
+
+                                }
+                        }
+
+
                     }
                     return GameMenuMessage.SUCCESS;
                 }
@@ -322,16 +338,13 @@ public class GameControl {
         }
     }
 
-    public static GameMenuMessage build(String equipmentName) {
-        return null;
-    }  //TODO check be employee
 
     public static GameMenuMessage disbandUnit() {
         for (Building building : currentUnits.get(0).getOwnerPerson().getUserGovernment().getBuildings()) {
             if (building instanceof Hovel) {
                 Tile tile = startGame.getMapInGame().getMap()[building.getX()][building.getY()];
                 while (currentUnits.get(0).getxLocation() != building.getX() && currentUnits.get(0).getyLocation() != building.getX()) {
-                        moveUnit(building.getX(), building.getY());
+                    moveUnit(building.getX(), building.getY());
 
 
                 }
@@ -488,7 +501,7 @@ public class GameControl {
                 Gatehouse gatehouse = (Gatehouse) tile.getBuilding();
                 if (gatehouse.getGovernment() != currentUnits.get(0).getOwnerPerson().getUserGovernment()) {
                     if (currentUnits.get(0).getUnitsName().getName().equals("spearman") || currentUnits.get(0).getUnitsName().getName().equals("maceman")) {
-                            moveUnit(gatehouse.getX(), gatehouse.getY());
+                        moveUnit(gatehouse.getX(), gatehouse.getY());
 
                         gatehouse.setOpenGate(true);
                         gatehouse.setHasFlag(true);
@@ -521,7 +534,7 @@ public class GameControl {
 
 
     public static GameMenuMessage makeProtection(int x, int y, String unitsName) {
-        if(!invalidLocation(x, y))
+        if (!invalidLocation(x, y))
             return GameMenuMessage.WRONG_AMOUNT;
         Tile tile = startGame.getMapInGame().getMap()[x][y];
         Combat combat = null;
@@ -536,83 +549,84 @@ public class GameControl {
             return GameMenuMessage.INVALIDUNIT;
         }
         for (Engineer engineer : startGame.getCurrentUser().getUserGovernment().getEngineers()) {
-            if (!engineer.isHasWork()){
-                if(startGame.getCurrentUser().getUserGovernment().numberOfResource(Resource.IRON)>=2) {
+            if (!engineer.isHasWork()) {
+                if (startGame.getCurrentUser().getUserGovernment().numberOfResource(Resource.IRON) >= 2) {
                     engineer.setHasWork(true);
                     combat.setPortableProtection(wartoolenum.PORTABLE_PROTECTION);
-                }
-                else {
+                } else {
                     return GameMenuMessage.NOTENOUGHRESOURCE;
                 }
 
             }
         }
-            return GameMenuMessage.PROBLEM;
+        return GameMenuMessage.PROBLEM;
     }
 
-    public static GameMenuMessage makeBatteringRam(int x,int y) {    //TODO make features of batteringRam in game
-        if(!invalidLocation(x, y))
+    public static GameMenuMessage makeBatteringRam(int x, int y) {    //TODO make features of batteringRam in game
+        if (!invalidLocation(x, y))
             return GameMenuMessage.WRONG_AMOUNT;
-        int counterUnemployed=0;
-        ArrayList<Engineer> engineersToMakeBatteringRam=new ArrayList<>();
-        for (Engineer engineer:startGame.getCurrentUser().getUserGovernment().getEngineers()){
-            if(!engineer.isHasWork()) {
+        int counterUnemployed = 0;
+        ArrayList<Engineer> engineersToMakeBatteringRam = new ArrayList<>();
+        for (Engineer engineer : startGame.getCurrentUser().getUserGovernment().getEngineers()) {
+            if (!engineer.isHasWork()) {
                 counterUnemployed++;
                 engineersToMakeBatteringRam.add(engineer);
             }
         }
-        if(counterUnemployed<4)
+        if (counterUnemployed < 4)
             return GameMenuMessage.PROBLEM;
-        if((startGame.getCurrentUser().getUserGovernment().numberOfResource(Resource.STONE))<10)
+        if ((startGame.getCurrentUser().getUserGovernment().numberOfResource(Resource.STONE)) < 10)
             return GameMenuMessage.NOTENOUGHRESOURCE;
-        for (Engineer engineer:engineersToMakeBatteringRam){
+        for (Engineer engineer : engineersToMakeBatteringRam) {
             engineer.setHasWork(true);
         }
-        BatteringRam batteringRam=new BatteringRam(startGame.getCurrentUser().getUserGovernment(),x,y);
+        BatteringRam batteringRam = new BatteringRam(startGame.getCurrentUser().getUserGovernment(), x, y);
         return GameMenuMessage.SUCCESS;
 
 
     }
 
-    public static GameMenuMessage makeCatapult(int x,int y) {
-        if(!invalidLocation(x, y))
+    public static GameMenuMessage makeCatapult(int x, int y) {
+        if (!invalidLocation(x, y))
             return GameMenuMessage.WRONG_AMOUNT;
-        ArrayList<Engineer> unEmployedEngineers=new ArrayList<>();
-        unEmployedEngineers(unEmployedEngineers,startGame.getCurrentUser().getUserGovernment());
-        if(unEmployedEngineers.size()<2)
+        ArrayList<Engineer> unEmployedEngineers = new ArrayList<>();
+        unEmployedEngineers(unEmployedEngineers, startGame.getCurrentUser().getUserGovernment());
+        if (unEmployedEngineers.size() < 2)
             return GameMenuMessage.PROBLEM;
-        if(startGame.getCurrentUser().getUserGovernment().numberOfResource(Resource.STONE)<10)
+        if (startGame.getCurrentUser().getUserGovernment().numberOfResource(Resource.STONE) < 10)
             return GameMenuMessage.NOTENOUGHRESOURCE;
-        int counter=0;
-        for (Engineer engineer:unEmployedEngineers){
+        int counter = 0;
+        for (Engineer engineer : unEmployedEngineers) {
             engineer.setHasWork(true);
             counter++;
-            if(counter==2)
-                break;;
+            if (counter == 2)
+                break;
+            ;
 
         }
-        CataPult cataPult=new CataPult(x, y);
+        CataPult cataPult = new CataPult(x, y);
         return GameMenuMessage.SUCCESS;
 
     }
-    public static GameMenuMessage makeFixedCatapult(int x,int y){
-        if(!invalidLocation(x, y))
+
+    public static GameMenuMessage makeFixedCatapult(int x, int y) {
+        if (!invalidLocation(x, y))
             return GameMenuMessage.WRONG_AMOUNT;
-        ArrayList<Engineer> unEmployedEngineers=new ArrayList<>();
-        unEmployedEngineers(unEmployedEngineers,startGame.getCurrentUser().getUserGovernment());
-        if(unEmployedEngineers.size()<3)
+        ArrayList<Engineer> unEmployedEngineers = new ArrayList<>();
+        unEmployedEngineers(unEmployedEngineers, startGame.getCurrentUser().getUserGovernment());
+        if (unEmployedEngineers.size() < 3)
             return GameMenuMessage.PROBLEM;
-        if(startGame.getCurrentUser().getUserGovernment().numberOfResource(Resource.STONE)<20)
+        if (startGame.getCurrentUser().getUserGovernment().numberOfResource(Resource.STONE) < 20)
             return GameMenuMessage.NOTENOUGHRESOURCE;
-        int counter=0;
-        for (Engineer engineer:unEmployedEngineers){
+        int counter = 0;
+        for (Engineer engineer : unEmployedEngineers) {
             engineer.setHasWork(true);
             counter++;
-            if(counter==3)
+            if (counter == 3)
                 break;
 
         }
-        FixedCatapult fixedCatapult=new FixedCatapult(x, y);
+        FixedCatapult fixedCatapult = new FixedCatapult(x, y);
         return GameMenuMessage.SUCCESS;
 
     }
@@ -673,101 +687,104 @@ public class GameControl {
         if (y - 1 >= 0)
             neighbors.add(startGame.getMapInGame().getMap()[x][y - 1]);
     }
-    public static GameMenuMessage makeSiegeTower(int x,int y){  //TODO make features of siege tower in game
-        if(!invalidLocation(x, y))
+
+    public static GameMenuMessage makeSiegeTower(int x, int y) {  //TODO make features of siege tower in game
+        if (!invalidLocation(x, y))
             return GameMenuMessage.WRONG_AMOUNT;
-        int unEmployedEngineers=0;
-        ArrayList<Engineer> engineersToSiegeTower=new ArrayList<>();
-        for (Engineer engineer:startGame.getCurrentUser().getUserGovernment().getEngineers()){
-            if(!engineer.isHasWork()) {
+        int unEmployedEngineers = 0;
+        ArrayList<Engineer> engineersToSiegeTower = new ArrayList<>();
+        for (Engineer engineer : startGame.getCurrentUser().getUserGovernment().getEngineers()) {
+            if (!engineer.isHasWork()) {
                 unEmployedEngineers++;
                 engineersToSiegeTower.add(engineer);
             }
         }
-        if(unEmployedEngineers<4)
+        if (unEmployedEngineers < 4)
             return GameMenuMessage.PROBLEM;
-        if((startGame.getCurrentUser().getUserGovernment().numberOfResource(Resource.STONE))<30)
+        if ((startGame.getCurrentUser().getUserGovernment().numberOfResource(Resource.STONE)) < 30)
             return GameMenuMessage.NOTENOUGHRESOURCE;
-        for (Engineer engineer:engineersToSiegeTower){
+        for (Engineer engineer : engineersToSiegeTower) {
             engineer.setHasWork(true);
         }
-        SiegeTower siegeTower=new SiegeTower(x,y);
+        SiegeTower siegeTower = new SiegeTower(x, y);
         return GameMenuMessage.SUCCESS;
 
 
     }
-    private static void unEmployedEngineers(ArrayList<Engineer> engineers,Government government){
-        int counter=0;
-       for (Engineer engineer:government.getEngineers()){
-           if(!engineer.isHasWork()){
-               engineers.add(engineer);
-               counter++;
-           }
-       }
+
+    private static void unEmployedEngineers(ArrayList<Engineer> engineers, Government government) {
+        int counter = 0;
+        for (Engineer engineer : government.getEngineers()) {
+            if (!engineer.isHasWork()) {
+                engineers.add(engineer);
+                counter++;
+            }
+        }
 
     }
-    public static GameMenuMessage makeFieryStoneThrower(int x,int y){    //TODO make some features for playing with it in game
-        if(!invalidLocation(x, y))
+
+    public static GameMenuMessage makeFieryStoneThrower(int x, int y) {    //TODO make some features for playing with it in game
+        if (!invalidLocation(x, y))
             return GameMenuMessage.WRONG_AMOUNT;
-        int unEmployedEngineers=0;
-        ArrayList<Engineer> engineersToFieryStone=new ArrayList<>();
-        for (Engineer engineer:startGame.getCurrentUser().getUserGovernment().getEngineers()){
-            if(!engineer.isHasWork()) {
+        int unEmployedEngineers = 0;
+        ArrayList<Engineer> engineersToFieryStone = new ArrayList<>();
+        for (Engineer engineer : startGame.getCurrentUser().getUserGovernment().getEngineers()) {
+            if (!engineer.isHasWork()) {
                 unEmployedEngineers++;
                 engineersToFieryStone.add(engineer);
             }
         }
-        if(unEmployedEngineers<4)
+        if (unEmployedEngineers < 4)
             return GameMenuMessage.PROBLEM;
-        if((startGame.getCurrentUser().getUserGovernment().numberOfResource(Resource.STONE))<25)
+        if ((startGame.getCurrentUser().getUserGovernment().numberOfResource(Resource.STONE)) < 25)
             return GameMenuMessage.NOTENOUGHRESOURCE;
-        for (Engineer engineer:engineersToFieryStone){
+        for (Engineer engineer : engineersToFieryStone) {
             engineer.setHasWork(true);
         }
-        FieryStoneThrower fieryStoneThrower=new FieryStoneThrower(x, y);
+        FieryStoneThrower fieryStoneThrower = new FieryStoneThrower(x, y);
         return GameMenuMessage.SUCCESS;
 
 
     }
-    public static GameMenuMessage nextTurn(){//TODO should be completed !!!!a lot of work we have to do!
-       if(startGame.getPlayers().indexOf(startGame.getCurrentUser())==startGame.getPlayers().size()-1){
-           counterTurn++;
-           startGame.setCurrentUser(startGame.getGameStarter());
-           for (int i=0;i<200;i++){
-               for (int j=0;j<200;j++){
-                   for (People people:startGame.getMapInGame().getMap()[i][j].getPeopleOnTile()){
-                       if(people instanceof Units){
-                           if(people.getToGoX()!=people.getxLocation()||people.getToGoY()!=people.getyLocation()){
-                               SpecialMoveUnit((Units) people,people.getToGoX(),people.getToGoY());
-                           }
-                       }
-                   }
-               }
-           }
-           for (int i=0;i<200;i++){
-               for (int j=0;j<200;j++){
-                   for (People people:startGame.getMapInGame().getMap()[i][j].getPeopleOnTile()){
-                       if(people instanceof Units){
-                           if(((Units) people).getPatrolToX()!=-1||((Units) people).getPatrolToY()!=-1) {
-                               SpecialMoveUnit((Units) people, ((Units) people).getPatrolToX(), ((Units) people).getPatrolToY());
-                               if(people.getxLocation()==((Units) people).getPatrolToX()&&people.getyLocation()==((Units) people).getPatrolToY()){
-                                   ((Units) people).setPatrolToX(((Units) people).getPatrolFromX());
-                                   ((Units) people).setPatrolToY(((Units) people).getPatrolFromY());
-                               }
-                           }
+
+    public static GameMenuMessage nextTurn() {//TODO should be completed !!!!a lot of work we have to do!
+        if (startGame.getPlayers().indexOf(startGame.getCurrentUser()) == startGame.getPlayers().size() - 1) {
+            counterTurn++;
+            startGame.setCurrentUser(startGame.getGameStarter());
+            for (int i = 0; i < 200; i++) {
+                for (int j = 0; j < 200; j++) {
+                    for (People people : startGame.getMapInGame().getMap()[i][j].getPeopleOnTile()) {
+                        if (people instanceof Units) {
+                            if (people.getToGoX() != people.getxLocation() || people.getToGoY() != people.getyLocation()) {
+                                SpecialMoveUnit((Units) people, people.getToGoX(), people.getToGoY());
+                            }
+                        }
+                    }
+                }
+            }
+            for (int i = 0; i < 200; i++) {
+                for (int j = 0; j < 200; j++) {
+                    for (People people : startGame.getMapInGame().getMap()[i][j].getPeopleOnTile()) {
+                        if (people instanceof Units) {
+                            if (((Units) people).getPatrolToX() != -1 || ((Units) people).getPatrolToY() != -1) {
+                                SpecialMoveUnit((Units) people, ((Units) people).getPatrolToX(), ((Units) people).getPatrolToY());
+                                if (people.getxLocation() == ((Units) people).getPatrolToX() && people.getyLocation() == ((Units) people).getPatrolToY()) {
+                                    ((Units) people).setPatrolToX(((Units) people).getPatrolFromX());
+                                    ((Units) people).setPatrolToY(((Units) people).getPatrolFromY());
+                                }
+                            }
 
 
-                       }
-                   }
-               }
-           }
-           return GameMenuMessage.NEXT_TURN;
-       }
-       else {
-           startGame.setCurrentUser(startGame.getPlayers().get(startGame.getPlayers().indexOf(startGame.getCurrentUser())+1));
-           currentUnits.clear();
-           return GameMenuMessage.NEXT_PLAYER;
-       }
+                        }
+                    }
+                }
+            }
+            return GameMenuMessage.NEXT_TURN;
+        } else {
+            startGame.setCurrentUser(startGame.getPlayers().get(startGame.getPlayers().indexOf(startGame.getCurrentUser()) + 1));
+            currentUnits.clear();
+            return GameMenuMessage.NEXT_PLAYER;
+        }
     }
 
     public static StartGame getStartGame() {
