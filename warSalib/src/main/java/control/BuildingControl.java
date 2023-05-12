@@ -79,6 +79,8 @@ public class BuildingControl {
     public static BuildingMessage createUnit(String type, int count) {
         if (count <= 0)
             return BuildingMessage.WRONG_AMOUNT;
+        if(Game.getSelectedBuilding() == null)
+            return BuildingMessage.NOT_SELECT_BUILDING;
         if (getUnitNameByType(type) == null)
             return BuildingMessage.NOT_EXIST_UNIT;
         if (!hasEnoughWeaponAndGold(type))

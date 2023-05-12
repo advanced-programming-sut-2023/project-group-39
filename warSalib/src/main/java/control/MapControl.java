@@ -49,7 +49,7 @@ public class MapControl {
     public static String moveMap(int up, int down, int right, int left) {
         int x = Game.getMapInGame().getSelectedX();
         int y = Game.getMapInGame().getSelectedY();
-        return showMap(x - left + right , y - down + up);
+        return showMap(x + left - right , y - down + up);
     }
 
     public static String showDetails(int x, int y) {

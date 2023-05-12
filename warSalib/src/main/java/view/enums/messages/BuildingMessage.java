@@ -15,5 +15,6 @@ public enum BuildingMessage {
     NOT_GOOD_BUILDING,
     NOT_EXIST_UNIT,
     HAS_FULL_HP,
-    SELECT_MARKET;
+    SELECT_MARKET,
+    NOT_SELECT_BUILDING;
 }

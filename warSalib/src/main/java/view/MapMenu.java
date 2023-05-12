@@ -16,6 +16,7 @@ public class MapMenu {
             } else if (MapMenuCommands.getMatcher(input, MapMenuCommands.MOVE_MAP) != null) {
                 moveMap(input);
             } else if (input.matches("\\s*back\\s*")) {
+                System.out.println("back to game menu");
                 break;
             } else System.out.println("invalid command!");
             input = scanner.nextLine();
