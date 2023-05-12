@@ -4,7 +4,6 @@ import model.Game;
 import model.government.Government;
 import model.government.people.People;
 import model.government.people.units.Units;
-import model.government.popularityfactor.Food;
 import model.government.resource.Resource;
 import view.enums.messages.GovernmentMenuMessage;
 
@@ -96,7 +95,7 @@ public class GovernmentControl {
             for (int j = 0; j < 200; j++)
                 for (People people : Game.getMapInGame().getMap()[i][j].getPeopleOnTile())
                     if (people instanceof Units)
-                        people.changeEfficientAttackingPower(-5 * fearRate);
+                        ((Units) people).changeEfficientAttackingPower(-5 * fearRate);
     }
 
     public static GovernmentMenuMessage rateFood(int rate) {
@@ -221,13 +220,13 @@ public class GovernmentControl {
         return GovernmentMenuMessage.SUCCESS;
     }
 
-    public static GovernmentMenuMessage addToFoods(Food food, int numberOfFoods) {
-        if (food == null) {
+    public static GovernmentMenuMessage addToFoods(Resource food, int numberOfFoods) {
+        if (food == null || !food.getTypeOfResource().equals(Resource.TypeOfResource.FOOD)) {
             return GovernmentMenuMessage.INVALID_FOOD_NAME;
         }
         int value = 0;
         for (Map.Entry<Resource, Integer> foodResources : Game.getCurrentUser().getUserGovernment().getResources().entrySet()) {
-            if (food.getFoodName().equals(foodResources.getKey())) {
+            if (food.getName().equals(foodResources.getKey())) {
                 value = foodResources.getValue();
                 break;
             }
@@ -236,8 +235,8 @@ public class GovernmentControl {
         if (numberOfFoods > value) {
             return GovernmentMenuMessage.NOT_ENOUGH_INVENTORY;
         }
-        for (Map.Entry<Food, Integer> foods : Game.getCurrentUser().getUserGovernment().getFoods().entrySet()) {   //is it okay?
-            if (food.getFoodName().equals(foods.getKey().getFoodName())) {
+        for (Map.Entry<Resource, Integer> foods : Game.getCurrentUser().getUserGovernment().getFoods().entrySet()) {   //is it okay?
+            if (food.getName().equals(foods.getKey().getName())) {
                 Game.getCurrentUser().getUserGovernment().getFoods().replace(foods.getKey(), foods.getValue(), foods.getValue() + numberOfFoods);
                 return GovernmentMenuMessage.SUCCESS;
             }
@@ -247,8 +246,8 @@ public class GovernmentControl {
         return null;
     }
 
-    public static GovernmentMenuMessage removeFromFoods(Food food, int numberOfFoods) {
-        HashMap<Food, Integer> foods = government.getFoods();
+    public static GovernmentMenuMessage removeFromFoods(Resource food, int numberOfFoods) {
+        HashMap<Resource, Integer> foods = government.getFoods();
         if (foods.get(food) < numberOfFoods)
             return GovernmentMenuMessage.NOT_ENOUGH_FOOD;
         else if (foods.get(food) == numberOfFoods) foods.remove(food);

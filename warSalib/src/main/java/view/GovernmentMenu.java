@@ -53,38 +53,43 @@ public class GovernmentMenu {
     private static void addFood(Matcher matcher) {
         String food = matcher.group("foodName");
         int amount = Integer.parseInt(matcher.group("amount"));
-        Food addingFood = new Food();
-        if (food.equals("meat")) {
-            for (Food food1 : Game.getCurrentUser().getUserGovernment().getFoods().keySet()) {
-                if (food1.getFoodName().equals(Resource.MEAT)) {
-                    addingFood = food1;
-                    break;
-                }
-            }
-
-        } else if (food.equals("apple")) {
-            for (Food food1 : Game.getCurrentUser().getUserGovernment().getFoods().keySet()) {
-                if (food1.getFoodName().equals(Resource.APPLE)) {
-                    addingFood = food1;
-                }
-                break;
-            }
-        } else if (food.equals("bread")) {
-            for (Food food1 : Game.getCurrentUser().getUserGovernment().getFoods().keySet()) {
-                if (food1.getFoodName().equals(Resource.BREAD)) {
-                    addingFood = food1;
-                    break;
-                }
-            }
-        } else if (food.equals("cheese")) {
-            for (Food food1 : Game.getCurrentUser().getUserGovernment().getFoods().keySet()) {
-                if (food1.getFoodName().equals(Resource.CHEESE)) {
-                    addingFood = food1;
-                    break;
-                }
-            }
+        Resource resource = getResourceByName(food);
+        Resource addingFood;
+        if (resource == null || !resource.getTypeOfResource().equals(Resource.TypeOfResource.FOOD)) {
+            System.out.println("invalid food name!");
+            return;
         }
-        GovernmentMenuMessage message = GovernmentControl.addToFoods(addingFood, amount);
+//        if (food.equals("meat")) {
+//            for (Food food1 : Game.getCurrentUser().getUserGovernment().getFoods().keySet()) {
+//                if (food1.getFoodName().equals(Resource.MEAT)) {
+//                    addingFood = food1;
+//                    break;
+//                }
+//            }
+//
+//        } else if (food.equals("apple")) {
+//            for (Food food1 : Game.getCurrentUser().getUserGovernment().getFoods().keySet()) {
+//                if (food1.getFoodName().equals(Resource.APPLE)) {
+//                    addingFood = food1;
+//                }
+//                break;
+//            }
+//        } else if (food.equals("bread")) {
+//            for (Food food1 : Game.getCurrentUser().getUserGovernment().getFoods().keySet()) {
+//                if (food1.getFoodName().equals(Resource.BREAD)) {
+//                    addingFood = food1;
+//                    break;
+//                }
+//            }
+//        } else if (food.equals("cheese")) {
+//            for (Food food1 : Game.getCurrentUser().getUserGovernment().getFoods().keySet()) {
+//                if (food1.getFoodName().equals(Resource.CHEESE)) {
+//                    addingFood = food1;
+//                    break;
+//                }
+//            }
+//        }
+        GovernmentMenuMessage message = GovernmentControl.addToFoods(resource, amount);
         switch (message) {
             case INVALID_RATE:
                 System.out.println("amount of add is invalid");
@@ -104,6 +109,14 @@ public class GovernmentMenu {
         }
     }
 
+    private static Resource getResourceByName (String name) {
+        for (Resource resource : Resource.values()) {
+            if (resource.getName().equals(name))
+                return resource;
+        }
+        return null;
+    }
+
     private static void showFoodList() {
         GovernmentMenuMessage message = GovernmentControl.showFoodList();
         switch (message) {
@@ -111,8 +124,8 @@ public class GovernmentMenu {
                 System.out.println("empty, there are no foods in your list");
                 break;
             case SUCCESS:
-                for (Map.Entry<Food, Integer> foods : Game.getCurrentUser().getUserGovernment().getFoods().entrySet())
-                    System.out.println(foods.getKey().getFoodName() + "  :  " + foods.getValue());
+                for (Map.Entry<Resource, Integer> foods : Game.getCurrentUser().getUserGovernment().getFoods().entrySet())
+                    System.out.println(foods.getKey().getName() + "  :  " + foods.getValue());
                 break;
             default:
                 System.out.println("invalid!!?");

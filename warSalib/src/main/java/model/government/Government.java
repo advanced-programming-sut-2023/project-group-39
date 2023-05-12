@@ -10,7 +10,6 @@ import model.government.building.StockPileBuilding;
 import model.government.people.People;
 import model.government.people.units.Engineer;
 import model.government.popularityfactor.Fear;
-import model.government.popularityfactor.Food;
 import model.government.popularityfactor.Religion;
 import model.government.popularityfactor.Tax;
 import model.government.request.Request;
@@ -35,7 +34,7 @@ public class Government {
     private User user;
 
     private ArrayList<People> unWorkedPeople;
-    private HashMap<Food, Integer> foods;
+    private HashMap<Resource, Integer> foods;
 
     private ArrayList<StockPileBuilding> stockPileBuildings;
 
@@ -135,7 +134,7 @@ public class Government {
         return user;
     }
 
-    public HashMap<Food, Integer> getFoods() {
+    public HashMap<Resource, Integer> getFoods() {
         return foods;
     }
 
@@ -167,7 +166,7 @@ public class Government {
         return requests;
     }
 
-    public static void makeChangesCausedByFoodRate(HashMap<Integer, Food> foods) {
+    public static void makeChangesCausedByFoodRate(HashMap<Integer, Resource> foods) {
 
     }
 
