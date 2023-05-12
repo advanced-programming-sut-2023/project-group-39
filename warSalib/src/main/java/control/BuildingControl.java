@@ -64,7 +64,7 @@ public class BuildingControl {
             return BuildingMessage.WRONG_AMOUNT;
         if (!isAnotherBuilding(x, y))
             return BuildingMessage.NOT_EXIST;
-        if (isBuildingForCurrentUser(x, y))
+        if (!isBuildingForCurrentUser(x, y))
             return BuildingMessage.NOT_BELONG_TO_YOU;
         Game.setSelectedBuilding(Game.getMapInGame().getMap()[y][x].getBuilding());
         if (Game.getSelectedBuilding().getName().equals("market")) {
@@ -76,9 +76,11 @@ public class BuildingControl {
     private static boolean isBuildingForCurrentUser(int x, int y) {
         if (Game.getMapInGame().getMap()[y][x].getBuilding() == null)
             return false;
-        return Game.getMapInGame().getMap()[y][x].getBuilding().getGovernment() == Game.getCurrentUser().getUserGovernment();
+        return Game.getMapInGame().getMap()[y][x].getBuilding().getGovernment().equals(Game.getTurnedUserForGame().getUserGovernment());
     }
     public static BuildingMessage createUnit(String type, int count) {
+        if (Game.getSelectedBuilding() == null)
+            return BuildingMessage.NOT_SELECT_BUILDING;
         if (count <= 0)
             return BuildingMessage.WRONG_AMOUNT;
         if(Game.getSelectedBuilding() == null)
@@ -104,6 +106,8 @@ public class BuildingControl {
         return BuildingMessage.SUCCESS;
     }
     public static BuildingMessage repair() {
+        if (Game.getSelectedBuilding() == null)
+            return BuildingMessage.NOT_SELECT_BUILDING;
         if (Game.getSelectedBuilding().getType() != "castle building")
             return BuildingMessage.NOT_GOOD_BUILDING;
         if (Game.getSelectedBuilding().getHp() == Game.getSelectedBuilding().getMaxHP())
@@ -171,6 +175,8 @@ public class BuildingControl {
     }
 
     public static BuildingMessage openCagedDog(String state) {
+        if (Game.getSelectedBuilding() == null)
+            return BuildingMessage.NOT_SELECT_BUILDING;
         if (!state.equals("open") && !state.equals("close"))
             return BuildingMessage.WRONG_AMOUNT;
         if (!(Game.getSelectedBuilding() instanceof CagedWarDog))
@@ -183,6 +189,8 @@ public class BuildingControl {
     }
 
     public static BuildingMessage changeTaxRate(int taxRate) {
+        if (Game.getSelectedBuilding() == null)
+            return BuildingMessage.NOT_SELECT_BUILDING;
         if (taxRate < -3  || taxRate > 8)
             return BuildingMessage.WRONG_AMOUNT;
         if (!(Game.getSelectedBuilding() instanceof Gatehouse))

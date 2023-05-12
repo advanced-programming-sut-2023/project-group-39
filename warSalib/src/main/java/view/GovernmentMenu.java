@@ -2,7 +2,6 @@ package view;
 
 import control.GovernmentControl;
 import model.Game;
-import model.government.popularityfactor.Food;
 import model.government.resource.Resource;
 import view.enums.commands.GovernmentMenuCommands;
 import view.enums.messages.GovernmentMenuMessage;

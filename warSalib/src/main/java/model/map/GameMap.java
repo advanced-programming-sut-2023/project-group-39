@@ -2,7 +2,9 @@ package model.map;
 
 import model.Game;
 import model.government.Government;
+import model.government.building.Building;
 import model.government.building.Keep;
+import model.government.building.StockPileBuilding;
 
 public class GameMap {
 
@@ -69,6 +71,11 @@ public class GameMap {
                     Keep keep = new Keep(i, j, government, "keep");
                     map[j][i].setBuilding(keep);
                     government.addBuilding(keep);
+                }
+                if (i == rowDown + 24 && j == colDown + 25) {
+                    Building stockPile = Building.makeBuildingByName("stock pile", i, j, government, 1);
+                    map[i][j].setGovernment(government);
+                    government.addBuilding(stockPile);
                 }
             }
         }

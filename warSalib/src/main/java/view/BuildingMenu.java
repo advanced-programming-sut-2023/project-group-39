@@ -75,6 +75,9 @@ public class BuildingMenu {
             case NOT_GOOD_BUILDING:
                 System.out.println("it's not gatehouse");
                 break;
+            case NOT_SELECT_BUILDING:
+                System.out.println("please select building");
+                break;
             case SUCCESS:
                 System.out.println("you chang rate successfully");
                 break;
@@ -128,6 +131,9 @@ public class BuildingMenu {
             case NOT_EXIST_UNIT:
                 System.out.println("you enter wrong type of units");
                 break;
+            case NOT_SELECT_BUILDING:
+                System.out.println("please select building");
+                break;
             case NOT_ENOUGH_POPULATION:
                 System.out.println("you don't have enough population");
                 break;
@@ -153,6 +159,9 @@ public class BuildingMenu {
             case NOT_GOOD_BUILDING:
                 System.out.println("it's not caged war dog");
                 break;
+            case NOT_SELECT_BUILDING:
+                System.out.println("please select building");
+                break;
             case SUCCESS:
                 System.out.println("succeed opened");
                 break;
@@ -167,6 +176,9 @@ public class BuildingMenu {
         switch (message) {
             case NOT_ENOUGH_STONE:
                 System.out.println("not enough stones");
+                break;
+            case NOT_SELECT_BUILDING:
+                System.out.println("please select building");
                 break;
             case NEAR_ENEMY:
                 System.out.println("enemy near your town and can't repair");
