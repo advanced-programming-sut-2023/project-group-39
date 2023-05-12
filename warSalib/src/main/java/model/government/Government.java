@@ -88,6 +88,10 @@ public class Government {
         else if (resources.get(resource) == number) resources.remove(resource);
         else resources.put(resource, resources.get(resource) - number);
     }
+    public void removeFromFoods(Resource resource){
+       foods.remove(resource);
+
+    }
     public float getWealth() { return wealth; }
 
     public void setWealth(float wealth) { this.wealth = wealth; }
