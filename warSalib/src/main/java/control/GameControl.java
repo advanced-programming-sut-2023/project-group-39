@@ -12,6 +12,7 @@ import model.map.Tile;
 import model.user.User;
 import model.wartool.*;
 import view.GovernmentMenu;
+import view.MainMenu;
 import view.enums.messages.GameMenuMessage;
 
 import java.util.ArrayList;
@@ -26,6 +27,8 @@ public class GameControl {
     public static ArrayList<Units> currentUnits = new ArrayList<>();
 
     private static ArrayList<People> deathPersons = new ArrayList<>();
+
+    private static int turn;
 
     public static GameMenuMessage selectUnit(int x, int y, String name) {
         if (x >= 200 || y >= 200 || x < 0 || y < 0) {
@@ -288,6 +291,7 @@ public class GameControl {
                         int efficiently = ((Archers) currentUnits.get(0)).getFatality() * ((Archers) currentUnits.get(0)).getPrecision() / 100;
                         int eff = (int) efficiently;
                         ((Units) people).changeHitPoint(-1 * eff);
+                        Game.getTurnedUserForGame().changeScore(eff);
                         for (Units units : currentUnits) {
                             if (units instanceof Archers) {
                                 Resource resource = ((Archers) units).getInventories().get(0);
@@ -655,7 +659,9 @@ public class GameControl {
         }
 
         unit1.changeHitPoint((int) (Math.floor(-1 * unit1ChangeHitPoint * (100 - unit1.getUnitsName().getDefensingPower())) / 100));
+        unit2.getOwnerPerson().changeScore((int) (Math.floor( unit1ChangeHitPoint * (100 - unit1.getUnitsName().getDefensingPower())) / 100));
         unit2.changeHitPoint((int) (Math.floor(-1 * unit2ChangeHitPoint * (100 - unit2.getUnitsName().getDefensingPower())) / 100));
+        unit1.getOwnerPerson().changeScore((int) (Math.floor(unit2ChangeHitPoint * (100 - unit2.getUnitsName().getDefensingPower())) / 100));
         unit1.changeEfficientAttackingPower(-5);
         unit2.changeEfficientAttackingPower(-5);
     }
@@ -789,7 +795,17 @@ public class GameControl {
         changeFoodsInventory();
         if (Game.getPlayers().indexOf(Game.getTurnedUserForGame()) == Game.getPlayers().size() - 1) {
             counterTurn++;
-            Game.setTurnedUserForGame(Game.getGameStarter());
+            if(counterTurn==turn){
+                counterTurn=0;
+                turn=0;
+                for (User user:Game.getPlayersInGame()){
+                    user.setUserGovernment(null);
+
+                }
+                Game.getPlayersInGame().clear();
+                return GameMenuMessage.FINISH_GAME;
+
+            }  Game.setTurnedUserForGame(Game.getGameStarter());
             for (User user : Game.getPlayersInGame()) {
                 for (People people : user.getUserGovernment().getPeople()) {
                     if (people instanceof Units) {
@@ -866,6 +882,8 @@ public class GameControl {
             return GameMenuMessage.NEXT_PLAYER;
         }
     }
+
+
 
     private static void deffensiveBehavior() {
         for (User user : Game.getPlayersInGame()) {
@@ -1249,5 +1267,13 @@ public class GameControl {
         }
         return GameMenuMessage.SUCCESS;
 
+    }
+
+    public static int getTurn() {
+        return turn;
+    }
+
+    public static void setTurn(int turn) {
+        GameControl.turn = turn;
     }
 }

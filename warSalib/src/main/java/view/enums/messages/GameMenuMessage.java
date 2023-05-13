@@ -38,4 +38,6 @@ public enum GameMenuMessage {
     OUT_OF_BOARD,
 
     WITH_OUT_BUILDING,
+
+    FINISH_GAME,
 }

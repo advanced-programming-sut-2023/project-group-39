@@ -27,6 +27,7 @@ public class User {
         this.slogan = slogan;
         this.securityQuestionAnswer=securityQuestionAnswer;
         securityQuestion = new HashMap<>();
+        this.loggedIn=false;
 
     }
 
@@ -123,4 +124,8 @@ public class User {
     public Government getUserGovernment() {
         return UserGovernment;
     }
+    public void changeScore(int x){
+        this.score+=x;
+    }
+
 }

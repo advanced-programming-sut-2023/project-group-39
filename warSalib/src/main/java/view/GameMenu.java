@@ -73,8 +73,12 @@ public class GameMenu {
                 makeSiegeTower(matcher);
             else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.MAKE_FIERY_STONE_THROWER)) != null)
                 makeFieryStoneThrower(matcher);
-            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.NEXT_TURN)) != null)
-                nextTurn(matcher);
+            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.NEXT_TURN)) != null) {
+                if(nextTurn(matcher)==0){
+                    break;
+                }
+
+            }
             else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.STOP_PATROL_UNIT)) != null)
                 stopPatrol(matcher);
             else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.USE_CATAPULT_TO_ATTACK)) != null)
@@ -860,7 +864,7 @@ public class GameMenu {
 
     }
 
-    private static void nextTurn(Matcher matcher) {
+    private static int nextTurn(Matcher matcher) {
         GameMenuMessage message = GameControl.nextTurn();
         switch (message) {
             case NEXT_PLAYER:
@@ -870,7 +874,11 @@ public class GameMenu {
                 System.out.println("nex turn");
                 System.out.println("Player:  " + Game.getTurnedUserForGame().getUsername() + "   should be play now!");
                 break;
+            case FINISH_GAME:
+                System.out.println("Game finished!");
+                return 0;
         }
+        return 1;
     }
 
     private static void stopPatrol(Matcher matcher) {

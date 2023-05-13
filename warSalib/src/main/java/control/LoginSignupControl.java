@@ -6,6 +6,7 @@ import com.thoughtworks.xstream.security.AnyTypePermission;
 import model.Game;
 import model.user.User;
 import view.enums.commands.LoginMenuCommands;
+import view.enums.messages.GameMenuMessage;
 import view.enums.messages.LoginMenuMessage;
 import org.passay.CharacterRule;
 import org.passay.EnglishCharacterData;
@@ -191,5 +192,18 @@ public class LoginSignupControl {
         ArrayList<User> data=new Gson().fromJson(json,new TypeToken<ArrayList<User>>(){}.getType());
         if(data!=null)
             Game.setPlayers(data);
+    }
+
+    public static GameMenuMessage stayLoggedInlogin(String username) {
+        for (User user:Game.getPlayers()){
+            if(user.getUsername().equals(username)){
+                if(user.getLoggedIn()){
+                    Game.setCurrentUser(user);
+                    return GameMenuMessage.SUCCESS;
+                }
+            }
+
+        }
+        return GameMenuMessage.PROBLEM;
     }
 }

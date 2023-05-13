@@ -32,14 +32,16 @@ public class MainMenu {
                 }
             }
             else if ((matcher = MainMenuCommands.getMatcher(input, MainMenuCommands.START_GAME)) != null) {
-                letStartGame();
+                int turn= Integer.parseInt(matcher.group("turn"));
+                letStartGame(turn);
                 System.out.println("game started");
                 EnvironmentMenu.run(scanner);
             } else System.out.println("invalid command!");
 
         }
     }
-    private static void letStartGame(){
+    private static void letStartGame(int turn){
+        GameControl.setTurn(turn);
         Game.getPlayersInGame();
         int counter=0;
         Game.getPlayersInGame().add(Game.getCurrentUser());

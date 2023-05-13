@@ -3,6 +3,7 @@ package view;
 import control.LoginSignupControl;
 import model.Game;
 import view.enums.commands.LoginMenuCommands;
+import view.enums.messages.GameMenuMessage;
 import view.enums.messages.LoginMenuMessage;
 
 import java.util.ArrayList;
@@ -144,10 +145,34 @@ public class LoginSignupMenu {
                     System.out.println("your username field is empty!");
                 }
             }
-            else
+            else if((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.STAY_LOGGED_IN_LOGIN)) != null){
+                stayLoggedInlogin(matcher);
+
+            }            else
                 System.out.println("Invalid command!");
         }
 
+    }
+
+    private static void stayLoggedInlogin(Matcher matcher) {
+        String USERNAME=new String();
+        if(matcher.group("usernameWithSpace")!=null){
+            USERNAME=matcher.group("usernameWithSpace");
+            USERNAME=USERNAME.substring(1,USERNAME.length()-1);
+        }
+        else if(matcher.group("usernameWithOutSpace")!=null){
+            USERNAME=matcher.group("usernameWithOutSpace");
+
+        }
+       GameMenuMessage message=LoginSignupControl.stayLoggedInlogin(username);
+        switch (message){
+            case SUCCESS:
+                System.out.println("you logged in successfully");
+                break;
+            case PROBLEM:
+                System.out.println("you cant login");
+                break;
+        }
     }
 
     private static void validUsername(String username) {
