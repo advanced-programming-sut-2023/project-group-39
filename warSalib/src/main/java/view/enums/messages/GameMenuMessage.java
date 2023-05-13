@@ -34,5 +34,8 @@ public enum GameMenuMessage {
 
     NEXT_PLAYER,
 
-    NEXT_TURN;
+    NEXT_TURN,
+    OUT_OF_BOARD,
+
+    WITH_OUT_BUILDING,
 }

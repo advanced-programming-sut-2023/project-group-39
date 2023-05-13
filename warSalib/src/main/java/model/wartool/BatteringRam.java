@@ -1,9 +1,13 @@
 package model.wartool;
 
 import model.government.Government;
+import model.government.people.units.Units;
+import model.user.User;
 
 public class BatteringRam {
     private Government government;
+
+    private User user;
     private int x;
     private int y;
 
@@ -37,5 +41,13 @@ public class BatteringRam {
 
     public void setGovernment(Government government) {
         this.government = government;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public User getUser() {
+        return user;
     }
 }

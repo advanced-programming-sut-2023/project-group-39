@@ -1,7 +1,10 @@
 package view;
 
+import control.GameControl;
 import model.Game;
 import model.government.Government;
+import model.government.people.People;
+import model.government.people.workingpersons.JobsName;
 import model.map.GameMap;
 import model.user.User;
 import view.enums.commands.MainMenuCommands;
@@ -41,6 +44,7 @@ public class MainMenu {
         int counter=0;
         Game.getPlayersInGame().add(Game.getCurrentUser());
         Government governmentOfCurrentUser = new Government(0 , 30, Game.getCurrentUser());
+        createInitialPeople(Game.getCurrentUser().getUserGovernment(),30);
         Game.getCurrentUser().setUserGovernment(governmentOfCurrentUser);
         counter++;
         Scanner scanner=new Scanner(System.in);
@@ -58,6 +62,7 @@ public class MainMenu {
                     Government government = new Government(0, 30, getUserByName(username));
                     Game.addGovernment(government);
                     getUserByName(username).setUserGovernment(government);
+                    createInitialPeople(government,30);
                     counter++;
                     System.out.println("added successfully");
                 }
@@ -76,6 +81,14 @@ public class MainMenu {
             }
         }
     }
+
+    private static void createInitialPeople(Government government,int x) {
+        for (int i=0;i<x;i++) {
+            People people = new People(government.getXLeft() , government.getYDown() ,
+                    JobsName.UNEMPLOYED, government.getUser());
+        }
+    }
+
     private static User getUserByName(String username){
         for (User user:Game.getPlayers()){
             if(user.getUsername().equals(username))

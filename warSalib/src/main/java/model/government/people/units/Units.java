@@ -120,4 +120,8 @@ public class Units extends People {
     public int getPatrolToY() {
         return patrolToY;
     }
+
+    public State getState() {
+        return state;
+    }
 }

@@ -193,4 +193,7 @@ abstract public class Building {
         people.getOwnerPerson().getUserGovernment().getUnWorkedPeople().remove(people);
         Game.getMapInGame().getMap()[people.getyLocation()][people.getxLocation()].removePeople(people);
     }
+    public void ChangeHitPoint(int x){
+        this.hp+=x;
+    }
 }

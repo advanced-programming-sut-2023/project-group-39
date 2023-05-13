@@ -55,6 +55,22 @@ public enum GameMenuCommands {
 
     MAKE_FIERY_STONE_THROWER("make\\s+firey\\s+stone\\s+thrower\\s+(?<x>[\\d]+)\\s+(?<y>[\\d]+)\\s*"),
 
+    MOVE_BATTERING("move\\s+battering\\s+in\\s+-x\\s+(?<x1>[\\d]+)\\s+\\s+-y\\s+(?<y1>[\\d]+)\\s+to\\s+-x\\s+(?<x2>[\\d]+)\\s+-y\\s+(?<y2>[\\d]+)\\s*"),
+
+    USE_BATTERING_TO_ATTACK("attack\\s+with\\s+battering\\s+-x\\s+(?<x>[\\d]+)\\s+-y\\s+(?<y>[\\d]+)\\s*"),
+
+    MOVE_CATAPULT("move\\s+catapult\\s+in\\s+-x\\s+(?<x1>[\\d]+)\\s+\\s+-y\\s+(?<y1>[\\d]+)\\s+to\\s+-x\\s+(?<x2>[\\d]+)\\s+-y\\s+(?<y2>[\\d]+)\\s*"),
+
+    USE_CATAPULT_TO_ATTACK("attack\\s+with\\s+catapult\\s+-x1\\s+(?<x1>[\\d]+)\\s+-y\\s+(?<y1>[\\d]+)\\s+\\-x\\s+(<x2>[\\d]+)\\s+-y\\s+(?<y2>[\\d]+)\\s*"),
+
+    USE_FIXED_CATAPULT_TO_ATTACK("attack\\s+with\\s+fixed\\s+catapult\\s+-x1\\s+(?<x1>[\\d]+)\\s+-y\\s+(?<y1>[\\d]+)\\s+\\-x\\s+(<x2>[\\d]+)\\s+-y\\s+(?<y2>[\\d]+)\\s*"),
+
+    MOVE_FIERY_STONE_THROWER("move\\s+fiery\\s+stone\\s+in\\s+-x\\s+(?<x1>[\\d]+)\\s+\\s+-y\\s+(?<y1>[\\d]+)\\s+to\\s+-x\\s+(?<x2>[\\d]+)\\s+-y\\s+(?<y2>[\\d]+)\\s*"),
+
+    USE_FIERY_STONE_TO_ATTACK("attack\\s+with\\s+battering\\s+-x\\s+(?<x>[\\d]+)\\s+-y\\s+(?<y>[\\d]+)\\s*"),
+
+    ATTACK_TO_BUILDING("attack\\s+to\\s+building\\s+-x\\s+(?<x>[\\d]+)\\s+-y\\s+(?<y>[\\d]+)\\s*"),
+
     NEXT_TURN("next\\s+turn");
 
 

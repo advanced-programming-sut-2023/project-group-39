@@ -7,6 +7,10 @@ import model.government.resource.Resource;
 import model.map.rock.Rock;
 import model.map.tree.Tree;
 import model.map.type.Type;
+import model.wartool.BatteringRam;
+import model.wartool.CataPult;
+import model.wartool.FieryStoneThrower;
+import model.wartool.FixedCatapult;
 
 import java.util.ArrayList;
 
@@ -29,6 +33,14 @@ public class Tile {
 
     private boolean hasOilTale;
 
+    private ArrayList<CataPult> cataPults=new ArrayList<>();
+
+    private ArrayList<BatteringRam> batteringRams=new ArrayList<>();
+
+    private ArrayList<FixedCatapult> fixedCatapults=new ArrayList<>();
+
+    private ArrayList<FieryStoneThrower> fieryStoneThrowers=new ArrayList<>();
+
     public boolean isHasTunnel() {
         return hasTunnel;
     }
@@ -37,6 +49,10 @@ public class Tile {
         this.type = Type.GROUND;
         peopleOnTile = new ArrayList<>();
         this.hasTunnel=false;
+        cataPults=new ArrayList<>();
+        batteringRams=new ArrayList<>();
+        fieryStoneThrowers=new ArrayList<>();
+        fixedCatapults=new ArrayList<>();
     }
 
     public Type getType() {
@@ -127,5 +143,21 @@ public class Tile {
 
     public boolean isHasOilTale() {
         return hasOilTale;
+    }
+
+    public ArrayList<CataPult> getCataPults() {
+        return cataPults;
+    }
+
+    public ArrayList<BatteringRam> getBatteringRams() {
+        return batteringRams;
+    }
+
+    public ArrayList<FixedCatapult> getFixedCatapults() {
+        return fixedCatapults;
+    }
+
+    public ArrayList<FieryStoneThrower> getFieryStoneThrowers() {
+        return fieryStoneThrowers;
     }
 }

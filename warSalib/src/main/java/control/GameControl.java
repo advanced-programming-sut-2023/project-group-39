@@ -8,6 +8,7 @@ import model.government.people.units.*;
 import model.government.people.workingpersons.JobsName;
 import model.government.resource.Resource;
 import model.map.Tile;
+import model.user.User;
 import model.wartool.*;
 import view.enums.messages.GameMenuMessage;
 
@@ -20,7 +21,9 @@ public class GameControl {
     private static int counterTurn = 0;
 
 
-    public static ArrayList<Units> currentUnits;
+    public static ArrayList<Units> currentUnits = new ArrayList<>();
+
+    private static ArrayList<People> deathPersons = new ArrayList<>();
 
     public static GameMenuMessage selectUnit(int x, int y, String name) {
         if (x >= 200 || y >= 200 || x < 0 || y < 0) {
@@ -274,22 +277,22 @@ public class GameControl {
             if ((((Archers) currentUnits.get(0)).getArrowRadius() / 20) < dis) {
                 return GameMenuMessage.PROBLEM;
             } else {
-                if ((((Archers) currentUnits.get(0)).getInventories().size() < 1||Game.getTurnedUserForGame().getUserGovernment().numberOfResource(((Archers) currentUnits.get(0)).getWartool())<currentUnits.size())) {
+                if ((((Archers) currentUnits.get(0)).getInventories().size() < 1 || Game.getTurnedUserForGame().getUserGovernment().numberOfResource(((Archers) currentUnits.get(0)).getWartool()) < currentUnits.size())) {
                     return GameMenuMessage.NOTENOUGHRESOURCE;
                 }
                 Tile tile = Game.getMapInGame().getMap()[x][y];
                 for (People people : tile.getPeopleOnTile()) {
                     if (people instanceof Units && !people.getOwnerPerson().equals(currentUnits.get(0).getOwnerPerson())) {
-                        double efficiently = ((Archers) currentUnits.get(0)).getFatality() * ((Archers) currentUnits.get(0)).getPrecision() / 100;
+                        int efficiently = ((Archers) currentUnits.get(0)).getFatality() * ((Archers) currentUnits.get(0)).getPrecision() / 100;
                         int eff = (int) efficiently;
                         ((Units) people).changeHitPoint(-1 * eff);
                         for (Units units : currentUnits) {
-                                if(units instanceof Archers){
-                                    Resource resource=((Archers) units).getInventories().get(0);
-                                    ((Archers) units).getInventories().remove(resource);
-                                    Game.getTurnedUserForGame().getUserGovernment().removeFromResources(resource,1);
+                            if (units instanceof Archers) {
+                                Resource resource = ((Archers) units).getInventories().get(0);
+                                ((Archers) units).getInventories().remove(resource);
+                                Game.getTurnedUserForGame().getUserGovernment().removeFromResources(resource, 1);
 
-                                }
+                            }
                         }
 
 
@@ -504,11 +507,11 @@ public class GameControl {
         for (int x = 0; x < 200; x++) {
             for (int y = 0; y < 200; y++) {
                 Building building = Game.getMapInGame().getMap()[x][y].getBuilding();
-                if (building instanceof Gatehouse && building.getGovernment().getUser() !=  Game.getTurnedUserForGame()) {
+                if (building instanceof Gatehouse && building.getGovernment().getUser() != Game.getTurnedUserForGame()) {
                     getNeighbors(x, y, neighbors);
                     for (Tile tile : neighbors) {
                         Building building1 = tile.getBuilding();
-                        if (building1 instanceof Tower && building1.getGovernment().getUser() ==  Game.getTurnedUserForGame()) {
+                        if (building1 instanceof Tower && building1.getGovernment().getUser() == Game.getTurnedUserForGame()) {
                             ((Gatehouse) building).setOpenGate(true);
                             ((Gatehouse) building).setHasFlag(true);
                             return GameMenuMessage.SUCCESS;
@@ -538,9 +541,9 @@ public class GameControl {
             }
             return GameMenuMessage.INVALIDUNIT;
         }
-        for (Engineer engineer :  Game.getTurnedUserForGame().getUserGovernment().getEngineers()) {
+        for (Engineer engineer : Game.getTurnedUserForGame().getUserGovernment().getEngineers()) {
             if (!engineer.isHasWork()) {
-                if ( Game.getTurnedUserForGame().getUserGovernment().numberOfResource(Resource.IRON) >= 2) {
+                if (Game.getTurnedUserForGame().getUserGovernment().numberOfResource(Resource.IRON) >= 2) {
                     engineer.setHasWork(true);
                     combat.setPortableProtection(wartoolenum.PORTABLE_PROTECTION);
                 } else {
@@ -557,7 +560,7 @@ public class GameControl {
             return GameMenuMessage.WRONG_AMOUNT;
         int counterUnemployed = 0;
         ArrayList<Engineer> engineersToMakeBatteringRam = new ArrayList<>();
-        for (Engineer engineer :  Game.getTurnedUserForGame().getUserGovernment().getEngineers()) {
+        for (Engineer engineer : Game.getTurnedUserForGame().getUserGovernment().getEngineers()) {
             if (!engineer.isHasWork()) {
                 counterUnemployed++;
                 engineersToMakeBatteringRam.add(engineer);
@@ -565,12 +568,14 @@ public class GameControl {
         }
         if (counterUnemployed < 4)
             return GameMenuMessage.PROBLEM;
-        if (( Game.getTurnedUserForGame().getUserGovernment().numberOfResource(Resource.STONE)) < 10)
+        if ((Game.getTurnedUserForGame().getUserGovernment().numberOfResource(Resource.STONE)) < 10)
             return GameMenuMessage.NOTENOUGHRESOURCE;
         for (Engineer engineer : engineersToMakeBatteringRam) {
             engineer.setHasWork(true);
         }
-        BatteringRam batteringRam = new BatteringRam( Game.getTurnedUserForGame().getUserGovernment(), x, y);
+        BatteringRam batteringRam = new BatteringRam(Game.getTurnedUserForGame().getUserGovernment(), x, y);
+        batteringRam.setUser(Game.getTurnedUserForGame());
+        Game.getMapInGame().getMap()[x][y].getBatteringRams().add(batteringRam);
         return GameMenuMessage.SUCCESS;
 
 
@@ -580,10 +585,10 @@ public class GameControl {
         if (!invalidLocation(x, y))
             return GameMenuMessage.WRONG_AMOUNT;
         ArrayList<Engineer> unEmployedEngineers = new ArrayList<>();
-        unEmployedEngineers(unEmployedEngineers,  Game.getTurnedUserForGame().getUserGovernment());
+        unEmployedEngineers(unEmployedEngineers, Game.getTurnedUserForGame().getUserGovernment());
         if (unEmployedEngineers.size() < 2)
             return GameMenuMessage.PROBLEM;
-        if ( Game.getTurnedUserForGame().getUserGovernment().numberOfResource(Resource.STONE) < 10)
+        if (Game.getTurnedUserForGame().getUserGovernment().numberOfResource(Resource.STONE) < 10)
             return GameMenuMessage.NOTENOUGHRESOURCE;
         int counter = 0;
         for (Engineer engineer : unEmployedEngineers) {
@@ -594,7 +599,9 @@ public class GameControl {
             ;
 
         }
-        CataPult cataPult = new CataPult(x, y);
+        CataPult cataPult = new CataPult(x, y, Game.getTurnedUserForGame());
+        Tile tile = Game.getMapInGame().getMap()[x][y];
+        tile.getCataPults().add(cataPult);
         return GameMenuMessage.SUCCESS;
 
     }
@@ -603,10 +610,10 @@ public class GameControl {
         if (!invalidLocation(x, y))
             return GameMenuMessage.WRONG_AMOUNT;
         ArrayList<Engineer> unEmployedEngineers = new ArrayList<>();
-        unEmployedEngineers(unEmployedEngineers,  Game.getTurnedUserForGame().getUserGovernment());
+        unEmployedEngineers(unEmployedEngineers, Game.getTurnedUserForGame().getUserGovernment());
         if (unEmployedEngineers.size() < 3)
             return GameMenuMessage.PROBLEM;
-        if ( Game.getTurnedUserForGame().getUserGovernment().numberOfResource(Resource.STONE) < 20)
+        if (Game.getTurnedUserForGame().getUserGovernment().numberOfResource(Resource.STONE) < 20)
             return GameMenuMessage.NOTENOUGHRESOURCE;
         int counter = 0;
         for (Engineer engineer : unEmployedEngineers) {
@@ -617,6 +624,8 @@ public class GameControl {
 
         }
         FixedCatapult fixedCatapult = new FixedCatapult(x, y);
+        fixedCatapult.setUser(Game.getTurnedUserForGame());
+        Game.getMapInGame().getMap()[x][y].getFixedCatapults().add(fixedCatapult);
         return GameMenuMessage.SUCCESS;
 
     }
@@ -630,8 +639,18 @@ public class GameControl {
     }
 
     private static void fight(Units unit1, Units unit2) {
-        float unit1ChangeHitPoint = unit2.getUnitsName().getAttackingPower() * unit2.getEfficientAttackingPower() / 500;
-        float unit2ChangeHitPoint = unit1.getUnitsName().getAttackingPower() * unit1.getEfficientAttackingPower() / 500;
+        int unit1ChangeHitPoint = unit2.getUnitsName().getAttackingPower() * unit2.getEfficientAttackingPower() / 500;
+        int unit2ChangeHitPoint = unit1.getUnitsName().getAttackingPower() * unit1.getEfficientAttackingPower() / 500;
+        if (unit1 instanceof Combat) {
+            if (((Combat) unit1).getPortableProtection() != null) {
+                unit1ChangeHitPoint = (unit1ChangeHitPoint * 7) / 10;
+            }
+        }
+        if (unit2 instanceof Combat) {
+            if (((Combat) unit2).getPortableProtection() != null) {
+                unit2ChangeHitPoint = (unit2ChangeHitPoint * 7) / 10;
+            }
+        }
 
         unit1.changeHitPoint((int) (Math.floor(-1 * unit1ChangeHitPoint * (100 - unit1.getUnitsName().getDefensingPower())) / 100));
         unit2.changeHitPoint((int) (Math.floor(-1 * unit2ChangeHitPoint * (100 - unit2.getUnitsName().getDefensingPower())) / 100));
@@ -643,7 +662,7 @@ public class GameControl {
         ArrayList<Units> deathUnits = new ArrayList<>();
         for (Units unit : currentUnits) {
             for (People enemyUnit : tile.getPeopleOnTile()) {
-                if (enemyUnit instanceof Units && !enemyUnit.getOwnerPerson().equals( Game.getTurnedUserForGame())) {
+                if (enemyUnit instanceof Units && !enemyUnit.getOwnerPerson().equals(Game.getTurnedUserForGame())) {
                     fight(unit, (Units) enemyUnit);
                     if (unit.getHitPoint() < 0) {
                         deathUnits.add(unit);
@@ -657,6 +676,16 @@ public class GameControl {
         }
         for (Units deathUnit : deathUnits) {
             deathUnit.getOwnerPerson().getUserGovernment().getPeople().remove(deathUnit);
+            for (int i = 0; i < 200; i++) {
+                for (int j = 0; j < 200; j++) {
+                    Tile tile1 = Game.getMapInGame().getMap()[i][j];
+                    for (People people : tile1.getPeopleOnTile()) {
+                        if (deathUnit.equals(people))
+                            tile1.getPeopleOnTile().remove(people);
+
+                    }
+                }
+            }
             System.out.println("Unit " + deathUnit.getUnitsName().getName() + "for owner: " + deathUnit.getOwnerPerson().getUsername() + " died");
         }
     }
@@ -683,7 +712,7 @@ public class GameControl {
             return GameMenuMessage.WRONG_AMOUNT;
         int unEmployedEngineers = 0;
         ArrayList<Engineer> engineersToSiegeTower = new ArrayList<>();
-        for (Engineer engineer :  Game.getTurnedUserForGame().getUserGovernment().getEngineers()) {
+        for (Engineer engineer : Game.getTurnedUserForGame().getUserGovernment().getEngineers()) {
             if (!engineer.isHasWork()) {
                 unEmployedEngineers++;
                 engineersToSiegeTower.add(engineer);
@@ -691,7 +720,7 @@ public class GameControl {
         }
         if (unEmployedEngineers < 4)
             return GameMenuMessage.PROBLEM;
-        if (( Game.getTurnedUserForGame().getUserGovernment().numberOfResource(Resource.STONE)) < 30)
+        if ((Game.getTurnedUserForGame().getUserGovernment().numberOfResource(Resource.STONE)) < 30)
             return GameMenuMessage.NOTENOUGHRESOURCE;
         for (Engineer engineer : engineersToSiegeTower) {
             engineer.setHasWork(true);
@@ -718,7 +747,7 @@ public class GameControl {
             return GameMenuMessage.WRONG_AMOUNT;
         int unEmployedEngineers = 0;
         ArrayList<Engineer> engineersToFieryStone = new ArrayList<>();
-        for (Engineer engineer :  Game.getTurnedUserForGame().getUserGovernment().getEngineers()) {
+        for (Engineer engineer : Game.getTurnedUserForGame().getUserGovernment().getEngineers()) {
             if (!engineer.isHasWork()) {
                 unEmployedEngineers++;
                 engineersToFieryStone.add(engineer);
@@ -726,7 +755,7 @@ public class GameControl {
         }
         if (unEmployedEngineers < 4)
             return GameMenuMessage.PROBLEM;
-        if (( Game.getTurnedUserForGame().getUserGovernment().numberOfResource(Resource.STONE)) < 25)
+        if ((Game.getTurnedUserForGame().getUserGovernment().numberOfResource(Resource.STONE)) < 25)
             return GameMenuMessage.NOTENOUGHRESOURCE;
         for (Engineer engineer : engineersToFieryStone) {
             engineer.setHasWork(true);
@@ -739,15 +768,46 @@ public class GameControl {
 
     public static GameMenuMessage nextTurn() {//TODO should be completed !!!!a lot of work we have to do!
         changeFoodsInventory();
-        if (Game.getPlayers().indexOf( Game.getTurnedUserForGame()) == Game.getPlayers().size() - 1) {
+        if (Game.getPlayers().indexOf(Game.getTurnedUserForGame()) == Game.getPlayers().size() - 1) {
             counterTurn++;
             Game.setTurnedUserForGame(Game.getGameStarter());
+            for (User user : Game.getPlayersInGame()) {
+                for (People people : user.getUserGovernment().getPeople()) {
+                    if (people instanceof Units) {
+                        if (people.getToGoX() != people.getxLocation() || people.getToGoY() != people.getyLocation()) {
+                            SpecialMoveUnit((Units) people, people.getToGoX(), people.getToGoY());
+                        }
+                    }
+                }
+            }
+
+            for (User user : Game.getPlayersInGame()) {
+
+                for (People people : user.getUserGovernment().getPeople()) {
+                    if (people instanceof Units) {
+                        if (((Units) people).getPatrolToX() != -1 || ((Units) people).getPatrolToY() != -1) {
+                            SpecialMoveUnit((Units) people, ((Units) people).getPatrolToX(), ((Units) people).getPatrolToY());
+                            if (people.getxLocation() == ((Units) people).getPatrolToX() && people.getyLocation() == ((Units) people).getPatrolToY()) {
+                                ((Units) people).setPatrolToX(((Units) people).getPatrolFromX());
+                                ((Units) people).setPatrolToY(((Units) people).getPatrolFromY());
+                            }
+                        }
+
+
+                    }
+                }
+            }
+
             for (int i = 0; i < 200; i++) {
                 for (int j = 0; j < 200; j++) {
-                    for (People people : Game.getMapInGame().getMap()[i][j].getPeopleOnTile()) {
-                        if (people instanceof Units) {
-                            if (people.getToGoX() != people.getxLocation() || people.getToGoY() != people.getyLocation()) {
-                                SpecialMoveUnit((Units) people, people.getToGoX(), people.getToGoY());
+                    for (int k = 0; k < Game.getMapInGame().getMap()[i][j].getPeopleOnTile().size(); k++) {
+                        for (int u = k + 1; u < Game.getMapInGame().getMap()[i][j].getPeopleOnTile().size(); u++) {
+                            if (Game.getMapInGame().getMap()[i][j].getPeopleOnTile().get(k) instanceof Units && Game.getMapInGame().getMap()[i][j].getPeopleOnTile().get(u) instanceof Units) {
+                                if (!Game.getMapInGame().getMap()[i][j].getPeopleOnTile().get(k).getOwnerPerson().equals(Game.getMapInGame().getMap()[i][j].getPeopleOnTile().get(u).getOwnerPerson())) {
+                                    Units units1 = (Units) Game.getMapInGame().getMap()[i][j].getPeopleOnTile().get(k);
+                                    Units units2 = (Units) Game.getMapInGame().getMap()[i][j].getPeopleOnTile().get(u);
+                                    fight(units1, units2);
+                                }
                             }
                         }
                     }
@@ -755,27 +815,92 @@ public class GameControl {
             }
             for (int i = 0; i < 200; i++) {
                 for (int j = 0; j < 200; j++) {
-                    for (People people : Game.getMapInGame().getMap()[i][j].getPeopleOnTile()) {
+                    Tile tile = Game.getMapInGame().getMap()[i][j];
+                    for (People people : tile.getPeopleOnTile()) {
                         if (people instanceof Units) {
-                            if (((Units) people).getPatrolToX() != -1 || ((Units) people).getPatrolToY() != -1) {
-                                SpecialMoveUnit((Units) people, ((Units) people).getPatrolToX(), ((Units) people).getPatrolToY());
-                                if (people.getxLocation() == ((Units) people).getPatrolToX() && people.getyLocation() == ((Units) people).getPatrolToY()) {
-                                    ((Units) people).setPatrolToX(((Units) people).getPatrolFromX());
-                                    ((Units) people).setPatrolToY(((Units) people).getPatrolFromY());
-                                }
-                            }
-
+                            if (((Units) people).getHitPoint() <= 0)
+                                deathPersons.add(people);
 
                         }
                     }
                 }
+            }
+            standingBehavior();
+            deffensiveBehavior();
+            for (People people : deathPersons) {
+                if (people instanceof Units) {
+                    people.getOwnerPerson().getUserGovernment().getPeople().remove(people);
+                    Game.getMapInGame().getMap()[people.getxLocation()][people.getyLocation()].getPeopleOnTile().remove(people);
+
+                }
+
+            }
+            if (deathPersons != null) {
+                deathPersons.clear();
             }
             return GameMenuMessage.NEXT_TURN;
         } else {
             Game.setTurnedUserForGame(Game.getPlayers().get(Game.getPlayers().indexOf(Game.getTurnedUserForGame()) + 1));
-            currentUnits.clear();
+            if (currentUnits != null) {
+                currentUnits.clear();
+            }
             return GameMenuMessage.NEXT_PLAYER;
         }
+    }
+
+    private static void deffensiveBehavior() {
+        for (User user : Game.getPlayersInGame()) {
+            for (People people : user.getUserGovernment().getPeople()) {
+                if (people instanceof Units) {
+                    if (((Units) people).getState().equals(State.DEFENSIVE)) {
+                        int x1=people.getxLocation();
+                        int y1=people.getyLocation();
+                        if(x1+1<200){
+                            Tile tile=Game.getMapInGame().getMap()[x1+1][y1];
+                            people.setxLocation(x1+1);
+                            people.setyLocation(y1);
+                            for (People people1:tile.getPeopleOnTile()){
+                                if(!people1.getOwnerPerson().equals(people.getOwnerPerson())) {
+                                    Units unit1= (Units) people;
+                                    Units unit2= (Units) people1;
+                                    fight(unit1,unit2);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+    private static void standingBehavior() {
+        for (User user : Game.getPlayersInGame()) {
+            for (People people : user.getUserGovernment().getPeople()) {
+                if (people instanceof Archers) {
+                    if (((Archers) people).getState().equals(State.STANDING)) {
+                        for (int i=0;i<200;i++){
+                            for (int j=0;j<200;j++){
+                                if(distance(people.getxLocation(),people.getyLocation(),i,j)<((Archers) people).getArrowRadius()/5){
+                                    Tile tile=Game.getMapInGame().getMap()[i][j];
+                                    for (People people1:tile.getPeopleOnTile()){
+                                        if(people1 instanceof Units&&!people1.getOwnerPerson().equals(people.getOwnerPerson())){
+                                            ((Units) people1).changeHitPoint(-1*((Archers) people).getFatality()/10);
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    private static int distance(int x1,int y1,int x2,int y2){
+        double dis=Math.pow(x2-x1,x2-x1)+Math.pow(y2-y1,y2-y1);
+        int distance=(int)Math.sqrt(dis);
+        return distance;
     }
 
     private static void addPeopleToGovernment() {
@@ -785,49 +910,46 @@ public class GameControl {
             counter += government.getFoods().get(resource);
         }
         int numberOfPeople = counter / 5;
-        for (int i = 0 ; i<numberOfPeople; i++) {
-            People people = new People(government.getXLeft() + 10, government.getYDown()+10,
-                    JobsName.UNEMPLOYED,government.getUser());
+        for (int i = 0; i < numberOfPeople; i++) {
+            People people = new People(government.getXLeft() + 10, government.getYDown() + 10,
+                    JobsName.UNEMPLOYED, government.getUser());
             government.addToPeople(people);
             government.addToUnworkedPeople(people);
         }
     }
+
     private static void changeFoodsInventory() {
-        Government government=Game.getTurnedUserForGame().getUserGovernment();
-        if(government.getFoodRate()==-2){
-        }
-        else if(government.getFoodRate()==-1){
-            for (Resource resource:government.getFoods().keySet()){
-                government.getFoods().put(resource, (int) (government.getFoods().get(resource) - Math.floor(0.5*government.getPopulation())));
-                if(government.getFoods().get(resource)<=0){
+        Government government = Game.getTurnedUserForGame().getUserGovernment();
+        if (government.getFoodRate() == -2) {
+        } else if (government.getFoodRate() == -1) {
+            for (Resource resource : government.getFoods().keySet()) {
+                government.getFoods().put(resource, (int) (government.getFoods().get(resource) - Math.floor(0.5 * government.getPopulation())));
+                if (government.getFoods().get(resource) <= 0) {
                     government.removeFromFoods(resource);
 
                 }
             }
-        }
-        else if(government.getFoodRate()==0){
-            for (Resource resource:government.getFoods().keySet()){
+        } else if (government.getFoodRate() == 0) {
+            for (Resource resource : government.getFoods().keySet()) {
                 government.getFoods().put(resource, (int) (government.getFoods().get(resource) - Math.floor(government.getPopulation())));
-                if(government.getFoods().get(resource)<=0){
+                if (government.getFoods().get(resource) <= 0) {
                     government.removeFromFoods(resource);
 
                 }
             }
-        }
-        else if(government.getFoodRate()==1){
-            for (Resource resource:government.getFoods().keySet()){
-                government.getFoods().put(resource, (int) (government.getFoods().get(resource) - Math.floor(1.5*government.getPopulation())));
-                if(government.getFoods().get(resource)<=0){
+        } else if (government.getFoodRate() == 1) {
+            for (Resource resource : government.getFoods().keySet()) {
+                government.getFoods().put(resource, (int) (government.getFoods().get(resource) - Math.floor(1.5 * government.getPopulation())));
+                if (government.getFoods().get(resource) <= 0) {
                     government.removeFromFoods(resource);
 
                 }
             }
 
-        }
-        else if(government.getFoodRate()==2){
-            for (Resource resource:government.getFoods().keySet()){
-                government.getFoods().put(resource, (int) (government.getFoods().get(resource) - Math.floor(2*government.getPopulation())));
-                if(government.getFoods().get(resource)<=0){
+        } else if (government.getFoodRate() == 2) {
+            for (Resource resource : government.getFoods().keySet()) {
+                government.getFoods().put(resource, (int) (government.getFoods().get(resource) - Math.floor(2 * government.getPopulation())));
+                if (government.getFoods().get(resource) <= 0) {
                     government.removeFromFoods(resource);
 
                 }
@@ -836,4 +958,277 @@ public class GameControl {
 
     }
 
+    public static GameMenuMessage moveBattering(int previousX, int previousY, int moveToX, int moveToY) {
+        BatteringRam Battering = null;
+        Tile tile = Game.getMapInGame().getMap()[previousX][previousY];
+        if (!invalidLocation(moveToX, moveToY))
+            return GameMenuMessage.WRONG_AMOUNT;
+        for (BatteringRam battering : tile.getBatteringRams()) {
+            if (battering.getUser().equals(Game.getTurnedUserForGame())) {
+                Battering = battering;
+                break;
+            }
+        }
+        if (Battering == null) {
+            return GameMenuMessage.PROBLEM;
+        }
+        float distance = (float) (Math.sqrt(moveToX - previousX) + Math.sqrt(moveToY - previousY));
+        int dis = (int) distance;
+        if (dis > currentUnits.get(0).getUnitsName().getSpeed() / 20)
+            return GameMenuMessage.BIGGERTHANSPEED;
+        moveUnit(moveToX, moveToY);
+        Battering.setX(moveToX);
+        Battering.setY(moveToY);
+        return GameMenuMessage.SUCCESS;
+    }
+
+    public static GameMenuMessage useBatteringToAttack(int x, int y) {
+        BatteringRam battering = null;
+        if (!invalidLocation(x, y))
+            return GameMenuMessage.WRONG_AMOUNT;
+        Tile tile = Game.getMapInGame().getMap()[x][y];
+        for (BatteringRam batteringRam : tile.getBatteringRams()) {
+            if (batteringRam.getUser().equals(Game.getTurnedUserForGame())) {
+                battering = batteringRam;
+            }
+        }
+        if (battering == null)
+            return GameMenuMessage.PROBLEM;
+        Building building = null;
+        if (!tile.getBuilding().getGovernment().equals(Game.getTurnedUserForGame().getUserGovernment())) {
+            building = tile.getBuilding();
+        }
+        if (building == null)
+            return GameMenuMessage.PROBLEM;
+        building.ChangeHitPoint(-150);
+        if (tile.getBuilding().getHp() <= 0) {
+            tile.setBuilding(null);
+            Game.getTurnedUserForGame().getUserGovernment().getBuildings().remove(building);
+        }
+        return GameMenuMessage.SUCCESS;
+
+    }
+
+    public static GameMenuMessage moveCatapult(int previousX, int previousY, int moveToX, int moveToY) {
+        CataPult CATAPULT = null;
+        Tile tile = Game.getMapInGame().getMap()[previousX][previousY];
+        if (!invalidLocation(moveToX, moveToY))
+            return GameMenuMessage.WRONG_AMOUNT;
+        for (CataPult cataPult : tile.getCataPults()) {
+            if (cataPult.getUser().equals(Game.getTurnedUserForGame())) {
+                CATAPULT = cataPult;
+                break;
+            }
+        }
+        if (CATAPULT == null) {
+            return GameMenuMessage.PROBLEM;
+        }
+        float distance = (float) (Math.sqrt(moveToX - previousX) + Math.sqrt(moveToY - previousY));
+        int dis = (int) distance;
+        if (dis > currentUnits.get(0).getUnitsName().getSpeed() / 20)
+            return GameMenuMessage.BIGGERTHANSPEED;
+        moveUnit(moveToX, moveToY);
+        CATAPULT.setX(moveToX);
+        CATAPULT.setY(moveToY);
+        return GameMenuMessage.SUCCESS;
+
+    }
+
+    public static GameMenuMessage attackWithCatapult(int previousX, int previousY, int moveToX, int moveToY) {
+        ArrayList<People> toDeath = new ArrayList<>();
+        if (!invalidLocation(moveToX, moveToY))
+            return GameMenuMessage.WRONG_AMOUNT;
+        CataPult CATAPULT = null;
+        Tile tile = Game.getMapInGame().getMap()[moveToX][moveToY];
+        for (CataPult cataPult : tile.getCataPults()) {
+            if (cataPult.getUser().equals(Game.getTurnedUserForGame())) {
+                CATAPULT = cataPult;
+                break;
+            }
+        }
+        if (CATAPULT == null)
+            return GameMenuMessage.PROBLEM;
+        float distance = (float) (Math.sqrt(moveToX - previousX) + Math.sqrt(moveToY - previousY));
+        int dis = (int) distance;
+        if (dis > CATAPULT.getBoard() / 5) {
+            return GameMenuMessage.OUT_OF_BOARD;
+        }
+        if (Game.getTurnedUserForGame().getUserGovernment().numberOfResource(Resource.STONE) < 5)
+            return GameMenuMessage.NOTENOUGHRESOURCE;
+        for (People people : tile.getPeopleOnTile()) {
+            if (people instanceof Units && !people.getOwnerPerson().equals(Game.getTurnedUserForGame())) {
+                ((Units) people).changeHitPoint(-80);
+            }
+        }
+        if (!tile.getBuilding().getGovernment().equals(Game.getTurnedUserForGame().getUserGovernment())) {
+            tile.getBuilding().ChangeHitPoint(-80);
+        }
+        Game.getTurnedUserForGame().getUserGovernment().removeFromResources(Resource.STONE, 5);
+        for (People people : tile.getPeopleOnTile()) {
+            if (people instanceof Units) {
+                if (((Units) people).getHitPoint() <= 0)
+                    toDeath.add(people);
+            }
+        }
+        for (People people : toDeath) {
+            tile.getPeopleOnTile().remove(people);
+            people.getOwnerPerson().getUserGovernment().getPeople().remove(people);
+        }
+        return GameMenuMessage.SUCCESS;
+    }
+
+    public static GameMenuMessage attackWithFixedCatapult(int previousX, int previousY, int moveToX, int moveToY) {
+        ArrayList<People> toDeath = new ArrayList<>();
+        if (!invalidLocation(moveToX, moveToY))
+            return GameMenuMessage.WRONG_AMOUNT;
+        FixedCatapult FIXEDCATAPULT = null;
+        Tile tile = Game.getMapInGame().getMap()[moveToX][moveToY];
+        for (FixedCatapult fixedCatapult : tile.getFixedCatapults()) {
+            if (fixedCatapult.getUser().equals(Game.getTurnedUserForGame())) {
+                FIXEDCATAPULT = fixedCatapult;
+                break;
+            }
+        }
+        if (FIXEDCATAPULT == null)
+            return GameMenuMessage.PROBLEM;
+        float distance = (float) (Math.sqrt(moveToX - previousX) + Math.sqrt(moveToY - previousY));
+        int dis = (int) distance;
+        if (dis > FIXEDCATAPULT.getBoard() / 5) {
+            return GameMenuMessage.OUT_OF_BOARD;
+        }
+        if (Game.getTurnedUserForGame().getUserGovernment().numberOfResource(Resource.STONE) < 8)
+            return GameMenuMessage.NOTENOUGHRESOURCE;
+        for (People people : tile.getPeopleOnTile()) {
+            if (people instanceof Units && !people.getOwnerPerson().equals(Game.getTurnedUserForGame())) {
+                ((Units) people).changeHitPoint(-140);
+            }
+        }
+        if (!tile.getBuilding().getGovernment().equals(Game.getTurnedUserForGame().getUserGovernment())) {
+            tile.getBuilding().ChangeHitPoint(-140);
+        }
+        Game.getTurnedUserForGame().getUserGovernment().removeFromResources(Resource.STONE, 8);
+        for (People people : tile.getPeopleOnTile()) {
+            if (people instanceof Units) {
+                if (((Units) people).getHitPoint() <= 0)
+                    toDeath.add(people);
+            }
+        }
+        for (People people : toDeath) {
+            tile.getPeopleOnTile().remove(people);
+            people.getOwnerPerson().getUserGovernment().getPeople().remove(people);
+        }
+        return GameMenuMessage.SUCCESS;
+    }
+
+    public static GameMenuMessage moveFieryStoneThrower(int previousX, int previousY, int moveToX, int moveToY) {
+        FieryStoneThrower FieryStoneThrower = null;
+        Tile tile = Game.getMapInGame().getMap()[previousX][previousY];
+        if (!invalidLocation(moveToX, moveToY))
+            return GameMenuMessage.WRONG_AMOUNT;
+        for (FieryStoneThrower fieryStoneThrower : tile.getFieryStoneThrowers()) {
+            if (fieryStoneThrower.getGovernment().getUser().equals(Game.getTurnedUserForGame())) {
+                FieryStoneThrower = fieryStoneThrower;
+                break;
+            }
+        }
+        if (FieryStoneThrower == null) {
+            return GameMenuMessage.PROBLEM;
+        }
+        float distance = (float) (Math.sqrt(moveToX - previousX) + Math.sqrt(moveToY - previousY));
+        int dis = (int) distance;
+        if (dis > currentUnits.get(0).getUnitsName().getSpeed() / 20)
+            return GameMenuMessage.BIGGERTHANSPEED;
+        moveUnit(moveToX, moveToY);
+        FieryStoneThrower.setX(moveToX);
+        FieryStoneThrower.setY(moveToY);
+        return GameMenuMessage.SUCCESS;
+    }
+
+    public static GameMenuMessage attackWithFieryStone(int previousX, int previousY, int moveToX, int moveToY) {
+        ArrayList<People> toDeath = new ArrayList<>();
+        if (!invalidLocation(moveToX, moveToY))
+            return GameMenuMessage.WRONG_AMOUNT;
+        FieryStoneThrower FieryStoneThrower = null;
+        Tile tile = Game.getMapInGame().getMap()[moveToX][moveToY];
+        for (FieryStoneThrower fieryStoneThrower : tile.getFieryStoneThrowers()) {
+            if (fieryStoneThrower.getGovernment().getUser().equals(Game.getTurnedUserForGame())) {
+                FieryStoneThrower = fieryStoneThrower;
+                break;
+            }
+        }
+        if (FieryStoneThrower == null)
+            return GameMenuMessage.PROBLEM;
+        float distance = (float) (Math.sqrt(moveToX - previousX) + Math.sqrt(moveToY - previousY));
+        int dis = (int) distance;
+        if (dis > FieryStoneThrower.getBoard() / 5) {
+            return GameMenuMessage.OUT_OF_BOARD;
+        }
+        if (Game.getTurnedUserForGame().getUserGovernment().numberOfResource(Resource.STONE) < 8)
+            return GameMenuMessage.NOTENOUGHRESOURCE;
+        for (People people : tile.getPeopleOnTile()) {
+            if (people instanceof Units && !people.getOwnerPerson().equals(Game.getTurnedUserForGame())) {
+                ((Units) people).changeHitPoint(-120);
+            }
+        }
+        if (!tile.getBuilding().getGovernment().equals(Game.getTurnedUserForGame().getUserGovernment())) {
+            tile.getBuilding().ChangeHitPoint(-120);
+        }
+        Game.getTurnedUserForGame().getUserGovernment().removeFromResources(Resource.STONE, 8);
+        for (People people : tile.getPeopleOnTile()) {
+            if (people instanceof Units) {
+                if (((Units) people).getHitPoint() <= 0)
+                    toDeath.add(people);
+            }
+        }
+        for (People people : toDeath) {
+            tile.getPeopleOnTile().remove(people);
+            people.getOwnerPerson().getUserGovernment().getPeople().remove(people);
+        }
+        return GameMenuMessage.SUCCESS;
+    }
+
+    public static GameMenuMessage attackToBuilding(int x, int y) {
+        if (!invalidLocation(x, y))
+            return GameMenuMessage.WRONG_AMOUNT;
+        Tile tile = Game.getMapInGame().getMap()[x][y];
+        if (currentUnits.get(0) instanceof Archers) {
+
+        } else {
+            return GameMenuMessage.INVALIDUNIT;
+        }
+        float distance = (float) (Math.sqrt(x - currentUnits.get(0).getxLocation()) + Math.sqrt(y - currentUnits.get(0).getyLocation()));
+        int dis = (int) distance;
+        if (currentUnits.get(0) instanceof Archers) {
+            if (dis > ((Archers) currentUnits.get(0)).getArrowRadius() / 5) {
+                return GameMenuMessage.PROBLEM;
+
+            }
+        }
+        Building building = tile.getBuilding();
+        if (!building.getGovernment().getUser().equals(Game.getTurnedUserForGame())) {
+            return GameMenuMessage.WITH_OUT_BUILDING;
+        }
+        int change = currentUnits.size() * ((((Archers) currentUnits.get(0)).getFatality() * ((Archers) currentUnits.get(0)).getPrecision() / 50));
+        building.ChangeHitPoint(-1 * change);
+        if (building.getHp() <= 0) {
+            tile.setBuilding(null);
+            for (Building building1 : building.getGovernment().getBuildings()) {
+                if (building1.equals(building)) {
+                    building.getGovernment().getBuildings().remove(building);
+                    break;
+
+                }
+            }
+        }
+        for (Units units : currentUnits) {
+            if (units instanceof Archers) {
+                Resource resource = ((Archers) units).getInventories().get(0);
+                ((Archers) units).getInventories().remove(resource);
+                Game.getTurnedUserForGame().getUserGovernment().removeFromResources(resource, 1);
+
+            }
+        }
+        return GameMenuMessage.SUCCESS;
+
+    }
 }

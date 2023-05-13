@@ -1,6 +1,9 @@
 package model.wartool;
 
+import model.user.User;
+
 public class FixedCatapult {
+    private User user;
     private final int x;
     private  final int y;
     private final int efficiently=200;
@@ -25,5 +28,13 @@ public class FixedCatapult {
 
     public int getBoard() {
         return board;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

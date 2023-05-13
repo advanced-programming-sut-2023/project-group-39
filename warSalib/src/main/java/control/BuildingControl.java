@@ -103,7 +103,6 @@ public class BuildingControl {
             government.removeUnWorkedPeople(people);
             government.addToPeople(units);
             Game.getMapInGame().getMap()[building.getY()][building.getX()].addPeople(units);
-            removeResourceInCreate(unitsName);
         }
         return BuildingMessage.SUCCESS;
     }
@@ -206,8 +205,9 @@ public class BuildingControl {
         if(Game.getTurnedUserForGame().getUserGovernment().getWealth()>unitsName.getCost()){
             isTrue=true;
         }
-        if(unitsName.getUnitsType().equals(UnitsType.COMBAT)) {
-            if (unitsName.getName().equals("pikeman")) {
+        //TODO : add weapon
+        if(unitsName.getUnitsType().equals(UnitsType.COMBAT)){
+            if(unitsName.getName().equals("pikeman")){
                 resourceNeedUnit.put(Resource.SPEAR, 1);
             } else if (unitsName.getName().equals("balckman")) {
                 resourceNeedUnit.put(Resource.STICK, 1);

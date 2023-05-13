@@ -19,10 +19,10 @@ public class GameMenu {
 
     public static void run() {
         String input;
-        Scanner scanner=new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         Matcher matcher;
         while (true) {
-            input=scanner.nextLine();
+            input = scanner.nextLine();
             if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.SELECTUNIT)) != null)
                 selectUnit(matcher);
             else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.MOVEUNIT)) != null)
@@ -33,19 +33,19 @@ public class GameMenu {
                 setMode(matcher);
             else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.ATTACK)) != null)
                 attack(matcher);
-           else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.AIRATTACK)) != null)
+            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.AIRATTACK)) != null)
                 airAttack(matcher);
             else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.SELECTUNIT)) != null)
                 selectUnit(matcher);
-           else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.POUROIL)) != null)
+            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.POUROIL)) != null)
                 pourOil(matcher);
             else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.DIGTUNNEL)) != null)
                 digTunnel(matcher);
-           else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.DISBANDUNIT)) != null)
+            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.DISBANDUNIT)) != null)
                 disbandUnit(matcher);
             else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.MAKE_GATE)) != null)
                 makeGate(matcher);
-           else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.MAKE_WALL)) != null)
+            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.MAKE_WALL)) != null)
                 makeWall(matcher);
             else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.MAKE_TOWER)) != null)
                 makeTower(matcher);
@@ -55,14 +55,18 @@ public class GameMenu {
                 makeKillerTale(matcher);
             else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.MAKE_OIL_TALE)) != null)
                 makeOilTale(matcher);
-           else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.MAKE_PROTECTION)) != null)
+            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.MAKE_PROTECTION)) != null)
                 makeProtection(matcher);
-           else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.CAPTURE_GATE)) != null)
+            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.CAPTURE_GATE)) != null)
                 captureGate(matcher);
             else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.MAKE_BATTERING_RAM)) != null)
                 makeBatteringRam(matcher);
             else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.MAKE_CATAPULT)) != null)
                 makeCatapult(matcher);
+            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.MOVE_BATTERING)) != null)
+                moveBattering(matcher);
+            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.USE_BATTERING_TO_ATTACK)) != null)
+                useBatteringToattack(matcher);
             else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.MAKE_FIXED_CATAPULT)) != null)
                 makeFixedCatapult(matcher);
             else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.MAKE_SIEGE_TOWER)) != null)
@@ -73,25 +77,220 @@ public class GameMenu {
                 nextTurn(matcher);
             else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.STOP_PATROL_UNIT)) != null)
                 stopPatrol(matcher);
+            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.USE_CATAPULT_TO_ATTACK)) != null)
+                attackWithCatapult(matcher);
+            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.USE_FIXED_CATAPULT_TO_ATTACK)) != null)
+                attackWithFixedCatapult(matcher);
+            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.MOVE_CATAPULT)) != null)
+                moveCatapult(matcher);
+            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.MOVE_FIERY_STONE_THROWER)) != null)
+                moveFieryStoneThrower(matcher);
+            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.USE_FIERY_STONE_TO_ATTACK)) != null)
+                attackWithFieryStoneThrower(matcher);
+            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.ATTACK_TO_BUILDING)) != null)
+                attackToBuilding(matcher);
             else if ((matcher = MapMenuCommands.getMatcher(input, MapMenuCommands.SHOW_MAP)) != null)
                 MapMenu.run(input, scanner);
+
             else if (input.matches("^\\s*enter\\s+building\\s+menu\\s*$")) {
                 System.out.println("enter building menu");
                 BuildingMenu.run(scanner);
-            }
-            else if (input.matches("^\\s*enter\\s+government\\s+menu\\s*$")) {
+            } else if (input.matches("^\\s*enter\\s+government\\s+menu\\s*$")) {
                 System.out.println("enter government menu");
                 GovernmentMenu.run(scanner);
-            }
-            else if (input.matches("^\\s*enter\\s+store\\s+menu\\s*$")) {
+            } else if (input.matches("^\\s*enter\\s+store\\s+menu\\s*$")) {
                 System.out.println("enter store menu");
                 StoreMenu.run(scanner);
-            }
-            else if (input.matches("^\\s*enter\\s+trade\\s+menu\\s*$")) {
+            } else if (input.matches("^\\s*enter\\s+trade\\s+menu\\s*$")) {
                 System.out.println("enter trade menu");
                 TradeMenu.run(scanner);
-            }
-            else System.out.println("invalid command");
+            } else System.out.println("invalid command");
+        }
+    }
+
+    private static void attackToBuilding(Matcher matcher) {
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        GameMenuMessage message = GameControl.attackToBuilding(x, y);
+        switch (message) {
+            case WRONG_AMOUNT:
+                System.out.println("invalid amount for x or y");
+                break;
+            case INVALIDUNIT:
+                System.out.println("you dont have selected archer");
+                break;
+            case PROBLEM:
+                System.out.println("out of range of units board");
+                break;
+            case WITH_OUT_BUILDING:
+                System.out.println("we dont have any building for enemies on this tile");
+                break;
+            case SUCCESS:
+                System.out.println("you attacked successfully to building");
+                break;
+
+
+        }
+    }
+
+    private static void attackWithFieryStoneThrower(Matcher matcher) {
+        int previousX = Integer.parseInt(matcher.group("x1"));
+        int previousY = Integer.parseInt(matcher.group("y1"));
+        int moveToX = Integer.parseInt(matcher.group("x2"));
+        int moveToY = Integer.parseInt(matcher.group("y2"));
+        GameMenuMessage message = GameControl.attackWithFieryStone(previousX, previousY, moveToX, moveToY);
+        switch (message) {
+            case WRONG_AMOUNT:
+                System.out.println("wrong amount of x or y");
+                break;
+            case PROBLEM:
+                System.out.println("you dont have fiery stone on this tile");
+                break;
+            case OUT_OF_BOARD:
+                System.out.println("out of fiery stone board!");
+                break;
+            case NOTENOUGHRESOURCE:
+                System.out.println("you dont have enough resource");
+                break;
+            case SUCCESS:
+                System.out.println("you attacked successfully");
+                break;
+        }
+    }
+
+    private static void moveFieryStoneThrower(Matcher matcher) {
+        int previousX = Integer.parseInt(matcher.group("x1"));
+        int previousY = Integer.parseInt(matcher.group("y1"));
+        int moveToX = Integer.parseInt(matcher.group("x2"));
+        int moveToY = Integer.parseInt(matcher.group("y2"));
+        GameMenuMessage message = GameControl.moveFieryStoneThrower(previousX, previousY, moveToX, moveToY);
+        switch (message) {
+            case BIGGERTHANSPEED:
+                System.out.println("bigger than unit speed");
+                break;
+            case WRONG_AMOUNT:
+                System.out.println("wrong amount of x or y");
+                break;
+            case PROBLEM:
+                System.out.println("you dont have fiery stone on this tile");
+                break;
+            case SUCCESS:
+                System.out.println("fiery stone moved successfully");
+                break;
+
+        }
+    }
+
+    private static void attackWithFixedCatapult(Matcher matcher) {
+        int previousX = Integer.parseInt(matcher.group("x1"));
+        int previousY = Integer.parseInt(matcher.group("y1"));
+        int moveToX = Integer.parseInt(matcher.group("x2"));
+        int moveToY = Integer.parseInt(matcher.group("y2"));
+        GameMenuMessage message = GameControl.attackWithFixedCatapult(previousX, previousY, moveToX, moveToY);
+        switch (message) {
+            case WRONG_AMOUNT:
+                System.out.println("wrong amount of x or y");
+                break;
+            case PROBLEM:
+                System.out.println("you dont have fixed catapult on this tile");
+                break;
+            case OUT_OF_BOARD:
+                System.out.println("out of fixed catapult board!");
+                break;
+            case NOTENOUGHRESOURCE:
+                System.out.println("you dont have enough resource");
+                break;
+            case SUCCESS:
+                System.out.println("you attacked successfully");
+                break;
+        }
+    }
+
+    private static void attackWithCatapult(Matcher matcher) {
+        int previousX = Integer.parseInt(matcher.group("x1"));
+        int previousY = Integer.parseInt(matcher.group("y1"));
+        int moveToX = Integer.parseInt(matcher.group("x2"));
+        int moveToY = Integer.parseInt(matcher.group("y2"));
+        GameMenuMessage message = GameControl.attackWithCatapult(previousX, previousY, moveToX, moveToY);
+        switch (message) {
+            case WRONG_AMOUNT:
+                System.out.println("wrong amount of x or y");
+                break;
+            case PROBLEM:
+                System.out.println("you dont have catapult on this tile");
+                break;
+            case OUT_OF_BOARD:
+                System.out.println("out of catapult board!");
+                break;
+            case NOTENOUGHRESOURCE:
+                System.out.println("you dont have enough resource");
+                break;
+            case SUCCESS:
+                System.out.println("you attacked successfully");
+                break;
+        }
+    }
+
+    private static void moveCatapult(Matcher matcher) {
+        int previousX = Integer.parseInt(matcher.group("x1"));
+        int previousY = Integer.parseInt(matcher.group("y1"));
+        int moveToX = Integer.parseInt(matcher.group("x2"));
+        int moveToY = Integer.parseInt(matcher.group("y2"));
+        GameMenuMessage message = GameControl.moveCatapult(previousX, previousY, moveToX, moveToY);
+        switch (message) {
+            case BIGGERTHANSPEED:
+                System.out.println("bigger than unit speed");
+                break;
+            case WRONG_AMOUNT:
+                System.out.println("wrong amount of x or y");
+                break;
+            case PROBLEM:
+                System.out.println("you dont have catapult on this tile");
+                break;
+            case SUCCESS:
+                System.out.println("catapult moved successfully");
+                break;
+
+        }
+    }
+
+    private static void useBatteringToattack(Matcher matcher) {
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        GameMenuMessage message = GameControl.useBatteringToAttack(x, y);
+        switch (message) {
+            case PROBLEM:
+                System.out.println("you dont have battering on this tile or we dont have any building of enemies");
+                break;
+            case WRONG_AMOUNT:
+                System.out.println("wrong amount of x or y");
+                break;
+            case SUCCESS:
+                System.out.println("attacked successfully");
+                break;
+        }
+    }
+
+    private static void moveBattering(Matcher matcher) {
+        int previousX = Integer.parseInt(matcher.group("x1"));
+        int previousY = Integer.parseInt(matcher.group("y1"));
+        int moveToX = Integer.parseInt(matcher.group("x2"));
+        int moveToY = Integer.parseInt(matcher.group("y2"));
+        GameMenuMessage message = GameControl.moveBattering(previousX, previousY, moveToX, moveToY);
+        switch (message) {
+            case BIGGERTHANSPEED:
+                System.out.println("bigger than unit speed");
+                break;
+            case WRONG_AMOUNT:
+                System.out.println("wrong amount of x or y");
+                break;
+            case PROBLEM:
+                System.out.println("you dont have battering on this tile");
+                break;
+            case SUCCESS:
+                System.out.println("battering moved successfully");
+                break;
+
         }
     }
 
@@ -294,7 +493,7 @@ public class GameMenu {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
         String name = matcher.group("gateName");
-        name=name.trim();
+        name = name.trim();
         GameMenuMessage message = GameControl.makeGate(name, direction, x, y);
         switch (message) {
             case SUCCESS:
@@ -588,10 +787,10 @@ public class GameMenu {
         }
     }
 
-    private static void makeFixedCatapult(Matcher matcher){
-        int x= Integer.parseInt(matcher.group("x"));
-        int y= Integer.parseInt(matcher.group("y"));
-        GameMenuMessage message=GameControl.makeFixedCatapult(x,y);
+    private static void makeFixedCatapult(Matcher matcher) {
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        GameMenuMessage message = GameControl.makeFixedCatapult(x, y);
         switch (message) {
             case SUCCESS:
                 System.out.println("fixed catapult was successful");
@@ -637,10 +836,11 @@ public class GameMenu {
                 break;
         }
     }
-    private static void makeFieryStoneThrower(Matcher matcher){
-        int x=Integer.parseInt(matcher.group("x"));
-        int y=Integer.parseInt(matcher.group("y"));
-        GameMenuMessage message=GameControl.makeFieryStoneThrower(x,y);
+
+    private static void makeFieryStoneThrower(Matcher matcher) {
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        GameMenuMessage message = GameControl.makeFieryStoneThrower(x, y);
         switch (message) {
             case SUCCESS:
                 System.out.println("Fiery stone thrower was successful");
@@ -660,23 +860,25 @@ public class GameMenu {
         }
 
     }
-    private static void nextTurn(Matcher matcher){
-        GameMenuMessage message=GameControl.nextTurn();
-        switch (message){
-            case NEXT_PLAYER :
-                System.out.println("Player:  "+ Game.getTurnedUserForGame().getUsername()+"   should be play now!");
+
+    private static void nextTurn(Matcher matcher) {
+        GameMenuMessage message = GameControl.nextTurn();
+        switch (message) {
+            case NEXT_PLAYER:
+                System.out.println("Player:  " + Game.getTurnedUserForGame().getUsername() + "   should be play now!");
                 break;
             case NEXT_TURN:
                 System.out.println("nex turn");
-                System.out.println("Player:  "+Game.getTurnedUserForGame().getUsername()+"   should be play now!");
+                System.out.println("Player:  " + Game.getTurnedUserForGame().getUsername() + "   should be play now!");
                 break;
         }
     }
-    private static void stopPatrol(Matcher matcher){
-        int x=Integer.parseInt(matcher.group("x"));
-        int y=Integer.parseInt(matcher.group("y"));
-        GameMenuMessage message=GameControl.stopPatrol(x,y);
-        switch (message){
+
+    private static void stopPatrol(Matcher matcher) {
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        GameMenuMessage message = GameControl.stopPatrol(x, y);
+        switch (message) {
             case WRONG_AMOUNT:
                 System.out.println("you enter wrong amount of x and y");
                 break;
