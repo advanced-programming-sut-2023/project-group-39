@@ -1277,4 +1277,12 @@ public class GameControl {
     public static void setTurn(int turn) {
         GameControl.turn = turn;
     }
+
+    public static GameMenuMessage unselectunits() {
+        if(currentUnits!=null) {
+            currentUnits.clear();
+            return GameMenuMessage.SUCCESS;
+        }
+        return GameMenuMessage.PROBLEM;
+    }
 }

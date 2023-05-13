@@ -41,6 +41,8 @@ public class GameMenu {
                 pourOil(matcher);
             else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.DIGTUNNEL)) != null)
                 digTunnel(matcher);
+            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.UNSELECT_UNIT)) != null)
+                unselectUnits(matcher);
             else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.DISBANDUNIT)) != null)
                 disbandUnit(matcher);
             else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.MAKE_GATE)) != null)
@@ -110,6 +112,18 @@ public class GameMenu {
             } else System.out.println("invalid command");
         }
     }
+
+    private static void unselectUnits(Matcher matcher) {
+        GameMenuMessage message=GameControl.unselectunits();
+        switch (message){
+            case SUCCESS:
+                System.out.println("units un selected successfully");
+                break;
+            case PROBLEM:
+                System.out.println("units cant un selected ");
+                break;
+
+        }    }
 
     private static void attackToBuilding(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("x"));
