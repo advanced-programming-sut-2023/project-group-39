@@ -81,6 +81,8 @@ public class TradeControl {
             HashMap<Resource, Integer> value = new HashMap<>();
             value.put(resource, amount);
             TradeMenu.tradeList.remove(user, value);
+            currentUser.getUserGovernment().removeFromResources(resource, amount);
+            user.getUserGovernment().addToResources(resource, amount);
             return TradeMenuMessage.SUCCESS;
         }
         return TradeMenuMessage.ID_NOT_EXIST;

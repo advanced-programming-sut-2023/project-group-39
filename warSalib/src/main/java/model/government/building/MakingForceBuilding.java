@@ -27,9 +27,9 @@ public class MakingForceBuilding extends Building{
         }
         if (name.equals("engineer guild")) {
             resource.put(Resource.WOOD, 10);
-            resource.put(Resource.GOLD, 100);
-            if (government.hasEnoughResources(resource) || flag == 1) {
+            if ((government.getWealth() > 100 && government.hasEnoughResources(resource)) || flag == 1) {
                 MakingForceBuilding engineerGuild = new MakingForceBuilding(x, y, government, 800, name, resource);
+                government.setWealth(government.getWealth() - 100);
                 return engineerGuild;
             }
         }

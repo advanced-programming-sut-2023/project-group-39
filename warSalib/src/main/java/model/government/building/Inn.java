@@ -27,9 +27,8 @@ public class Inn extends Building{
     public static Inn makeInnByName(String name, int x , int y, Government government, int flag) {
         if (name.equals("inn")) {
             HashMap<Resource, Integer> resource= new HashMap<>();
-            resource.put(Resource.GOLD , 100);
             resource.put(Resource.WOOD, 20);
-            if (government.hasEnoughResources(resource) || flag == 1) {
+            if ((government.getWealth() > 100 && government.hasEnoughResources(resource)) || flag == 1) {
                 Inn inn = new Inn(x, y, government, 500, "food processing building", name, resource, 20);
                 inn.setWorkerDataBase(JobsName.DRINK_SERVER.getJobsName(), 1);
                 if (government.getUnWorkedPeople().size() >= 1) {
@@ -45,6 +44,7 @@ public class Inn extends Building{
 
     public void improvePopularityBaseRate() {
         this.getGovernment().setPopularity(this.getGovernment().getPopularity() + 1);
+        this.getGovernment().setFoodEffect(this.getGovernment().getFoodEffect() + 1);
     }
 
     public void serveBeerWithRate() {

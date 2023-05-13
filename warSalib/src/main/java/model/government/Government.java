@@ -84,6 +84,10 @@ public class Government {
         addResourceToStockPile(Resource.STONE, 100);
         addResourceToStockPile(Resource.WOOD, 100);
         addResourceToStockPile(Resource.IRON, 60);
+        addToResources(Resource.ARROW, 10);
+        addResourceToStockPile(Resource.ARROW, 10);
+        addToResources(Resource.STICK, 6);
+        addResourceToStockPile(Resource.STICK, 6);
     }
 
 //    public HashMap<Resource, Integer> getResources() { return resources; }

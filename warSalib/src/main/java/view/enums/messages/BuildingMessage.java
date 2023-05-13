@@ -17,5 +17,7 @@ public enum BuildingMessage {
     HAS_FULL_HP,
     SELECT_MARKET,
     NOT_SELECT_BUILDING,
-    WRONG_TYPE;
+    WRONG_TYPE,
+    OPEN,
+    CLOSE;
 }

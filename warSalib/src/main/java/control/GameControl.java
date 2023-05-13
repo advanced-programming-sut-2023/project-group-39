@@ -3,6 +3,7 @@ package control;
 import model.Game;
 import model.government.Government;
 import model.government.building.*;
+import model.government.building.group.GroupOfBuilding;
 import model.government.people.People;
 import model.government.people.units.*;
 import model.government.people.workingpersons.JobsName;
@@ -10,6 +11,7 @@ import model.government.resource.Resource;
 import model.map.Tile;
 import model.user.User;
 import model.wartool.*;
+import view.GovernmentMenu;
 import view.enums.messages.GameMenuMessage;
 
 import java.util.ArrayList;
@@ -740,6 +742,23 @@ public class GameControl {
             }
         }
 
+    }
+
+    private static void applyRateBuilding() {
+        for (Government government : Game.getGovernments()) {
+            for (Building building : government.getBuildings()) {
+                if (Building.getGroupByName(building.getName()).equals(GroupOfBuilding.CONVERTED_BUILDING))
+                    ((ConvertedBuilding) building).convertResourceToAnotherWithRate();
+                else if (Building.getGroupByName(building.getName()).equals(GroupOfBuilding.INN))
+                    ((Inn) building).serveBeerWithRate();
+                else if (Building.getGroupByName(building.getName()).equals(GroupOfBuilding.MINE_BUILDING))
+                    ((MineBuilding) building).makeResourceWithRate();
+                else if (Building.getGroupByName(building.getName()).equals(GroupOfBuilding.OX_TETHER))
+                    ((OxTether) building).caryStoneWithRate();
+                else if (Building.getGroupByName(building.getName()).equals(GroupOfBuilding.PRODUCTIVE_BUILDING))
+                    ((ProductiveBuilding) building).makeResourceWithRate();
+            }
+        }
     }
 
     public static GameMenuMessage makeFieryStoneThrower(int x, int y) {    //TODO make some features for playing with it in game

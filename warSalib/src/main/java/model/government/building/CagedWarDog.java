@@ -22,10 +22,10 @@ public class CagedWarDog extends Building {
         if (name.equals("caged war dog")) {
             HashMap<Resource, Integer> resource = new HashMap<>();
             resource.put(Resource.WOOD, 10);
-            resource.put(Resource.COIN, 100);
-            if (government.hasEnoughResources(resource) || flag ==1) {
+            if ((government.getWealth() > 100 && government.hasEnoughResources(resource)) || flag ==1) {
                 CagedWarDog cagedWarDog = new CagedWarDog(x, y, government, 500, "castle building", name,
                         resource);
+                government.setWealth(government.getWealth() - 100);
                 return cagedWarDog;
             }
         }

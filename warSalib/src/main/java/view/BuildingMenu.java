@@ -162,8 +162,11 @@ public class BuildingMenu {
             case NOT_SELECT_BUILDING:
                 System.out.println("please select building");
                 break;
-            case SUCCESS:
+            case OPEN:
                 System.out.println("succeed opened");
+                break;
+            case CLOSE:
+                System.out.println("succeed closed");
                 break;
             default:
                 System.out.println("invalid!");

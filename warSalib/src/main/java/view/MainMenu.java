@@ -46,6 +46,7 @@ public class MainMenu {
         Government governmentOfCurrentUser = new Government(0 , 30, Game.getCurrentUser());
         createInitialPeople(Game.getCurrentUser().getUserGovernment(),30);
         Game.getCurrentUser().setUserGovernment(governmentOfCurrentUser);
+        Game.addGovernment(governmentOfCurrentUser);
         counter++;
         Scanner scanner=new Scanner(System.in);
         System.out.println("add player");

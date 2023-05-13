@@ -21,6 +21,8 @@ abstract public class Building {
     private int hp;
     private String type;
 
+    private int wealth;
+
     private String name;
     private int maxHP;
     private int x, y;
@@ -195,5 +197,13 @@ abstract public class Building {
     }
     public void ChangeHitPoint(int x){
         this.hp+=x;
+    }
+
+    public int getWealth() {
+        return wealth;
+    }
+
+    public void setWealth(int wealth) {
+        this.wealth = wealth;
     }
 }

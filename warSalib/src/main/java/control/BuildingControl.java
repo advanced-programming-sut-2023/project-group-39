@@ -258,11 +258,14 @@ public class BuildingControl {
             return BuildingMessage.WRONG_AMOUNT;
         if (!(Game.getSelectedBuilding() instanceof CagedWarDog))
             return BuildingMessage.NOT_GOOD_BUILDING;
-        if (state.equals("open"))
+        if (state.equals("open")) {
             ((CagedWarDog) Game.getSelectedBuilding()).openDoor(true);
-        if (state.equals("close"))
+            return BuildingMessage.OPEN;
+        }
+        else {
             ((CagedWarDog) Game.getSelectedBuilding()).openDoor(false);
-        return BuildingMessage.SUCCESS;
+            return BuildingMessage.CLOSE;
+        }
     }
 
     public static BuildingMessage changeTaxRate(int taxRate) {
