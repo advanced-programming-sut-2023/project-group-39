@@ -282,9 +282,6 @@ public class GameControl {
             if ((((Archers) currentUnits.get(0)).getArrowRadius() / 20) < dis) {
                 return GameMenuMessage.PROBLEM;
             } else {
-                if ((((Archers) currentUnits.get(0)).getInventories().size() < 1 || Game.getTurnedUserForGame().getUserGovernment().numberOfResource(((Archers) currentUnits.get(0)).getWartool()) < currentUnits.size())) {
-                    return GameMenuMessage.NOTENOUGHRESOURCE;
-                }
                 Tile tile = Game.getMapInGame().getMap()[y][x];
                 for (People people : tile.getPeopleOnTile()) {
                     if (people instanceof Units && !people.getOwnerPerson().equals(currentUnits.get(0).getOwnerPerson())) {
@@ -292,24 +289,16 @@ public class GameControl {
                         int eff = (int) efficiently;
                         ((Units) people).changeHitPoint(-1 * eff);
                         Game.getTurnedUserForGame().changeScore(eff);
-                        for (Units units : currentUnits) {
-                            if (units instanceof Archers) {
-                                Resource resource = ((Archers) units).getInventories().get(0);
-                                ((Archers) units).getInventories().remove(resource);
-                                Game.getTurnedUserForGame().getUserGovernment().removeFromResources(resource, 1);
-
-                            }
-                        }
 
 
                     }
                     return GameMenuMessage.SUCCESS;
                 }
+                return GameMenuMessage.NOT_HAVE_PEOPLE;
             }
         } else {
             return GameMenuMessage.INVALIDUNIT;
         }
-        return null;
     }
 
     public static GameMenuMessage pourOil(String direction) {  //TODO what i shall do with oil
@@ -1094,8 +1083,6 @@ public class GameControl {
         if (dis > CATAPULT.getBoard() / 5) {
             return GameMenuMessage.OUT_OF_BOARD;
         }
-        if (Game.getTurnedUserForGame().getUserGovernment().numberOfResource(Resource.STONE) < 5)
-            return GameMenuMessage.NOTENOUGHRESOURCE;
         for (People people : tile.getPeopleOnTile()) {
             if (people instanceof Units && !people.getOwnerPerson().equals(Game.getTurnedUserForGame())) {
                 ((Units) people).changeHitPoint(-80);
@@ -1137,8 +1124,6 @@ public class GameControl {
         if (dis > FIXEDCATAPULT.getBoard() / 5) {
             return GameMenuMessage.OUT_OF_BOARD;
         }
-        if (Game.getTurnedUserForGame().getUserGovernment().numberOfResource(Resource.STONE) < 8)
-            return GameMenuMessage.NOTENOUGHRESOURCE;
         for (People people : tile.getPeopleOnTile()) {
             if (people instanceof Units && !people.getOwnerPerson().equals(Game.getTurnedUserForGame())) {
                 ((Units) people).changeHitPoint(-140);
@@ -1204,8 +1189,6 @@ public class GameControl {
         if (dis > FieryStoneThrower.getBoard() / 5) {
             return GameMenuMessage.OUT_OF_BOARD;
         }
-        if (Game.getTurnedUserForGame().getUserGovernment().numberOfResource(Resource.STONE) < 8)
-            return GameMenuMessage.NOTENOUGHRESOURCE;
         for (People people : tile.getPeopleOnTile()) {
             if (people instanceof Units && !people.getOwnerPerson().equals(Game.getTurnedUserForGame())) {
                 ((Units) people).changeHitPoint(-120);
@@ -1259,14 +1242,6 @@ public class GameControl {
                     break;
 
                 }
-            }
-        }
-        for (Units units : currentUnits) {
-            if (units instanceof Archers) {
-                Resource resource = ((Archers) units).getInventories().get(0);
-                ((Archers) units).getInventories().remove(resource);
-                Game.getTurnedUserForGame().getUserGovernment().removeFromResources(resource, 1);
-
             }
         }
         return GameMenuMessage.SUCCESS;

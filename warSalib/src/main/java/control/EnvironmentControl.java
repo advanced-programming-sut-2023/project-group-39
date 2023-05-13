@@ -153,7 +153,7 @@ public class EnvironmentControl {
             return EnvironmentMenuMessage.NOT_HAVE_GOVERNMENT;
         UnitsName unitsName = getUnitNameByType(type);
         for (int i = 0; i < count; i++) {
-            Units unit = new Units(x, y, unitsName, government.getUser());
+            Units unit = Units.makeUnit(x, y, unitsName, government.getUser());
             government.addToPeople(unit);
             Game.getMapInGame().getMap()[y][x].addPeople(unit);
         }
