@@ -27,8 +27,10 @@ public class TradeMenu {
                 acceptTrade(matcher);
             else if ((matcher = TradeMenuCommands.getMatcher(input, TradeMenuCommands.SHOW_TRADE_HISTORY)) != null)
                 showTradeHistory();
-            else if (input.matches("^\\s*back\\s*$"))
+            else if (input.matches("^\\s*back\\s*$")) {
+                System.out.println("back to game menu");
                 break;
+            }
             else System.out.println("invalid command!");
         }
     }

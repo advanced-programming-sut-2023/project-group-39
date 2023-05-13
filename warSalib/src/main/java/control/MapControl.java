@@ -28,18 +28,22 @@ public class MapControl {
                     result += " | ";
                 }
                 if (j == 5 && i ==0) {
-                    result += "---------------------------\n";
+                    result += "---------------------------------\n";
                 }
                 if (smallMap[j][i] == null)
                     continue;
                 else if (hasUnits(smallMap[j][i].getPeopleOnTile())) {
-                    result += " S";
+                    result += " S ";
                 }
                 else if ((c = hasBuilding(smallMap, i, j)) != 'N') {
-                    result += " " + c;
+                    result += " " + c + " ";
                 } else if (smallMap[j][i].getTree() != null) {
-                    result += " T";
-                } else result += " " + smallMap[j][i].getType().getName();
+                    result += " T ";
+                } else {
+                    if (smallMap[j][i].getType().getName().length() == 1)
+                    result += " " + smallMap[j][i].getType().getName() + " ";
+                    else result += " " + smallMap[j][i].getType().getName();
+                }
             }
             result += "\n";
         }
@@ -49,7 +53,7 @@ public class MapControl {
     public static String moveMap(int up, int down, int right, int left) {
         int x = Game.getMapInGame().getSelectedX();
         int y = Game.getMapInGame().getSelectedY();
-        return showMap(x + left - right , y - down + up);
+        return showMap(x - left + right , y - down + up);
     }
 
     public static String showDetails(int x, int y) {

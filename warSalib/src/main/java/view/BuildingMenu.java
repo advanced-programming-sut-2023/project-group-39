@@ -17,6 +17,7 @@ public class BuildingMenu {
             if (input.matches("^\\s*repair\\s*$")) {
                 repair();
             } else if (input.matches("^\\s*back\\s*$")) {
+                System.out.println("back to game menu");
                 break;
             } else if ((matcher = BuildingCommands.getMatcher(input, BuildingCommands.DROP_BUILDING)) != null) {
                 dropBuilding(matcher);

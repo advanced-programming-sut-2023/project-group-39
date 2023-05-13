@@ -34,8 +34,10 @@ public class GovernmentMenu {
                 showTaxRate();
             else if ((matcher = GovernmentMenuCommands.getMatcher(input, GovernmentMenuCommands.CHANGE_FEAR_RATE)) != null)
                 rateFear(matcher);
-            else if (input.matches("^\\s*back\\s*$"))
+            else if (input.matches("^\\s*back\\s*$")) {
+                System.out.println("back to game menu");
                 break;
+            }
             else System.out.println("invalid command!");
         }
 
