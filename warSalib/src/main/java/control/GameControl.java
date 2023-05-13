@@ -793,7 +793,8 @@ public class GameControl {
 
     public static GameMenuMessage nextTurn() {//TODO should be completed !!!!a lot of work we have to do!
         changeFoodsInventory();
-        if (Game.getPlayers().indexOf(Game.getTurnedUserForGame()) == Game.getPlayers().size() - 1) {
+        applyRateBuilding();
+        if (Game.getPlayersInGame().indexOf(Game.getTurnedUserForGame()) == Game.getPlayersInGame().size() - 1) {
             counterTurn++;
             if(counterTurn==turn){
                 counterTurn=0;
@@ -810,6 +811,8 @@ public class GameControl {
                 for (People people : user.getUserGovernment().getPeople()) {
                     if (people instanceof Units) {
                         if (people.getToGoX() != people.getxLocation() || people.getToGoY() != people.getyLocation()) {
+                          //  System.out.println(people.getxLocation());
+                          //  System.out.println(people.getyLocation());
                             SpecialMoveUnit((Units) people, people.getToGoX(), people.getToGoY());
                         }
                     }
@@ -876,7 +879,7 @@ public class GameControl {
             }
             return GameMenuMessage.NEXT_TURN;
         } else {
-            Game.setTurnedUserForGame(Game.getPlayers().get(Game.getPlayers().indexOf(Game.getTurnedUserForGame()) + 1));
+            Game.setTurnedUserForGame(Game.getPlayersInGame().get(Game.getPlayersInGame().indexOf(Game.getTurnedUserForGame()) + 1));
             if (currentUnits != null) {
                 currentUnits.clear();
             }
