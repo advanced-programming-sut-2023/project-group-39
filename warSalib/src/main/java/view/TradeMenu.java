@@ -49,9 +49,10 @@ public class TradeMenu {
                 System.out.println("there is no such thing in storehouse");
                 break;
             case SUCCESS:
-                System.out.println("item has been successfully added to your trade list\n" +
+                System.out.println("your request has been successfully added to trade list\n" +
                         resourceType + ":        amount: " + amount + " , price: " + price +
-                        " , total: " + amount * price + " , message: " + message);
+                        " , total: " + amount * price + " , message: " + tradeMessage);
+                break;
             default:
                 System.out.println("invalid!!?");
                 break;
