@@ -6,6 +6,7 @@ public enum GroupOfBuilding {
     CHURCH("church" , "cathedral") ,
 
     CAGED_WAR_DOG("caged war dog"),
+    KEEP("keep"),
     CONVERTED_BUILDING("armourer" , "blacksmith" , "fletcher" , "pole turner" , "mill" , "bakery" , "brewery") ,
     DRAWBRIDGE("draw bridge") ,
     GATEHOUSE("small stone gatehouse" , "big stone gatehouse") ,

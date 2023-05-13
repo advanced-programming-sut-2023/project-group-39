@@ -42,7 +42,6 @@ public class MainMenu {
     }
     private static void letStartGame(int turn){
         GameControl.setTurn(turn);
-        Game.getPlayersInGame();
         int counter=0;
         Game.getPlayersInGame().add(Game.getCurrentUser());
         Government governmentOfCurrentUser = new Government(0 , 30, Game.getCurrentUser());
@@ -98,7 +97,7 @@ public class MainMenu {
     }
 
     private static User getUserByName(String username){
-        for (User user:Game.getPlayers()){
+         for (User user:Game.getPlayers()){
             if(user.getUsername().equals(username))
                 return user;
 
