@@ -89,7 +89,11 @@ public class MainMenu {
         for (int i=0;i<x;i++) {
             People people = new People(government.getXLeft() , government.getYDown() ,
                     JobsName.UNEMPLOYED, government.getUser());
+            government.addToPeople(people);
+            government.addToUnworkedPeople(people);
+            Game.getTurnedUserForGame().getUserGovernment().setPopulation(Game.getTurnedUserForGame().getUserGovernment().getPopulation()+1);
         }
+
     }
 
     private static User getUserByName(String username){

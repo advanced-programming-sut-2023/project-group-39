@@ -866,6 +866,7 @@ public class GameControl {
                 if (people instanceof Units) {
                     people.getOwnerPerson().getUserGovernment().getPeople().remove(people);
                     Game.getMapInGame().getMap()[people.getxLocation()][people.getyLocation()].getPeopleOnTile().remove(people);
+                    people.getOwnerPerson().getUserGovernment().setPopulation(people.getOwnerPerson().getUserGovernment().getPopulation()+1);
 
                 }
 
