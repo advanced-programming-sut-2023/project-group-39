@@ -22,7 +22,8 @@ public class EnvironmentMenu {
             }
             else if ((matcher = EnvironmentMenuCommands.getMatcher(input, EnvironmentMenuCommands.SET_TEXTURE)) != null)
                 setTexture(matcher);
-            else if ((matcher = EnvironmentMenuCommands.getMatcher(input, EnvironmentMenuCommands.SET_TEXTURE_RECTANGLE)) != null)
+            else if ((matcher = EnvironmentMenuCommands.getMatcher(input, EnvironmentMenuCommands.SET_TEXTURE_RECTANGLE)
+            ) != null)
                 setTextureRectangle(matcher);
             else if ((matcher = EnvironmentMenuCommands.getMatcher(input, EnvironmentMenuCommands.CLEAR)) != null)
                 clearTile(matcher);
@@ -30,7 +31,8 @@ public class EnvironmentMenu {
                 dropRock(matcher);
             else if ((matcher = EnvironmentMenuCommands.getMatcher(input, EnvironmentMenuCommands.DROP_TREE)) != null)
                 dropTree(matcher);
-            else if ((matcher = EnvironmentMenuCommands.getMatcher(input, EnvironmentMenuCommands.DROP_BUILDING)) != null)
+            else if ((matcher = EnvironmentMenuCommands.getMatcher(input, EnvironmentMenuCommands.DROP_BUILDING)) !=
+                    null)
                 dropBuilding(matcher);
             else if((matcher = EnvironmentMenuCommands.getMatcher(input, EnvironmentMenuCommands.DROP_UNIT)) != null)
                 dropUnit(matcher);

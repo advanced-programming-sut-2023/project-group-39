@@ -4,10 +4,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum MapMenuCommands {
-    SHOW_MAP("^\\s*show\\s+map\\s+(\\-x\\s+\\-?\\d+\\s+\\-y\\s+\\-?\\d+\\s*|\\-y\\s+\\-?\\d+\\s+\\-x\\s+\\-?\\d+\\s*)$"),
+    SHOW_MAP("^\\s*show\\s+map\\s+(\\-x\\s+\\-?\\d+\\s+\\-y\\s+\\-?\\d+\\s*|\\-y\\s+\\-?\\d+\\s+\\-x\\s+\\-?" +
+            "\\d+\\s*)$"),
     MAP_CHECK_X("^.+\\-x\\s+(?<x>\\-?\\d+).*$"),
     MAP_CHECK_Y("^.+\\-y\\s+(?<y>\\-?\\d+).*$"),
-    SHOW_DETAILS("^\\s*show\\s+details\\s+(\\-x\\s+\\-?\\d+\\s+\\-y\\s+\\-?\\d+\\s*|\\-y\\s+\\-?\\d+\\s+\\-x\\s+\\-?\\d+\\s*)$"),
+    SHOW_DETAILS("^\\s*show\\s+details\\s+(\\-x\\s+\\-?\\d+\\s+\\-y\\s+\\-?\\d+\\s*|\\-y\\s+\\-?\\d+\\s+" +
+            "\\-x\\s+\\-?\\d+\\s*)$"),
     MOVE_MAP("^\\s*map\\s+((up|left|right|down)\\s*(\\-?\\d+)?\\s*)*$"),
     //handle map up up
     MOVE_UP(".+up\\s*(?<up>\\-?\\d+)?.*"),

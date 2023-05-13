@@ -16,7 +16,8 @@ public class MakingForceBuilding extends Building{
         super(x, y, government, hp, "castle building", name, hp, resource);
     }
 
-    public static MakingForceBuilding makeMakingForceBuildingByName(String name, int x ,int y, Government government, int flag) {
+    public static MakingForceBuilding makeMakingForceBuildingByName(String name, int x ,int y, Government government
+            , int flag) {
         HashMap<Resource, Integer> resource= new HashMap<>();
         if (name.equals("barrack")) {
             resource.put(Resource.STONE, 15);

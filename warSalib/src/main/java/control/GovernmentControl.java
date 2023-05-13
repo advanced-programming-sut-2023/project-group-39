@@ -225,7 +225,8 @@ public class GovernmentControl {
             return GovernmentMenuMessage.INVALID_FOOD_NAME;
         }
         int value = 0;
-        for (Map.Entry<Resource, Integer> foodResources : Game.getCurrentUser().getUserGovernment().getResources().entrySet()) {
+        for (Map.Entry<Resource, Integer> foodResources : Game.getCurrentUser().getUserGovernment().getResources()
+                .entrySet()) {
             if (food.getName().equals(foodResources.getKey())) {
                 value = foodResources.getValue();
                 break;
@@ -235,9 +236,10 @@ public class GovernmentControl {
         if (numberOfFoods > value) {
             return GovernmentMenuMessage.NOT_ENOUGH_INVENTORY;
         }
-        for (Map.Entry<Resource, Integer> foods : Game.getCurrentUser().getUserGovernment().getFoods().entrySet()) {   //is it okay?
+        for (Map.Entry<Resource, Integer> foods : Game.getCurrentUser().getUserGovernment().getFoods().entrySet()) {
             if (food.getName().equals(foods.getKey().getName())) {
-                Game.getCurrentUser().getUserGovernment().getFoods().replace(foods.getKey(), foods.getValue(), foods.getValue() + numberOfFoods);
+                Game.getCurrentUser().getUserGovernment().getFoods().replace(foods.getKey(), foods.getValue(),
+                        foods.getValue() + numberOfFoods);
                 return GovernmentMenuMessage.SUCCESS;
             }
         }

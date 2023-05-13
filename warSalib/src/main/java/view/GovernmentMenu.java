@@ -16,29 +16,35 @@ public class GovernmentMenu {
         while (true) {
             input = scanner.nextLine();
             Matcher matcher;
-            if (((matcher = GovernmentMenuCommands.getMatcher(input, GovernmentMenuCommands.SHOW_POPULARITY_FACTORS))!= null))
+            if (((matcher = GovernmentMenuCommands.getMatcher(input, GovernmentMenuCommands.SHOW_POPULARITY_FACTORS)) !=
+                    null))
                 showPopularityFactors();
             else if ((matcher = GovernmentMenuCommands.getMatcher(input, GovernmentMenuCommands.ADD_FOOD)) != null)
                 addFood(matcher);
-            else if ((matcher = GovernmentMenuCommands.getMatcher(input, GovernmentMenuCommands.SHOW_POPULARITY)) != null)
+            else if ((matcher = GovernmentMenuCommands.getMatcher(input, GovernmentMenuCommands.SHOW_POPULARITY)) !=
+                    null)
                 showPopularity();
-            else if ((matcher = GovernmentMenuCommands.getMatcher(input, GovernmentMenuCommands.SHOW_FOOD_LIST)) != null)
+            else if ((matcher = GovernmentMenuCommands.getMatcher(input, GovernmentMenuCommands.SHOW_FOOD_LIST)) !=
+                    null)
                 showFoodList();
-            else if ((matcher = GovernmentMenuCommands.getMatcher(input, GovernmentMenuCommands.CHANGE_FOOD_RATE)) != null)
+            else if ((matcher = GovernmentMenuCommands.getMatcher(input, GovernmentMenuCommands.CHANGE_FOOD_RATE)) !=
+                    null)
                 rateFood(matcher);
-            else if ((matcher = GovernmentMenuCommands.getMatcher(input, GovernmentMenuCommands.SHOW_FOOD_RATE)) != null)
+            else if ((matcher = GovernmentMenuCommands.getMatcher(input, GovernmentMenuCommands.SHOW_FOOD_RATE)) !=
+                    null)
                 showFoodRate();
-            else if ((matcher = GovernmentMenuCommands.getMatcher(input, GovernmentMenuCommands.CHANGE_TAX_RATE)) != null)
+            else if ((matcher = GovernmentMenuCommands.getMatcher(input, GovernmentMenuCommands.CHANGE_TAX_RATE)) !=
+                    null)
                 rateTax(matcher);
             else if ((matcher = GovernmentMenuCommands.getMatcher(input, GovernmentMenuCommands.SHOW_TAX_RATE)) != null)
                 showTaxRate();
-            else if ((matcher = GovernmentMenuCommands.getMatcher(input, GovernmentMenuCommands.CHANGE_FEAR_RATE)) != null)
+            else if ((matcher = GovernmentMenuCommands.getMatcher(input, GovernmentMenuCommands.CHANGE_FEAR_RATE)) !=
+                    null)
                 rateFear(matcher);
             else if (input.matches("^\\s*back\\s*$")) {
                 System.out.println("back to game menu");
                 break;
-            }
-            else System.out.println("invalid command!");
+            } else System.out.println("invalid command!");
         }
 
     }
@@ -110,7 +116,7 @@ public class GovernmentMenu {
         }
     }
 
-    private static Resource getResourceByName (String name) {
+    private static Resource getResourceByName(String name) {
         for (Resource resource : Resource.values()) {
             if (resource.getName().equals(name))
                 return resource;

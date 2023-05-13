@@ -127,7 +127,8 @@ public class EnvironmentControl {
             return EnvironmentMenuMessage.NOT_HAVE_GOVERNMENT;
         if (hasBuilding(x,y,x,y))
             return EnvironmentMenuMessage.EXIST_BUILDING;
-        Building building = Building.makeBuildingByName(type, x, y, Game.getMapInGame().getMap()[y][x].getGovernment(), 1);
+        Building building = Building.makeBuildingByName(type, x, y, Game.getMapInGame().getMap()[y][x].getGovernment(),
+                1);
         Government government = Game.getMapInGame().getMap()[y][x].getGovernment();
         government.addBuilding(building);
         if (building instanceof StockPileBuilding)
@@ -177,7 +178,8 @@ public class EnvironmentControl {
     }
 
     private static boolean validDirection(String direction) {
-        return direction.equals("n") || direction.equals("e") || direction.equals("w") || direction.equals("s") || direction.equals("r");
+        return direction.equals("n") || direction.equals("e") || direction.equals("w") || direction.equals("s")
+                || direction.equals("r");
     }
 
     private static boolean isGroundAppropriateForTree(Type typeOfGround) {

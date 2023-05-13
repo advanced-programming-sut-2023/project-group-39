@@ -15,7 +15,8 @@ public class ConvertedBuilding extends Building {
     private Resource finalResource;
 
     public ConvertedBuilding(int x, int y, Government government, int hp, String type, String name,
-                             int numberOfPrimitive, int NumberOfFinal, Resource primitiveResource, Resource finalResource
+                             int numberOfPrimitive, int NumberOfFinal, Resource primitiveResource,
+                             Resource finalResource
     , int maxHp, HashMap<Resource, Integer> resource) {
         super(x, y, government, hp, type, name, maxHp, resource);
         this.numberOfPrimitive = numberOfPrimitive;
@@ -24,7 +25,8 @@ public class ConvertedBuilding extends Building {
         this.finalResource = finalResource;
     }
 
-    public static ConvertedBuilding makeConvertedBuildingByName(String name, int x, int y, Government government, int flag) {
+    public static ConvertedBuilding makeConvertedBuildingByName(String name, int x, int y, Government government,
+                                                                int flag) {
         HashMap<Resource, Integer> resource = new HashMap<>();
         if (name.equals("mill")) {
             resource.put(Resource.WOOD, 20);

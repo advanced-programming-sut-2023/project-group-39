@@ -10,7 +10,8 @@ public enum LoginMenuCommands {
     PASSWORD("-p\\s+((?<passwordWithoutSpace>[^\\\"\\s]+)|(?<passwordWithSpace>\\\"[^\\\"]+\\\"))"),
 
 
-    PASSWORD_CONFIRM("-c\\s+((?<passwordConfirmWithoutSpace>[^\\\"\\s]+)|(?<passwordConfirmWithSpace>\\\"[^\\\"]+\\\"))"),
+    PASSWORD_CONFIRM("-c\\s+((?<passwordConfirmWithoutSpace>[^\\\"\\s]+)|(?<passwordConfirmWithSpace>" +
+            "\\\"[^\\\"]+\\\"))"),
 
     EMAIL("-email\\s+(?<emailAddress>[\\S]+)\\s*"),
 
@@ -18,7 +19,8 @@ public enum LoginMenuCommands {
 
 
 
-    STAY_LOGGED_IN_LOGIN("user\\s+stay\\s+logged\\s+in\\s+login\\s+-u\\s+(?<StayUsernameWithSpace>\\\".+\\\")|(?<StayUsernameWithOutSpace>[^\\\"\\s]+)"),
+    STAY_LOGGED_IN_LOGIN("user\\s+stay\\s+logged\\s+in\\s+login\\s+-u\\s+(?<StayUsernameWithSpace>\\\".+\\\")|" +
+            "(?<StayUsernameWithOutSpace>[^\\\"\\s]+)"),
 
 
     SLOGAN("-s\\s+((?<sloganWithoutSpace>[^\\\"\\s]+)|(?<sloganWithSpace>\\\"[^\\\"]+\\\"))"),

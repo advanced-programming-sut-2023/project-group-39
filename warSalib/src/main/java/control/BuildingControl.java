@@ -77,7 +77,8 @@ public class BuildingControl {
     private static boolean isBuildingForCurrentUser(int x, int y) {
         if (Game.getMapInGame().getMap()[y][x].getBuilding() == null)
             return false;
-        return Game.getMapInGame().getMap()[y][x].getBuilding().getGovernment().equals(Game.getTurnedUserForGame().getUserGovernment());
+        return Game.getMapInGame().getMap()[y][x].getBuilding().getGovernment().equals(Game
+                .getTurnedUserForGame().getUserGovernment());
     }
     public static BuildingMessage createUnit(String type, int count) {
         if (Game.getSelectedBuilding() == null)

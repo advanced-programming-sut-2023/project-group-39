@@ -19,7 +19,8 @@ public class User {
     private HashMap<String, String> securityQuestion ;
     private Government UserGovernment;
 
-    public User(String username,  String password, String email, String nickname,String slogan,String securityQuestionAnswer) {
+    public User(String username,  String password, String email, String nickname,String slogan,String
+            securityQuestionAnswer) {
         this.username = username;
         this.nickname = nickname;
         this.password = password;

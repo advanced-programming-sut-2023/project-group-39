@@ -76,12 +76,11 @@ public class GameMenu {
             else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.MAKE_FIERY_STONE_THROWER)) != null)
                 makeFieryStoneThrower(matcher);
             else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.NEXT_TURN)) != null) {
-                if(nextTurn(matcher)==0){
+                if (nextTurn(matcher) == 0) {
                     break;
                 }
 
-            }
-            else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.STOP_PATROL_UNIT)) != null)
+            } else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.STOP_PATROL_UNIT)) != null)
                 stopPatrol(matcher);
             else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.USE_CATAPULT_TO_ATTACK)) != null)
                 attackWithCatapult(matcher);
@@ -101,12 +100,10 @@ public class GameMenu {
             else if (input.matches("^\\s*enter\\s+building\\s+menu\\s*$")) {
                 System.out.println("entered building menu");
                 BuildingMenu.run(scanner);
-            }
-            else if (input.matches("^\\s*enter\\s+government\\s+menu\\s*$")) {
+            } else if (input.matches("^\\s*enter\\s+government\\s+menu\\s*$")) {
                 System.out.println("entered government menu");
                 GovernmentMenu.run(scanner);
-            }
-            else if (input.matches("^\\s*enter\\s+trade\\s+menu\\s*$")) {
+            } else if (input.matches("^\\s*enter\\s+trade\\s+menu\\s*$")) {
                 System.out.println("entered trade menu");
                 TradeMenu.run(scanner);
             } else System.out.println("invalid command");
@@ -114,8 +111,8 @@ public class GameMenu {
     }
 
     private static void unselectUnits(Matcher matcher) {
-        GameMenuMessage message=GameControl.unselectunits();
-        switch (message){
+        GameMenuMessage message = GameControl.unselectunits();
+        switch (message) {
             case SUCCESS:
                 System.out.println("units un selected successfully");
                 break;
@@ -123,7 +120,8 @@ public class GameMenu {
                 System.out.println("units cant un selected ");
                 break;
 
-        }    }
+        }
+    }
 
     private static void attackToBuilding(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("x"));
