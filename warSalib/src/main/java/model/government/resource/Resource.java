@@ -37,6 +37,13 @@ public enum Resource {
         return typeOfResource;
     }
 
+    public static Resource getResourceByName (String name) {
+        for (Resource resource : Resource.values()) {
+            if (resource.getName().equals(name))
+                return resource;
+        }
+        return null;
+    }
     public String getName() {
         return name;
     }

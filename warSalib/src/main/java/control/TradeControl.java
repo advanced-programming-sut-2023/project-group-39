@@ -17,12 +17,12 @@ public class TradeControl {
 
         if (amount <= 0 || price < 0)
             return TradeMenuMessage.INVALID_AMOUNT_OR_PRICE;
-
-        else if (!government.getResources().containsKey(itemName))
+        Resource resource = Resource.getResourceByName(itemName);
+        if (resource == null || !government.getResources().containsKey(resource))
             return TradeMenuMessage.ITEM_NOT_EXIST;
 
         HashMap<Resource, Integer> tradeListValue = new HashMap<>();
-        tradeListValue.put(Resource.valueOf(itemName), amount);
+        tradeListValue.put(resource, amount);
         TradeMenu.tradeList.put(government, tradeListValue);
         return TradeMenuMessage.SUCCESS;
     }
