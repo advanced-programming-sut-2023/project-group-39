@@ -21,11 +21,11 @@ public class TradeMenu {
             Matcher matcher;
             if ((matcher = TradeMenuCommands.getMatcher(input, TradeMenuCommands.TRADE)) != null)
                 trade(matcher);
-            else if (input.matches(String.valueOf(TradeMenuCommands.SHOW_TRADE_LIST)))
+            else if ((matcher = TradeMenuCommands.getMatcher(input, TradeMenuCommands.SHOW_TRADE_LIST)) != null)
                 showTradeList();
             else if ((matcher = TradeMenuCommands.getMatcher(input, TradeMenuCommands.ACCEPT_TRADE)) != null)
                 acceptTrade(matcher);
-            else if (input.matches(String.valueOf(TradeMenuCommands.SHOW_TRADE_HISTORY)))
+            else if ((matcher = TradeMenuCommands.getMatcher(input, TradeMenuCommands.SHOW_TRADE_HISTORY)) != null)
                 showTradeHistory();
             else if (input.matches("^\\s*back\\s*$"))
                 break;
@@ -35,7 +35,7 @@ public class TradeMenu {
 
     private static void trade(Matcher matcher) {
         String resourceType = matcher.group("resourceType");
-        int amount = Integer.parseInt(matcher.group("amount"));
+        int amount = Integer.parseInt(matcher.group("resourceAmount"));
         int price = Integer.parseInt(matcher.group("price"));
         String tradeMessage = matcher.group("message");
         TradeMenuMessage message = TradeControl.trade(resourceType, amount, price, tradeMessage);
@@ -57,9 +57,13 @@ public class TradeMenu {
     }
 
     private static void showTradeList() {
-        if (TradeControl.showTradeList().equals(TradeMenuMessage.EMPTY_TRADE_LIST))
-            System.out.println("No trades");
-        else System.out.println(TradeControl.showTradeList());
+        String message = TradeControl.showTradeList();
+//        if (TradeControl.showTradeList().equals(TradeMenuMessage.EMPTY_TRADE_LIST))
+//            System.out.println("No trades");
+//        else System.out.println(TradeControl.showTradeList());
+        if (message.equals(String.valueOf(TradeMenuMessage.EMPTY_TRADE_LIST)))
+            System.out.println("empty trade list");
+        else System.out.println(message);
     }
 
     private static void acceptTrade(Matcher matcher) {
@@ -86,17 +90,10 @@ public class TradeMenu {
     }
 
     private static void showTradeHistory() {
-        TradeMenuMessage message = TradeMenuMessage.valueOf(TradeControl.showTradeHistory());
-        switch (message) {
-            case EMPTY_TRADE_HISTORY:
-                System.out.println("***------------empty history------------***");
-                break;
-            case SUCCESS:
-                System.out.println("***------------trade history------------***");
-                break;
-            default:
-                System.out.println("invalid!!?");
-                break;
-        }
+//        TradeMenuMessage message = TradeMenuMessage.valueOf(TradeControl.showTradeHistory());
+        String message = TradeControl.showTradeHistory();
+        if (message.equals(String.valueOf(TradeMenuMessage.EMPTY_TRADE_HISTORY)))
+            System.out.println("empty history, you don't have any trades in you history");
+        else System.out.println(message);
     }
 }
