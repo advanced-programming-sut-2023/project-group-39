@@ -882,10 +882,10 @@ public class GameMenu {
         GameMenuMessage message = GameControl.nextTurn();
         switch (message) {
             case NEXT_PLAYER:
-                System.out.println("Player:  " + Game.getTurnedUserForGame().getUsername() + "   should be play now!");
+                System.out.println("Player    :  " + Game.getTurnedUserForGame().getUsername() + "   should be play now!");
                 break;
             case NEXT_TURN:
-                System.out.println("nex turn");
+                System.out.println("next turn");
                 System.out.println("Player:  " + Game.getTurnedUserForGame().getUsername() + "   should be play now!");
                 break;
             case FINISH_GAME:
