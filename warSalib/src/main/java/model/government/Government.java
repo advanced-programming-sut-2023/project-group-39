@@ -22,7 +22,7 @@ public class Government {
     private int popularity;
     private int population;
 
-    private int populationCapacity = 0;
+    private int populationCapacity = 50;
 
     private ArrayList<Engineer> engineers ;
 

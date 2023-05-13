@@ -46,7 +46,6 @@ public class MainMenu {
         int counter=0;
         Game.getPlayersInGame().add(Game.getCurrentUser());
         Government governmentOfCurrentUser = new Government(0 , 30, Game.getCurrentUser());
-        createInitialPeople(Game.getCurrentUser().getUserGovernment(),30);
         Game.getCurrentUser().setUserGovernment(governmentOfCurrentUser);
         Game.addGovernment(governmentOfCurrentUser);
         counter++;
@@ -65,7 +64,6 @@ public class MainMenu {
                     Government government = new Government(0, 30, getUserByName(username));
                     Game.addGovernment(government);
                     getUserByName(username).setUserGovernment(government);
-                    createInitialPeople(government,30);
                     counter++;
                     System.out.println("added successfully");
                 }
@@ -74,6 +72,9 @@ public class MainMenu {
 
             } else if (add.matches("^\\s*make\\s+map\\s*$")){
                 GameMap gameMap = new GameMap();
+                for (Government government : Game.getGovernments()) {
+                    createInitialPeople(government , 30);
+                }
                 Game.setMapInGame(gameMap);
                 System.out.println("map created and set your favorite map");
                 break;
