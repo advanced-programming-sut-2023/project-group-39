@@ -156,12 +156,12 @@ public class LoginSignupMenu {
 
     private static void stayLoggedInlogin(Matcher matcher) {
         String USERNAME=new String();
-        if(matcher.group("usernameWithSpace")!=null){
-            USERNAME=matcher.group("usernameWithSpace");
+        if(matcher.group("StayUsernameWithSpace")!=null){
+            USERNAME=matcher.group("StayUsernameWithSpace");
             USERNAME=USERNAME.substring(1,USERNAME.length()-1);
         }
-        else if(matcher.group("usernameWithOutSpace")!=null){
-            USERNAME=matcher.group("usernameWithOutSpace");
+        else if(matcher.group("StayUsernameWithOutSpace")!=null){
+            USERNAME=matcher.group("StayUsernameWithOutSpace");
 
         }
        GameMenuMessage message=LoginSignupControl.stayLoggedInlogin(username);
