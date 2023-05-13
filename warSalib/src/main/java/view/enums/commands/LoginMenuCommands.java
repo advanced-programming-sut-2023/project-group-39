@@ -18,7 +18,7 @@ public enum LoginMenuCommands {
 
 
 
-    STAY_LOGGED_IN_LOGIN("user\\s+login\\s+-u\\s+(?<usernameWithSpace>\\\".+\\\")||(?<usernameWithOutSpace>[^\\\"\\s]+"),
+    STAY_LOGGED_IN_LOGIN("user\\s+stay\\s+logged\\s+in\\s+login\\s+-u\\s+(?<StayUsernameWithSpace>\\\".+\\\")|(?<StayUsernameWithOutSpace>[^\\\"\\s]+)"),
 
 
     SLOGAN("-s\\s+((?<sloganWithoutSpace>[^\\\"\\s]+)|(?<sloganWithSpace>\\\"[^\\\"]+\\\"))"),
@@ -50,7 +50,7 @@ public enum LoginMenuCommands {
 
    CONFIRMANSWER("-c\\s+((?<answerWithoutSpace>[^\\\"\\s]+)|(?<answerWithSpace>\\\"[^\\\"]+\\\"))"),
 
-    LOGINUSER("user\\s+stay\\s+logged\\s+in\\s+login\\s+(\\-u\\s+(?<username>.+)\\s*()|\\-p\\s+(?<password>[\\S]+)\\s*()){2}\\3\\5(?<loggedInFlag>--stay-logged-in)?\\s*$"),
+    LOGINUSER("user\\s+login\\s+(\\-u\\s+(?<username>.+)\\s*()|\\-p\\s+(?<password>[\\S]+)\\s*()){2}\\3\\5(?<loggedInFlag>--stay-logged-in)?\\s*$"),
 
     PASSWORDFOROT("forgot\\s+my\\s+password"),
     FORGOTPASSWORD("forgot\\s+my\\s+password\\s+\\-u\\s+(?<username>.+)\\s*"),
