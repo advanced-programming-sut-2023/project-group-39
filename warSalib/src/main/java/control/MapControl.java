@@ -53,7 +53,7 @@ public class MapControl {
     public static String moveMap(int up, int down, int right, int left) {
         int x = Game.getMapInGame().getSelectedX();
         int y = Game.getMapInGame().getSelectedY();
-        return showMap(x - left + right , y - down + up);
+        return showMap(x + left - right , y - down + up);
     }
 
     public static String showDetails(int x, int y) {
@@ -73,9 +73,10 @@ public class MapControl {
         }
         if (hasUnits(tile.getPeopleOnTile())) {
             result += "***----------units-----------***\n";
-            HashMap <String, Integer> unitsPeople = countUnitsInHashMap(tile.getPeopleOnTile());
-            for (String nameOfTroop : unitsPeople.keySet()) {
-                result += nameOfTroop + "   " + unitsPeople.get(nameOfTroop);
+            HashMap <People, Integer> unitsPeople = countUnitsInHashMap(tile.getPeopleOnTile());
+            for (People people : unitsPeople.keySet()) {
+                result += ((Units)people).getUnitsName().getName() + "   "  + "user name  "
+                        +people.getOwnerPerson().getUsername() +"\n";
             }
         }
         if (tile.getBuilding() != null) {
@@ -105,16 +106,16 @@ public class MapControl {
         return 'N';
     }
 
-    private static HashMap<String, Integer> countUnitsInHashMap (ArrayList<People> people) {
-        HashMap <String,Integer> units = new HashMap<>();
+    private static HashMap<People, Integer> countUnitsInHashMap (ArrayList<People> people) {
+        HashMap <People,Integer> units = new HashMap<>();
         int num;
         for (People people1:people) {
             if (people1 instanceof Units) {
-                if (units.containsKey(((Units) people1).getUnitsName().getName())) {
-                    num = units.get(((Units) people1).getUnitsName().getName()) + 1;
-                    units.replace(((Units) people1).getUnitsName().getName(), num);
+                if (units.containsKey(people1)) {
+                    num = units.get(people1) + 1;
+                    units.replace(people1, num);
                 }
-                else units.put(((Units) people1).getUnitsName().getName(), 1);
+                else units.put(people1, 1);
             }
         }
         return units;
