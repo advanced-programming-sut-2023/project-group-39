@@ -12,7 +12,7 @@ public class BuildingMenu {
     public static void run(Scanner scanner) {
         String input;
         while (true) {
-            input = scanner.nextLine();
+            input = Scan.getScanner().nextLine();
             Matcher matcher;
             if (input.matches("^\\s*repair\\s*$")) {
                 repair();

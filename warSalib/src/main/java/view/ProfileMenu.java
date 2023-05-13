@@ -12,7 +12,7 @@ public class ProfileMenu {
     private User currentUser;
     public static int run() {
         String input;
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = Scan.getScanner();
         while (true) {
             input = scanner.nextLine();
             Matcher matcher;

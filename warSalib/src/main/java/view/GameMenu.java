@@ -19,7 +19,7 @@ public class GameMenu {
 
     public static void run() {
         String input;
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = Scan.getScanner();
         Matcher matcher;
         while (true) {
             input = scanner.nextLine();

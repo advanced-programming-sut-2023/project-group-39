@@ -37,7 +37,7 @@ public class LoginSignupMenu {
     static int flagCreateUser=0;
 
     public static void run() {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = Scan.getScanner();
         while (true) {
             try {
                 timeLimit(counterWrongPassword);
@@ -189,7 +189,7 @@ public class LoginSignupMenu {
             case SECURITYQUESTION:
                 System.out.println("Pick your security question: 1. What is my father’s name? 2. What\n" +
                         "was my first pet’s name? 3. What is my mother’s last name?");
-                Scanner scanner = new Scanner(System.in);
+                Scanner scanner = Scan.getScanner();
                 String answer = scanner.nextLine();
                 LoginMenuMessage message1 = LoginSignupControl.checkSecurityAnswer(username, answer);
                 switch (message1) {
@@ -240,7 +240,7 @@ public class LoginSignupMenu {
         System.out.println("Pick your security question: 1. What is my father’s name? 2. What\n" +
                 "was my first pet’s name? 3. What is my mother’s last name?");
         while (true) {
-            Scanner scanner = new Scanner(System.in);
+            Scanner scanner = Scan.getScanner();
             String ans = scanner.nextLine();
             Matcher matcher;
             if (ans.equals("exit"))
@@ -342,7 +342,7 @@ public class LoginSignupMenu {
         }
         System.out.println("Suggested username is:  "+username);
         System.out.println("Type yes to confirm it");
-        Scanner scanner=new Scanner(System.in);
+        Scanner scanner=Scan.getScanner();
         String check=scanner.nextLine();
         if(check.equals("yes")) {
          //   System.out.println(username);
@@ -360,7 +360,7 @@ public class LoginSignupMenu {
                 String randomPass = LoginSignupControl.findRandomPassword();
                 System.out.println("Your password is: " + randomPass);
                 System.out.println("please type password for check it:");
-                Scanner scanner = new Scanner(System.in);
+                Scanner scanner = Scan.getScanner();
                 String checkPassword = scanner.nextLine();
                 if (checkPassword.equals(randomPass)) {
                     validEmail(emailAddress);
@@ -448,7 +448,7 @@ public class LoginSignupMenu {
         }
 
         private static void makeNewPassword (String username){
-            Scanner scanner = new Scanner(System.in);
+            Scanner scanner = Scan.getScanner();
             String newPassword = scanner.nextLine();
             Matcher matcher;
             if ((matcher = LoginMenuCommands.getMatcher(newPassword, LoginMenuCommands.STRONGPASSWORD)) != null) {

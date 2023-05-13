@@ -16,7 +16,7 @@ public class MainMenu {
     public static void run() {
         String input ;
         Matcher matcher ;
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = Scan.getScanner();
         while (true) {
             input = scanner.nextLine();
             if (input.matches("^\\s*logout\\s*$")) {
@@ -49,7 +49,7 @@ public class MainMenu {
         Game.getCurrentUser().setUserGovernment(governmentOfCurrentUser);
         Game.addGovernment(governmentOfCurrentUser);
         counter++;
-        Scanner scanner=new Scanner(System.in);
+        Scanner scanner=Scan.getScanner();
         System.out.println("add player");
         while (true){
             String add=scanner.nextLine();
@@ -92,7 +92,7 @@ public class MainMenu {
                     JobsName.UNEMPLOYED, government.getUser());
             government.addToPeople(people);
             government.addToUnworkedPeople(people);
-            Game.getTurnedUserForGame().getUserGovernment().setPopulation(Game.getTurnedUserForGame().getUserGovernment().getPopulation()+1);
+            government.setPopulation(government.getPopulation()+1);
         }
 
     }
