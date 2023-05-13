@@ -72,12 +72,21 @@ public class LoginSignupTest {
     public void testCreateUser2() {
         LoginMenuMessage message = LoginSignupControl.createUser("sepehr", "Sepehr123^",
         "sepehr@gmail.com", "sepehries", "random", "in yekiam mohsenies");
+        Assertions.assertEquals(LoginMenuMessage.SUCCESS, message);
     }
 
     @Test
     public void testCreateUser3() {
         LoginMenuMessage message = LoginSignupControl.createUser("Ardalan", "Ardal123^",
         "ardal@gmail.com", "ardalies", "random", "na baba, inam Mohseni?");
+        Assertions.assertEquals(LoginMenuMessage.SUCCESS, message);
+    }
+
+    @Test
+    public void testCreateUser4() {
+        LoginMenuMessage message = LoginSignupControl.createUser("", "", "", "",
+                "" , "");
+        Assertions.assertEquals(LoginMenuMessage.INVALIDUSERNAME, message);
     }
 
     @Test
