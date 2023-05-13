@@ -39,6 +39,10 @@ public class People {
         this.jobsName = jobsName;
     }
 
+    public JobsName getJobsName() {
+        return jobsName;
+    }
+
     public User getOwnerPerson() {
         return ownerPerson;
     }

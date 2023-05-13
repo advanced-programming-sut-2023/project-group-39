@@ -98,7 +98,7 @@ public class BuildingControl {
         Building building = Game.getSelectedBuilding();
         Government government = building.getGovernment();
         for (int i = 0; i < count; i++) {
-            Units units = new Units(building.getX(), building.getY(), unitsName, building.getGovernment().getUser());
+            Units units = Units.makeUnit(building.getX(), building.getY(), unitsName, government.getUser());
             People people = government.getUnWorkedPeople().get(0);
             government.removeUnWorkedPeople(people);
             government.addToPeople(units);

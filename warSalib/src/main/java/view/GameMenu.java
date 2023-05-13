@@ -436,6 +436,9 @@ public class GameMenu {
             case INVALIDUNIT:
                 System.out.println("selected unit isn't archer");
                 break;
+            case NOT_HAVE_PEOPLE:
+                System.out.println("in this tile does not have enemy");
+                break;
             case NOTENOUGHRESOURCE:
                 System.out.println("you dont have enough resource to air attack");
                 break;

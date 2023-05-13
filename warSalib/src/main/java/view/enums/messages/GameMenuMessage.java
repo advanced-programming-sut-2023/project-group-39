@@ -40,4 +40,5 @@ public enum GameMenuMessage {
     WITH_OUT_BUILDING,
 
     FINISH_GAME,
+    NOT_HAVE_PEOPLE;
 }
