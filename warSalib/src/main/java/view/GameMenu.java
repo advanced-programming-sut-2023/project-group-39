@@ -314,14 +314,14 @@ public class GameMenu {
     private static void selectUnit(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
-        //we should have type of units and should be complete(with enum)
+        type = matcher.group("type");
         GameMenuMessage message = GameControl.selectUnit(x, y, type);
         switch (message) {
             case WRONG_AMOUNT:
                 System.out.println("you enter wrong amount of x and y");
                 break;
             case SUCCESS:
-                System.out.println("you drop it successfully");
+                System.out.println("you select it successfuly");
                 break;
             case WITHOUTUNIT:
                 System.out.println("we dont have unit on this tile");
