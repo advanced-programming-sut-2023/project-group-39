@@ -75,7 +75,7 @@ public class Game {
         Game.selectedBuilding = selectedBuilding;
     }
 
-    public void setGameStarter(User gameStarter) {
+    public static void setGameStarter(User gameStarter) {
         GameStarter = gameStarter;
     }
 

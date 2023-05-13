@@ -7,6 +7,7 @@ import model.government.building.group.GroupOfBuilding;
 import model.government.people.People;
 import model.government.people.units.*;
 import model.government.people.workingpersons.JobsName;
+import model.government.people.workingpersons.WorkingPerson;
 import model.government.resource.Resource;
 import model.map.Tile;
 import model.user.User;
@@ -66,7 +67,7 @@ public class GameControl {
             tilesNeighbors.add(new ArrayList<Integer>());
         }
         addNeighbors(tilesNeighbors);
-        GameMenuMessage message = printShortestDistance(tilesNeighbors, (200 * currentUnits.get(0).getxLocation()) + currentUnits.get(0).getyLocation(), (200 * x) + y, v);
+        GameMenuMessage message = printShortestDistance(x,y,tilesNeighbors, (200 * currentUnits.get(0).getxLocation()) + currentUnits.get(0).getyLocation(), (200 * x) + y, v);
         return message;
     }
 
@@ -77,7 +78,7 @@ public class GameControl {
             tilesNeighbors.add(new ArrayList<Integer>());
         }
         addNeighbors(tilesNeighbors);
-        GameMenuMessage message = printShortestDistance(tilesNeighbors, (200 * units.getxLocation()) + units.getyLocation(), (200 * x) + y, v);
+        GameMenuMessage message = printShortestDistance(x,y,tilesNeighbors, (200 * units.getxLocation()) + units.getyLocation(), (200 * x) + y, v);
     }
 
     private static void addNeighbors(ArrayList<ArrayList<Integer>> tileNeighbors) {
@@ -85,15 +86,19 @@ public class GameControl {
             for (int y = 0; y < 200; y++) {
                 if ((x + 1) < 200 && (Game.getMapInGame().getMap()[y][x + 1].getRock() == null && Game.getMapInGame().getMap()[y][x + 1].getType().getPermeability())) {
                     tileNeighbors.get((x * 200) + y).add(((x + 1) * 200) + y);
+                    tileNeighbors.get(((x+1) * 200) + y).add(((x) * 200) + y);
                 }
                 if ((x - 1) >= 0 && (Game.getMapInGame().getMap()[y][x - 1].getRock() == null && Game.getMapInGame().getMap()[y][x - 1].getType().getPermeability())) {
                     tileNeighbors.get((x * 200) + y).add(((x - 1) * 200) + y);
+                    tileNeighbors.get(((x-1) * 200) + y).add(((x) * 200) + y);
                 }
                 if ((y + 1) < 200 && (Game.getMapInGame().getMap()[y + 1][x].getRock() == null && Game.getMapInGame().getMap()[y + 1][x].getType().getPermeability())) {
                     tileNeighbors.get((x * 200) + y).add(((x) * 200) + y + 1);
+                    tileNeighbors.get((x * 200) + y+1).add(((x ) * 200) + y);
                 }
                 if ((y - 1) >= 0 && (Game.getMapInGame().getMap()[y - 1][x].getRock() == null && Game.getMapInGame().getMap()[y - 1][x].getType().getPermeability())) {
-                    tileNeighbors.get((x * 200) + y).add(((x + 1) * 200) + y - 1);
+                    tileNeighbors.get((x * 200) + y).add(((x) * 200) + y - 1);
+                    tileNeighbors.get((x * 200) + y-1).add(((x ) * 200) + y);
                 }
 
             }
@@ -131,7 +136,7 @@ public class GameControl {
             return GameMenuMessage.PROBLEM;
     }
 
-    public static GameMenuMessage printShortestDistance(ArrayList<ArrayList<Integer>> neighborTiles, int tile1, int tile2, int v) {
+    public static GameMenuMessage printShortestDistance(int x,int y,ArrayList<ArrayList<Integer>> neighborTiles, int tile1, int tile2, int v) {
         int counter = 0;
         int pred[] = new int[v];
         int dist[] = new int[v];
@@ -142,6 +147,7 @@ public class GameControl {
         }
         LinkedList<Integer> path = new LinkedList<>();
         int crawl = tile2;
+        path.add(crawl);
         while (pred[crawl] != -1) {
             path.add(pred[crawl]);
             crawl = pred[crawl];
@@ -150,16 +156,20 @@ public class GameControl {
         System.out.println("Shortest path length is: " + dist[tile2]);
         System.out.println("Path is ::");
         for (i = path.size() - 1; i >= 0; i--) {
-            System.out.print("x:  " + path.get(i) / 200 + "y:    " + path.get(i) % 200);
-            for (Units units : currentUnits) {
-                units.setxLocation(path.get(i) / 200);
-                units.setyLocation(path.get(i) % 200);
+            System.out.println("x   :  " + path.get(i)/200+"    y :   "+path.get(i)%200);
+            for (Units units:currentUnits){
+                units.setxLocation(path.get(i)/200);
+                units.setyLocation(path.get(i)%200);
             }
             counter++;
             if (counter == currentUnits.get(0).getUnitsName().getSpeed() / 20)
                 break;
         }
-        if (path.size() > counter) {
+        if (path.size() -1> counter) {
+            for (Units units:currentUnits){
+                units.setToGoX(x);
+                units.setToGoY(y);
+            }
             return GameMenuMessage.BIGGERTHANSPEED;
         } else {
             return GameMenuMessage.SUCCESS;
@@ -171,13 +181,14 @@ public class GameControl {
         int counter = 0;
         int pred[] = new int[v];
         int dist[] = new int[v];
-        if (BFS(neighborTiles, tile1, tile2, v, pred, dist) == false) {
+        if (!BFS(neighborTiles, tile1, tile2, v, pred, dist)) {
             System.out.println("Given source and destination" +
                     "are not connected");
             return GameMenuMessage.PROBLEM;
         }
         LinkedList<Integer> path = new LinkedList<>();
         int crawl = tile2;
+        path.add(crawl);
         while (pred[crawl] != -1) {
             path.add(pred[crawl]);
             crawl = pred[crawl];
@@ -193,7 +204,7 @@ public class GameControl {
             if (counter == unit.getUnitsName().getSpeed() / 20)
                 break;
         }
-        if (path.size() > counter) {
+        if (path.size() -1> counter) {
             return GameMenuMessage.BIGGERTHANSPEED;
         } else {
             return GameMenuMessage.SUCCESS;
@@ -231,8 +242,9 @@ public class GameControl {
 
                     // stopping condition (when we find
                     // our destination)
-                    if (tileNeighbors.get(u).get(i) == tile2)
+                    if (tileNeighbors.get(u).get(i) == tile2) {
                         return true;
+                    }
                 }
             }
         }
@@ -659,7 +671,7 @@ public class GameControl {
         }
 
         unit1.changeHitPoint((int) (Math.floor(-1 * unit1ChangeHitPoint * (100 - unit1.getUnitsName().getDefensingPower())) / 100));
-        unit2.getOwnerPerson().changeScore((int) (Math.floor( unit1ChangeHitPoint * (100 - unit1.getUnitsName().getDefensingPower())) / 100));
+        unit2.getOwnerPerson().changeScore((int) (Math.floor(unit1ChangeHitPoint * (100 - unit1.getUnitsName().getDefensingPower())) / 100));
         unit2.changeHitPoint((int) (Math.floor(-1 * unit2ChangeHitPoint * (100 - unit2.getUnitsName().getDefensingPower())) / 100));
         unit1.getOwnerPerson().changeScore((int) (Math.floor(unit2ChangeHitPoint * (100 - unit2.getUnitsName().getDefensingPower())) / 100));
         unit1.changeEfficientAttackingPower(-5);
@@ -794,22 +806,33 @@ public class GameControl {
     public static GameMenuMessage nextTurn() {//TODO should be completed !!!!a lot of work we have to do!
         changeFoodsInventory();
         applyRateBuilding();
+        addPeopleToGovernment();
         if (Game.getPlayersInGame().indexOf(Game.getTurnedUserForGame()) == Game.getPlayersInGame().size() - 1) {
             counterTurn++;
-            if(counterTurn==turn){
-                counterTurn=0;
-                turn=0;
-                for (User user:Game.getPlayersInGame()){
+            if (counterTurn == turn) {
+                counterTurn = 0;
+                turn = 0;
+                for (User user : Game.getPlayersInGame()) {
                     user.setUserGovernment(null);
 
                 }
                 Game.getPlayersInGame().clear();
                 return GameMenuMessage.FINISH_GAME;
 
-            }  Game.setTurnedUserForGame(Game.getGameStarter());
+            }
+            Game.setTurnedUserForGame(Game.getGameStarter());
+            Units units = currentUnits.get(0);
+            //    for (People people : Game.getTurnedUserForGame().getUserGovernment().getPeople()) {
+              //  if (people instanceof Units) {
+                //    System.out.println(people.getxLocation()+"  "+people.getyLocation()+"  "+people.getToGoX());
+               // }
+
+           // }
             for (User user : Game.getPlayersInGame()) {
                 for (People people : user.getUserGovernment().getPeople()) {
                     if (people instanceof Units) {
+                    //    System.out.println(people.getToGoX() + "    " + people.getxLocation()+people.getOwnerPerson().getUsername());
+                      //  System.out.println(people.getOwnerPerson().getUsername() + "   " + ((Units) people).getUnitsName().getName());
                         if (people.getToGoX() != people.getxLocation() || people.getToGoY() != people.getyLocation()) {
                           //  System.out.println(people.getxLocation());
                           //  System.out.println(people.getyLocation());
@@ -818,7 +841,6 @@ public class GameControl {
                     }
                 }
             }
-
             for (User user : Game.getPlayersInGame()) {
 
                 for (People people : user.getUserGovernment().getPeople()) {
@@ -869,7 +891,7 @@ public class GameControl {
                 if (people instanceof Units) {
                     people.getOwnerPerson().getUserGovernment().getPeople().remove(people);
                     Game.getMapInGame().getMap()[people.getxLocation()][people.getyLocation()].getPeopleOnTile().remove(people);
-                    people.getOwnerPerson().getUserGovernment().setPopulation(people.getOwnerPerson().getUserGovernment().getPopulation()+1);
+                    people.getOwnerPerson().getUserGovernment().setPopulation(people.getOwnerPerson().getUserGovernment().getPopulation() + 1);
 
                 }
 
@@ -880,13 +902,9 @@ public class GameControl {
             return GameMenuMessage.NEXT_TURN;
         } else {
             Game.setTurnedUserForGame(Game.getPlayersInGame().get(Game.getPlayersInGame().indexOf(Game.getTurnedUserForGame()) + 1));
-            if (currentUnits != null) {
-                currentUnits.clear();
-            }
             return GameMenuMessage.NEXT_PLAYER;
         }
     }
-
 
 
     private static void deffensiveBehavior() {
@@ -894,17 +912,17 @@ public class GameControl {
             for (People people : user.getUserGovernment().getPeople()) {
                 if (people instanceof Units) {
                     if (((Units) people).getState().equals(State.DEFENSIVE)) {
-                        int x1=people.getxLocation();
-                        int y1=people.getyLocation();
-                        if(x1+1<200){
-                            Tile tile=Game.getMapInGame().getMap()[x1+1][y1];
-                            people.setxLocation(x1+1);
+                        int x1 = people.getxLocation();
+                        int y1 = people.getyLocation();
+                        if (x1 + 1 < 200) {
+                            Tile tile = Game.getMapInGame().getMap()[x1 + 1][y1];
+                            people.setxLocation(x1 + 1);
                             people.setyLocation(y1);
-                            for (People people1:tile.getPeopleOnTile()){
-                                if(!people1.getOwnerPerson().equals(people.getOwnerPerson())) {
-                                    Units unit1= (Units) people;
-                                    Units unit2= (Units) people1;
-                                    fight(unit1,unit2);
+                            for (People people1 : tile.getPeopleOnTile()) {
+                                if (!people1.getOwnerPerson().equals(people.getOwnerPerson())) {
+                                    Units unit1 = (Units) people;
+                                    Units unit2 = (Units) people1;
+                                    fight(unit1, unit2);
                                 }
                             }
                         }
@@ -920,13 +938,13 @@ public class GameControl {
             for (People people : user.getUserGovernment().getPeople()) {
                 if (people instanceof Archers) {
                     if (((Archers) people).getState().equals(State.STANDING)) {
-                        for (int i=0;i<200;i++){
-                            for (int j=0;j<200;j++){
-                                if(distance(people.getxLocation(),people.getyLocation(),i,j)<((Archers) people).getArrowRadius()/5){
-                                    Tile tile=Game.getMapInGame().getMap()[i][j];
-                                    for (People people1:tile.getPeopleOnTile()){
-                                        if(people1 instanceof Units&&!people1.getOwnerPerson().equals(people.getOwnerPerson())){
-                                            ((Units) people1).changeHitPoint(-1*((Archers) people).getFatality()/10);
+                        for (int i = 0; i < 200; i++) {
+                            for (int j = 0; j < 200; j++) {
+                                if (distance(people.getxLocation(), people.getyLocation(), i, j) < ((Archers) people).getArrowRadius() / 5) {
+                                    Tile tile = Game.getMapInGame().getMap()[i][j];
+                                    for (People people1 : tile.getPeopleOnTile()) {
+                                        if (people1 instanceof Units && !people1.getOwnerPerson().equals(people.getOwnerPerson())) {
+                                            ((Units) people1).changeHitPoint(-1 * ((Archers) people).getFatality() / 10);
                                         }
                                     }
                                 }
@@ -938,9 +956,10 @@ public class GameControl {
             }
         }
     }
-    private static int distance(int x1,int y1,int x2,int y2){
-        double dis=Math.pow(x2-x1,x2-x1)+Math.pow(y2-y1,y2-y1);
-        int distance=(int)Math.sqrt(dis);
+
+    private static int distance(int x1, int y1, int x2, int y2) {
+        double dis = Math.pow(x2 - x1, x2 - x1) + Math.pow(y2 - y1, y2 - y1);
+        int distance = (int) Math.sqrt(dis);
         return distance;
     }
 
@@ -1282,7 +1301,7 @@ public class GameControl {
     }
 
     public static GameMenuMessage unselectunits() {
-        if(currentUnits!=null) {
+        if (currentUnits != null) {
             currentUnits.clear();
             return GameMenuMessage.SUCCESS;
         }

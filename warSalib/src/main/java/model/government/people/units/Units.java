@@ -36,6 +36,8 @@ public class Units extends People {
         this.patrolFromY=-1;
         this.patrolToX=-1;
         this.patrolToY=-1;
+        this.toGoX=xLocation;
+        this.toGoY=yLocation;
     }
 
 

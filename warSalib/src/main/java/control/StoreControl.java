@@ -2,6 +2,7 @@ package control;
 
 import model.Game;
 import model.government.building.Market;
+import model.government.people.People;
 import model.government.resource.Resource;
 import view.enums.messages.StoreMenuMessage;
 

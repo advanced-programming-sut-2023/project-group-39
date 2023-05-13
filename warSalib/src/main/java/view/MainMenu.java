@@ -47,6 +47,7 @@ public class MainMenu {
         Government governmentOfCurrentUser = new Government(0 , 30, Game.getCurrentUser());
         Game.getCurrentUser().setUserGovernment(governmentOfCurrentUser);
         Game.addGovernment(governmentOfCurrentUser);
+        Game.setGameStarter(Game.getCurrentUser());
         counter++;
         Scanner scanner=Scan.getScanner();
         System.out.println("add player");
@@ -93,6 +94,7 @@ public class MainMenu {
             government.addToUnworkedPeople(people);
             government.setPopulation(government.getPopulation()+1);
         }
+        System.out.println("is  "+government.getPeople().size());
 
     }
 

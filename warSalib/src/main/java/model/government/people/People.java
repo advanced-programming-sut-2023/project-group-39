@@ -67,4 +67,7 @@ public class People {
         this.yLocation = yLocation;
     }
 
+    public JobsName getJobsName() {
+        return jobsName;
+    }
 }
