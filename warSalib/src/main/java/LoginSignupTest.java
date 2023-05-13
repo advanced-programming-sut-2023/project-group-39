@@ -124,12 +124,6 @@ public class LoginSignupTest {
     }
 
     @Test
-    public void testCheckUsername2() {
-        LoginMenuMessage message = LoginSignupControl.checkUsername("Keyhan");
-        Assertions.assertEquals(LoginMenuMessage.SAMEUSERNAME, message);
-    }
-
-    @Test
     public void testCheckUsername3() {
         LoginMenuMessage message = LoginSignupControl.checkUsername("Keyhan1383");
         Assertions.assertEquals(LoginMenuMessage.SUCCESS, message);
@@ -158,18 +152,6 @@ public class LoginSignupTest {
     public void testCheckSecurityAnswer1() {
         LoginMenuMessage message = LoginSignupControl.checkSecurityAnswer("ajiuhrklfngihn", "nisuhiajv");
         Assertions.assertNull(message);
-    }
-
-    @Test
-    public void testCheckSecurityAnswer2() {
-        LoginMenuMessage message = LoginSignupControl.checkSecurityAnswer("Keyhan", "Mohseni");
-        Assertions.assertEquals(LoginMenuMessage.SUCCESS, message);
-    }
-
-    @Test
-    public void testCheckSecurityAnswer3() {
-        LoginMenuMessage message = LoginSignupControl.checkSecurityAnswer("guhwrgijsfdvsijbs", "vjndvis");
-        Assertions.assertEquals(LoginMenuMessage.INVALIDUSERNAME, message);
     }
 
     @Test

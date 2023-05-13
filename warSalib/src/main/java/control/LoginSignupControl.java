@@ -136,6 +136,8 @@ public class LoginSignupControl {
         if ((matcher = LoginMenuCommands.getMatcher(username, LoginMenuCommands.INVALID_USER_NAME)) != null) {
             return LoginMenuMessage.INVALIDUSERNAME;
         }
+        else if (username.equals(""))
+            return LoginMenuMessage.INVALIDUSERNAME;
         for (User user : Game.getPlayers()) {
             if (user.getUsername().equals(username)) {
                 return LoginMenuMessage.SAMEUSERNAME;
