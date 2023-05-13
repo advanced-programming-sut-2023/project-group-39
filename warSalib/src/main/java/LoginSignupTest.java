@@ -119,7 +119,7 @@ public class LoginSignupTest {
 
     @Test
     public void testCheckUsername1() {
-        LoginMenuMessage message = LoginSignupControl.checkUsername("k");
+        LoginMenuMessage message = LoginSignupControl.checkUsername("");
         Assertions.assertEquals(LoginMenuMessage.INVALIDUSERNAME, message);
     }
 
