@@ -324,7 +324,11 @@ public class LoginSignupMenu {
 
     private static void createUser(String username, String password, String confirmPassword, String nickname, String slogan,String securityAnswer ) {
     LoginMenuMessage message=LoginSignupControl.createUser(username,password,emailAddress,nickname,slogan,securityAnswer);
-    if(message.equals(LoginMenuMessage.SUCCESS))
+    if (message.equals(LoginMenuMessage.INVALIDUSERNAME))
+        System.out.println("invalid username format");
+    else if (message.equals(LoginMenuMessage.SAMEUSERNAME))
+        System.out.println("this username already exists");
+    else if(message.equals(LoginMenuMessage.SUCCESS))
         System.out.println("user created successfully");
     }
 
