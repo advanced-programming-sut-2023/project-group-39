@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.PasswordField?>
+<Pane>
+    <TextField promptText="Username" layoutY="160" layoutX="120" />
+    <PasswordField promptText="Password" layoutY="200" layoutX="120" />
+
+</Pane>
