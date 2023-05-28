@@ -79,7 +79,7 @@ public class StartGame extends Application {
     }
 
     public void goSignupView(MouseEvent mouseEvent) {
-        Signupview.start();
+        SignupView.start();
     }
 
     public static void setStartPane(Pane startPane) {
