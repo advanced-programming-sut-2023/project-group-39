@@ -78,8 +78,8 @@ public class StartGame extends Application {
         LoginView.start(stage);
     }
 
-    public void goSignupView(MouseEvent mouseEvent) {
-        SignupView.start();
+    public void goSignupView(MouseEvent mouseEvent) throws IOException {
+        SignupView.start(stage);
     }
 
     public static void setStartPane(Pane startPane) {

@@ -11,7 +11,7 @@
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="view.LoginView"
       prefHeight="400.0" prefWidth="600.0">
-    <VBox alignment="CENTER" spacing="30">
+    <VBox alignment="CENTER" spacing="30" layoutY="100">
         <TextField promptText="Username" fx:id="username" maxWidth="300"/>
         <PasswordField promptText="Password" fx:id="password" maxWidth="300"/>
         <Button text="Login" onMouseClicked="#Login"/>

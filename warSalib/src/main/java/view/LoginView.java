@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class LoginView {
-    public static Stage stage = StartGame.stage;
+    public static Stage stage;
     public static Pane loginPane;
     @FXML
     private TextField username;

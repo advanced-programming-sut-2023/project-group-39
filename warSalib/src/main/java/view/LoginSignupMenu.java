@@ -322,7 +322,7 @@ public class LoginSignupMenu {
 
     }
 
-    private static void createUser(String username, String password, String confirmPassword, String nickname, String slogan,String securityAnswer ) {
+    public static void createUser(String username, String password, String confirmPassword, String nickname, String slogan, String securityAnswer) {
     LoginMenuMessage message=LoginSignupControl.createUser(username,password,emailAddress,nickname,slogan,securityAnswer);
     if(message.equals(LoginMenuMessage.SUCCESS))
         System.out.println("user created successfully");
