@@ -1,6 +1,4 @@
 package view;
-
-import control.LoginSignupControl;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -29,6 +27,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import view.LoginSignupMenu;
+import view.StartGame;
 import view.enums.messages.LoginMenuMessage;
 
 import java.io.IOException;
@@ -114,3 +114,5 @@ public class Signupview extends Application {
         });
     }
 }
+
+
