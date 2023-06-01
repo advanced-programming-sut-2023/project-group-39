@@ -14,9 +14,12 @@
     <VBox alignment="CENTER" spacing="30" layoutY="100">
         <TextField promptText="Username" fx:id="username" maxWidth="300"/>
         <PasswordField promptText="Password" fx:id="password" maxWidth="300"/>
+        <PasswordField promptText="Confirm your password" fx:id="confirm" maxWidth="300"/>
         <TextField promptText="Nickname" fx:id="nickname" maxWidth="300"/>
         <TextField promptText="Email" fx:id="email" maxWidth="300"/>
+        <TextField promptText="Slogan" fx:id="slogan" maxWidth="300"/>
         <Spinner promptText="Password recovery question" fx:id="spinner" maxWidth="300" onMouseClicked="#getSpinnerValue"/>
+        <Button text="Sign up" onMouseClicked="#signUp"/>
     </VBox>
 
 
