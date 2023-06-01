@@ -6,8 +6,13 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.PasswordField?>
-<Pane>
-    <TextField promptText="Username" layoutY="160" layoutX="120" />
-    <PasswordField promptText="Password" layoutY="200" layoutX="120" />
+<?import javafx.scene.control.Button?>
+<Pane xmlns="http://javafx.com/javafx" fx:id="startPane"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="view.StartGame"
+      prefHeight="400.0" prefWidth="600.0">
+    <TextField promptText="Username" layoutX="300" layoutY="120" prefHeight="30" prefWidth="100" onMouseClicked="#goLoginView" />
+    <PasswordField promptText="Password" layoutX="300" layoutY="200" prefHeight="30" prefWidth="100" onMouseClicked="#goSignupView" />
+
 
 </Pane>

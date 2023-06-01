@@ -300,25 +300,20 @@ public class LoginSignupMenu {
         }
 
     }
-    private static void checkUsername(String userName){
-        if(username==null)
-            return;
-        LoginMenuMessage message = LoginSignupControl.checkUsername(username);
+    public static String checkUsername(String userName){
+        if(userName==null)
+            return null;
+        LoginMenuMessage message = LoginSignupControl.checkUsername(userName);
         switch (message) {
             case INVALIDUSERNAME:
-                System.out.println("username format is invalid");
-                break;
+                return "invalid format";
             case SUCCESS:
-                validPassword(password);
-                break;
+                return "success";
             case SAMEUSERNAME:
-                username=makeSuggestionUsername(userName);
-                System.out.println(userName);
-                if(username!=null) {
-                    validPassword(password);
-                }
-                break;
+              //  username=makeSuggestionUsername(userName);
+                return "sameUsername";
         }
+        return null;
 
     }
 

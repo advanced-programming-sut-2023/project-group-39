@@ -1,5 +1,6 @@
 package view;
 
+import control.LoginSignupControl;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -61,7 +62,7 @@ public class StartGame extends Application {
         Scene scene = new Scene(pane,840,720);
         StartGame.stage=stage;
         stage.setTitle("Welcome to the Game");
-        Image image=new Image(StartGame.class.getResource("/images/startGameBckground.jpg").toExternalForm());
+        Image image=new Image(StartGame.class.getResource("/images/thumb-1920-680255.jpg").toExternalForm());
         BackgroundFill backgroundFill=new BackgroundFill(new ImagePattern(image), CornerRadii.EMPTY, Insets.EMPTY);
         Background background=new Background(backgroundFill);
         pane.setBackground(background);
@@ -70,7 +71,8 @@ public class StartGame extends Application {
 
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+       // LoginSignupControl.readUsersData();
         launch();
     }
 
@@ -78,8 +80,9 @@ public class StartGame extends Application {
         LoginView.start(stage);
     }
 
-    public void goSignupView(MouseEvent mouseEvent) {
-        Signupview.start();
+    public void goSignupView(MouseEvent mouseEvent) throws IOException {
+        Signupview signupview=new Signupview();
+        signupview.start(stage);
     }
 
     public static void setStartPane(Pane startPane) {

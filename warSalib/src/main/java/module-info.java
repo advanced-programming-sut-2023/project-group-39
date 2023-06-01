@@ -3,11 +3,15 @@ module warSalib {
     requires javafx.fxml;
     requires javafx.media;
     requires java.desktop;
-    requires gson;
     requires xstream;
     requires passay;
     requires jdk.jdi;
+    requires com.google.gson;
 
     exports view;
     opens view to javafx.fxml;
+    opens control to com.google.gson;
+    exports control;
+    opens model.user to com.google.gson;
+    exports model;
 }
