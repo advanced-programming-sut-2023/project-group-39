@@ -81,7 +81,7 @@ public class Signupview extends Application {
     @FXML
     public void initialize() {
         Label invalidUsername = new Label("Username format is invalid");
-        invalidUsername.setLayoutX(260);
+        invalidUsername.setLayoutX(261);
         invalidUsername.setLayoutY(120);
         invalidUsername.setTextFill(Color.CRIMSON);
         Label sameUsername = new Label("This username already exists");
