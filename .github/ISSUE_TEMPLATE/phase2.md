@@ -44,9 +44,9 @@ assignees: Arman17Babaei
 
 ## تسک‌های نفر اول
 
-  **نام و نام خانوادگی:**
+  **نام و نام خانوادگی:** سیدکیهان هدائی<br>
 <details>
-  <summary>تسک مربوطه</summary>
+  <summary>تسک مربوطه<br>منوهای خارج از بازی<br>حکومت<br>تجارت</summary>
 
   <div dir="ltr" align='right'>
 
@@ -58,9 +58,9 @@ assignees: Arman17Babaei
 
 ## تسک‌های نفر دوم
 
-  **نام و نام خانوادگی:**
+  **نام و نام خانوادگی:**اردلان دهقان‌پور<br>
 <details>
-  <summary>تسک مربوطه</summary>
+  <summary>تسک مربوطه<br>بخشی از نقشه<br>نیروها</summary>
 
   <div dir="ltr" align='right'>
 
@@ -72,9 +72,9 @@ assignees: Arman17Babaei
 
 ## تسک‌های نفر سوم
 
-  **نام و نام خانوادگی:**
+  **نام و نام خانوادگی:**سپهر غیاث<br>
 <details>
-  <summary>تسک مربوطه</summary>
+  <summary>تسک مربوطه<br>بخشی از نقشه<br>ساختمان‌ها<br>فروشگاه</summary>
 
   <div dir="ltr" align='right'>
 
