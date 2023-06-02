@@ -1,15 +1,16 @@
 package model.user;
 
+
 import java.util.ArrayList;
 import model.government.Government;
 
 import java.util.HashMap;
 
 public class User {
-    private String username;
-    private String nickname;
-    private String password;
-    private String email;
+    public String username;
+    public String nickname;
+    public String password;
+    public String email;
     private int rank;
     private int score;
     private String slogan;
@@ -129,3 +130,4 @@ public class User {
     }
 
 }
+

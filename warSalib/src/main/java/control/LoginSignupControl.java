@@ -2,7 +2,7 @@ package control;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.thoughtworks.xstream.security.AnyTypePermission;
+
 import model.Game;
 import model.user.User;
 import view.enums.commands.LoginMenuCommands;
@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.regex.Matcher;
 
-import com.thoughtworks.xstream.XStream;
 
 
 public class LoginSignupControl {
@@ -76,13 +75,13 @@ public class LoginSignupControl {
       //  XStream xStream=new XStream();
         User user=new User(username,password,emailAddress,nickname,slogan,securityAnswer);
         Game.getPlayers().add(user);
-        try {
-            FileWriter fileWriter=new FileWriter("users.json");
-            fileWriter.write(new Gson().toJson(Game.getPlayers()));
-            fileWriter.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+     // try {
+       //     FileWriter fileWriter=new FileWriter("users.json");
+       //    fileWriter.write(new Gson().toJson(Game.getPlayers()));
+         //  fileWriter.close();
+      //  } catch (IOException e) {
+        //   throw new RuntimeException(e);
+       // }
         // String xml=xStream.toXML(Game.getPlayers());
        // try {
          //   FileWriter writer=new FileWriter("users.xml");
@@ -100,7 +99,7 @@ public class LoginSignupControl {
         return null;
     }
 
-    public static LoginMenuMessage validateEmail(String email) {
+    public static LoginMenuMessage  validateEmail(String email) {
         Matcher matcher;
         if((matcher=LoginMenuCommands.getMatcher(email,LoginMenuCommands.VALIDEMAIL))==null){
             return LoginMenuMessage.INVALIDEMAILFORMAT;
@@ -205,5 +204,28 @@ public class LoginSignupControl {
 
         }
         return GameMenuMessage.PROBLEM;
+    }
+
+    public static int makeRandomCaptcha() {
+        ArrayList<Integer> randomNumbers=new ArrayList<>();
+        randomNumbers.add(1181);
+        randomNumbers.add(1381);
+        randomNumbers.add(1491);
+        randomNumbers.add(1722);
+        randomNumbers.add(1959);
+        randomNumbers.add(2163);
+        randomNumbers.add(2177);
+        randomNumbers.add(2723);
+        randomNumbers.add(2785);
+        randomNumbers.add(3541);
+        randomNumbers.add(3847);
+        randomNumbers.add(3855);
+        randomNumbers.add(3876);
+        randomNumbers.add(3967);
+        randomNumbers.add(4185);
+        Random random=new Random();
+        int path=randomNumbers.get(random.nextInt(randomNumbers.size()));
+        return path;
+
     }
 }

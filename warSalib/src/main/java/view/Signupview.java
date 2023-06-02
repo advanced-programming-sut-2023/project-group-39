@@ -1,12 +1,15 @@
 package view;
 
 import control.LoginSignupControl;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -15,10 +18,14 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+
+import javax.swing.JFrame;
+
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.text.*;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.IOException;
 
 import javafx.application.Application;
@@ -34,6 +41,7 @@ import view.enums.messages.LoginMenuMessage;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.security.Security;
 
 public class Signupview extends Application {
     public static Stage signUpStage;
@@ -46,7 +54,20 @@ public class Signupview extends Application {
     public static Pane signUpPane;
 
     public static String username;
+
     public static String password;
+
+    public static Label invalidUsername=new Label("invalid username format");
+
+    public static Label isNotStrong=new Label("password is not strong");
+
+    public static Label sameUsername=new Label("this username already exists");
+
+    public static Label userNameError = new Label("user name is empty");
+    public static Label passwordError = new Label("password is empty");
+    public static Label nicknameError = new Label("nickname is empty");
+    public static Label emailError = new Label("Email is empty");
+    public  CheckBox sloganCheckBox;
 
     public void start(Stage stage) throws IOException {
         signUpStage = stage;
@@ -77,6 +98,8 @@ public class Signupview extends Application {
         button.setLayoutX(280);
         button.setLayoutY(200);
         pane.getChildren().add(button);
+        sloganCheckBox= (CheckBox) signUpPane.getChildren().get(1);
+        sloganCheckBox.setTextFill(Color.WHITE);
         button.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -129,15 +152,26 @@ public class Signupview extends Application {
 
     @FXML
     public void initialize() {
-        Label invalidUsername = new Label("Username format is invalid");
+        if (LoginSignupMenu.username != null) {
+            signUpUsername.setText(LoginSignupMenu.username);
+
+        }
+        if (LoginSignupMenu.password != null) {
+            signUpPassword.setText(LoginSignupMenu.password);
+
+        }
+        if(LoginSignupMenu.nickname!=null){
+            signUpNickname.setText(LoginSignupMenu.nickname);
+        }
+        if(LoginSignupMenu.emailAddress!=null){
+            signUpEmail.setText(LoginSignupMenu.emailAddress);
+        }
         invalidUsername.setLayoutX(261);
         invalidUsername.setLayoutY(120);
         invalidUsername.setTextFill(Color.CRIMSON);
-        Label sameUsername = new Label("This username already exists");
-        sameUsername.setLayoutX(260);
+        sameUsername.setLayoutX(261);
         sameUsername.setLayoutY(120);
         sameUsername.setTextFill(Color.CRIMSON);
-        Label isNotStrong = new Label();
         isNotStrong.setLayoutX(460);
         isNotStrong.setLayoutY(200);
         isNotStrong.setTextFill(Color.CRIMSON);
@@ -156,6 +190,7 @@ public class Signupview extends Application {
                 }
             } else if (LoginSignupMenu.checkUsername(newText).equals("success")) {
                 username = newText;
+                LoginSignupMenu.username = newText;
                 if (signUpPane.getChildren().contains(sameUsername)) {
                     signUpPane.getChildren().remove(sameUsername);
 
@@ -196,15 +231,15 @@ public class Signupview extends Application {
                     signUpPane.getChildren().add(isNotStrong);
                 }
             } else if (LoginSignupMenu.validPassword(newText).equals("special character")) {
-                if(signUpPane.getChildren().contains(isNotStrong)){
+                if (signUpPane.getChildren().contains(isNotStrong)) {
 
-                }
-                else {
+                } else {
                     isNotStrong.setText("password is not strong");
                     signUpPane.getChildren().add(isNotStrong);
                 }
             } else if (LoginSignupMenu.validPassword(newText).equals("success")) {
                 signUpPane.getChildren().remove(isNotStrong);
+                LoginSignupMenu.password = newText;
 
             }
         });
@@ -216,11 +251,101 @@ public class Signupview extends Application {
         JOptionPane.showConfirmDialog(null, "your random password is:  " + randomPassword, "Random Password", dialogButton);
         if (dialogButton == JOptionPane.YES_OPTION) {
             password = randomPassword;
+            LoginSignupMenu.password = randomPassword;
             if (dialogButton == JOptionPane.NO_OPTION) {
             }
         }
 
 
+    }
+
+
+    public void SignUp(MouseEvent mouseEvent) throws Exception {
+        LoginSignupMenu.emailAddress=signUpEmail.getText();
+        LoginSignupMenu.nickname=signUpNickname.getText();
+        if (!signUpUsername.getText().equals("") && signUpPane.getChildren().contains(userNameError)) {
+            signUpPane.getChildren().remove(userNameError);
+
+        } else if (signUpUsername.getText().equals("") && !signUpPane.getChildren().contains(userNameError)) {
+
+            userNameError.setTextFill(Color.RED);
+            userNameError.setLayoutX(100);
+            userNameError.setLayoutY(150);
+            signUpPane.getChildren().add(userNameError);
+
+        }
+        if (!signUpPassword.getText().equals("") && signUpPane.getChildren().contains(passwordError)) {
+            signUpPane.getChildren().remove(passwordError);
+
+        } else if (signUpPassword.getText().equals("") && !signUpPane.getChildren().contains(passwordError)) {
+            passwordError.setTextFill(Color.RED);
+            passwordError.setLayoutX(100);
+            passwordError.setLayoutY(240);
+            signUpPane.getChildren().add(passwordError);
+        }
+        if (!signUpNickname.getText().equals("") && signUpPane.getChildren().contains(nicknameError)) {
+            signUpPane.getChildren().remove(nicknameError);
+
+        }
+        if (signUpNickname.getText().equals("") && !signUpPane.getChildren().contains(nicknameError)) {
+            nicknameError.setTextFill(Color.RED);
+            nicknameError.setLayoutX(100);
+            nicknameError.setLayoutY(320);
+            signUpPane.getChildren().add(nicknameError);
+        }
+        if (!signUpEmail.getText().equals("") && signUpPane.getChildren().contains(emailError) && LoginSignupMenu.validEmail(signUpEmail.getText()).equals("success")) {
+            signUpPane.getChildren().remove(emailError);
+
+        } else {
+            if (signUpEmail.getText().equals("") && !signUpPane.getChildren().contains(emailError)) {
+                emailError.setTextFill(Color.RED);
+                emailError.setLayoutX(100);
+                emailError.setLayoutY(390);
+                signUpPane.getChildren().add(emailError);
+            } else {
+                emailError.setLayoutX(100);
+                emailError.setLayoutY(390);
+                emailError.setTextFill(Color.RED);
+                String result = LoginSignupMenu.validEmail(signUpEmail.getText());
+                if (result.equals("invalid format")) {
+                    emailError.setText("email format is invalid");
+                    if (!signUpPane.getChildren().contains(emailError)) {
+                        signUpPane.getChildren().add(emailError);
+                    }
+
+                } else if (result.equals("exists")) {
+                    emailError.setText("This email already exists");
+                    if (!signUpPane.getChildren().contains(emailError)) {
+                        signUpPane.getChildren().add(emailError);
+                    }
+
+                } else if (result.equals("success")) {
+                    if (signUpPane.getChildren().contains(emailError)) {
+                        signUpPane.getChildren().remove(emailError);
+                    }
+                }
+            }
+        }
+        if(signUpPane.getChildren().contains(invalidUsername)||signUpPane.getChildren().contains(sameUsername)||signUpPane.getChildren().contains(isNotStrong)||(signUpUsername.getText().equals("")||signUpPassword.getText().equals("")||signUpNickname.getText().equals("")||signUpEmail.getText().equals(""))){
+            Alert alert=new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Error in sign up");
+            alert.showAndWait();
+        }
+        else {
+                Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setContentText("go to security question");
+                alert.show();
+            securityView securityView=new securityView();
+            securityView.start(StartGame.stage);
+
+        }
+    }
+
+    public void makeSloganTextField(MouseEvent mouseEvent) throws Exception {
+        LoginSignupMenu.emailAddress=signUpEmail.getText();
+        LoginSignupMenu.nickname=signUpNickname.getText();
+        sloganView sloganView = new sloganView();
+        sloganView.start(StartGame.stage);
     }
 }
 

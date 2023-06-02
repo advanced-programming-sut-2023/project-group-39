@@ -376,35 +376,30 @@ public class LoginSignupMenu {
         }
     }
 
-    private static void validEmail(String emailAddress) {
+    public static String validEmail(String emailAddress) {
         if (emailAddress == null)
-            return;
+            return null;
         LoginMenuMessage message = LoginSignupControl.validateEmail(emailAddress);
         switch (message) {
             case INVALIDEMAILFORMAT:
-                System.out.println("this email format is invalid");
-                break;
+                return "invalid format";
             case DUPLICATEEMAIL:
-                System.out.println("this email already exists");
-                break;
+                return "exists";
             case SUCCESS:
-                checkSlogan();
-                break;
+                return "success";
         }
+        return null;
     }
 
-    private static void checkSlogan() {
+    public static String checkSlogan() {
+        String randomSlogan = null;
         ArrayList<String> slogans = new ArrayList<>();
-        if (hasSlogan == 1 && randomSloganFlag == 1) {
             LoginSignupControl.randomSlogan(slogans);
             Random random = new Random();
             int result = random.nextInt(9);
-            slogan = slogans.get(result);
+            randomSlogan = slogans.get(result);
 
-        } else {
-
-        }
-        pickQuestion();
+        return randomSlogan;
     }
 
     private static void removeQutation(String mystring) {
