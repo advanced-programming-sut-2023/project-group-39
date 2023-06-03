@@ -13,44 +13,16 @@ import java.util.HashMap;
 
 public class MapControl {
 
-    public static String showMap(int x, int y) {
-        String result = "";
+    public static Tile[][] showMap(int x, int y) {
         if (!validCoordinates(x, y)) {
-            return result;
+            return null;
         }
         char c;
         Tile[][] smallMap = Game.getMapInGame().getMapAroundCoordinate(x, y);
-        Game.getMapInGame().setSelectedX(x);
-        Game.getMapInGame().setSelectedY(y);
-        for (int j = 0; j < 10; j++) {
-            for (int i = 0; i < 10; i++) {
-                if (i == 5) {
-                    result += " | ";
-                }
-                if (j == 5 && i ==0) {
-                    result += "---------------------------------\n";
-                }
-                if (smallMap[j][i] == null)
-                    continue;
-                else if (hasUnits(smallMap[j][i].getPeopleOnTile())) {
-                    result += " S ";
-                }
-                else if ((c = hasBuilding(smallMap, i, j)) != 'N') {
-                    result += " " + c + " ";
-                } else if (smallMap[j][i].getTree() != null) {
-                    result += " T ";
-                } else {
-                    if (smallMap[j][i].getType().getName().length() == 1)
-                    result += " " + smallMap[j][i].getType().getName() + " ";
-                    else result += " " + smallMap[j][i].getType().getName();
-                }
-            }
-            result += "\n";
-        }
-        return result;
+        return smallMap;
     }
 
-    public static String moveMap(int up, int down, int right, int left) {
+    public static Tile[][] moveMap(int up, int down, int right, int left) {
         int x = Game.getMapInGame().getSelectedX();
         int y = Game.getMapInGame().getSelectedY();
         return showMap(x + left - right , y - down + up);

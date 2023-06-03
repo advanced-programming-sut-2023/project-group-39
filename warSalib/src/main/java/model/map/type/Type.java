@@ -1,25 +1,27 @@
 package model.map.type;
 
+import javafx.scene.image.Image;
+
 public enum Type {
-    GROUND(Area.BROWNAREA, true, "G", "ground"),
-    GROUND_WITH_GRAVEL(Area.BROWNAREA, true,"Gg", "ground with gravel")
+    GROUND(Area.BROWNAREA, true, "G", "ground", new Image(Type.class.getResource("/images/ground.jpg").toExternalForm())),
+    GROUND_WITH_GRAVEL(Area.BROWNAREA, true,"Gg", "ground with gravel", new Image(Type.class.getResource("/images/ground.jpg").toExternalForm()))
 
-    ,SLATE(Area.BROWNAREA, true, "Sl" , "slate"),
+    ,SLATE(Area.BROWNAREA, true, "Sl" , "slate", new Image(Type.class.getResource("/images/ground.jpg").toExternalForm())),
 
-    STONE(Area.BROWNAREA, false ,"St", "stone"),
-    IRON_GROUND(Area.BROWNAREA, true, "Ig", "iron ground"),
-    GRASS(Area.BROWNAREA, true, "Gr", "grass"),
-    GRASSLAND(Area.BROWNAREA, true, "Gl", "grass land"),
-    DENSE_GRASSLAND(Area.BROWNAREA, true, "Dg", "dense grass land") ,
-    OIL(Area.BLUEAREA, true, "O", "oil"),
-    PLAIN(Area.BLUEAREA, true, "P", "plain"),
-    SHALLOW_WATER(Area.BLUEAREA, true, "Sw", "shallow water"),
-    SEA(Area.BLUEAREA, false, "Se", "sea")
+    STONE(Area.BROWNAREA, false ,"St", "stone", new Image(Type.class.getResource("/images/ground.jpg").toExternalForm())),
+    IRON_GROUND(Area.BROWNAREA, true, "Ig", "iron ground", new Image(Type.class.getResource("/images/ground.jpg").toExternalForm())),
+    GRASS(Area.BROWNAREA, true, "Gr", "grass", new Image(Type.class.getResource("/images/ground.jpg").toExternalForm())),
+    GRASSLAND(Area.BROWNAREA, true, "Gl", "grass land", new Image(Type.class.getResource("/images/ground.jpg").toExternalForm())),
+    DENSE_GRASSLAND(Area.BROWNAREA, true, "Dg", "dense grass land", new Image(Type.class.getResource("/images/ground.jpg").toExternalForm())) ,
+    OIL(Area.BLUEAREA, true, "O", "oil", new Image(Type.class.getResource("/images/ground.jpg").toExternalForm())),
+    PLAIN(Area.BLUEAREA, true, "P", "plain", new Image(Type.class.getResource("/images/ground.jpg").toExternalForm())),
+    SHALLOW_WATER(Area.BLUEAREA, true, "Sw", "shallow water", new Image(Type.class.getResource("/images/ground.jpg").toExternalForm())),
+    SEA(Area.BLUEAREA, false, "Se", "sea", new Image(Type.class.getResource("/images/ground.jpg").toExternalForm()))
 
-    ,BEACH(Area.BLUEAREA, true, "Be", "beach"),
-    RIVER(Area.BLUEAREA, false, "R", "river"),
-    BIG_POND(Area.BLUEAREA, false, "Bp", "big pound"),
-    SMALL_POND(Area.BLUEAREA, false, "Sp", "small pound");
+    ,BEACH(Area.BLUEAREA, true, "Be", "beach",new Image(Type.class.getResource("/images/ground.jpg").toExternalForm())),
+    RIVER(Area.BLUEAREA, false, "R", "river", new Image(Type.class.getResource("/images/ground.jpg").toExternalForm())),
+    BIG_POND(Area.BLUEAREA, false, "Bp", "big pound", new Image(Type.class.getResource("/images/ground.jpg").toExternalForm())),
+    SMALL_POND(Area.BLUEAREA, false, "Sp", "small pound", new Image(Type.class.getResource("/images/ground.jpg").toExternalForm()));
 
     public enum Area {
         BLUEAREA,BROWNAREA;
@@ -30,11 +32,14 @@ public enum Type {
     private boolean permeability;
     private String ground;
 
-    Type(Area area, boolean permeability , String name, String ground) {
+    private Image image ;
+
+    Type(Area area, boolean permeability , String name, String ground, Image image) {
         this.area = area;
         this.permeability = permeability;
         this.name = name;
         this.ground = ground;
+        this.image = image;
     }
 
     public Area getArea() {
@@ -51,5 +56,9 @@ public enum Type {
 
     public String getGround() {
         return ground;
+    }
+
+    public Image getImage() {
+        return image;
     }
 }

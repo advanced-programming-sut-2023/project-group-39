@@ -1,38 +1,70 @@
 package view;
 
 import control.MapControl;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
+import model.Game;
+import model.map.Tile;
 import view.enums.commands.MapMenuCommands;
 
+import java.awt.*;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
-public class MapMenu {
-    public static void run(String input, Scanner scanner) {
-        while (true) {
-            if (MapMenuCommands.getMatcher(input, MapMenuCommands.SHOW_MAP) != null) {
-                showMap(input);
-            } else if (MapMenuCommands.getMatcher(input, MapMenuCommands.SHOW_DETAILS) != null) {
-                showDetail(input);
-            } else if (MapMenuCommands.getMatcher(input, MapMenuCommands.MOVE_MAP) != null) {
-                moveMap(input);
-            } else if (input.matches("\\s*back\\s*")) {
-                System.out.println("back to game menu");
-                break;
-            } else System.out.println("invalid command!");
-            input = scanner.nextLine();
-        }
+public class MapMenu extends Application {
+
+    private int chooseX = 9;
+    private int chooseY = 0;
+    @Override
+    public void start(Stage stage) throws Exception {
+        GridPane gridPane = createTileMap();
+        javafx.scene.control.ScrollPane scrollPane = new ScrollPane(gridPane);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+        Scene scene = new Scene(scrollPane);
+        stage.setTitle("Scrollable Tile Map Example");
+        stage.setScene(scene);
+        stage.show();
     }
 
-    private static void showMap(String input) {
-        Matcher matcher = MapMenuCommands.getMatcher(input, MapMenuCommands.MAP_CHECK_X);
-        int x = Integer.parseInt(matcher.group("x"));
-        matcher = MapMenuCommands.getMatcher(input, MapMenuCommands.MAP_CHECK_Y);
-        int y = Integer.parseInt(matcher.group("y"));
-        String result;
-        if (!(result = MapControl.showMap(x, y)) .equals(""))
-            System.out.println(result);
+    private GridPane createTileMap() {
+        GridPane gridPane = new GridPane();
+        Tile[][] tiles = Game.getMapInGame().getMap();
+        for (int i = 0 ; i < 20 ; i++) {
+            for (int j = 0; j< 20; j++) {
+                gridPane.add(tiles[i][j], i, j);
+            }
+        }
+        return gridPane;
+    }
+
+    public static void run(String input, Scanner scanner) {
+//        while (true) {
+//            if (MapMenuCommands.getMatcher(input, MapMenuCommands.SHOW_MAP) != null) {
+//                showMap(input);
+//            } else if (MapMenuCommands.getMatcher(input, MapMenuCommands.SHOW_DETAILS) != null) {
+//                showDetail(input);
+//            } else if (MapMenuCommands.getMatcher(input, MapMenuCommands.MOVE_MAP) != null) {
+//                moveMap(input);
+//            } else if (input.matches("\\s*back\\s*")) {
+//                System.out.println("back to game menu");
+//                break;
+//            } else System.out.println("invalid command!");
+//            input = scanner.nextLine();
+//        }
+    }
+
+    private Tile[][] showMap(int x, int y) {
+        Tile[][] result;
+        if ((result = MapControl.showMap(x, y))==null)
+            return result;
         else
-        System.out.println("you enter wrong x and y");
+            return null;
     }
 
     private static void moveMap(String input) {
@@ -71,5 +103,13 @@ public class MapMenu {
         matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.MAP_CHECK_Y);
         int y = Integer.parseInt(matcher.group("y"));
         System.out.println(MapControl.showDetails(x, y));
+    }
+
+    public void setChooseX(int chooseX) {
+        this.chooseX = chooseX;
+    }
+
+    public void setChooseY(int chooseY) {
+        this.chooseY = chooseY;
     }
 }

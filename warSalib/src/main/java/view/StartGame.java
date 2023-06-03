@@ -51,6 +51,9 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.stage.Stage;
+import model.Game;
+import model.map.GameMap;
+
 public class StartGame extends Application {
     public static Stage stage;
 
@@ -77,7 +80,11 @@ public class StartGame extends Application {
     }
 
     public void goLoginView(MouseEvent mouseEvent) throws Exception {
-        LoginView.start(stage);
+//        LoginView.start(stage);
+        GameMap gameMap = new GameMap();
+        Game.setMapInGame(gameMap);
+        MapMenu mapMenu = new MapMenu();
+        mapMenu.start(stage);
     }
 
     public void goSignupView(MouseEvent mouseEvent) throws IOException {

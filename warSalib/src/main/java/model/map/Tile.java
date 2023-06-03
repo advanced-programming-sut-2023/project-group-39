@@ -1,5 +1,8 @@
 package model.map;
 
+import javafx.scene.image.Image;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.ImagePattern;
 import model.government.Government;
 import model.government.building.Building;
 import model.government.people.People;
@@ -11,12 +14,16 @@ import model.wartool.BatteringRam;
 import model.wartool.CataPult;
 import model.wartool.FieryStoneThrower;
 import model.wartool.FixedCatapult;
+import javafx.scene.shape.Rectangle;
 
+import java.awt.*;
 import java.util.ArrayList;
 
-public class Tile {
+public class Tile extends Rectangle {
     private Type type;
     private Rock rock;
+
+    private Image image;
 
     private Government government;
     private Tree tree;
@@ -53,6 +60,10 @@ public class Tile {
         batteringRams=new ArrayList<>();
         fieryStoneThrowers=new ArrayList<>();
         fixedCatapults=new ArrayList<>();
+        image = this.type.getImage();
+        this.setFill(new ImagePattern(image));
+        this.setWidth(50);
+        this.setHeight(50);
     }
 
     public Type getType() {
@@ -97,6 +108,7 @@ public class Tile {
 
     public void setType(Type type) {
         this.type = type;
+        image = type.getImage();
     }
 
     public void setRock(Rock rock) {
