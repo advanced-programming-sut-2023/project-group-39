@@ -37,14 +37,14 @@ public class MapControl {
         Tile tile = map.getMap()[y][x];
         map.setSelectedY(y);
         map.setSelectedX(x);
-        result += "***----------ground-----------***\n";
+        result += "ground : ";
         result += tile.getType() + "\n";
         if (tile.getResource() != null) {
-            result += "***----------resource-----------***\n";
+            result += "resource : ";
             result += tile.getResource() + "\n";
         }
         if (hasUnits(tile.getPeopleOnTile())) {
-            result += "***----------units-----------***\n";
+            result += "units : ";
             HashMap <People, Integer> unitsPeople = countUnitsInHashMap(tile.getPeopleOnTile());
             for (People people : unitsPeople.keySet()) {
                 result += ((Units)people).getUnitsName().getName() + "   "  + "user name  "
@@ -52,8 +52,12 @@ public class MapControl {
             }
         }
         if (tile.getBuilding() != null) {
-            result += "***----------building-----------***\n";
+            result += "building : ";
             result += tile.getBuilding().getName() + "\n";
+        }
+        if (tile.getTree() != null) {
+            result += "tree : ";
+            result += tile.getTree().getType() + "\n";
         }
         return result;
     }

@@ -173,4 +173,12 @@ public class Tile extends Rectangle {
     public ArrayList<FieryStoneThrower> getFieryStoneThrowers() {
         return fieryStoneThrowers;
     }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
 }

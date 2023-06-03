@@ -4,14 +4,17 @@ import control.MapControl;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.Game;
+import javafx.scene.image.Image;
 import model.map.GameMap;
 import model.map.Tile;
 import view.enums.commands.MapMenuCommands;
+import javafx.scene.shape.Rectangle;
 
 import java.awt.*;
 import java.util.Scanner;
@@ -21,6 +24,8 @@ public class MapMenu extends Application {
 
     private int chooseX = 9;
     private int chooseY = 0;
+
+    private Image image;
     @Override
     public void start(Stage stage) throws Exception {
         GridPane gridPane = createTileMap();
@@ -40,10 +45,30 @@ public class MapMenu extends Application {
         Tile[][] tiles = Game.getMapInGame().getMap();
         for (int i = 0 ; i < 200 ; i++) {
             for (int j = 0; j< 200; j++) {
-                    gridPane.add(tiles[i][j], i, j);
+                tiles[i][j].setOnMouseEntered(this :: handleMouseEntered);
+                tiles[i][j].setOnMouseExited(this :: handleMouseExited);
+                setTileTooltip(tiles[i][j], i, j);
+                gridPane.add(tiles[i][j], i, j);
             }
         }
         return gridPane;
+    }
+
+    private void setTileTooltip(Tile tile, int i, int j) {
+        String details = MapControl.showDetails(j,i);
+        Tooltip tooltip = new Tooltip(details);
+        Tooltip.install(tile,tooltip);
+    }
+
+    private void handleMouseExited(MouseEvent mouseEvent) {
+        Tile tile = (Tile) mouseEvent.getSource();
+        tile.setOpacity(1);
+    }
+
+    private void handleMouseEntered(MouseEvent mouseEvent) {
+        Tile tile = (Tile) mouseEvent.getSource();
+        tile.setOpacity(0.5);
+
     }
 
     public static void run(String input, Scanner scanner) {
@@ -98,14 +123,6 @@ public class MapMenu extends Application {
             else right = 1;
         }
         System.out.println(MapControl.moveMap(up, down, right, left));
-    }
-
-    private static void showDetail(String command) {
-        Matcher matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.MAP_CHECK_X);
-        int x = Integer.parseInt(matcher.group("x"));
-        matcher = MapMenuCommands.getMatcher(command, MapMenuCommands.MAP_CHECK_Y);
-        int y = Integer.parseInt(matcher.group("y"));
-        System.out.println(MapControl.showDetails(x, y));
     }
 
     public void setChooseX(int chooseX) {
