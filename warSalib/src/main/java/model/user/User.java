@@ -7,10 +7,10 @@ import model.government.Government;
 import java.util.HashMap;
 
 public class User {
-    public String username;
-    public String nickname;
-    public String password;
-    public String email;
+    private String username;
+    private String nickname;
+    private String password;
+    private String email;
     private int rank;
     private int score;
     private String slogan;

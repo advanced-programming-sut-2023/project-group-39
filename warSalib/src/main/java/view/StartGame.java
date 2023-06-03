@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -51,6 +52,8 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.stage.Stage;
+import model.Game;
+
 public class StartGame extends Application {
     public static Stage stage;
 
@@ -72,12 +75,13 @@ public class StartGame extends Application {
     }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-       // LoginSignupControl.readUsersData();
+        LoginSignupControl.readUsersData();
         launch();
     }
 
     public void goLoginView(MouseEvent mouseEvent) throws Exception {
-        LoginView.start(stage);
+        LoginView loginView=new LoginView();
+        loginView.start(stage);
     }
 
     public void goSignupView(MouseEvent mouseEvent) throws IOException {
@@ -88,4 +92,5 @@ public class StartGame extends Application {
     public static void setStartPane(Pane startPane) {
         StartGame.startPane = startPane;
     }
+
 }

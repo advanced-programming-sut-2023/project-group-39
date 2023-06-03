@@ -5,6 +5,8 @@ import com.google.gson.reflect.TypeToken;
 
 import model.Game;
 import model.user.User;
+import model.user.copyUser;
+import view.adam;
 import view.enums.commands.LoginMenuCommands;
 import view.enums.messages.GameMenuMessage;
 import view.enums.messages.LoginMenuMessage;
@@ -23,13 +25,10 @@ import java.util.regex.Matcher;
 
 
 public class LoginSignupControl {
-    public static LoginMenuMessage loginUser(String username, String password,int loggedInflag) {
+    public static LoginMenuMessage loginUser(String username, String password) {
         for(User user:Game.getPlayers()){
             if(user.getUsername().equals(username)){
                 if(user.getPassword().equals(password)){
-                    if(loggedInflag==1){
-                        user.setLoggedIn(true);
-                    }
                     Game.setCurrentUser(user);
                     return LoginMenuMessage.SUCCESS;
 
@@ -72,16 +71,19 @@ public class LoginSignupControl {
         return LoginMenuMessage.LOW_LENGTH_PASS;
     }
     public static  LoginMenuMessage createUser(String username,String password,String emailAddress,String nickname,String slogan,String securityAnswer)  {
-      //  XStream xStream=new XStream();
+        System.out.println(username);
         User user=new User(username,password,emailAddress,nickname,slogan,securityAnswer);
+        adam adam=new adam(username,password,emailAddress,nickname,slogan,securityAnswer);
         Game.getPlayers().add(user);
-     // try {
-       //     FileWriter fileWriter=new FileWriter("users.json");
-       //    fileWriter.write(new Gson().toJson(Game.getPlayers()));
-         //  fileWriter.close();
-      //  } catch (IOException e) {
-        //   throw new RuntimeException(e);
-       // }
+        view.adam.adams.add(adam);
+
+        try {
+            FileWriter fileWriter=new FileWriter("users.json");
+           fileWriter.write(new Gson().toJson(view.adam.adams));
+           fileWriter.close();
+       } catch (IOException e) {
+           throw new RuntimeException(e);
+        }
         // String xml=xStream.toXML(Game.getPlayers());
        // try {
          //   FileWriter writer=new FileWriter("users.xml");
@@ -155,10 +157,15 @@ public class LoginSignupControl {
         slogans.add("ife is too short to play a bad game.");
         slogans.add("Live, play the game, and lead.");
     }
-    public static LoginMenuMessage forgotPassword(String username){
+    public static LoginMenuMessage forgotPassword(String username,String securityAnswer){
         for (User user:Game.getPlayers()){
             if(user.getUsername().equals(username)){
-                return LoginMenuMessage.SECURITYQUESTION;
+                if(user.getSecurityQuestionAnswer().equals(securityAnswer)){
+                    return LoginMenuMessage.SECURITYQUESTION;
+                }
+                else {
+                    return LoginMenuMessage.INVALID_SECURITYQUESTION;
+                }
             }
         }
         return LoginMenuMessage.INVALIDUSERNAME;
@@ -188,9 +195,14 @@ public class LoginSignupControl {
     public static void readUsersData() throws IOException, ClassNotFoundException {
         String json=null;
         json=new String(Files.readAllBytes(Paths.get("users.json")));
-        ArrayList<User> data=new Gson().fromJson(json,new TypeToken<ArrayList<User>>(){}.getType());
+        ArrayList<adam> data=new Gson().fromJson(json,new TypeToken<ArrayList<adam>>(){}.getType());
         if(data!=null)
-            Game.setPlayers(data);
+            adam.setAdams(data);
+        for (int i=0;i<adam.adams.size();i++){
+            User user=new User(adam.adams.get(i).username,adam.adams.get(i).password,adam.adams.get(i).email,adam.adams.get(i).nickname,adam.adams.get(i).slogan,adam.adams.get(i).getSecurityQuestionAnswer());
+            user.setScore(adam.adams.get(i).getScore());
+            Game.getPlayers().add(user);
+        }
     }
 
     public static GameMenuMessage stayLoggedInlogin(String username) {

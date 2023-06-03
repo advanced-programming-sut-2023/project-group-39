@@ -139,7 +139,7 @@ public class LoginSignupMenu {
                     System.out.println("your password field is empty!");
             } else if ((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.PASSWORDFOROT)) != null) {
                 if ((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.FORGOTPASSWORD)) != null) {
-                    forgotPassword(matcher);
+                 //   forgotPassword(matcher);
                 } else if ((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.EMPTYUSERNAME)) == null) {
                     System.out.println("your username field is empty!");
                 }
@@ -150,6 +150,9 @@ public class LoginSignupMenu {
                 System.out.println("Invalid command!");
         }
 
+    }
+
+    private static void loginUser(Matcher matcher) {
     }
 
     private static void stayLoggedInlogin(Matcher matcher) {
@@ -176,30 +179,18 @@ public class LoginSignupMenu {
     }
 
 
-    private static void forgotPassword(Matcher matcher) {
-        String username = matcher.group("username");
-        LoginMenuMessage message = LoginSignupControl.forgotPassword(username);
+    public static String forgotPassword(String username,String securityAnswer) {
+        LoginMenuMessage message = LoginSignupControl.forgotPassword(username,securityAnswer);
         switch (message) {
             case INVALIDUSERNAME:
-                System.out.println("username is invalid");
-                break;
+                return "username is invalid";
+            case INVALID_SECURITYQUESTION:
+                return "answer is invalid";
             case SECURITYQUESTION:
-                System.out.println("Pick your security question: 1. What is my father’s name? 2. What\n" +
-                        "was my first pet’s name? 3. What is my mother’s last name?");
-                Scanner scanner = Scan.getScanner();
-                String answer = scanner.nextLine();
-                LoginMenuMessage message1 = LoginSignupControl.checkSecurityAnswer(username, answer);
-                switch (message1) {
-                    case SUCCESS:
-                        System.out.println("type your new password");
-                        makeNewPassword(username);
-                        break;
-                    case INVALIDANSWER:
-                        System.out.println("your answer was incorrect");
-                        break;
-                }
-                break;
+                return "success";
+
         }
+        return null;
     }
 
     private static String implementCaptcha() {
@@ -207,30 +198,17 @@ public class LoginSignupMenu {
     }
 
 
-    private static void loginUser(Matcher matcher) {
-        String username = matcher.group("username").trim();
-        String password = matcher.group("password").trim();
-        removeQutation(username);
-        removeQutation(password);
-        int loggedInflag = 0;
-        if (matcher.group("loggedInFlag") != null) {
-            loggedInflag = 1;
-        }
-        LoginMenuMessage message = LoginSignupControl.loginUser(username, password, loggedInflag);
+    public static String loginUser(String username,String password) {
+        LoginMenuMessage message = LoginSignupControl.loginUser(username, password);
         switch (message) {
             case SUCCESS:
-                System.out.println("you logged in successfully");
-                counterWrongPassword = 0;
-                MainMenu.run();
-                break;
+                return "success";
             case USERNOTFOUND:
-                System.out.println("username not found");
-                break;
+                return "username not found";
             case INCORRECTPASSWORD:
-                System.out.println("password is incorrect");
-                counterWrongPassword++;
-                break;
+                return "password is incorrect";
         }
+        return null;
     }
 
     private static void pickQuestion() {
@@ -360,7 +338,7 @@ public class LoginSignupMenu {
             case LOW_LENGTH_PASS:
                 return "length";
             case WITHOUTSPECIALCHARACTER:
-              return "special character";
+                return "special character";
         }
         return "null";
     }
@@ -394,10 +372,10 @@ public class LoginSignupMenu {
     public static String checkSlogan() {
         String randomSlogan = null;
         ArrayList<String> slogans = new ArrayList<>();
-            LoginSignupControl.randomSlogan(slogans);
-            Random random = new Random();
-            int result = random.nextInt(9);
-            randomSlogan = slogans.get(result);
+        LoginSignupControl.randomSlogan(slogans);
+        Random random = new Random();
+        int result = random.nextInt(9);
+        randomSlogan = slogans.get(result);
 
         return randomSlogan;
     }

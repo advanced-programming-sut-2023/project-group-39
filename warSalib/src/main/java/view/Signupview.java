@@ -69,6 +69,8 @@ public class Signupview extends Application {
     public static Label emailError = new Label("Email is empty");
     public  CheckBox sloganCheckBox;
 
+    public static boolean passFlag;
+
     public void start(Stage stage) throws IOException {
         signUpStage = stage;
         Pane pane = FXMLLoader.load(StartGame.class.getResource("/fxml/SignUp.fxml"));
@@ -252,6 +254,7 @@ public class Signupview extends Application {
         if (dialogButton == JOptionPane.YES_OPTION) {
             password = randomPassword;
             LoginSignupMenu.password = randomPassword;
+            passFlag=true;
             if (dialogButton == JOptionPane.NO_OPTION) {
             }
         }
@@ -326,7 +329,7 @@ public class Signupview extends Application {
                 }
             }
         }
-        if(signUpPane.getChildren().contains(invalidUsername)||signUpPane.getChildren().contains(sameUsername)||signUpPane.getChildren().contains(isNotStrong)||(signUpUsername.getText().equals("")||signUpPassword.getText().equals("")||signUpNickname.getText().equals("")||signUpEmail.getText().equals(""))){
+        if(signUpPane.getChildren().contains(invalidUsername)||signUpPane.getChildren().contains(sameUsername)||(signUpPane.getChildren().contains(isNotStrong)&&!passFlag)||(signUpUsername.getText().equals("")||signUpPassword.getText().equals("")||signUpNickname.getText().equals("")||signUpEmail.getText().equals(""))){
             Alert alert=new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Error in sign up");
             alert.showAndWait();
