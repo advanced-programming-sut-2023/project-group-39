@@ -114,7 +114,7 @@ public class sloganView extends Application {
             if(!sloganText.getText().equals("")) {
                 slogan = sloganText.getText();
             }
-            Signupview signupview=new Signupview();
+            signupview signupview=new signupview();
             signupview.start(StartGame.stage);
         }
     }

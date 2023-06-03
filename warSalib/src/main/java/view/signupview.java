@@ -1,7 +1,6 @@
 package view;
 
 import control.LoginSignupControl;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,31 +18,17 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
-import javax.swing.JFrame;
-
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.text.*;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.IOException;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
-import javafx.scene.text.Font;
-import javafx.stage.Stage;
-import view.LoginSignupMenu;
-import view.StartGame;
-import view.enums.messages.LoginMenuMessage;
 
 import javax.swing.*;
-import java.io.IOException;
-import java.security.Security;
 
-public class Signupview extends Application {
+public class signupview extends Application {
     public static Stage signUpStage;
     public TextField signUpUsername;
     public PasswordField signUpPassword;
@@ -89,7 +74,7 @@ public class Signupview extends Application {
         passwordLabel.setLayoutX(20);
         passwordLabel.setLayoutY(190);
         passwordLabel.setTextFill(Color.WHITE);
-        Image eyeIcon = new Image(Signupview.class.getResource("/images/eyeicon.png").toExternalForm());
+        Image eyeIcon = new Image(signupview.class.getResource("/images/eyeicon.png").toExternalForm());
         ImageView eyeView = new ImageView(eyeIcon);
         eyeView.setFitHeight(16);
         eyeView.setFitWidth(16);

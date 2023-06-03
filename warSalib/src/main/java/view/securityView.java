@@ -1,6 +1,5 @@
 package view;
 
-import com.google.gson.Gson;
 import control.LoginSignupControl;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -20,13 +19,6 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import model.Game;
-
-import model.user.User;
-
-import java.io.FileWriter;
-import java.io.IOException;
-import java.security.Security;
 
 public class securityView extends Application {
     public static Stage securityStage;
@@ -64,7 +56,7 @@ public class securityView extends Application {
         rectangle.setLayoutY(500);
         rectangle.setLayoutX(200);
         pane.getChildren().add(rectangle);
-        Image refresh = new Image(Signupview.class.getResource("/images/refresh.png").toExternalForm());
+        Image refresh = new Image(signupview.class.getResource("/images/refresh.png").toExternalForm());
         ImageView refreshView = new ImageView(refresh);
         refreshView.setFitHeight(26);
         refreshView.setFitWidth(26);

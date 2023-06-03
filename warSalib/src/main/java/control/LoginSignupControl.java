@@ -71,7 +71,7 @@ public class LoginSignupControl {
         return LoginMenuMessage.LOW_LENGTH_PASS;
     }
     public static  LoginMenuMessage createUser(String username,String password,String emailAddress,String nickname,String slogan,String securityAnswer)  {
-        System.out.println(username);
+
         User user=new User(username,password,emailAddress,nickname,slogan,securityAnswer);
         adam adam=new adam(username,password,emailAddress,nickname,slogan,securityAnswer);
         Game.getPlayers().add(user);

@@ -15,7 +15,7 @@ public class adam {
 
     public static ArrayList<adam> adams=new ArrayList<>();
 
-    public adam(String username, String nickname, String password, String email, String slogan,String securityQuestionAnswer) {
+    public adam(String username,  String password, String email, String nickname,String slogan,String securityQuestionAnswer) {
         this.username = username;
         this.nickname = nickname;
         this.password = password;

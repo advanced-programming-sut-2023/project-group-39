@@ -89,14 +89,23 @@ public class LoginView extends Application {
         submitAnswer.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                checkSecurityAnswer(answerText);
+                try {
+                    checkSecurityAnswer(answerText);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
     }
 
-    private void checkSecurityAnswer(TextField answerText) {
-        if (loginUsername == null || answerText == null) {
+    private void checkSecurityAnswer(TextField answerText) throws Exception {
+        if (loginCaptcha.getText().equals("")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Captcha is empty");
+            alert.showAndWait();
+
+        } else if (loginUsername == null || answerText == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Username or answer is empty");
             alert.showAndWait();
@@ -119,42 +128,40 @@ public class LoginView extends Application {
                 alert.showAndWait();
 
             } else if (result.equals("success")) {
-                //TODO go to mainMenu
+                MainView mainView = new MainView();
+                mainView.start(StartGame.stage);
             }
         }
     }
 
     public void goMainMenu(MouseEvent mouseEvent) throws Exception {
-        if(loginUsername.getText().equals("")||loginPassword.getText().equals("")){
+        if (loginUsername.getText().equals("") || loginPassword.getText().equals("")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Username or password is empty");
             alert.showAndWait();
 
-        }
-        else if(!loginCaptcha.getText().equals(path)){
+        } else if (!loginCaptcha.getText().equals(path)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("captcha is invalid");
             alert.showAndWait();
 
-        }
-        else{
+        } else {
 
-            String result=LoginSignupMenu.loginUser(loginUsername.getText(),loginPassword.getText());
-            if(result.equals("success")){
-
-            }
-            else if(result.equals("username not found")){
+            String result = LoginSignupMenu.loginUser(loginUsername.getText(), loginPassword.getText());
+            if (result.equals("success")) {
+                MainView mainView = new MainView();
+                mainView.start(StartGame.stage);
+            } else if (result.equals("username not found")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("username not found");
                 alert.showAndWait();
-                LoginView loginView=new LoginView();
+                LoginView loginView = new LoginView();
                 loginView.start(StartGame.stage);
-            }
-            else if(result.equals("password is incorrect")){
+            } else if (result.equals("password is incorrect")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("password is incorrect");
                 alert.showAndWait();
-                LoginView loginView=new LoginView();
+                LoginView loginView = new LoginView();
                 loginView.start(StartGame.stage);
 
             }
