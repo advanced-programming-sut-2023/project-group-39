@@ -5,6 +5,7 @@ import model.government.Government;
 import model.government.building.Building;
 import model.government.building.Keep;
 import model.government.building.StockPileBuilding;
+import model.map.type.Type;
 
 public class GameMap {
 

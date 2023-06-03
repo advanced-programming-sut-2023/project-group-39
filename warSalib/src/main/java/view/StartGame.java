@@ -81,8 +81,6 @@ public class StartGame extends Application {
 
     public void goLoginView(MouseEvent mouseEvent) throws Exception {
 //        LoginView.start(stage);
-        GameMap gameMap = new GameMap();
-        Game.setMapInGame(gameMap);
         MapMenu mapMenu = new MapMenu();
         mapMenu.start(stage);
     }

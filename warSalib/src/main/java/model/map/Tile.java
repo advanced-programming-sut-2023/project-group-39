@@ -109,6 +109,7 @@ public class Tile extends Rectangle {
     public void setType(Type type) {
         this.type = type;
         image = type.getImage();
+        this.setFill(new ImagePattern(image));
     }
 
     public void setRock(Rock rock) {

@@ -9,6 +9,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import model.Game;
+import model.map.GameMap;
 import model.map.Tile;
 import view.enums.commands.MapMenuCommands;
 
@@ -33,11 +34,13 @@ public class MapMenu extends Application {
     }
 
     private GridPane createTileMap() {
+        GameMap gameMap = new GameMap();
+        Game.setMapInGame(gameMap);
         GridPane gridPane = new GridPane();
         Tile[][] tiles = Game.getMapInGame().getMap();
-        for (int i = 0 ; i < 20 ; i++) {
-            for (int j = 0; j< 20; j++) {
-                gridPane.add(tiles[i][j], i, j);
+        for (int i = 0 ; i < 200 ; i++) {
+            for (int j = 0; j< 200; j++) {
+                    gridPane.add(tiles[i][j], i, j);
             }
         }
         return gridPane;
