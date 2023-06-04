@@ -2,9 +2,12 @@ package view;
 
 import control.MapControl;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.input.MouseEvent;
@@ -17,15 +20,17 @@ import view.enums.commands.MapMenuCommands;
 import javafx.scene.shape.Rectangle;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
 public class MapMenu extends Application {
 
-    private int chooseX = 9;
-    private int chooseY = 0;
+    private int tileSize = 40;
 
-    private Image image;
+    private Tile [][] tiles;
+
+    private ArrayList<Tile> selectedTile = new ArrayList<>();
     @Override
     public void start(Stage stage) throws Exception {
         GridPane gridPane = createTileMap();
@@ -33,25 +38,82 @@ public class MapMenu extends Application {
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
         Scene scene = new Scene(scrollPane);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while(true) {
+                    scrollPane.requestFocus();
+                    scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+                        @Override
+                        public void handle(KeyEvent keyEvent) {
+                            if (keyEvent.getCode() == KeyCode.EQUALS){
+                                System.out.println("zoom In");
+                                zoomIn();
+                            }
+                            else if(keyEvent.getCode() == KeyCode.MINUS){
+                                System.out.println("zoom out");
+                                zoomOut();
+                            }
+                        }
+                    });
+                }
+            }
+        }).start();
         stage.setTitle("Scrollable Tile Map Example");
         stage.setScene(scene);
         stage.show();
+    }
+
+    private void zoomOut() {
+        if (tileSize > 30 && tiles!= null) {
+            tileSize -= 5;
+            Game.setTileSize(tileSize);
+            for (int j = 0 ; j < 200; j++){
+                for (int i = 0; i< 200; i++) {
+                    tiles[j][i].setWidth(tileSize);
+                    tiles[j][i].setHeight(tileSize);
+                }
+            }
+        }
+    }
+
+    private void zoomIn() {
+        if (tileSize <= 60) {
+            tileSize += 5;
+            Game.setTileSize(tileSize);
+            for (int j = 0; j < 200; j++) {
+                for (int i = 0; i < 200; i++){
+                    tiles[j][i].setWidth(tileSize);
+                    tiles[j][i].setHeight(tileSize);
+                }
+            }
+        }
     }
 
     private GridPane createTileMap() {
         GameMap gameMap = new GameMap();
         Game.setMapInGame(gameMap);
         GridPane gridPane = new GridPane();
-        Tile[][] tiles = Game.getMapInGame().getMap();
+        tiles = Game.getMapInGame().getMap();
         for (int i = 0 ; i < 200 ; i++) {
             for (int j = 0; j< 200; j++) {
-                tiles[i][j].setOnMouseEntered(this :: handleMouseEntered);
-                tiles[i][j].setOnMouseExited(this :: handleMouseExited);
+                Tile tile = tiles[i][j];
+                tile.setWidth(tileSize);
+                tile.setHeight(tileSize);
+                tile.setOnMouseEntered(this :: handleMouseEntered);
+                tile.setOnMouseExited(this :: handleMouseExited);
+               tile.setOnMouseClicked(event -> clickedAtBottom(tile));
                 setTileTooltip(tiles[i][j], i, j);
                 gridPane.add(tiles[i][j], i, j);
             }
         }
         return gridPane;
+    }
+
+    private void clickedAtBottom(Tile tile) {
+        //TODO : add something that see data about selected tile
+        selectedTile.add(tile);
+        tile.setOpacity(0.2);
     }
 
     private void setTileTooltip(Tile tile, int i, int j) {
@@ -62,12 +124,14 @@ public class MapMenu extends Application {
 
     private void handleMouseExited(MouseEvent mouseEvent) {
         Tile tile = (Tile) mouseEvent.getSource();
-        tile.setOpacity(1);
+        if(!selectedTile.contains(tile))
+            tile.setOpacity(1);
     }
 
     private void handleMouseEntered(MouseEvent mouseEvent) {
         Tile tile = (Tile) mouseEvent.getSource();
-        tile.setOpacity(0.5);
+        if (!selectedTile.contains(tile))
+            tile.setOpacity(0.5);
 
     }
 
@@ -123,13 +187,13 @@ public class MapMenu extends Application {
             else right = 1;
         }
         System.out.println(MapControl.moveMap(up, down, right, left));
+
+    }
+    public int getTileSize() {
+        return tileSize;
     }
 
-    public void setChooseX(int chooseX) {
-        this.chooseX = chooseX;
-    }
-
-    public void setChooseY(int chooseY) {
-        this.chooseY = chooseY;
+    public void setTileSize(int tileSize) {
+        this.tileSize = tileSize;
     }
 }

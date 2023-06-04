@@ -3,6 +3,7 @@ package model.map;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.ImagePattern;
+import model.Game;
 import model.government.Government;
 import model.government.building.Building;
 import model.government.people.People;
@@ -62,8 +63,8 @@ public class Tile extends Rectangle {
         fixedCatapults=new ArrayList<>();
         image = this.type.getImage();
         this.setFill(new ImagePattern(image));
-        this.setWidth(50);
-        this.setHeight(50);
+        this.setWidth(Game.getTileSize());
+        this.setHeight(Game.getTileSize());
     }
 
     public Type getType() {

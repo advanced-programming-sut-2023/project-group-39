@@ -16,6 +16,8 @@ public class Game {
     //governments need to we have all player government
     private static GameMap mapInGame;
 
+    private static int tileSize = 40;
+
     private static User GameStarter;
     private static Building selectedBuilding;
     private static ArrayList<Government> governments = new ArrayList<>();
@@ -87,4 +89,11 @@ public class Game {
         Game.players = players;
     }
 
+    public static int getTileSize() {
+        return tileSize;
+    }
+
+    public static void setTileSize(int tileSize) {
+        Game.tileSize = tileSize;
+    }
 }
