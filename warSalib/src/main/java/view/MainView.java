@@ -40,6 +40,8 @@ public class MainView extends Application {
     public void logout(MouseEvent mouseEvent) {
     }
 
-    public void goProfileMenu(MouseEvent mouseEvent) {
+    public void goProfileMenu(MouseEvent mouseEvent) throws Exception {
+        profileView profileView=new profileView();
+        profileView.start(StartGame.stage);
     }
 }

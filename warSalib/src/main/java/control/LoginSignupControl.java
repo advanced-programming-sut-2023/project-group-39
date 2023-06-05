@@ -18,8 +18,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 import java.util.regex.Matcher;
 
 
@@ -201,6 +200,8 @@ public class LoginSignupControl {
         for (int i=0;i<adam.adams.size();i++){
             User user=new User(adam.adams.get(i).username,adam.adams.get(i).password,adam.adams.get(i).email,adam.adams.get(i).nickname,adam.adams.get(i).slogan,adam.adams.get(i).getSecurityQuestionAnswer());
             user.setScore(adam.adams.get(i).getScore());
+            user.setChooseImageAddress(adam.adams.get(i).chooseImageAddress);
+            user.setAvatarImageAddress(adam.adams.get(i).avatarImageAddress);
             Game.getPlayers().add(user);
         }
     }
@@ -239,5 +240,10 @@ public class LoginSignupControl {
         int path=randomNumbers.get(random.nextInt(randomNumbers.size()));
         return path;
 
+    }
+
+    public static void sort(ArrayList<User> sortedUsers) {
+        Collections.sort(sortedUsers, Comparator.comparing(User::getScore));
+        Collections.reverse(sortedUsers);
     }
 }

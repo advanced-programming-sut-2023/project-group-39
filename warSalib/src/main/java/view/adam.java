@@ -7,6 +7,9 @@ public class adam {
     public String nickname;
     public String password;
     public String email;
+    public String avatarImageAddress;
+
+    public String chooseImageAddress;
     public int score;
     public String slogan;
     public Boolean loggedIn;
@@ -91,5 +94,13 @@ public class adam {
 
     public static void setAdams(ArrayList<adam> adams) {
         adam.adams = adams;
+    }
+
+    public void setAvatarImageAddress(String avatarImageAddress) {
+        this.avatarImageAddress = avatarImageAddress;
+    }
+
+    public String getAvatarImageAddress() {
+        return avatarImageAddress;
     }
 }

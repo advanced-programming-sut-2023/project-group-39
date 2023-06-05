@@ -11,6 +11,10 @@ public class User {
     private String nickname;
     private String password;
     private String email;
+
+    private String avatarImageAddress;
+
+    private String chooseImageAddress;
     private int rank;
     private int score;
     private String slogan;
@@ -129,5 +133,20 @@ public class User {
         this.score+=x;
     }
 
+    public void setAvatarImageAddress(String avatarImageAddress) {
+        this.avatarImageAddress = avatarImageAddress;
+    }
+
+    public String getAvatarImageAddress() {
+        return avatarImageAddress;
+    }
+
+    public void setChooseImageAddress(String chooseImageAddress) {
+        this.chooseImageAddress = chooseImageAddress;
+    }
+
+    public String getChooseImageAddress() {
+        return chooseImageAddress;
+    }
 }
 
