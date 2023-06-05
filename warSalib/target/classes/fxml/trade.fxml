@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="view.TradeView"
+            prefHeight="400.0" prefWidth="600.0">
+    <center>
+        <HBox alignment="CENTER" spacing="80">
+            <Button text="Make a new trade" prefHeight="50" prefWidth="120" onMouseClicked="#makeNewTrade"/>
+            <Button text="View my trade list" prefHeight="50" prefWidth="120" onMouseClicked="#viewTradeList"/>
+        </HBox>
+    </center>
+
+</BorderPane>
