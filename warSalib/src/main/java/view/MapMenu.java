@@ -18,7 +18,7 @@ import model.map.GameMap;
 import model.map.Tile;
 import view.enums.commands.MapMenuCommands;
 import javafx.scene.shape.Rectangle;
-
+import javafx.scene.layout.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -26,7 +26,7 @@ import java.util.regex.Matcher;
 
 public class MapMenu extends Application {
 
-    private int tileSize = 40;
+    private int tileSize = 50;
 
     private Tile [][] tiles;
 
@@ -70,8 +70,8 @@ public class MapMenu extends Application {
             Game.setTileSize(tileSize);
             for (int j = 0 ; j < 200; j++){
                 for (int i = 0; i< 200; i++) {
-                    tiles[j][i].setWidth(tileSize);
-                    tiles[j][i].setHeight(tileSize);
+                    tiles[j][i].setMinWidth(tileSize);
+                    tiles[j][i].setMinHeight(tileSize);
                 }
             }
         }
@@ -83,8 +83,8 @@ public class MapMenu extends Application {
             Game.setTileSize(tileSize);
             for (int j = 0; j < 200; j++) {
                 for (int i = 0; i < 200; i++){
-                    tiles[j][i].setWidth(tileSize);
-                    tiles[j][i].setHeight(tileSize);
+                    tiles[j][i].setMinWidth(tileSize);
+                    tiles[j][i].setMinHeight(tileSize);
                 }
             }
         }
@@ -98,8 +98,8 @@ public class MapMenu extends Application {
         for (int i = 0 ; i < 200 ; i++) {
             for (int j = 0; j< 200; j++) {
                 Tile tile = tiles[i][j];
-                tile.setWidth(tileSize);
-                tile.setHeight(tileSize);
+                tile.setMinWidth(tileSize);
+                tile.setMinHeight(tileSize);
                 tile.setOnMouseEntered(this :: handleMouseEntered);
                 tile.setOnMouseExited(this :: handleMouseExited);
                tile.setOnMouseClicked(event -> clickedAtBottom(tile));
