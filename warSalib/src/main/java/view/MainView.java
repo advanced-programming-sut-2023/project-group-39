@@ -20,6 +20,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import model.Game;
+import model.government.Government;
 
 import java.util.ArrayList;
 
@@ -72,7 +73,17 @@ public class MainView extends Application {
                 checkPlayers(players);
                 if(Game.getPlayersInGame().size()!=0){
                     Game.getPlayersInGame().add(Game.getCurrentUser());
+                    Government governmentOfCurrentUser = new Government(0 , 30, Game.getCurrentUser());
+                    Game.getCurrentUser().setUserGovernment(governmentOfCurrentUser);
+                    Game.addGovernment(governmentOfCurrentUser);
                     Game.setGameStarter(Game.getCurrentUser());
+                    MapMenu mapMenu=new MapMenu();
+                    try {
+                        mapMenu.start(StartGame.stage);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+
                 }
             }
         });
@@ -88,6 +99,9 @@ public class MainView extends Application {
        for (int i=2;i<9;i++){
                 if(LoginSignupControl.findUser(players.get(i-2).getText())){
                     Game.getPlayersInGame().add(LoginSignupControl.getUserByName(players.get(i-2).getText()));
+                    Government governmentOfUser = new Government(0 , 30, Game.getPlayersInGame().get(i-2));
+                    Game.getPlayersInGame().get(i-2).setUserGovernment(governmentOfUser);
+                    Game.addGovernment(governmentOfUser);
                 }
                 else {
                     Label label=new Label("player doesnt find");
