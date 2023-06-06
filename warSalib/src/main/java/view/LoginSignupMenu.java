@@ -34,7 +34,7 @@ public class LoginSignupMenu {
 
     static int counterWrongPassword = 0;
 
-    static int flagCreateUser=0;
+    static int flagCreateUser = 0;
 
     public static void run() {
         Scanner scanner = Scan.getScanner();
@@ -102,7 +102,7 @@ public class LoginSignupMenu {
                 if ((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.NICKNAME)) != null) {
                     if (matcher.group("nicknameWithoutSpace") != null) {
                         nickname = matcher.group("nicknameWithoutSpace");
-                    } else   {
+                    } else {
                         nickname = matcher.group("nicknameWithSpace");
                         nickname = nickname.trim();
                         nickname = nickname.substring(1, nickname.length() - 1);
@@ -112,12 +112,12 @@ public class LoginSignupMenu {
 
                 }
                 if ((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.HAVE_SLOGAN)) != null) {
-                    hasSlogan=1;
+                    hasSlogan = 1;
                     if ((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.SLOGAN)) != null) {
                         if (matcher.group("sloganWithoutSpace") != null) {
-                                slogan = matcher.group("sloganWithoutSpace");
-                                if(slogan.equals("random"))
-                                    randomSloganFlag=1;
+                            slogan = matcher.group("sloganWithoutSpace");
+                            if (slogan.equals("random"))
+                                randomSloganFlag = 1;
                         } else {
                             slogan = matcher.group("sloganWithSpace");
                             slogan = slogan.trim();
@@ -128,10 +128,9 @@ public class LoginSignupMenu {
 
                     }
                 }
-                if(username!=null&&password!=null&&emailAddress!=null&&nickname!=null)
-                checkUsername(username);
-            }
-            else if ((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.USERLOGIN)) != null) {
+                if (username != null && password != null && emailAddress != null && nickname != null)
+                    checkUsername(username);
+            } else if ((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.USERLOGIN)) != null) {
                 if ((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.LOGINUSER)) != null)
                     loginUser(matcher);
                 else if ((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.EMPTYUSERNAME)) == null)
@@ -140,32 +139,33 @@ public class LoginSignupMenu {
                     System.out.println("your password field is empty!");
             } else if ((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.PASSWORDFOROT)) != null) {
                 if ((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.FORGOTPASSWORD)) != null) {
-                    forgotPassword(matcher);
+                 //   forgotPassword(matcher);
                 } else if ((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.EMPTYUSERNAME)) == null) {
                     System.out.println("your username field is empty!");
                 }
-            }
-            else if((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.STAY_LOGGED_IN_LOGIN)) != null){
+            } else if ((matcher = LoginMenuCommands.getMatcher(command, LoginMenuCommands.STAY_LOGGED_IN_LOGIN)) != null) {
                 stayLoggedInlogin(matcher);
 
-            }            else
+            } else
                 System.out.println("Invalid command!");
         }
 
     }
 
+    private static void loginUser(Matcher matcher) {
+    }
+
     private static void stayLoggedInlogin(Matcher matcher) {
-        String USERNAME=new String();
-        if(matcher.group("StayUsernameWithSpace")!=null){
-            USERNAME=matcher.group("StayUsernameWithSpace");
-            USERNAME=USERNAME.substring(1,USERNAME.length()-1);
-        }
-        else if(matcher.group("StayUsernameWithOutSpace")!=null){
-            USERNAME=matcher.group("StayUsernameWithOutSpace");
+        String USERNAME = new String();
+        if (matcher.group("StayUsernameWithSpace") != null) {
+            USERNAME = matcher.group("StayUsernameWithSpace");
+            USERNAME = USERNAME.substring(1, USERNAME.length() - 1);
+        } else if (matcher.group("StayUsernameWithOutSpace") != null) {
+            USERNAME = matcher.group("StayUsernameWithOutSpace");
 
         }
-       GameMenuMessage message=LoginSignupControl.stayLoggedInlogin(username);
-        switch (message){
+        GameMenuMessage message = LoginSignupControl.stayLoggedInlogin(username);
+        switch (message) {
             case SUCCESS:
                 System.out.println("you logged in successfully");
                 break;
@@ -179,30 +179,18 @@ public class LoginSignupMenu {
     }
 
 
-    private static void forgotPassword(Matcher matcher) {
-        String username = matcher.group("username");
-        LoginMenuMessage message = LoginSignupControl.forgotPassword(username);
+    public static String forgotPassword(String username,String securityAnswer) {
+        LoginMenuMessage message = LoginSignupControl.forgotPassword(username,securityAnswer);
         switch (message) {
             case INVALIDUSERNAME:
-                System.out.println("username is invalid");
-                break;
+                return "username is invalid";
+            case INVALID_SECURITYQUESTION:
+                return "answer is invalid";
             case SECURITYQUESTION:
-                System.out.println("Pick your security question: 1. What is my father’s name? 2. What\n" +
-                        "was my first pet’s name? 3. What is my mother’s last name?");
-                Scanner scanner = Scan.getScanner();
-                String answer = scanner.nextLine();
-                LoginMenuMessage message1 = LoginSignupControl.checkSecurityAnswer(username, answer);
-                switch (message1) {
-                    case SUCCESS:
-                        System.out.println("type your new password");
-                        makeNewPassword(username);
-                        break;
-                    case INVALIDANSWER:
-                        System.out.println("your answer was incorrect");
-                        break;
-                }
-                break;
+                return "success";
+
         }
+        return null;
     }
 
     private static String implementCaptcha() {
@@ -210,30 +198,17 @@ public class LoginSignupMenu {
     }
 
 
-    private static void loginUser(Matcher matcher) {
-        String username = matcher.group("username").trim();
-        String password = matcher.group("password").trim();
-        removeQutation(username);
-        removeQutation(password);
-        int loggedInflag = 0;
-        if (matcher.group("loggedInFlag") != null) {
-            loggedInflag = 1;
-        }
-        LoginMenuMessage message = LoginSignupControl.loginUser(username, password, loggedInflag);
+    public static String loginUser(String username,String password) {
+        LoginMenuMessage message = LoginSignupControl.loginUser(username, password);
         switch (message) {
             case SUCCESS:
-                System.out.println("you logged in successfully");
-                counterWrongPassword = 0;
-                MainMenu.run();
-                break;
+                return "success";
             case USERNOTFOUND:
-                System.out.println("username not found");
-                break;
+                return "username not found";
             case INCORRECTPASSWORD:
-                System.out.println("password is incorrect");
-                counterWrongPassword++;
-                break;
+                return "password is incorrect";
         }
+        return null;
     }
 
     private static void pickQuestion() {
@@ -259,8 +234,7 @@ public class LoginSignupMenu {
                 if ((matcher = LoginMenuCommands.getMatcher(ans, LoginMenuCommands.ANSWERQUESTION)) != null) {
                     if ((matcher.group("answerWithoutSpace")) != null) {
                         answer = matcher.group("answerWithoutSpace");
-                    }
-                    else {
+                    } else {
                         answer = matcher.group("answerWithSpace");
                         answer.trim();
                         answer = answer.substring(1, answer.length() - 1);
@@ -291,7 +265,7 @@ public class LoginSignupMenu {
                         break;
                     }
                 }
-            }else {
+            } else {
                 ansNumber = 0;
                 confirmAnswer = null;
                 answer = null;
@@ -300,8 +274,9 @@ public class LoginSignupMenu {
         }
 
     }
-    public static String checkUsername(String userName){
-        if(userName==null)
+
+    public static String checkUsername(String userName) {
+        if (userName == null)
             return null;
         LoginMenuMessage message = LoginSignupControl.checkUsername(userName);
         switch (message) {
@@ -310,7 +285,7 @@ public class LoginSignupMenu {
             case SUCCESS:
                 return "success";
             case SAMEUSERNAME:
-              //  username=makeSuggestionUsername(userName);
+                //  username=makeSuggestionUsername(userName);
                 return "sameUsername";
         }
         return null;
@@ -318,9 +293,9 @@ public class LoginSignupMenu {
     }
 
     public static void createUser(String username, String password, String confirmPassword, String nickname, String slogan, String securityAnswer) {
-    LoginMenuMessage message=LoginSignupControl.createUser(username,password,emailAddress,nickname,slogan,securityAnswer);
-    if(message.equals(LoginMenuMessage.SUCCESS))
-        System.out.println("user created successfully");
+        LoginMenuMessage message = LoginSignupControl.createUser(username, password, emailAddress, nickname, slogan, securityAnswer);
+        if (message.equals(LoginMenuMessage.SUCCESS))
+            System.out.println("user created successfully");
     }
 
 
@@ -332,131 +307,106 @@ public class LoginSignupMenu {
             int result = random.nextInt(high - low) + low;
             username = username + Integer.toString(result);
             LoginMenuMessage message = LoginSignupControl.checkUsername(username);
-            if(message.equals(LoginMenuMessage.SUCCESS))
+            if (message.equals(LoginMenuMessage.SUCCESS))
                 break;
         }
-        System.out.println("Suggested username is:  "+username);
+        System.out.println("Suggested username is:  " + username);
         System.out.println("Type yes to confirm it");
-        Scanner scanner=Scan.getScanner();
-        String check=scanner.nextLine();
-        if(check.equals("yes")) {
-         //   System.out.println(username);
+        Scanner scanner = Scan.getScanner();
+        String check = scanner.nextLine();
+        if (check.equals("yes")) {
+            //   System.out.println(username);
             return username;
-        }
-        else {
+        } else {
             return null;
         }
     }
 
-        private static void validPassword (String password){
-            if (password == null)
-                return;
-            if (randomPasswordFlag == 1) {
-                String randomPass = LoginSignupControl.findRandomPassword();
-                System.out.println("Your password is: " + randomPass);
-                System.out.println("please type password for check it:");
-                Scanner scanner = Scan.getScanner();
-                String checkPassword = scanner.nextLine();
-                if (checkPassword.equals(randomPass)) {
-                    validEmail(emailAddress);
-                } else {
-                    System.out.println("password is incorrect!");
-                    randomPasswordFlag=0;
-
-                }
-            } else {
-                LoginMenuMessage message = LoginSignupControl.validatePassword(password);
-                switch (message) {
-                    case STRONGPASSWORD:
-                        ConfirmPassword(password, confirmPassword);
-                        break;
-                    case WITHOUTUPPERCASE:
-                        System.out.println("you dont have uppercase in your password!");
-                        break;
-                    case WITHOUTLOWERCASE:
-                        System.out.println("you dont have lowercase in your password!");
-                        break;
-                    case WITHOUTNUMBER:
-                        System.out.println("you dont have number in your password!");
-                        break;
-                    case LOW_LENGTH_PASS:
-                        System.out.println("your password is short");
-                        break;
-                    case WITHOUTSPECIALCHARACTER:
-                        System.out.println("you dont have character except number and alphabetical letters in your password!");
-                        break;
-                }
-            }
+    public static String validPassword(String password) {
+        if (password == null)
+            return null;
+        LoginMenuMessage message = LoginSignupControl.validatePassword(password);
+        switch (message) {
+            case STRONGPASSWORD:
+                return "success";
+            case WITHOUTUPPERCASE:
+                return "upper case";
+            case WITHOUTLOWERCASE:
+                return "lower case";
+            case WITHOUTNUMBER:
+                return "number";
+            case LOW_LENGTH_PASS:
+                return "length";
+            case WITHOUTSPECIALCHARACTER:
+                return "special character";
         }
+        return "null";
+    }
 
-        private static void ConfirmPassword (String password, String confirmPassword){
-        if(confirmPassword==null)
+
+    private static void ConfirmPassword(String password, String confirmPassword) {
+        if (confirmPassword == null)
             return;
-            if (password.equals(confirmPassword)) {
-                validEmail(emailAddress);
-            } else {
-                System.out.println("Confirm password should be equal to password");
-            }
-        }
-
-        private static void validEmail (String emailAddress){
-        if(emailAddress==null)
-            return;
-            LoginMenuMessage message = LoginSignupControl.validateEmail(emailAddress);
-            switch (message) {
-                case INVALIDEMAILFORMAT:
-                    System.out.println("this email format is invalid");
-                    break;
-                case DUPLICATEEMAIL:
-                    System.out.println("this email already exists");
-                    break;
-                case SUCCESS:
-                    checkSlogan();
-                    break;
-            }
-        }
-
-        private static void checkSlogan () {
-            ArrayList<String> slogans = new ArrayList<>();
-            if (hasSlogan == 1 && randomSloganFlag == 1) {
-                LoginSignupControl.randomSlogan(slogans);
-                Random random = new Random();
-                int result = random.nextInt(9);
-                slogan = slogans.get(result);
-
-            } else {
-
-            }
-            pickQuestion();
-        }
-
-        private static void removeQutation (String mystring){
-            if (mystring.charAt(0) == '"' && mystring.charAt(mystring.length() - 1) == '"')
-                mystring = mystring.substring(1, mystring.length() - 1);
-
-        }
-
-        private static void timeLimit ( int counterWrongPassword) throws InterruptedException {
-            if (counterWrongPassword >= 3) {
-                Thread.sleep((counterWrongPassword - 2) * 5000);
-            }
-        }
-
-        private static void makeNewPassword (String username){
-            Scanner scanner = Scan.getScanner();
-            String newPassword = scanner.nextLine();
-            Matcher matcher;
-            if ((matcher = LoginMenuCommands.getMatcher(newPassword, LoginMenuCommands.STRONGPASSWORD)) != null) {
-                LoginMenuMessage message = LoginSignupControl.makeNewPassword(username, newPassword);
-                switch (message) {
-                    case SUCCESS:
-                        System.out.println("password changed successfully");
-                        break;
-                }
-            } else {
-                System.out.println("new password should be strong");
-
-
-            }
+        if (password.equals(confirmPassword)) {
+            validEmail(emailAddress);
+        } else {
+            System.out.println("Confirm password should be equal to password");
         }
     }
+
+    public static String validEmail(String emailAddress) {
+        if (emailAddress == null)
+            return null;
+        LoginMenuMessage message = LoginSignupControl.validateEmail(emailAddress);
+        switch (message) {
+            case INVALIDEMAILFORMAT:
+                return "invalid format";
+            case DUPLICATEEMAIL:
+                return "exists";
+            case SUCCESS:
+                return "success";
+        }
+        return null;
+    }
+
+    public static String checkSlogan() {
+        String randomSlogan = null;
+        ArrayList<String> slogans = new ArrayList<>();
+        LoginSignupControl.randomSlogan(slogans);
+        Random random = new Random();
+        int result = random.nextInt(9);
+        randomSlogan = slogans.get(result);
+
+        return randomSlogan;
+    }
+
+    private static void removeQutation(String mystring) {
+        if (mystring.charAt(0) == '"' && mystring.charAt(mystring.length() - 1) == '"')
+            mystring = mystring.substring(1, mystring.length() - 1);
+
+    }
+
+    private static void timeLimit(int counterWrongPassword) throws InterruptedException {
+        if (counterWrongPassword >= 3) {
+            Thread.sleep((counterWrongPassword - 2) * 5000);
+        }
+    }
+
+    private static void makeNewPassword(String username) {
+        Scanner scanner = Scan.getScanner();
+        String newPassword = scanner.nextLine();
+        Matcher matcher;
+        if ((matcher = LoginMenuCommands.getMatcher(newPassword, LoginMenuCommands.STRONGPASSWORD)) != null) {
+            LoginMenuMessage message = LoginSignupControl.makeNewPassword(username, newPassword);
+            switch (message) {
+                case SUCCESS:
+                    System.out.println("password changed successfully");
+                    break;
+            }
+        } else {
+            System.out.println("new password should be strong");
+
+
+        }
+    }
+}

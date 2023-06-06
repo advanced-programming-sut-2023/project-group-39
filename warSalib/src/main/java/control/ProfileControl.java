@@ -5,6 +5,7 @@ import model.Game;
 import model.user.User;
 import view.GameMenu;
 import view.LoginSignupMenu;
+import view.adam;
 import view.enums.messages.LoginMenuMessage;
 import view.enums.messages.ProfileMenuMessage;
 
@@ -21,11 +22,16 @@ public class ProfileControl {
 
         if (LoginSignupControl.checkUsername(username).equals(LoginMenuMessage.INVALIDUSERNAME))
             return ProfileMenuMessage.INVALID_USERNAME_FORMAT;
+        for (adam adam:adam.adams){
+            if(adam.username.equals(Game.getCurrentUser().getUsername())){
+                adam.username=username;
+            }
 
+        }
         Game.getCurrentUser().setUsername(username);
         try {
             FileWriter fileWriter=new FileWriter("users.json");
-            fileWriter.write(new Gson().toJson(Game.getPlayers()));
+            fileWriter.write(new Gson().toJson(adam.adams));
             fileWriter.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -34,33 +40,35 @@ public class ProfileControl {
     }
 
     public static ProfileMenuMessage changeNickname(String nickname) {
-        if (nickname.equals(""))
-            return ProfileMenuMessage.INVALID_NICKNAME_FORMAT;
+        for (adam adam:adam.adams){
+            if(adam.username.equals(Game.getCurrentUser().getUsername())){
+                adam.nickname=nickname;
+            }
+
+        }
+        Game.getCurrentUser().setNickname(nickname);
+        try {
+            FileWriter fileWriter=new FileWriter("users.json");
+            fileWriter.write(new Gson().toJson(adam.adams));
+            fileWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         Game.getCurrentUser().setNickname(nickname);
         return ProfileMenuMessage.SUCCESS;
     }
 
-    public static ProfileMenuMessage changePassword(String newPassword, String oldPassword) {
-        if (!Game.getCurrentUser().getPassword().equals(oldPassword))
-            return ProfileMenuMessage.WRONG_PASSWORD;
-
-        else if (oldPassword.equals(newPassword))
-            return ProfileMenuMessage.SAME_PASSWORD;
-
-        else if (LoginSignupControl.validatePassword(newPassword) == null)
-            return ProfileMenuMessage.INVALID_PASSWORD_FORMAT;
-
-        else if (!LoginSignupControl.validatePassword(newPassword).equals(LoginMenuMessage.STRONGPASSWORD))
-            return ProfileMenuMessage.WEAK_PASSWORD;
-
-        else if (newPassword.equals("random"))
-            newPassword = LoginSignupControl.findRandomPassword(); // need to check this part
-
+    public static ProfileMenuMessage changePassword(String newPassword) {
+        for (adam adam:adam.adams){
+            if(adam.username.equals(Game.getCurrentUser().getUsername())){
+                adam.password=newPassword;
+            }
+        }
         Game.getCurrentUser().setPassword(newPassword);
         try {
             FileWriter fileWriter=new FileWriter("users.json");
-            fileWriter.write(new Gson().toJson(Game.getPlayers()));
+            fileWriter.write(new Gson().toJson(adam.adams));
             fileWriter.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -69,17 +77,16 @@ public class ProfileControl {
     }
 
     public static ProfileMenuMessage changeEmail(String email) {
-        for (User player : Game.getPlayers())
-            if (player.getEmail().equals(email))
-                return ProfileMenuMessage.EMAIL_EXISTS;
-
-        if (!LoginSignupControl.validateEmail(email).equals(LoginMenuMessage.SUCCESS))
-            return ProfileMenuMessage.INVALID_EMAIL_FORMAT;
+        for (adam adam:adam.adams){
+            if(adam.username.equals(Game.getCurrentUser().getUsername())){
+                adam.email=email;
+            }
+        }
 
         Game.getCurrentUser().setEmail(email);
         try {
             FileWriter fileWriter=new FileWriter("users.json");
-            fileWriter.write(new Gson().toJson(Game.getPlayers()));
+            fileWriter.write(new Gson().toJson(adam.adams));
             fileWriter.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -90,18 +97,15 @@ public class ProfileControl {
     public static ProfileMenuMessage changeSlogan(String slogan) {
         if (slogan.equals(""))
             return ProfileMenuMessage.EMPTY_SLOGAN;
-        else if (slogan.equals("random")) { // need to check this part
-            ArrayList<String> slogans = new ArrayList<>();
-            LoginSignupControl.randomSlogan(slogans);
-            Random random = new Random();
-            int result = random.nextInt(9);
-            Game.getCurrentUser().setSlogan(slogans.get(result));
-            return ProfileMenuMessage.SUCCESS;
+        for (adam adam:adam.adams){
+            if(adam.username.equals(Game.getCurrentUser().getUsername())){
+                adam.slogan=slogan;
+            }
         }
         Game.getCurrentUser().setSlogan(slogan);
         try {
             FileWriter fileWriter=new FileWriter("users.json");
-            fileWriter.write(new Gson().toJson(Game.getPlayers()));
+            fileWriter.write(new Gson().toJson(adam.adams));
             fileWriter.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -110,13 +114,16 @@ public class ProfileControl {
     }
 
     public static ProfileMenuMessage removeSlogan() {
-        if (Game.getCurrentUser().getSlogan().equals(""))
-            return ProfileMenuMessage.EMPTY_SLOGAN;
+        for (adam adam:adam.adams){
+            if(adam.username.equals(Game.getCurrentUser().getUsername())){
+                adam.slogan="";
+            }
+        }
 
         Game.getCurrentUser().setSlogan("");
         try {
             FileWriter fileWriter=new FileWriter("users.json");
-            fileWriter.write(new Gson().toJson(Game.getPlayers()));
+            fileWriter.write(new Gson().toJson(adam.adams));
             fileWriter.close();
         } catch (IOException e) {
             throw new RuntimeException(e);

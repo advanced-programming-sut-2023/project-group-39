@@ -48,6 +48,7 @@ import javafx.animation.Transition;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.stage.Stage;
@@ -75,22 +76,22 @@ public class StartGame extends Application {
     }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-       // LoginSignupControl.readUsersData();
+        LoginSignupControl.readUsersData();
         launch();
     }
 
     public void goLoginView(MouseEvent mouseEvent) throws Exception {
-//        LoginView.start(stage);
-        MapMenu mapMenu = new MapMenu();
-        mapMenu.start(stage);
+        LoginView loginView=new LoginView();
+        loginView.start(stage);
     }
 
     public void goSignupView(MouseEvent mouseEvent) throws IOException {
-        Signupview signupview=new Signupview();
+        signupview signupview=new signupview();
         signupview.start(stage);
     }
 
     public static void setStartPane(Pane startPane) {
         StartGame.startPane = startPane;
     }
+
 }
