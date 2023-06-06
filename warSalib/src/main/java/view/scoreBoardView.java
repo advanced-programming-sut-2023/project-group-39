@@ -15,7 +15,7 @@ import java.awt.ScrollPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Game;
-import model.user.User;.
+import model.user.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,7 +33,7 @@ public class scoreBoardView  extends Application {
     public void start(Stage stage) throws Exception {
             GridPane pane = FXMLLoader.load(StartGame.class.getResource("/fxml/ScoreBoard.fxml"));
             scoreBoardPane = pane;
-           javafx.scene.control.ScrollPane scrollPane=new ScrollPane(pane);
+          // javafx.scene.control.ScrollPane scrollPane=new ScrollPane(pane);
             Scene scene = new Scene(pane,840,720);
             scoreBoardStage = stage;
             stage.setTitle("Score Board");

@@ -246,4 +246,19 @@ public class LoginSignupControl {
         Collections.sort(sortedUsers, Comparator.comparing(User::getScore));
         Collections.reverse(sortedUsers);
     }
+    public static boolean findUser(String username){
+        for (User user:Game.getPlayers()){
+            if(user.getUsername().equals(username))
+                return true;
+        }
+        return false;
+    }
+    public static User getUserByName(String username){
+        for (User user:Game.getPlayers()){
+            if(user.getUsername().equals(username))
+                return user;
+
+        }
+        return null;
+    }
 }
