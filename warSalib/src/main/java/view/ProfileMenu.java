@@ -85,7 +85,7 @@ public class ProfileMenu {
     private static void changePassword(Matcher matcher) {
         String oldPassword = matcher.group("oldPassword");
         String newPassword = matcher.group("newPassword");
-        ProfileMenuMessage message = ProfileControl.changePassword(newPassword, oldPassword);
+        ProfileMenuMessage message = ProfileControl.changePassword(oldPassword);
         switch (message) {
             case WRONG_PASSWORD:
                 System.out.println("Current password is incorrect");
