@@ -68,8 +68,8 @@ public class MapMenu extends Application {
         if (tileSize > 30 && tiles!= null) {
             tileSize -= 5;
             Game.setTileSize(tileSize);
-            for (int j = 0 ; j < 200; j++){
-                for (int i = 0; i< 200; i++) {
+            for (int j = 0 ; j < 100; j++){
+                for (int i = 0; i< 100; i++) {
                     tiles[j][i].setMinWidth(tileSize);
                     tiles[j][i].setMinHeight(tileSize);
                 }
@@ -81,8 +81,8 @@ public class MapMenu extends Application {
         if (tileSize <= 60) {
             tileSize += 5;
             Game.setTileSize(tileSize);
-            for (int j = 0; j < 200; j++) {
-                for (int i = 0; i < 200; i++){
+            for (int j = 0; j < 100; j++) {
+                for (int i = 0; i < 100; i++){
                     tiles[j][i].setMinWidth(tileSize);
                     tiles[j][i].setMinHeight(tileSize);
                 }
@@ -95,8 +95,8 @@ public class MapMenu extends Application {
         Game.setMapInGame(gameMap);
         GridPane gridPane = new GridPane();
         tiles = Game.getMapInGame().getMap();
-        for (int i = 0 ; i < 200 ; i++) {
-            for (int j = 0; j< 200; j++) {
+        for (int i = 0 ; i < 100 ; i++) {
+            for (int j = 0; j< 100; j++) {
                 Tile tile = tiles[i][j];
                 tile.setMinWidth(tileSize);
                 tile.setMinHeight(tileSize);
