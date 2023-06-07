@@ -1,11 +1,17 @@
 package model.government.people.units;
 
+import control.MapControl;
+import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import model.Game;
 import model.government.people.People;
 import model.government.people.workingpersons.JobsName;
 import model.user.User;
 import model.wartool.wartoolenum;
+import view.StartGame;
 
-public class Units extends People {
+public class Units extends People  {
     protected UnitsName unitsName;
     protected int hitPoint;
     protected boolean hasHorse;
@@ -24,6 +30,8 @@ public class Units extends People {
 
     public Units(int xLocation, int yLocation, UnitsName unitsName, User ownerPerson) {
         this.jobsName = null;
+        this.setHeight(100);
+        this.setWidth(100);
         this.unitsName = unitsName;
         this.xLocation = xLocation;
         this.yLocation = yLocation;
@@ -38,6 +46,10 @@ public class Units extends People {
         this.patrolToY=-1;
         this.toGoX=xLocation;
         this.toGoY=yLocation;
+        Game.getMapInGame().getMap()[yLocation][xLocation].getChildren().add(this);
+        Game.getMapInGame().getMap()[yLocation][xLocation].getPeopleOnTile().add(this);
+        String details= MapControl.showDetails(xLocation,yLocation);
+        Game.getMapInGame().getMap()[yLocation][xLocation].getTooltip().setText(details);
     }
 
 
@@ -56,6 +68,7 @@ public class Units extends People {
     public static Units makeUnit(int x, int y, UnitsName unitsName, User user) {
         if (unitsName.getUnitsType().equals(UnitsType.ARCHER)) {
             Archers archers = new Archers(x, y, unitsName, user);
+
             return archers;
         } else if (unitsName.getUnitsType().equals(UnitsType.ARMY)) {
             Armys armys = new Armys(x, y, unitsName, user);

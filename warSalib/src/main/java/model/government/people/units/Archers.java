@@ -1,8 +1,12 @@
 package model.government.people.units;
 
+import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
+import model.Game;
 import model.government.resource.Resource;
 import model.user.User;
 import model.wartool.wartoolenum;
+import view.StartGame;
 
 import java.util.ArrayList;
 
@@ -23,6 +27,8 @@ public class Archers extends Units{
             this.inventories=new ArrayList<>();
             this.wartool= Resource.ARROW;
             this.arrowInMove=false;
+            ImagePattern humanImage=new ImagePattern(new Image(StartGame.class.getResource("/images/Units/archer.png").toExternalForm()));
+            this.setFill(humanImage);
         }
         else if(unitsName.getName().equals("crossbowmen")){
             this.precision=80;
@@ -31,6 +37,8 @@ public class Archers extends Units{
             this.wartool=Resource.ARROW;
             this.arrowInMove=false;
             this.hasHorse=false;
+            ImagePattern humanImage=new ImagePattern(new Image(StartGame.class.getResource("/images/Units/crossbowmen.png").toExternalForm()));
+            this.setFill(humanImage);
         }
         else if(unitsName.getName().equals("archerbow")){
             this.precision=60;
@@ -39,6 +47,8 @@ public class Archers extends Units{
             this.wartool= Resource.ARROW;
             this.arrowInMove=false;
             this.hasHorse=false;
+            ImagePattern humanImage=new ImagePattern(new Image(StartGame.class.getResource("/images/Units/archerbow.png").toExternalForm()));
+            this.setFill(humanImage);
         }
         else if(unitsName.getName().equals("slingers")){
             this.precision=60;
@@ -47,6 +57,9 @@ public class Archers extends Units{
             this.wartool= Resource.STONE;
             this.arrowInMove=false;
             this.hasHorse=false;
+            ImagePattern humanImage=new ImagePattern(new Image(StartGame.class.getResource("/images/Units/slingers.png").toExternalForm()));
+            this.setFill(humanImage);
+
         }
         else if(unitsName.getName().equals("horsearchers")){
             this.precision=60;
@@ -55,6 +68,8 @@ public class Archers extends Units{
             this.wartool= Resource.ARROW;
             this.arrowInMove=true;
             this.hasHorse=true;
+            ImagePattern humanImage=new ImagePattern(new Image(StartGame.class.getResource("/images/Units/horsearchers.png").toExternalForm()));
+            this.setFill(humanImage);
         }
         else if(unitsName.getName().equals("firethowers")){
             this.precision=80;
@@ -63,6 +78,8 @@ public class Archers extends Units{
             this.wartool= Resource.FIRECRACKER;
             this.arrowInMove=false;
             this.hasHorse=false;
+            ImagePattern humanImage=new ImagePattern(new Image(StartGame.class.getResource("/images/Units/firethrower.png").toExternalForm()));
+            this.setFill(humanImage);
         }
     }
 

@@ -103,7 +103,7 @@ public class signupview extends Application {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if (!passwordText.isVisible()) {
-                    PasswordField passwordField = (PasswordField) pane.getChildren().get(1);
+                    PasswordField passwordField = (PasswordField) pane.getChildren().get(2);
                     passwordText.setText(passwordField.getText());
                     pane.getChildren().remove(eyeView);
                     passwordText.setVisible(true);
