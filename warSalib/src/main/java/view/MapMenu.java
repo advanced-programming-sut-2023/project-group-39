@@ -20,6 +20,7 @@ import javafx.stage.Popup;
 import javafx.stage.Stage;
 import model.Game;
 import model.government.Government;
+import model.government.building.group.BuildingImages;
 import model.government.people.People;
 import model.government.people.units.Units;
 import model.government.people.units.UnitsName;
@@ -138,10 +139,12 @@ public class MapMenu extends Application {
     }
 
     private void initBuilding(HBox building) {
-        ImageView imageView = new ImageView(Building.getImage());
+        for (Image image : BuildingImages.getMilitaryBuilding()) {
+        ImageView imageView = new ImageView(image);
         imageView.setFitWidth(50);
         imageView.setFitHeight(50);
         building.getChildren().add(imageView);
+    }
     }
 
     private void zoomOut() {

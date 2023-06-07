@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class BuildingImages {
+    private static final ArrayList<Image> militaryBuilding = new ArrayList<>();
     private final static Image armourer = new Image(BuildingImages.class.getResource("/images/armourer.png").toExternalForm());
     private final static Image gateHouse = new Image(BuildingImages.class.getResource("/images/gateHouse.png").toExternalForm());
     private final static Image dogCage = new Image(BuildingImages.class.getResource("/images/dogcage.png").toExternalForm());
@@ -19,10 +20,20 @@ public class BuildingImages {
     private final static Image poleturnner =  new Image(BuildingImages.class.getResource("/images/poleturnner.png").toExternalForm());
     private final static Image stable =  new Image(BuildingImages.class.getResource("/images/stables.png").toExternalForm());
 
-    private static final ArrayList<Image> militaryBuilding= (ArrayList<Image>) Arrays.asList(armourer, gateHouse, dogCage,
-            drawBridge, engineerGuild, fletcher, hunter, keep, mercenary, poleturnner, stable);
 
     public static ArrayList<Image> getMilitaryBuilding (){
+        if (militaryBuilding.size() == 0) {
+            militaryBuilding.add(keep);
+            militaryBuilding.add(armourer);
+            militaryBuilding.add(gateHouse);
+            militaryBuilding.add(dogCage);
+            militaryBuilding.add(drawBridge);
+            militaryBuilding.add(engineerGuild);
+            militaryBuilding.add(fletcher);
+            militaryBuilding.add(mercenary);
+            militaryBuilding.add(poleturnner);
+            militaryBuilding.add(stable);
+        }
         return militaryBuilding;
     }
 }
