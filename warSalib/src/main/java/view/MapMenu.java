@@ -38,6 +38,8 @@ import java.util.regex.Matcher;
 
 public class MapMenu extends Application {
 
+    public ScrollPane scroll;
+
     public HBox buildingSelection;
     public Label popularity;
     public Label wealth;
@@ -60,7 +62,6 @@ public class MapMenu extends Application {
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
         BorderPane borderPane = FXMLLoader.load(ProfileMenu.class.getResource("/fxml/mapMenu.fxml"));
-        ;
         borderPane.setCenter(scrollPane);
         Scene scene = new Scene(borderPane);
         new Thread(new Runnable() {
@@ -133,16 +134,14 @@ public class MapMenu extends Application {
 //         population.setText(String.valueOf(Game.getTurnedUserForGame().getUserGovernment().getPopulation() + "/"
 //         + Game.getTurnedUserForGame().getUserGovernment().getPopulationCapacity()));
          initBuilding(buildingSelection);
-         ScrollPane scrollPane = new ScrollPane();
-         scrollPane.setContent(buildingSelection);
-         scrollPane.setFitToHeight(true);
+         scroll.setFitToWidth(true);
     }
 
     private void initBuilding(HBox building) {
         for (Image image : BuildingImages.getMilitaryBuilding()) {
         ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(50);
-        imageView.setFitHeight(50);
+        imageView.setFitWidth(80);
+        imageView.setFitHeight(80);
         building.getChildren().add(imageView);
     }
     }

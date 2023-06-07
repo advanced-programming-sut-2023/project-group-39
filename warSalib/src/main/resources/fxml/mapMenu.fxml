@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -10,11 +11,15 @@
    <bottom>
       <HBox prefHeight="100.0" prefWidth="200.0" spacing="250.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox fx:id="buildingSelection" prefHeight="100.0" prefWidth="1291.0" spacing="15.0">
-               <HBox.margin>
-                  <Insets top="10.0" />
-               </HBox.margin></HBox>
-            <VBox prefHeight="100.0" prefWidth="428.0" spacing="12.0">
+            <ScrollPane fx:id="scroll" prefHeight="131.0" prefWidth="1218.0">
+               <content>
+                  <HBox fx:id="buildingSelection" prefHeight="100.0" prefWidth="919.0" spacing="30.0" />
+               </content>
+               <padding>
+                  <Insets left="5.0" top="15.0" />
+               </padding>
+            </ScrollPane>
+            <VBox prefHeight="100.0" prefWidth="428.0" spacing="40.0">
                <children>
                   <Label fx:id="popularity" prefHeight="17.0" prefWidth="248.0" text="popularity">
                      <VBox.margin>
@@ -34,12 +39,6 @@
                </children>
             </VBox>
          </children>
-         <BorderPane.margin>
-            <Insets />
-         </BorderPane.margin>
-         <padding>
-            <Insets left="5.0" top="13.0" />
-         </padding>
       </HBox>
    </bottom>
 </BorderPane>
