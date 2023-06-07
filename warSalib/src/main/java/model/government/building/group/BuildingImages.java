@@ -11,6 +11,10 @@ public class BuildingImages {
     private static final ArrayList<Image> militaryBuilding = new ArrayList<>();
 
     private static final ArrayList<Image> buildBuilding = new ArrayList<>();
+
+    private static final ArrayList<Image> churches = new ArrayList<>();
+
+    private static final ArrayList<Image> foodBuilding = new ArrayList<>();
     private final static Image armourer = new Image(BuildingImages.class.getResource("/images/aumourer.png").toExternalForm());
     private final static Image gateHouse = new Image(BuildingImages.class.getResource("/images/gateHouse.png").toExternalForm());
     private final static Image dogCage = new Image(BuildingImages.class.getResource("/images/dogcage.png").toExternalForm());
@@ -34,20 +38,26 @@ public class BuildingImages {
     private final static Image tent = new Image(BuildingImages.class.getResource("/images/tent.png").toExternalForm());
     private final static Image pitchDitch = new Image(BuildingImages.class.getResource("/images/pitchDich.png").toExternalForm());
     private final static Image armoury = new Image(BuildingImages.class.getResource("/images/armoury.png").toExternalForm());
-
     private final static Image inn = new Image(BuildingImages.class.getResource("/images/inn.png").toExternalForm());
-
     private final static Image hovel = new Image(BuildingImages.class.getResource("/images/hovel.gif").toExternalForm());
+    private final static Image church = new Image(BuildingImages.class.getResource("/images/church.gif").toExternalForm());
+    private final static Image catheral = new Image(BuildingImages.class.getResource("/images/catheral.gif").toExternalForm());
 
+    private final static Image appleFarm = new Image(BuildingImages.class.getResource("/images/appleFarm.png").toExternalForm());
+    private final static Image bakery = new Image(BuildingImages.class.getResource("/images/bakery.png").toExternalForm());
+    private final static Image brewery = new Image(BuildingImages.class.getResource("/images/brewery.png").toExternalForm());
+    private final static Image dairy = new Image(BuildingImages.class.getResource("/images/dairy.gif").toExternalForm());
+    private final static Image foodStuck = new Image(BuildingImages.class.getResource("/images/foodStock.png").toExternalForm());
+    private final static Image hopFarm = new Image(BuildingImages.class.getResource("/images/hopFarm.png").toExternalForm());
+    private final static Image mill = new Image(BuildingImages.class.getResource("/images/mill.png").toExternalForm());
+    private final static Image wheatFarm = new Image(BuildingImages.class.getResource("/images/wheatFarm.png").toExternalForm());
 
 
     public static ArrayList<Image> getMilitaryBuilding (){
         if (militaryBuilding.size() == 0) {
             militaryBuilding.add(keep);
             militaryBuilding.add(armourer);
-            //militaryBuilding.add(gateHouse);
             militaryBuilding.add(dogCage);
-            //militaryBuilding.add(drawBridge);
             militaryBuilding.add(blackSmith);
             militaryBuilding.add(barrack);
             militaryBuilding.add(killingPit);
@@ -59,10 +69,6 @@ public class BuildingImages {
             militaryBuilding.add(mercenary);
             militaryBuilding.add(poleturnner);
             militaryBuilding.add(stable);
-//            militaryBuilding.add(lookoutTower);
-//            militaryBuilding.add(circularTower);
-//            militaryBuilding.add(defensiveTower);
-//            militaryBuilding.add(squareTower);
         }
         return militaryBuilding;
     }
@@ -79,6 +85,28 @@ public class BuildingImages {
             buildBuilding.add(perimeterTower);
         }
         return buildBuilding;
+    }
+
+    public static ArrayList<Image> getChurches(){
+        if (churches.size() == 0) {
+            churches.add(church);
+            churches.add(catheral);
+        }
+        return churches;
+    }
+
+    public static ArrayList<Image> getFoodBuilding(){
+        if (foodBuilding.size() == 0){
+            foodBuilding.add(appleFarm);
+            foodBuilding.add(bakery);
+            foodBuilding.add(brewery);
+            foodBuilding.add(dairy);
+            foodBuilding.add(foodStuck);
+            foodBuilding.add(hopFarm);
+            foodBuilding.add(mill);
+            foodBuilding.add(wheatFarm);
+        }
+        return foodBuilding;
     }
 }
 
