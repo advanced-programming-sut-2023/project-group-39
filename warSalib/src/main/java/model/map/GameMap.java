@@ -19,7 +19,7 @@ public class GameMap {
             for (int j = 0; j<100; j++) {
                 this.map[i][j] = new Tile();
                 if (i < 50)
-                    map[i][j].setType(Type.IRON_GROUND);
+                    map[i][j].setType(Type.SEA);
             }
         }
         Game.setMapInGame(this);

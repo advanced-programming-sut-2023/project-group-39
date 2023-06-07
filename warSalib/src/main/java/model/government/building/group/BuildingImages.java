@@ -15,6 +15,8 @@ public class BuildingImages {
     private static final ArrayList<Image> churches = new ArrayList<>();
 
     private static final ArrayList<Image> foodBuilding = new ArrayList<>();
+
+    private static final ArrayList<Image> sourceBuilding = new ArrayList<>();
     private final static Image armourer = new Image(BuildingImages.class.getResource("/images/aumourer.png").toExternalForm());
     private final static Image gateHouse = new Image(BuildingImages.class.getResource("/images/gateHouse.png").toExternalForm());
     private final static Image dogCage = new Image(BuildingImages.class.getResource("/images/dogcage.png").toExternalForm());
@@ -51,6 +53,13 @@ public class BuildingImages {
     private final static Image hopFarm = new Image(BuildingImages.class.getResource("/images/hopFarm.png").toExternalForm());
     private final static Image mill = new Image(BuildingImages.class.getResource("/images/mill.png").toExternalForm());
     private final static Image wheatFarm = new Image(BuildingImages.class.getResource("/images/wheatFarm.png").toExternalForm());
+    private final static Image ironMine = new Image(BuildingImages.class.getResource("/images/ironMine.png").toExternalForm());
+    private final static Image market = new Image(BuildingImages.class.getResource("/images/Market.png").toExternalForm());
+    private final static Image oilSmelter = new Image(BuildingImages.class.getResource("/images/oilSmelter.png").toExternalForm());
+    private final static Image oxTether = new Image(BuildingImages.class.getResource("/images/oxTether.gif").toExternalForm());
+    private final static Image quarry = new Image(BuildingImages.class.getResource("/images/quarry.png").toExternalForm());
+    private final static Image stockPile = new Image(BuildingImages.class.getResource("/images/stockpile.gif").toExternalForm());
+    private final static Image woodCutter = new Image(BuildingImages.class.getResource("/images/WoodCutter.png").toExternalForm());
 
 
     public static ArrayList<Image> getMilitaryBuilding (){
@@ -107,6 +116,19 @@ public class BuildingImages {
             foodBuilding.add(wheatFarm);
         }
         return foodBuilding;
+    }
+
+    public static ArrayList<Image> getSourceBuilding(){
+        if (sourceBuilding.size() == 0){
+            sourceBuilding.add(ironMine);
+            sourceBuilding.add(market);
+            sourceBuilding.add(oilSmelter);
+            sourceBuilding.add(oxTether);
+            sourceBuilding.add(quarry);
+            sourceBuilding.add(stockPile);
+            sourceBuilding.add(woodCutter);
+        }
+        return sourceBuilding;
     }
 }
 
