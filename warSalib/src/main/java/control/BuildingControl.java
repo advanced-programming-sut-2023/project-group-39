@@ -98,11 +98,11 @@ public class BuildingControl {
         Building building = Game.getSelectedBuilding();
         Government government = building.getGovernment();
         for (int i = 0; i < count; i++) {
-            Units units = new Units(building.getX(), building.getY(), unitsName, building.getGovernment().getUser());
+            Units units = new Units(building.getXBuilding(), building.getYBuilding(), unitsName, building.getGovernment().getUser());
             People people = government.getUnWorkedPeople().get(0);
             government.removeUnWorkedPeople(people);
             government.addToPeople(units);
-            Game.getMapInGame().getMap()[building.getY()][building.getX()].addPeople(units);
+            Game.getMapInGame().getMap()[building.getYBuilding()][building.getXBuilding()].addPeople(units);
         }
         return BuildingMessage.SUCCESS;
     }
@@ -176,8 +176,8 @@ public class BuildingControl {
     }
 
     private static boolean isNearEnemy(Building building) {
-        int x = building.getX();
-        int y = building.getY();
+        int x = building.getXBuilding();
+        int y = building.getYBuilding();
         for (int j = y -2; j <= y+2; j++) {
             for (int i = x - 2; i <= x+2; i++) {
                 for(People people : Game.getMapInGame().getMap()[j][i].getPeopleOnTile()) {

@@ -7,12 +7,14 @@ import model.government.people.People;
 import model.government.people.workingpersons.JobsName;
 import model.government.resource.Resource;
 import model.map.type.Type;
-
+import javafx.scene.image.Image;
+import javafx.scene.shape.Rectangle;
+import java.awt.*;
 import java.awt.datatransfer.MimeTypeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-abstract public class Building {
+abstract public class Building extends Rectangle{
     private Government government;
     private HashMap<String, Integer> workerDataBase;
     private ArrayList<People> workerWorked;
@@ -27,6 +29,8 @@ abstract public class Building {
     private int maxHP;
     private int x, y;
 
+    private static Image image = new Image(Building.class.getResource("/images/keep1.png").toExternalForm());;
+
     public Building(int x, int y, Government government, int hp, String type, String name, int maxHP,
                     HashMap<Resource, Integer> resourceNeedToBuild) {
         this.x = x;
@@ -40,6 +44,8 @@ abstract public class Building {
         this.maxHP = maxHP;
         this.resourceNeedToBuild = resourceNeedToBuild;
         Game.getMapInGame().getMap()[y][x].setBuilding(this);
+        this.setWidth(5);
+        this.setHeight(5);
     }
 
     public static GroupOfBuilding getGroupByName(String name) {
@@ -138,11 +144,11 @@ abstract public class Building {
         return name;
     }
 
-    public int getX() {
+    public int getXBuilding() {
         return x;
     }
 
-    public int getY() {
+    public int getYBuilding() {
         return y;
     }
 
@@ -205,5 +211,9 @@ abstract public class Building {
 
     public void setWealth(int wealth) {
         this.wealth = wealth;
+    }
+
+    public static Image getImage() {
+        return image;
     }
 }

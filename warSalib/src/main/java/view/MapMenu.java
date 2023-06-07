@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
@@ -19,6 +20,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.stage.Stage;
 import model.Game;
 import javafx.scene.image.Image;
+import model.government.building.Building;
 import model.map.GameMap;
 import model.map.Tile;
 import view.enums.commands.MapMenuCommands;
@@ -77,10 +79,21 @@ public class MapMenu extends Application {
 
     @FXML
     public void initialize() {
-         popularity.setText(String.valueOf(Game.getTurnedUserForGame().getUserGovernment().getPopularity()));
-         wealth.setText(String.valueOf(Game.getTurnedUserForGame().getUserGovernment().getWealth()));
-         population.setText(String.valueOf(Game.getTurnedUserForGame().getUserGovernment().getPopulation() + "/"
-         + Game.getTurnedUserForGame().getUserGovernment().getPopulationCapacity()));
+//         popularity.setText(String.valueOf(Game.getTurnedUserForGame().getUserGovernment().getPopularity()));
+//         wealth.setText(String.valueOf(Game.getTurnedUserForGame().getUserGovernment().getWealth()));
+//         population.setText(String.valueOf(Game.getTurnedUserForGame().getUserGovernment().getPopulation() + "/"
+//         + Game.getTurnedUserForGame().getUserGovernment().getPopulationCapacity()));
+         initBuilding(buildingSelection);
+         ScrollPane scrollPane = new ScrollPane();
+         scrollPane.setContent(buildingSelection);
+         scrollPane.setFitToHeight(true);
+    }
+
+    private void initBuilding(HBox building) {
+        ImageView imageView = new ImageView(Building.getImage());
+        imageView.setFitWidth(50);
+        imageView.setFitHeight(50);
+        building.getChildren().add(imageView);
     }
 
     private void zoomOut() {

@@ -353,9 +353,9 @@ public class GameControl {
     public static GameMenuMessage disbandUnit() {
         for (Building building : currentUnits.get(0).getOwnerPerson().getUserGovernment().getBuildings()) {
             if (building instanceof Hovel) {
-                Tile tile = Game.getMapInGame().getMap()[building.getX()][building.getY()];
-                while (currentUnits.get(0).getxLocation() != building.getX() && currentUnits.get(0).getyLocation() != building.getX()) {
-                    moveUnit(building.getX(), building.getY());
+                Tile tile = Game.getMapInGame().getMap()[building.getXBuilding()][building.getYBuilding()];
+                while (currentUnits.get(0).getxLocation() != building.getXBuilding() && currentUnits.get(0).getyLocation() != building.getXBuilding()) {
+                    moveUnit(building.getXBuilding(), building.getYBuilding());
 
 
                 }
@@ -512,7 +512,7 @@ public class GameControl {
                 Gatehouse gatehouse = (Gatehouse) tile.getBuilding();
                 if (gatehouse.getGovernment() != currentUnits.get(0).getOwnerPerson().getUserGovernment()) {
                     if (currentUnits.get(0).getUnitsName().getName().equals("spearman") || currentUnits.get(0).getUnitsName().getName().equals("maceman")) {
-                        moveUnit(gatehouse.getX(), gatehouse.getY());
+                        moveUnit(gatehouse.getXBuilding(), gatehouse.getYBuilding());
 
                         gatehouse.setOpenGate(true);
                         gatehouse.setHasFlag(true);

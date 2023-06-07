@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollBar?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -11,14 +10,10 @@
    <bottom>
       <HBox prefHeight="100.0" prefWidth="200.0" spacing="250.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox fx:id="buildingSelection" prefHeight="100.0" prefWidth="1291.0">
-               <children>
-                  <ScrollBar prefHeight="16.0" prefWidth="833.0">
-                     <HBox.margin>
-                        <Insets left="100.0" top="10.0" />
-                     </HBox.margin>
-                  </ScrollBar>
-               </children></HBox>
+            <HBox fx:id="buildingSelection" prefHeight="100.0" prefWidth="1291.0" spacing="15.0">
+               <HBox.margin>
+                  <Insets top="10.0" />
+               </HBox.margin></HBox>
             <VBox prefHeight="100.0" prefWidth="428.0" spacing="12.0">
                <children>
                   <Label fx:id="popularity" prefHeight="17.0" prefWidth="248.0" text="popularity">
@@ -39,6 +34,12 @@
                </children>
             </VBox>
          </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <padding>
+            <Insets left="5.0" top="13.0" />
+         </padding>
       </HBox>
    </bottom>
 </BorderPane>
