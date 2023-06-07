@@ -77,6 +77,7 @@ public class MainView extends Application {
                     Game.getCurrentUser().setUserGovernment(governmentOfCurrentUser);
                     Game.addGovernment(governmentOfCurrentUser);
                     Game.setGameStarter(Game.getCurrentUser());
+                    Game.setTurnedUserForGame(Game.getCurrentUser());
                     MapMenu mapMenu=new MapMenu();
                     try {
                         mapMenu.start(StartGame.stage);

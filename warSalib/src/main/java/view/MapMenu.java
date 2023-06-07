@@ -3,7 +3,11 @@ package view;
 import control.MapControl;
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
@@ -11,6 +15,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.ImagePattern;
 import javafx.stage.Stage;
 import model.Game;
 import javafx.scene.image.Image;
@@ -26,6 +31,10 @@ import java.util.regex.Matcher;
 
 public class MapMenu extends Application {
 
+    public HBox buildingSelection;
+    public Label popularity;
+    public Label wealth;
+    public Label population;
     private int tileSize = 50;
 
     private Tile [][] tiles;
@@ -37,7 +46,9 @@ public class MapMenu extends Application {
         javafx.scene.control.ScrollPane scrollPane = new ScrollPane(gridPane);
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
-        Scene scene = new Scene(scrollPane);
+        BorderPane borderPane = FXMLLoader.load(ProfileMenu.class.getResource("/fxml/mapMenu.fxml"));;
+        borderPane.setCenter(scrollPane);
+        Scene scene = new Scene(borderPane);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -62,6 +73,14 @@ public class MapMenu extends Application {
         stage.setTitle("Scrollable Tile Map Example");
         stage.setScene(scene);
         stage.show();
+    }
+
+    @FXML
+    public void initialize() {
+         popularity.setText(String.valueOf(Game.getTurnedUserForGame().getUserGovernment().getPopularity()));
+         wealth.setText(String.valueOf(Game.getTurnedUserForGame().getUserGovernment().getWealth()));
+         population.setText(String.valueOf(Game.getTurnedUserForGame().getUserGovernment().getPopulation() + "/"
+         + Game.getTurnedUserForGame().getUserGovernment().getPopulationCapacity()));
     }
 
     private void zoomOut() {
@@ -112,8 +131,14 @@ public class MapMenu extends Application {
 
     private void clickedAtBottom(Tile tile) {
         //TODO : add something that see data about selected tile
-        selectedTile.add(tile);
-        tile.setOpacity(0.2);
+        if (!selectedTile.contains(tile)) {
+            selectedTile.add(tile);
+            tile.setOpacity(0.2);
+        }
+        else {
+            selectedTile.remove(tile);
+            tile.setOpacity(1);
+        }
     }
 
     private void setTileTooltip(Tile tile, int i, int j) {
