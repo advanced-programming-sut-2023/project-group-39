@@ -5,7 +5,6 @@ import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -14,20 +13,24 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.Color;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 import model.Game;
+import model.government.Government;
+import model.government.people.People;
+import model.government.people.units.Units;
+import model.government.people.units.UnitsName;
 import javafx.scene.image.Image;
 import model.government.building.Building;
 import model.map.GameMap;
 import model.map.Tile;
 import view.enums.commands.MapMenuCommands;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.*;
-import java.awt.*;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
@@ -183,10 +186,9 @@ public class MapMenu extends Application {
                 gridPane.add(tiles[i][j], i, j);
             }
         }
-        for (Government government : Game.getGovernments()) {
-            MainMenu.createInitialPeople(government, 30);
-        }
-        return gridPane;
+        for (Government government:Game.getGovernments()){
+            MainMenu.createInitialPeople(government,30);
+        }        return gridPane;
     }
 
     private void clickedAtBottom(Tile tile) {
@@ -214,39 +216,39 @@ public class MapMenu extends Application {
     }
 
     private void hideUnitsInformation(Tile tile) {
-        if (informationPopup.isShowing()) {
+        if(informationPopup.isShowing()){
             informationPopup.hide();
 
         }
     }
 
     private void showUnitsDetail(Tile tile) {
-        VBox vBox = new VBox();
+        VBox vBox=new VBox();
         vBox.setStyle("-fx-background-color: #DCDC91B6");
         vBox.setSpacing(15);
-        for (People units : tile.getPeopleOnTile()) {
-            if (units instanceof Units) {
-                HBox hBox = new HBox();
+        for (People units:tile.getPeopleOnTile()){
+            if(units instanceof Units){
+                HBox hBox=new HBox();
                 hBox.setSpacing(10);
-                Label empty = new Label("");
-                Label unitName = new Label(((Units) units).getUnitsName().getName());
-                Label unitOwner = new Label(units.getOwnerPerson().getUsername());
-                String power = String.valueOf(((Units) units).getUnitsName().getAttackingPower());
-                Label unitPower = new Label(power);
-                String health = String.valueOf(((Units) units).getHitPoint());
-                Label unitHealth = new Label(health);
-                String Mode = String.valueOf(((Units) units).getState());
-                Label unitMode = new Label(Mode);
-                hBox.getChildren().addAll(empty, unitName, unitOwner, unitPower, unitHealth, unitMode);
+                Label empty=new Label("");
+                Label unitName=new Label(((Units) units).getUnitsName().getName());
+                Label unitOwner=new Label(units.getOwnerPerson().getUsername());
+                String power= String.valueOf(((Units) units).getUnitsName().getAttackingPower());
+                Label unitPower=new Label(power);
+                String health= String.valueOf(((Units) units).getHitPoint());
+                Label unitHealth=new Label(health);
+                String Mode= String.valueOf(((Units) units).getState());
+                Label unitMode=new Label(Mode);
+                hBox.getChildren().addAll(empty,unitName,unitOwner,unitPower,unitHealth,unitMode);
                 vBox.getChildren().add(hBox);
 
             }
 
         }
-        if (informationPopup.getContent() != null) {
+        if(informationPopup.getContent()!=null){
             informationPopup.getContent().clear();
         }
-        if (tile.getPeopleOnTile().size() != 0) {
+        if(tile.getPeopleOnTile().size()!=0) {
             informationPopup.getContent().add(vBox);
             informationPopup.show(mapStage);
         }

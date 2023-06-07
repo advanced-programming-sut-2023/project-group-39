@@ -1,6 +1,7 @@
 package model.map;
 
 import javafx.geometry.Insets;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.ImagePattern;
@@ -42,6 +43,8 @@ public class Tile extends StackPane {
 
     private boolean hasOilTale;
 
+    private Tooltip tooltip;
+
     private ArrayList<CataPult> cataPults=new ArrayList<>();
 
     private ArrayList<BatteringRam> batteringRams=new ArrayList<>();
@@ -58,6 +61,7 @@ public class Tile extends StackPane {
         this.type = Type.GROUND;
         peopleOnTile = new ArrayList<>();
         this.hasTunnel=false;
+        this.tooltip=new Tooltip();
         cataPults=new ArrayList<>();
         batteringRams=new ArrayList<>();
         fieryStoneThrowers=new ArrayList<>();
@@ -186,5 +190,9 @@ public class Tile extends StackPane {
 
     public void setImage(Image image) {
         this.image = image;
+    }
+
+    public Tooltip getTooltip() {
+        return tooltip;
     }
 }
