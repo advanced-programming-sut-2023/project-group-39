@@ -24,6 +24,9 @@ public class BuildingImages {
     private final static Image circularTower = new Image(BuildingImages.class.getResource("/images/circularTower.png").toExternalForm());
     private final static Image defensiveTower = new Image(BuildingImages.class.getResource("/images/defensiveTower.png").toExternalForm());
 
+    private static final ArrayList<Image> militaryBuilding=new ArrayList<>();
+
+
 
     public static ArrayList<Image> getMilitaryBuilding (){
         if (militaryBuilding.size() == 0) {
