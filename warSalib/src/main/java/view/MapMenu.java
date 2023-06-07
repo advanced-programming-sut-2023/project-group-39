@@ -184,10 +184,8 @@ public class MapMenu extends Application {
                chooseUnits.show(mapStage);
                vBox.getChildren().add(submit);
             }
-        }).start();
-        stage.setTitle("Scrollable Tile Map Example");
-        stage.setScene(scene);
-        stage.show();
+        }
+
     }
 
     @FXML
