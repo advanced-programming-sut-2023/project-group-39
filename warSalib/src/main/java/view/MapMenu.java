@@ -15,6 +15,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import model.Game;
@@ -34,6 +36,7 @@ import javafx.scene.layout.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
@@ -45,6 +48,12 @@ public class MapMenu extends Application {
     public Label popularity;
     public Label wealth;
     public Label population;
+    public Circle church;
+    public Circle resourceBuilding;
+    public Circle foodBuilding;
+    public Circle MilitaryBuilding;
+    public Circle buildBuilding;
+    public GridPane miniMap;
     private int tileSize = 50;
 
     private Tile[][] tiles;
@@ -200,6 +209,24 @@ public class MapMenu extends Application {
 //         + Game.getTurnedUserForGame().getUserGovernment().getPopulationCapacity()));
          initBuilding(buildingSelection);
          scroll.setFitToWidth(true);
+         church.setFill(new ImagePattern(new Image(MapMenu.class.getResource("/images/churchSym.jpeg").toExternalForm())));
+         foodBuilding.setFill(new ImagePattern(new Image(MapMenu.class.getResource("/images/farming.png").toExternalForm())));
+         buildBuilding.setFill(new ImagePattern(new Image(MapMenu.class.getResource("/images/house.png").toExternalForm())));
+         resourceBuilding.setFill(new ImagePattern(new Image(MapMenu.class.getResource("/images/resourceSym.png").toExternalForm())));
+         MilitaryBuilding.setFill(new ImagePattern(new Image(MapMenu.class.getResource("/images/championcaribs.png").toExternalForm())));
+         initMiniMap();
+    }
+
+    private void initMiniMap() {
+        tiles = Game.getMapInGame().getMap();
+        for (int i = 0; i < 100; i++){
+            for (int j = 0; j < 100; j++){
+                ImageView imageView = new ImageView(tiles[j][i].getImage());
+                imageView.setFitHeight(0.8);
+                imageView.setFitWidth(0.8);
+                miniMap.add(imageView,j,i);
+            }
+        }
     }
 
     private void initBuilding(HBox building) {
@@ -393,5 +420,55 @@ public class MapMenu extends Application {
 
     public void setTileSize(int tileSize) {
         this.tileSize = tileSize;
+    }
+
+    public void clickMiltary(MouseEvent mouseEvent) {
+        buildingSelection.getChildren().clear();
+        for (Image image : BuildingImages.getMilitaryBuilding()){
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(80);
+            imageView.setFitHeight(80);
+            buildingSelection.getChildren().add(imageView);
+        }
+    }
+
+    public void clickBuildBuilding(MouseEvent mouseEvent) {
+        buildingSelection.getChildren().clear();
+        for (Image image : BuildingImages.getBuildBuilding()){
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(80);
+            imageView.setFitHeight(80);
+            buildingSelection.getChildren().add(imageView);
+        }
+    }
+
+    public void clickFoodBuilding(MouseEvent mouseEvent) {
+        buildingSelection.getChildren().clear();
+        for (Image image : BuildingImages.getFoodBuilding()){
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(80);
+            imageView.setFitHeight(80);
+            buildingSelection.getChildren().add(imageView);
+        }
+    }
+
+    public void clickResource(MouseEvent mouseEvent) {
+        buildingSelection.getChildren().clear();
+        for (Image image : BuildingImages.getSourceBuilding()){
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(80);
+            imageView.setFitHeight(80);
+            buildingSelection.getChildren().add(imageView);
+        }
+    }
+
+    public void clickChurch(MouseEvent mouseEvent) {
+        buildingSelection.getChildren().clear();
+        for (Image image : BuildingImages.getChurches()){
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(80);
+            imageView.setFitHeight(80);
+            buildingSelection.getChildren().add(imageView);
+        }
     }
 }
