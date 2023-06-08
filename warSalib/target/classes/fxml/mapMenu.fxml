@@ -6,42 +6,39 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0"
-            prefWidth="1600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="view.MapMenu">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MapMenu">
    <bottom>
       <HBox prefHeight="100.0" prefWidth="200.0" spacing="250.0" BorderPane.alignment="CENTER">
          <children>
             <HBox fx:id="buildingSelection" prefHeight="100.0" prefWidth="1291.0" spacing="15.0">
                <HBox.margin>
-                  <Insets top="10.0"/>
-               </HBox.margin>
-            </HBox>
+                  <Insets top="10.0" />
+               </HBox.margin></HBox>
             <VBox prefHeight="100.0" prefWidth="428.0" spacing="12.0">
                <children>
                   <Label fx:id="popularity" prefHeight="17.0" prefWidth="248.0" text="popularity">
                      <VBox.margin>
-                        <Insets left="8.0"/>
+                        <Insets left="8.0" />
                      </VBox.margin>
                   </Label>
                   <Label fx:id="wealth" prefHeight="17.0" prefWidth="269.0" text="wealth">
                      <VBox.margin>
-                        <Insets left="8.0"/>
+                        <Insets left="8.0" />
                      </VBox.margin>
                   </Label>
                   <Label fx:id="population" prefHeight="17.0" prefWidth="284.0" text="population">
                      <VBox.margin>
-                        <Insets left="7.0"/>
+                        <Insets left="7.0" />
                      </VBox.margin>
                   </Label>
                </children>
             </VBox>
          </children>
          <BorderPane.margin>
-            <Insets/>
+            <Insets />
          </BorderPane.margin>
          <padding>
-            <Insets left="5.0" top="13.0"/>
+            <Insets left="5.0" top="13.0" />
          </padding>
       </HBox>
    </bottom>

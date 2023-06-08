@@ -21,10 +21,8 @@ import model.Game;
 import model.government.Government;
 import model.government.building.group.BuildingImages;
 import model.government.people.People;
+import model.government.people.units.*;
 import model.government.people.units.UnitButton;
-import model.government.people.units.Units;
-import model.government.people.units.UnitButton;
-import model.government.people.units.UnitsName;
 import javafx.scene.image.Image;
 import model.government.building.Building;
 import model.map.GameMap;
@@ -108,10 +106,11 @@ public class MapMenu extends Application {
         scrollPane.setContent(buildingSelection);
         scrollPane.setFitToHeight(true);
     }
+
     private void selectLocationForMove(ArrayList<Tile> selectedTile) {
         ArrayList<Units> playerUnit = new ArrayList<>();
-        ArrayList<ArrayList<Units>> unitsKind=new ArrayList<>();
-        ArrayList<UnitButton> unitsButtons=new ArrayList<>();
+        ArrayList<ArrayList<Units>> unitsKind = new ArrayList<>();
+        ArrayList<UnitButton> unitsButtons = new ArrayList<>();
         ArrayList<ArrayList<Units>> differentUnits = new ArrayList<>();
         if (selectedTile == null || selectedTile.size() == 0) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -135,69 +134,92 @@ public class MapMenu extends Application {
                 alert.showAndWait();
 
             } else {
-                int flag=0;
+                int flag = 0;
                 for (Units units : playerUnit) {
-                    for (int i=0;i<unitsKind.size();i++){
-                        if(unitsKind.get(i).get(0).getUnitsName().equals(units.getUnitsName())){
+                    for (int i = 0; i < unitsKind.size(); i++) {
+                        if (unitsKind.get(i).get(0).getUnitsName().equals(units.getUnitsName())) {
                             unitsKind.get(i).add(units);
-                            flag=1;
+                            flag = 1;
                         }
                     }
-                    if(flag==0){
-                        ArrayList<Units> units1=new ArrayList<>();
+                    if (flag == 0) {
+                        ArrayList<Units> units1 = new ArrayList<>();
                         units1.add(units);
                         unitsKind.add(units1);
                     }
-                    flag=0;
+                    flag = 0;
                 }
                 Popup chooseUnits = new Popup();
-                VBox vBox=new VBox();
+                VBox vBox = new VBox();
                 vBox.setSpacing(15);
                 vBox.setStyle("-fx-background-color: #DCD291B6");
                 vBox.setSpacing(15);
-                for (int i=0;i<unitsKind.size();i++){
-                    HBox hBox=new HBox();
+                for (int i = 0; i < unitsKind.size(); i++) {
+                    HBox hBox = new HBox();
                     hBox.setSpacing(10);
-                    Label label1=new Label(unitsKind.get(i).get(0).getUnitsName().getName());
+                    Label label1 = new Label(unitsKind.get(i).get(0).getUnitsName().getName());
                     label1.setTextFill(Color.WHITE);
-                    String speed= String.valueOf(unitsKind.get(i).get(0).getUnitsName().getSpeed());
-                    Label label2=new Label(speed);
+                    String speed = String.valueOf(unitsKind.get(i).get(0).getUnitsName().getSpeed());
+                    Label label2 = new Label(speed);
                     label2.setTextFill(Color.WHITE);
-                    String hitPoint= String.valueOf(unitsKind.get(i).get(0).getHitPoint());
-                    Label label3=new Label(hitPoint);
+                    String hitPoint = String.valueOf(unitsKind.get(i).get(0).getHitPoint());
+                    Label label3 = new Label(hitPoint);
                     label3.setTextFill(Color.WHITE);
-                    String number= String.valueOf(unitsKind.get(i).size());
-                    Label label4=new Label(number);
+                    String number = String.valueOf(unitsKind.get(i).size());
+                    Label label4 = new Label(number);
                     label4.setTextFill(Color.WHITE);
-                    Button button=new Button("choose");
-                    UnitButton myButton=new UnitButton(unitsKind.get(i),button);
+                    Button button = new Button("choose");
+                    UnitButton myButton = new UnitButton(unitsKind.get(i), button);
                     unitsButtons.add(myButton);
-                    hBox.getChildren().addAll(label1,label2,label3,label4,button);
+                    hBox.getChildren().addAll(label1, label2, label3, label4, button);
                     vBox.getChildren().add(hBox);
                 }
 
-                for(UnitButton Button:unitsButtons){
+                for (UnitButton Button : unitsButtons) {
                     Button.getButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent mouseEvent) {
-                            ArrayList<Units> selectingUnits=new ArrayList<>();
+                            ArrayList<Units> selectingUnits = new ArrayList<>();
                             selectingUnits.addAll(Button.getUnits());
                             GameControl.currentUnits.addAll(selectingUnits);
                         }
                     });
                 }
-                TextField xLocation=new TextField();
-                TextField yLocation=new TextField();
-                HBox hBox=new HBox();
+                TextField xLocation = new TextField();
+                TextField yLocation = new TextField();
+                HBox hBox = new HBox();
                 hBox.setSpacing(30);
                 xLocation.setPromptText("enter x location");
                 yLocation.setPromptText("enter y location");
-                hBox.getChildren().addAll(xLocation,yLocation);
+                hBox.getChildren().addAll(xLocation, yLocation);
                 vBox.getChildren().add(hBox);
-               Button submit=new Button("Go");
-               chooseUnits.getContent().add(vBox);
-               chooseUnits.show(mapStage);
-               vBox.getChildren().add(submit);
+                Button submit = new Button("Go");
+                chooseUnits.getContent().add(vBox);
+                chooseUnits.show(mapStage);
+                vBox.getChildren().add(submit);
+                submit.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        if (xLocation.getText() == null || xLocation.getText().equals("") || yLocation.getText().equals("") || yLocation == null) {
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setContentText("please fill destination");
+                            alert.showAndWait();
+
+                        } else {
+                            chooseUnits.hide();
+                            int x = Integer.parseInt(xLocation.getText());
+                            int y = Integer.parseInt(yLocation.getText());
+                            moveAnimation moveAnimation = new moveAnimation(GameControl.currentUnits, x, y);
+                            moveAnimation.play();
+                            if (GameControl.currentUnits.get(0).getxLocation() != x || GameControl.currentUnits.get(0).getyLocation() != y) {
+                                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                alert.setContentText("path was bigger than unit speed");
+                                alert.showAndWait();
+
+                            }
+                        }
+                    }
+                });
             }
         }
     }
@@ -257,7 +279,7 @@ public class MapMenu extends Application {
         for (Government government : Game.getGovernments()) {
             MainMenu.createInitialPeople(government, 30);
         }
-        //   Units.makeUnit(0,0,UnitsName.ARCHER,Game.getGameStarter());
+        Units.makeUnit(0, 0, UnitsName.ARCHER, Game.getGameStarter());
         return gridPane;
     }
 

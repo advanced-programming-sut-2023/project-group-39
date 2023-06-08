@@ -17,38 +17,26 @@ public class Combat extends Units{
         if(unitsName.getName().equals("pikeman")){
             this.wartool=Resource.SPEAR;
             this.portableProtection=null;
-            ImagePattern humanImage=new ImagePattern(new Image(StartGame.class.getResource("/images/Units/pikeman.png").toExternalForm()));
-            this.setFill(humanImage);
         }
         else if(unitsName.getName().equals("swordsmen")){
             this.wartool=null;
             this.portableProtection=null;
-            ImagePattern humanImage=new ImagePattern(new Image(StartGame.class.getResource("/images/Units/spearman.png").toExternalForm()));
-            this.setFill(humanImage);
         }
         else if(unitsName.getName().equals("knight")){
             this.hasHorse=true;
             this.portableProtection=null;
-            ImagePattern humanImage=new ImagePattern(new Image(StartGame.class.getResource("/images/Units/knight.png").toExternalForm()));
-            this.setFill(humanImage);
         }
         else if(unitsName.getName().equals("blackmonk")){
             this.wartool=Resource.STICK;
             this.portableProtection=null;
-            ImagePattern humanImage=new ImagePattern(new Image(StartGame.class.getResource("/images/Units/crossbowmen.png").toExternalForm()));
-            this.setFill(humanImage);
         }
         else if(unitsName.getName().equals("slaves")){
             this.wartool=Resource.TORCH;
             this.portableProtection=null;
-            ImagePattern humanImage=new ImagePattern(new Image(StartGame.class.getResource("/images/Units/slaves.png").toExternalForm()));
-            this.setFill(humanImage);
         }
         else if(unitsName.getName().equals("arabianswordsmen")){
             this.wartool=null;
             this.portableProtection=null;
-            ImagePattern humanImage=new ImagePattern(new Image(StartGame.class.getResource("/images/Units/crossbowmen.png").toExternalForm()));
-            this.setFill(humanImage);
         }
     }
 
