@@ -12,6 +12,7 @@ import model.Game;
 import java.awt.Rectangle;
 import javafx.scene.*;
 import model.map.Tile;
+import view.MapMenu;
 import view.StartGame;
 import view.enums.messages.GameMenuMessage;
 import javafx.scene.paint.Color;
@@ -33,6 +34,11 @@ public class moveAnimation  extends Transition {
 
     private int firstY;
 
+    private String message;
+
+    private int flag=0;
+
+    private int attackFlag=0;
     private static ArrayList<intPairs> moveRoad=new ArrayList<>();
 
     public moveAnimation( ArrayList<Units> units,int desX,int desY) {
@@ -44,6 +50,8 @@ public class moveAnimation  extends Transition {
         firstY=units.get(0).getyLocation();
         this.setCycleDuration(Duration.millis(20000));
         moveUnit(desX,desY);
+        this.flag=0;
+        this.attackFlag=0;
 
     }
 
@@ -80,6 +88,11 @@ public class moveAnimation  extends Transition {
             }
         }
         if(moveRoad.size()==0){
+            this.stop();
+            checking();
+            if(attackFlag==1){
+                attack();
+            }
             path="/images/Units/"+units.get(0).getUnitsName().getName()+"1.png";
             ImagePattern humanImage = new ImagePattern(new Image(StartGame.class.getResource(path).toExternalForm()));
             for (Units units1 : units) {
@@ -88,8 +101,8 @@ public class moveAnimation  extends Transition {
                 Game.getMapInGame().getMap()[units1.getyLocation()][units1.getxLocation()].getTooltip().setText(details);
                 String details2= MapControl.showDetails(firstX,firstY);
                 Game.getMapInGame().getMap()[firstY][firstX].getTooltip().setText(details2);
+
             }
-            this.stop();
         }
         else {
             for (Units units1:units){
@@ -106,13 +119,69 @@ public class moveAnimation  extends Transition {
 
     }
 
-    public static GameMenuMessage moveUnit(int x, int y) {
+    private void checking() {
+      //  System.out.println(this.message);
+            if (GameControl.currentUnits.get(0).getxLocation() != this.desX || GameControl.currentUnits.get(0).getyLocation() != this.desY) {
+                MapMenu.moveAlert.setContentText("path was bigger than unit speed");
+            //    System.out.println("1");
+            } else if (this.message.equals("can't go")) {
+                MapMenu.moveAlert.setContentText("we don't have any path to this location");
+            //    System.out.println("2");
+            } else if (this.message.equals("can't permeability")) {
+                MapMenu.moveAlert.setContentText("you don't have permeability to this location");
+           //     System.out.println("3");
+            } else if (this.message.equals("wrong amount")) {
+                MapMenu.moveAlert.setContentText("x and y must be bigger than 0 and under than 100");
+           //     System.out.println("4");
+            }
+            else {
+                MapMenu.moveAlert.setContentText("all things okay");
+
+            }
+        this.flag=1;
+
+    }
+    private void attack(){
+        ArrayList<Units> deathPersons=new ArrayList<>();
+            for (Units units1 : GameControl.currentUnits) {
+                for (Units units2 : MapMenu.unitToAttack) {
+                    int unit1ChangeHitPoint = units2.getUnitsName().getAttackingPower() * units2.getEfficientAttackingPower() / 75;
+                    int unit2ChangeHitPoint = units1.getUnitsName().getAttackingPower() * units1.getEfficientAttackingPower() / 75;
+                    units1.changeHitPoint(-1 * unit1ChangeHitPoint);
+                    units2.changeHitPoint(-1 * unit2ChangeHitPoint);
+               //     System.out.println(unit1ChangeHitPoint);
+               //     System.out.println(unit2ChangeHitPoint);
+                    if (units1.getHitPoint() <= 0 && !deathPersons.contains(units1)) {
+                        deathPersons.add(units1);
+                    }
+                    if (units2.getHitPoint() <= 0 && !deathPersons.contains(units2)) {
+                        deathPersons.add(units2);
+                    }
+
+                }
+            }
+            //       System.out.println(deathPersons.size());
+            for (Units unit : deathPersons) {
+             //   System.out.println(unit.getOwnerPerson().getUsername());
+             //   System.out.println(unit.getxLocation() + "   " + unit.getyLocation());
+                unit.getOwnerPerson().getUserGovernment().getPeople().remove(unit);
+                Game.getMapInGame().getMap()[unit.getxLocation()][unit.getyLocation()].getPeopleOnTile().remove(unit);
+                unit.getOwnerPerson().getUserGovernment().setPopulation(unit.getOwnerPerson().getUserGovernment().getPopulation() - 1);
+                Game.getMapInGame().getMap()[unit.getxLocation()][unit.getyLocation()].getChildren().remove(unit);
+            }
+            MapMenu.attackPopup.hide();
+
+    }
+
+    public int moveUnit(int x, int y) {
         int v = 100 * 100;
         if (x >= 100 || y >= 100 || x < 0 || y < 0) {
-            return GameMenuMessage.WRONG_AMOUNT;
+            this.message="wrong amount";
+            return 0;
         }
         if (!Game.getMapInGame().getMap()[y][x].getType().getPermeability()) {
-            return GameMenuMessage.SEA_HIGHHEIGHT;
+            this.message="can't permeability";
+            return 0;
 
         }
         ArrayList<ArrayList<Integer>> tilesNeighbors = new ArrayList<ArrayList<Integer>>(v);
@@ -121,7 +190,8 @@ public class moveAnimation  extends Transition {
         }
         addNeighbors(tilesNeighbors);
         printShortestDistance(x,y,tilesNeighbors, (100 * GameControl.currentUnits.get(0).getxLocation()) + GameControl.currentUnits.get(0).getyLocation(), (100 * x) + y, v);
-        return null;
+        this.message="okay";
+        return 1;
     }
     private static void addNeighbors(ArrayList<ArrayList<Integer>> tileNeighbors) {
         for (int x = 0; x < 100; x++) {
@@ -146,13 +216,12 @@ public class moveAnimation  extends Transition {
             }
         }
     }
-    public static void printShortestDistance(int x,int y,ArrayList<ArrayList<Integer>> neighborTiles, int tile1, int tile2, int v) {
+    public  void printShortestDistance(int x,int y,ArrayList<ArrayList<Integer>> neighborTiles, int tile1, int tile2, int v) {
         int counter = 0;
         int pred[] = new int[v];
         int dist[] = new int[v];
-        if (BFS(neighborTiles, tile1, tile2, v, pred, dist) == false) {
-            System.out.println("Given source and destination" +
-                    "are not connected");
+        if (!BFS(neighborTiles, tile1, tile2, v, pred, dist)) {
+            this.message="can't go";
         }
         LinkedList<Integer> path = new LinkedList<>();
         int crawl = tile2;
@@ -171,6 +240,7 @@ public class moveAnimation  extends Transition {
             counter++;
             if (counter == GameControl.currentUnits.get(0).getUnitsName().getSpeed() / 20)
                 break;
+
         }
    //     if (path.size() -1> counter) {
          //   for (Units units:currentUnits){
@@ -220,4 +290,48 @@ public class moveAnimation  extends Transition {
     }
         return false;
 }
+
+    public static ArrayList<intPairs> getMoveRoad() {
+        return moveRoad;
+    }
+
+    public ArrayList<Units> getUnits() {
+        return units;
+    }
+
+    public int getDesX() {
+        return desX;
+    }
+
+    public int getDesY() {
+        return desY;
+    }
+
+    public int getFirstX() {
+        return firstX;
+    }
+
+    public int getFirstY() {
+        return firstY;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public int getFlag() {
+        return flag;
+    }
+
+    public int getAttackFlag() {
+        return attackFlag;
+    }
+
+    public void setAttackFlag(int attackFlag) {
+        this.attackFlag = attackFlag;
+    }
 }
