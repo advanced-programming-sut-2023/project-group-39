@@ -41,6 +41,7 @@ import java.util.regex.Matcher;
 public class MapMenu extends Application {
 
     public ScrollPane scroll;
+    private BorderPane borderPane;
 
     public HBox buildingSelection;
     public Label popularity;
@@ -54,6 +55,8 @@ public class MapMenu extends Application {
     public GridPane miniMap;
     private int tileSize = 50;
 
+    private GridPane gridPane;
+
     private Tile[][] tiles;
 
     private static ArrayList<Tile> selectedTile = new ArrayList<>();
@@ -65,11 +68,11 @@ public class MapMenu extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         mapStage = stage;
-        GridPane gridPane = createTileMap();
+        gridPane = createTileMap();
         javafx.scene.control.ScrollPane scrollPane = new ScrollPane(gridPane);
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
-        BorderPane borderPane = FXMLLoader.load(ProfileMenu.class.getResource("/fxml/mapMenu.fxml"));
+        borderPane = FXMLLoader.load(ProfileMenu.class.getResource("/fxml/mapMenu.fxml"));
         borderPane.setCenter(scrollPane);
         Scene scene = new Scene(borderPane);
         new Thread(new Runnable() {
@@ -291,6 +294,8 @@ public class MapMenu extends Application {
                 tile.setOnMouseExited(this::handleMouseExited);
                 dragEntered(tile);
                 dragExited(tile);
+                dragAndDrop(tile,i,j);
+                dragOver(tile);
                 tile.setOnMouseClicked(event -> clickedAtBottom(tile));
                 setTileTooltip(tiles[i][j], i, j);
                 gridPane.add(tiles[i][j], i, j);
@@ -303,10 +308,40 @@ public class MapMenu extends Application {
         return gridPane;
     }
 
+    private void dragOver(Tile tile) {
+        tile.setOnDragOver(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                if (dragEvent.getDragboard().hasImage())
+                    dragEvent.acceptTransferModes(TransferMode.COPY);
+            }
+        });
+    }
+
+    private void dragAndDrop(Tile tile,int i , int j) {
+        tile.setOnDragDropped(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                Dragboard db = dragEvent.getDragboard();
+                boolean success = false;
+                if (db.hasImage()){
+                    tile.setImage(db.getImage());
+                    success = true;
+                }
+                if (success == false)
+                    System.out.println("not suc");
+                else System.out.println("suc");
+                dragEvent.setDropCompleted(success);
+                dragEvent.consume();
+            }
+        });
+    }
+
     private void dragEntered(Tile tile) {
       tile.setOnDragEntered(new EventHandler<DragEvent>() {
           @Override
           public void handle(DragEvent dragEvent) {
+              if(dragEvent.getDragboard().hasImage())
                   tile.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
           }
       });
@@ -316,6 +351,7 @@ public class MapMenu extends Application {
         tile.setOnDragExited(new EventHandler<DragEvent>() {
             @Override
             public void handle(DragEvent dragEvent) {
+                if(dragEvent.getDragboard().hasImage())
                     tile.setStyle("");
             }
         });
