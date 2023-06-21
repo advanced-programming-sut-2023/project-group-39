@@ -31,6 +31,8 @@ public class Tile extends StackPane {
     private Government government;
     private Tree tree;
     private Building building;
+
+    private Image BuildingImage;
     private ArrayList <People> peopleOnTile;
     private Resource resource;
 
@@ -194,5 +196,13 @@ public class Tile extends StackPane {
 
     public Tooltip getTooltip() {
         return tooltip;
+    }
+
+    public Image getBuildingImage() {
+        return BuildingImage;
+    }
+
+    public void setBuildingImage(Image buildingImage) {
+        BuildingImage = buildingImage;
     }
 }

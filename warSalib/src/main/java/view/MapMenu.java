@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTreeCell;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.Clipboard;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -78,6 +79,8 @@ public class MapMenu extends Application {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                KeyCombination copyCombination = new KeyCodeCombination(KeyCode.C, KeyCombination.META_DOWN);
+                KeyCombination pasteCombination = new KeyCodeCombination(KeyCode.V, KeyCombination.META_DOWN);
                 while (true) {
                     scrollPane.requestFocus();
                     scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -92,6 +95,12 @@ public class MapMenu extends Application {
                             } else if (keyEvent.getCode() == KeyCode.A) {
                                 selectLocationForMove(selectedTile);
 
+                            } else if (copyCombination.match(keyEvent)) {
+                                copyBuildingImage();
+                                System.out.println("copy building images");
+                            } else if (pasteCombination.match(keyEvent)) {
+                                pasteBuildingImage();
+                                System.out.println("paste building in clipboard");
                             }
                         }
                     });
@@ -103,10 +112,61 @@ public class MapMenu extends Application {
         stage.setScene(scene);
         stage.show();
     }
+
+    private void pasteBuildingImage() {
+        Clipboard clipboard = Clipboard.getSystemClipboard();
+        Image buildingImage = clipboard.getImage();
+        if (buildingImage != null) {
+            for (Tile tile : selectedTile){
+                ImageView imageView = new ImageView(buildingImage);
+                imageView.setFitHeight(20);
+                imageView.setFitWidth(20);
+                tile.getChildren().add(imageView);
+                tile.setBuildingImage(buildingImage);
+            }
+        }
+    }
+
+    private void copyBuildingImage() {
+        if (selectedTile != null) {
+            if (hasSameBuilding()){
+                if (selectedTile.get(0).getBuildingImage() != null){
+                    Image image = selectedTile.get(0).getBuildingImage();
+                    Clipboard clipboard = Clipboard.getSystemClipboard();
+                    ClipboardContent content = new ClipboardContent();
+                    content.putImage(image);
+                    clipboard.setContent(content);
+                }
+            }
+            else {
+                System.out.println("there are different building in selected tiles");
+                Alert alert =  new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText("different building and you can't copy");
+                alert.showAndWait();
+            }
+        } else System.out.println("there is no selected tile");
+    }
+
+    private boolean hasSameBuilding() {
+        String buildingName = "";
+        if (selectedTile.size() == 1)
+            return true;
+        for (Tile tile : selectedTile){
+            if (buildingName == null)
+                buildingName = tile.getBuildingImage().getUrl();
+            else {
+                if (buildingName.equals(tile.getBuildingImage().getUrl()))
+                    continue;
+                else return false;
+            }
+        }
+        return true;
+    }
+
     private void selectLocationForMove(ArrayList<Tile> selectedTile) {
         ArrayList<Units> playerUnit = new ArrayList<>();
-        ArrayList<ArrayList<Units>> unitsKind=new ArrayList<>();
-        ArrayList<UnitButton> unitsButtons=new ArrayList<>();
+        ArrayList<ArrayList<Units>> unitsKind = new ArrayList<>();
+        ArrayList<UnitButton> unitsButtons = new ArrayList<>();
         ArrayList<ArrayList<Units>> differentUnits = new ArrayList<>();
         if (selectedTile == null || selectedTile.size() == 0) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -130,66 +190,66 @@ public class MapMenu extends Application {
                 alert.showAndWait();
 
             } else {
-                int flag=0;
+                int flag = 0;
                 for (Units units : playerUnit) {
-                    for (int i=0;i<unitsKind.size();i++){
-                        if(unitsKind.get(i).get(0).getUnitsName().equals(units.getUnitsName())){
+                    for (int i = 0; i < unitsKind.size(); i++) {
+                        if (unitsKind.get(i).get(0).getUnitsName().equals(units.getUnitsName())) {
                             unitsKind.get(i).add(units);
-                            flag=1;
+                            flag = 1;
                         }
                     }
-                    if(flag==0){
-                        ArrayList<Units> units1=new ArrayList<>();
+                    if (flag == 0) {
+                        ArrayList<Units> units1 = new ArrayList<>();
                         units1.add(units);
                         unitsKind.add(units1);
                     }
-                    flag=0;
+                    flag = 0;
                 }
                 Popup chooseUnits = new Popup();
-                VBox vBox=new VBox();
+                VBox vBox = new VBox();
                 vBox.setSpacing(15);
                 vBox.setStyle("-fx-background-color: #DCD291B6");
                 vBox.setSpacing(15);
-                for (int i=0;i<unitsKind.size();i++){
-                    HBox hBox=new HBox();
+                for (int i = 0; i < unitsKind.size(); i++) {
+                    HBox hBox = new HBox();
                     hBox.setSpacing(10);
-                    Label label1=new Label(unitsKind.get(i).get(0).getUnitsName().getName());
+                    Label label1 = new Label(unitsKind.get(i).get(0).getUnitsName().getName());
                     label1.setTextFill(Color.WHITE);
-                    String speed= String.valueOf(unitsKind.get(i).get(0).getUnitsName().getSpeed());
-                    Label label2=new Label(speed);
+                    String speed = String.valueOf(unitsKind.get(i).get(0).getUnitsName().getSpeed());
+                    Label label2 = new Label(speed);
                     label2.setTextFill(Color.WHITE);
-                    String hitPoint= String.valueOf(unitsKind.get(i).get(0).getHitPoint());
-                    Label label3=new Label(hitPoint);
+                    String hitPoint = String.valueOf(unitsKind.get(i).get(0).getHitPoint());
+                    Label label3 = new Label(hitPoint);
                     label3.setTextFill(Color.WHITE);
-                    String number= String.valueOf(unitsKind.get(i).size());
-                    Label label4=new Label(number);
+                    String number = String.valueOf(unitsKind.get(i).size());
+                    Label label4 = new Label(number);
                     label4.setTextFill(Color.WHITE);
-                    Button button=new Button("choose");
-                    UnitButton myButton=new UnitButton(unitsKind.get(i),button);
+                    Button button = new Button("choose");
+                    UnitButton myButton = new UnitButton(unitsKind.get(i), button);
                     unitsButtons.add(myButton);
-                    hBox.getChildren().addAll(label1,label2,label3,label4,button);
+                    hBox.getChildren().addAll(label1, label2, label3, label4, button);
                     vBox.getChildren().add(hBox);
                 }
 
-                for(UnitButton Button:unitsButtons){
+                for (UnitButton Button : unitsButtons) {
                     Button.getButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent mouseEvent) {
-                            ArrayList<Units> selectingUnits=new ArrayList<>();
+                            ArrayList<Units> selectingUnits = new ArrayList<>();
                             selectingUnits.addAll(Button.getUnits());
                             GameControl.currentUnits.addAll(selectingUnits);
                         }
                     });
                 }
-                TextField xLocation=new TextField();
-                TextField yLocation=new TextField();
-                HBox hBox=new HBox();
+                TextField xLocation = new TextField();
+                TextField yLocation = new TextField();
+                HBox hBox = new HBox();
                 hBox.setSpacing(30);
                 xLocation.setPromptText("enter x location");
                 yLocation.setPromptText("enter y location");
-                hBox.getChildren().addAll(xLocation,yLocation);
+                hBox.getChildren().addAll(xLocation, yLocation);
                 vBox.getChildren().add(hBox);
-                Button submit=new Button("Go");
+                Button submit = new Button("Go");
                 chooseUnits.getContent().add(vBox);
                 chooseUnits.show(mapStage);
                 vBox.getChildren().add(submit);
@@ -220,12 +280,12 @@ public class MapMenu extends Application {
 
     private void initMiniMap() {
         tiles = Game.getMapInGame().getMap();
-        for (int i = 0; i < 100; i++){
-            for (int j = 0; j < 100; j++){
+        for (int i = 0; i < 100; i++) {
+            for (int j = 0; j < 100; j++) {
                 ImageView imageView = new ImageView(tiles[j][i].getImage());
                 imageView.setFitHeight(0.8);
                 imageView.setFitWidth(0.8);
-                miniMap.add(imageView,j,i);
+                miniMap.add(imageView, j, i);
             }
         }
     }
@@ -235,7 +295,7 @@ public class MapMenu extends Application {
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(80);
             imageView.setFitHeight(80);
-            imageView.setOnDragDetected(this :: handleDragBuilding);
+            imageView.setOnDragDetected(this::handleDragBuilding);
             building.getChildren().add(imageView);
         }
     }
@@ -294,7 +354,7 @@ public class MapMenu extends Application {
                 tile.setOnMouseExited(this::handleMouseExited);
                 dragEntered(tile);
                 dragExited(tile);
-                dragAndDrop(tile,i,j);
+                dragAndDrop(tile, i, j);
                 dragOver(tile);
                 tile.setOnMouseClicked(event -> clickedAtBottom(tile));
                 setTileTooltip(tiles[i][j], i, j);
@@ -318,14 +378,19 @@ public class MapMenu extends Application {
         });
     }
 
-    private void dragAndDrop(Tile tile,int i , int j) {
+    private void dragAndDrop(Tile tile, int i, int j) {
         tile.setOnDragDropped(new EventHandler<DragEvent>() {
             @Override
             public void handle(DragEvent dragEvent) {
                 Dragboard db = dragEvent.getDragboard();
                 boolean success = false;
-                if (db.hasImage()){
-                    tile.setImage(db.getImage());
+                if (db.hasImage()) {
+                    tile.setBuildingImage(db.getImage());
+                    ImageView buildingView = new ImageView(db.getImage());
+                    buildingView.setFitWidth(20);
+                    buildingView.setFitHeight(20);
+                    tile.getChildren().add(buildingView);
+                    //TODO : add building to tile
                     success = true;
                 }
                 if (success == false)
@@ -338,20 +403,20 @@ public class MapMenu extends Application {
     }
 
     private void dragEntered(Tile tile) {
-      tile.setOnDragEntered(new EventHandler<DragEvent>() {
-          @Override
-          public void handle(DragEvent dragEvent) {
-              if(dragEvent.getDragboard().hasImage())
-                  tile.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-          }
-      });
+        tile.setOnDragEntered(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                if (dragEvent.getDragboard().hasImage())
+                    tile.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            }
+        });
     }
 
     private void dragExited(Tile tile) {
         tile.setOnDragExited(new EventHandler<DragEvent>() {
             @Override
             public void handle(DragEvent dragEvent) {
-                if(dragEvent.getDragboard().hasImage())
+                if (dragEvent.getDragboard().hasImage())
                     tile.setStyle("");
             }
         });
@@ -493,55 +558,55 @@ public class MapMenu extends Application {
 
     public void clickMiltary(MouseEvent mouseEvent) {
         buildingSelection.getChildren().clear();
-        for (Image image : BuildingImages.getMilitaryBuilding()){
+        for (Image image : BuildingImages.getMilitaryBuilding()) {
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(80);
             imageView.setFitHeight(80);
-            imageView.setOnDragDetected(this :: handleDragBuilding);
+            imageView.setOnDragDetected(this::handleDragBuilding);
             buildingSelection.getChildren().add(imageView);
         }
     }
 
     public void clickBuildBuilding(MouseEvent mouseEvent) {
         buildingSelection.getChildren().clear();
-        for (Image image : BuildingImages.getBuildBuilding()){
+        for (Image image : BuildingImages.getBuildBuilding()) {
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(80);
             imageView.setFitHeight(80);
-            imageView.setOnDragDetected(this :: handleDragBuilding);
+            imageView.setOnDragDetected(this::handleDragBuilding);
             buildingSelection.getChildren().add(imageView);
         }
     }
 
     public void clickFoodBuilding(MouseEvent mouseEvent) {
         buildingSelection.getChildren().clear();
-        for (Image image : BuildingImages.getFoodBuilding()){
+        for (Image image : BuildingImages.getFoodBuilding()) {
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(80);
             imageView.setFitHeight(80);
-            imageView.setOnDragDetected(this :: handleDragBuilding);
+            imageView.setOnDragDetected(this::handleDragBuilding);
             buildingSelection.getChildren().add(imageView);
         }
     }
 
     public void clickResource(MouseEvent mouseEvent) {
         buildingSelection.getChildren().clear();
-        for (Image image : BuildingImages.getSourceBuilding()){
+        for (Image image : BuildingImages.getSourceBuilding()) {
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(80);
             imageView.setFitHeight(80);
-            imageView.setOnDragDetected(this :: handleDragBuilding);
+            imageView.setOnDragDetected(this::handleDragBuilding);
             buildingSelection.getChildren().add(imageView);
         }
     }
 
     public void clickChurch(MouseEvent mouseEvent) {
         buildingSelection.getChildren().clear();
-        for (Image image : BuildingImages.getChurches()){
+        for (Image image : BuildingImages.getChurches()) {
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(80);
             imageView.setFitHeight(80);
-            imageView.setOnDragDetected(this :: handleDragBuilding);
+            imageView.setOnDragDetected(this::handleDragBuilding);
             buildingSelection.getChildren().add(imageView);
         }
     }
