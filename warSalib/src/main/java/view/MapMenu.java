@@ -10,10 +10,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTreeCell;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
@@ -234,8 +232,19 @@ public class MapMenu extends Application {
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(80);
             imageView.setFitHeight(80);
+            imageView.setOnDragDetected(this :: handleDragBuilding);
             building.getChildren().add(imageView);
         }
+    }
+
+    private void handleDragBuilding(MouseEvent mouseEvent) {
+        ImageView source = (ImageView) mouseEvent.getSource();
+        Dragboard db = source.startDragAndDrop(TransferMode.COPY);
+        ClipboardContent content = new ClipboardContent();
+        content.putImage(source.getImage());
+        db.setContent(content);
+
+        mouseEvent.consume();
     }
 
     private void zoomOut() {
@@ -428,6 +437,7 @@ public class MapMenu extends Application {
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(80);
             imageView.setFitHeight(80);
+            imageView.setOnDragDetected(this :: handleDragBuilding);
             buildingSelection.getChildren().add(imageView);
         }
     }
@@ -438,6 +448,7 @@ public class MapMenu extends Application {
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(80);
             imageView.setFitHeight(80);
+            imageView.setOnDragDetected(this :: handleDragBuilding);
             buildingSelection.getChildren().add(imageView);
         }
     }
@@ -448,6 +459,7 @@ public class MapMenu extends Application {
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(80);
             imageView.setFitHeight(80);
+            imageView.setOnDragDetected(this :: handleDragBuilding);
             buildingSelection.getChildren().add(imageView);
         }
     }
@@ -458,6 +470,7 @@ public class MapMenu extends Application {
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(80);
             imageView.setFitHeight(80);
+            imageView.setOnDragDetected(this :: handleDragBuilding);
             buildingSelection.getChildren().add(imageView);
         }
     }
@@ -468,6 +481,7 @@ public class MapMenu extends Application {
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(80);
             imageView.setFitHeight(80);
+            imageView.setOnDragDetected(this :: handleDragBuilding);
             buildingSelection.getChildren().add(imageView);
         }
     }
