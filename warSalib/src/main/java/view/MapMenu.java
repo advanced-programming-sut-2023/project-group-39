@@ -241,9 +241,13 @@ public class MapMenu extends Application {
         ImageView source = (ImageView) mouseEvent.getSource();
         Dragboard db = source.startDragAndDrop(TransferMode.COPY);
         ClipboardContent content = new ClipboardContent();
-        content.putString("");
+        content.putImage(source.getImage());
         db.setContent(content);
-
+        ImageView draggedContent = new ImageView(source.getImage());
+        double smallerSize = 0.5 * source.getFitWidth();
+        draggedContent.setFitWidth(smallerSize);
+        draggedContent.setFitHeight(smallerSize);
+        db.setDragView(draggedContent.snapshot(null, null));
         mouseEvent.consume();
     }
 
