@@ -188,10 +188,10 @@ public class MapMenu extends Application {
                 yLocation.setPromptText("enter y location");
                 hBox.getChildren().addAll(xLocation,yLocation);
                 vBox.getChildren().add(hBox);
-               Button submit=new Button("Go");
-               chooseUnits.getContent().add(vBox);
-               chooseUnits.show(mapStage);
-               vBox.getChildren().add(submit);
+                Button submit=new Button("Go");
+                chooseUnits.getContent().add(vBox);
+                chooseUnits.show(mapStage);
+                vBox.getChildren().add(submit);
             }
         }
 
@@ -207,14 +207,14 @@ public class MapMenu extends Application {
 //         wealth.setText(String.valueOf(Game.getTurnedUserForGame().getUserGovernment().getWealth()));
 //         population.setText(String.valueOf(Game.getTurnedUserForGame().getUserGovernment().getPopulation() + "/"
 //         + Game.getTurnedUserForGame().getUserGovernment().getPopulationCapacity()));
-         initBuilding(buildingSelection);
-         scroll.setFitToWidth(true);
-         church.setFill(new ImagePattern(new Image(MapMenu.class.getResource("/images/churchSym.jpeg").toExternalForm())));
-         foodBuilding.setFill(new ImagePattern(new Image(MapMenu.class.getResource("/images/farming.png").toExternalForm())));
-         buildBuilding.setFill(new ImagePattern(new Image(MapMenu.class.getResource("/images/house.png").toExternalForm())));
-         resourceBuilding.setFill(new ImagePattern(new Image(MapMenu.class.getResource("/images/resourceSym.png").toExternalForm())));
-         MilitaryBuilding.setFill(new ImagePattern(new Image(MapMenu.class.getResource("/images/championcaribs.png").toExternalForm())));
-         initMiniMap();
+        initBuilding(buildingSelection);
+        scroll.setFitToWidth(true);
+        church.setFill(new ImagePattern(new Image(MapMenu.class.getResource("/images/churchSym.jpeg").toExternalForm())));
+        foodBuilding.setFill(new ImagePattern(new Image(MapMenu.class.getResource("/images/farming.png").toExternalForm())));
+        buildBuilding.setFill(new ImagePattern(new Image(MapMenu.class.getResource("/images/house.png").toExternalForm())));
+        resourceBuilding.setFill(new ImagePattern(new Image(MapMenu.class.getResource("/images/resourceSym.png").toExternalForm())));
+        MilitaryBuilding.setFill(new ImagePattern(new Image(MapMenu.class.getResource("/images/championcaribs.png").toExternalForm())));
+        initMiniMap();
     }
 
     private void initMiniMap() {
@@ -231,11 +231,11 @@ public class MapMenu extends Application {
 
     private void initBuilding(HBox building) {
         for (Image image : BuildingImages.getMilitaryBuilding()) {
-        ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(80);
-        imageView.setFitHeight(80);
-        building.getChildren().add(imageView);
-    }
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(80);
+            imageView.setFitHeight(80);
+            building.getChildren().add(imageView);
+        }
     }
 
     private void zoomOut() {
