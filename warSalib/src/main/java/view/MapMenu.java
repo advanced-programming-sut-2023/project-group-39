@@ -241,7 +241,7 @@ public class MapMenu extends Application {
         ImageView source = (ImageView) mouseEvent.getSource();
         Dragboard db = source.startDragAndDrop(TransferMode.COPY);
         ClipboardContent content = new ClipboardContent();
-        content.putImage(source.getImage());
+        content.putString("");
         db.setContent(content);
 
         mouseEvent.consume();
@@ -285,6 +285,8 @@ public class MapMenu extends Application {
                 tile.setMinHeight(tileSize);
                 tile.setOnMouseEntered(this::handleMouseEntered);
                 tile.setOnMouseExited(this::handleMouseExited);
+                dragEntered(tile);
+                dragExited(tile);
                 tile.setOnMouseClicked(event -> clickedAtBottom(tile));
                 setTileTooltip(tiles[i][j], i, j);
                 gridPane.add(tiles[i][j], i, j);
@@ -295,6 +297,24 @@ public class MapMenu extends Application {
         }
         //   Units.makeUnit(0,0,UnitsName.ARCHER,Game.getGameStarter());
         return gridPane;
+    }
+
+    private void dragEntered(Tile tile) {
+      tile.setOnDragEntered(new EventHandler<DragEvent>() {
+          @Override
+          public void handle(DragEvent dragEvent) {
+                  tile.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+          }
+      });
+    }
+
+    private void dragExited(Tile tile) {
+        tile.setOnDragExited(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                    tile.setStyle("");
+            }
+        });
     }
 
     private void clickedAtBottom(Tile tile) {
