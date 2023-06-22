@@ -4,19 +4,21 @@ import javafx.scene.image.Image;
 import model.government.building.Building;
 
 import java.awt.font.ImageGraphicAttribute;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class BuildingImages {
-    private static final ArrayList<Image> militaryBuilding = new ArrayList<>();
+    private static final HashMap<Image,String> militaryBuilding = new HashMap<>();
 
-    private static final ArrayList<Image> buildBuilding = new ArrayList<>();
+    private static final HashMap<Image,String> buildBuilding = new HashMap<>();
 
-    private static final ArrayList<Image> churches = new ArrayList<>();
+    private static final HashMap<Image,String> churches = new HashMap<>();
 
-    private static final ArrayList<Image> foodBuilding = new ArrayList<>();
+    private static final HashMap<Image,String> foodBuilding = new HashMap<>();
 
-    private static final ArrayList<Image> sourceBuilding = new ArrayList<>();
+    private static final HashMap<Image,String> sourceBuilding = new HashMap<>();
     private final static Image armourer = new Image(BuildingImages.class.getResource("/images/aumourer.png").toExternalForm());
     private final static Image gateHouse = new Image(BuildingImages.class.getResource("/images/gateHouse.png").toExternalForm());
     private final static Image dogCage = new Image(BuildingImages.class.getResource("/images/dogcage.png").toExternalForm());
@@ -60,75 +62,107 @@ public class BuildingImages {
     private final static Image quarry = new Image(BuildingImages.class.getResource("/images/quarry.png").toExternalForm());
     private final static Image stockPile = new Image(BuildingImages.class.getResource("/images/stockpile.gif").toExternalForm());
     private final static Image woodCutter = new Image(BuildingImages.class.getResource("/images/WoodCutter.png").toExternalForm());
+    private final static Image wall = new Image(BuildingImages.class.getResource("/images/wall.png").toExternalForm());
 
 
-    public static ArrayList<Image> getMilitaryBuilding (){
+    public static HashMap<Image,String> getMilitaryBuilding (){
         if (militaryBuilding.size() == 0) {
-            militaryBuilding.add(keep);
-            militaryBuilding.add(armourer);
-            militaryBuilding.add(dogCage);
-            militaryBuilding.add(blackSmith);
-            militaryBuilding.add(barrack);
-            militaryBuilding.add(killingPit);
-            militaryBuilding.add(tent);
-            militaryBuilding.add(pitchDitch);
-            militaryBuilding.add(armoury);
-            militaryBuilding.add(engineerGuild);
-            militaryBuilding.add(fletcher);
-            militaryBuilding.add(mercenary);
-            militaryBuilding.add(poleturnner);
-            militaryBuilding.add(stable);
+            militaryBuilding.put(keep, "keep");
+            militaryBuilding.put(armourer, "armourer");
+            militaryBuilding.put(dogCage, "caged war dog");
+            militaryBuilding.put(blackSmith,"blacksmith");
+            militaryBuilding.put(barrack,"barrack");
+            militaryBuilding.put(killingPit,"killing pit");
+            militaryBuilding.put(tent,"tent");
+            militaryBuilding.put(pitchDitch,"pitch ditch");
+            militaryBuilding.put(armoury,"armoury");
+            militaryBuilding.put(engineerGuild,"engineer guild");
+            militaryBuilding.put(fletcher,"fletcher");
+            militaryBuilding.put(mercenary,"mercenary post");
+            militaryBuilding.put(poleturnner,"pole turner");
+            militaryBuilding.put(stable,"stable");
         }
         return militaryBuilding;
     }
-    public static ArrayList<Image> getBuildBuilding(){
+    public static HashMap<Image,String> getBuildBuilding(){
         if (buildBuilding.size() == 0){
-            buildBuilding.add(gateHouse);
-            buildBuilding.add(drawBridge);
-            buildBuilding.add(lookoutTower);
-            buildBuilding.add(circularTower);
-            buildBuilding.add(defensiveTower);
-            buildBuilding.add(squareTower);
-            buildBuilding.add(inn);
-            buildBuilding.add(hovel);
-            buildBuilding.add(perimeterTower);
+            buildBuilding.put(gateHouse,"small gate house");
+            buildBuilding.put(drawBridge,"draw bridge");
+            buildBuilding.put(lookoutTower,"lookout tower");
+            buildBuilding.put(circularTower,"circular tower");
+            buildBuilding.put(defensiveTower,"defensive tower");
+            buildBuilding.put(squareTower,"square tower");
+            buildBuilding.put(inn,"inn");
+            buildBuilding.put(hovel,"hovel");
+            buildBuilding.put(perimeterTower,"perimeter tower");
+            buildBuilding.put(wall,"wall");
         }
         return buildBuilding;
     }
 
-    public static ArrayList<Image> getChurches(){
+    public static HashMap<Image,String> getChurches(){
         if (churches.size() == 0) {
-            churches.add(church);
-            churches.add(catheral);
+            churches.put(church,"church");
+            churches.put(catheral,"cathedral");
         }
         return churches;
     }
 
-    public static ArrayList<Image> getFoodBuilding(){
+    public static HashMap<Image,String> getFoodBuilding(){
         if (foodBuilding.size() == 0){
-            foodBuilding.add(appleFarm);
-            foodBuilding.add(bakery);
-            foodBuilding.add(brewery);
-            foodBuilding.add(dairy);
-            foodBuilding.add(foodStuck);
-            foodBuilding.add(hopFarm);
-            foodBuilding.add(mill);
-            foodBuilding.add(wheatFarm);
+            foodBuilding.put(appleFarm,"apple garden");
+            foodBuilding.put(bakery,"bakery");
+            foodBuilding.put(brewery,"brewery");
+            foodBuilding.put(dairy,"diary product");
+            foodBuilding.put(foodStuck,"food stock pile");
+            foodBuilding.put(hopFarm,"hop field");
+            foodBuilding.put(mill,"mill");
+            foodBuilding.put(wheatFarm,"wheat field");
         }
         return foodBuilding;
     }
 
-    public static ArrayList<Image> getSourceBuilding(){
+    public static HashMap<Image,String> getSourceBuilding(){
         if (sourceBuilding.size() == 0){
-            sourceBuilding.add(ironMine);
-            sourceBuilding.add(market);
-            sourceBuilding.add(oilSmelter);
-            sourceBuilding.add(oxTether);
-            sourceBuilding.add(quarry);
-            sourceBuilding.add(stockPile);
-            sourceBuilding.add(woodCutter);
+            sourceBuilding.put(ironMine,"iron mine");
+            sourceBuilding.put(market,"market");
+            sourceBuilding.put(oilSmelter,"oil smelter");
+            sourceBuilding.put(oxTether,"ox tether");
+            sourceBuilding.put(quarry,"quarry");
+            sourceBuilding.put(stockPile,"stock pile");
+            sourceBuilding.put(woodCutter,"wood cutter");
         }
         return sourceBuilding;
+    }
+    public static String getNameOfBuildingByImage (String url){
+        System.out.println(url);
+        for (Image image1 : militaryBuilding.keySet()){
+            if (image1.getUrl().equals(url))
+                return militaryBuilding.get(image1);
+        }
+        for (Image image1 : buildBuilding.keySet()){
+            if (image1.getUrl().equals(url))
+                return buildBuilding.get(image1);
+        }
+        for (Image image1 : churches.keySet()){
+            if (image1.getUrl().equals(url))
+                return churches.get(image1);
+        }
+        for (Image image1 : foodBuilding.keySet()){
+            if (image1.getUrl().equals(url))
+                return foodBuilding.get(image1);
+        }
+        for (Image image1 : sourceBuilding.keySet()){
+            if (image1.getUrl().equals(url))
+                return sourceBuilding.get(image1);
+        }
+        return null;
+    }
+    public static Image getKeep(){
+        return keep;
+    }
+    public static Image getStockPile(){
+        return stockPile;
     }
 }
 

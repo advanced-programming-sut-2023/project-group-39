@@ -33,10 +33,8 @@ import model.map.Tile;
 import view.enums.commands.MapMenuCommands;
 import javafx.scene.layout.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.io.File;
+import java.util.*;
 import java.util.regex.Matcher;
 
 public class MapMenu extends Application {
@@ -115,14 +113,18 @@ public class MapMenu extends Application {
 
     private void pasteBuildingImage() {
         Clipboard clipboard = Clipboard.getSystemClipboard();
-        Image buildingImage = clipboard.getImage();
+        String buildingName = clipboard.getString();
+        Image buildingImage = new Image(buildingName);
         if (buildingImage != null) {
             for (Tile tile : selectedTile){
                 ImageView imageView = new ImageView(buildingImage);
-                imageView.setFitHeight(20);
-                imageView.setFitWidth(20);
+                imageView.setFitHeight(25);
+                imageView.setFitWidth(25);
                 tile.getChildren().add(imageView);
-                tile.setBuildingImage(buildingImage);
+                tile.setBuildingImage(buildingName);
+                System.out.println(BuildingImages.getNameOfBuildingByImage(buildingName));
+                Building building = Building.makeBuildingByName(BuildingImages.getNameOfBuildingByImage(buildingName), tile.getXOfTile(), tile.getYOfTile(), Game.getTurnedUserForGame().getUserGovernment(), 0);
+                System.out.println(Game.getTurnedUserForGame().getUserGovernment().getWealth());
             }
         }
     }
@@ -131,10 +133,10 @@ public class MapMenu extends Application {
         if (selectedTile != null) {
             if (hasSameBuilding()){
                 if (selectedTile.get(0).getBuildingImage() != null){
-                    Image image = selectedTile.get(0).getBuildingImage();
+                    String image = selectedTile.get(0).getBuildingImage();
                     Clipboard clipboard = Clipboard.getSystemClipboard();
                     ClipboardContent content = new ClipboardContent();
-                    content.putImage(image);
+                    content.putString(image);
                     clipboard.setContent(content);
                 }
             }
@@ -153,9 +155,9 @@ public class MapMenu extends Application {
             return true;
         for (Tile tile : selectedTile){
             if (buildingName == null)
-                buildingName = tile.getBuildingImage().getUrl();
+                buildingName = tile.getBuildingImage();
             else {
-                if (buildingName.equals(tile.getBuildingImage().getUrl()))
+                if (buildingName.equals(tile.getBuildingImage()))
                     continue;
                 else return false;
             }
@@ -290,8 +292,14 @@ public class MapMenu extends Application {
         }
     }
 
+//    private void updateGovernment(){
+//        popularity.setText(String.valueOf(Game.getTurnedUserForGame().getUserGovernment().getPopularity()));
+//        wealth.setText(String.valueOf(Game.getTurnedUserForGame().getUserGovernment().getWealth()));
+//        population.setText(String.valueOf(Game.getTurnedUserForGame().getUserGovernment().getPopulation() + "/"
+//                + Game.getTurnedUserForGame().getUserGovernment().getPopulationCapacity()));
+//    }
     private void initBuilding(HBox building) {
-        for (Image image : BuildingImages.getMilitaryBuilding()) {
+        for (Image image : BuildingImages.getMilitaryBuilding().keySet()) {
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(80);
             imageView.setFitHeight(80);
@@ -304,7 +312,7 @@ public class MapMenu extends Application {
         ImageView source = (ImageView) mouseEvent.getSource();
         Dragboard db = source.startDragAndDrop(TransferMode.COPY);
         ClipboardContent content = new ClipboardContent();
-        content.putImage(source.getImage());
+        content.putString(source.getImage().getUrl());
         db.setContent(content);
         ImageView draggedContent = new ImageView(source.getImage());
         double smallerSize = 0.5 * source.getFitWidth();
@@ -352,6 +360,20 @@ public class MapMenu extends Application {
                 tile.setMinHeight(tileSize);
                 tile.setOnMouseEntered(this::handleMouseEntered);
                 tile.setOnMouseExited(this::handleMouseExited);
+                if (tile.getBuilding() != null) {
+                    if (tile.getBuilding().getName().equals("keep")) {
+                        ImageView buildingView = new ImageView(BuildingImages.getKeep());
+                        buildingView.setFitWidth(25);
+                        buildingView.setFitHeight(25);
+                        tile.getChildren().add(buildingView);
+                    }
+                    else {
+                        ImageView buildingView = new ImageView(BuildingImages.getStockPile());
+                        buildingView.setFitWidth(25);
+                        buildingView.setFitHeight(25);
+                        tile.getChildren().add(buildingView);
+                    }
+                }
                 dragEntered(tile);
                 dragExited(tile);
                 dragAndDrop(tile, i, j);
@@ -372,7 +394,7 @@ public class MapMenu extends Application {
         tile.setOnDragOver(new EventHandler<DragEvent>() {
             @Override
             public void handle(DragEvent dragEvent) {
-                if (dragEvent.getDragboard().hasImage())
+                if (dragEvent.getDragboard().hasString())
                     dragEvent.acceptTransferModes(TransferMode.COPY);
             }
         });
@@ -383,15 +405,23 @@ public class MapMenu extends Application {
             @Override
             public void handle(DragEvent dragEvent) {
                 Dragboard db = dragEvent.getDragboard();
+                String buildingName;
                 boolean success = false;
-                if (db.hasImage()) {
-                    tile.setBuildingImage(db.getImage());
-                    ImageView buildingView = new ImageView(db.getImage());
-                    buildingView.setFitWidth(20);
-                    buildingView.setFitHeight(20);
-                    tile.getChildren().add(buildingView);
-                    //TODO : add building to tile
-                    success = true;
+                if (db.hasString()) {
+                    String url = db.getString();
+//                    Image image = db.getImage();
+                    if ( (buildingName = BuildingImages.getNameOfBuildingByImage(url)) != null) {
+                        Image image = new Image(url);
+                        Building building = Building.makeBuildingByName(buildingName, i, j, Game.getTurnedUserForGame().getUserGovernment(), 0);
+                        tile.setBuilding(building);
+                        tile.setBuildingImage(url);
+                        ImageView buildingView = new ImageView(image);
+                        buildingView.setFitWidth(25);
+                        buildingView.setFitHeight(25);
+                        tile.getChildren().add(buildingView);
+//                        updateGovernment();
+                        success = true;
+                    }
                 }
                 if (success == false)
                     System.out.println("not suc");
@@ -406,7 +436,7 @@ public class MapMenu extends Application {
         tile.setOnDragEntered(new EventHandler<DragEvent>() {
             @Override
             public void handle(DragEvent dragEvent) {
-                if (dragEvent.getDragboard().hasImage())
+                if (dragEvent.getDragboard().hasString())
                     tile.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
             }
         });
@@ -416,7 +446,7 @@ public class MapMenu extends Application {
         tile.setOnDragExited(new EventHandler<DragEvent>() {
             @Override
             public void handle(DragEvent dragEvent) {
-                if (dragEvent.getDragboard().hasImage())
+                if (dragEvent.getDragboard().hasString())
                     tile.setStyle("");
             }
         });
@@ -558,7 +588,7 @@ public class MapMenu extends Application {
 
     public void clickMiltary(MouseEvent mouseEvent) {
         buildingSelection.getChildren().clear();
-        for (Image image : BuildingImages.getMilitaryBuilding()) {
+        for (Image image : BuildingImages.getMilitaryBuilding().keySet()) {
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(80);
             imageView.setFitHeight(80);
@@ -569,7 +599,7 @@ public class MapMenu extends Application {
 
     public void clickBuildBuilding(MouseEvent mouseEvent) {
         buildingSelection.getChildren().clear();
-        for (Image image : BuildingImages.getBuildBuilding()) {
+        for (Image image : BuildingImages.getBuildBuilding().keySet()) {
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(80);
             imageView.setFitHeight(80);
@@ -580,7 +610,7 @@ public class MapMenu extends Application {
 
     public void clickFoodBuilding(MouseEvent mouseEvent) {
         buildingSelection.getChildren().clear();
-        for (Image image : BuildingImages.getFoodBuilding()) {
+        for (Image image : BuildingImages.getFoodBuilding().keySet()) {
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(80);
             imageView.setFitHeight(80);
@@ -591,7 +621,7 @@ public class MapMenu extends Application {
 
     public void clickResource(MouseEvent mouseEvent) {
         buildingSelection.getChildren().clear();
-        for (Image image : BuildingImages.getSourceBuilding()) {
+        for (Image image : BuildingImages.getSourceBuilding().keySet()) {
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(80);
             imageView.setFitHeight(80);
@@ -602,7 +632,7 @@ public class MapMenu extends Application {
 
     public void clickChurch(MouseEvent mouseEvent) {
         buildingSelection.getChildren().clear();
-        for (Image image : BuildingImages.getChurches()) {
+        for (Image image : BuildingImages.getChurches().keySet()) {
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(80);
             imageView.setFitHeight(80);

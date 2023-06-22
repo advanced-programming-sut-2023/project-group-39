@@ -23,6 +23,9 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Tile extends StackPane {
+
+    private int xOfTile;
+    private int yOfTile;
     private Type type;
     private Rock rock;
 
@@ -32,7 +35,7 @@ public class Tile extends StackPane {
     private Tree tree;
     private Building building;
 
-    private Image BuildingImage;
+    private String BuildingImage;
     private ArrayList <People> peopleOnTile;
     private Resource resource;
 
@@ -198,11 +201,27 @@ public class Tile extends StackPane {
         return tooltip;
     }
 
-    public Image getBuildingImage() {
+    public String getBuildingImage() {
         return BuildingImage;
     }
 
-    public void setBuildingImage(Image buildingImage) {
+    public void setBuildingImage(String buildingImage) {
         BuildingImage = buildingImage;
+    }
+
+    public int getXOfTile() {
+        return xOfTile;
+    }
+
+    public void setXOfTile(int xOfTile) {
+        this.xOfTile = xOfTile;
+    }
+
+    public int getYOfTile() {
+        return yOfTile;
+    }
+
+    public void setYOfTile(int yOfTile) {
+        this.yOfTile = yOfTile;
     }
 }

@@ -18,6 +18,8 @@ public class GameMap {
         for (int i = 0 ; i<100 ; i++) {
             for (int j = 0; j<100; j++) {
                 this.map[i][j] = new Tile();
+                this.map[i][j].setXOfTile(i);
+                this.map[i][j].setYOfTile(j);
                 if (i < 50 && i > 5)
                     map[i][j].setType(Type.IRON_GROUND);
                 if (i <= 5)
