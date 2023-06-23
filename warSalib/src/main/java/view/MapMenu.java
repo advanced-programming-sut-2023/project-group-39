@@ -126,6 +126,7 @@ public class MapMenu extends Application {
                     Game.setSelectedBuilding(selectedTile.get(0).getBuilding());
                     BarrackMenu barrackMenu = new BarrackMenu();
                     barrackMenu.start(StartGame.stage);
+                    //TODO : handle people with ardalan
                 } else if (selectedTile.get(0).getBuilding().getName().equals("engineer guild")){
                     Game.setSelectedBuilding(selectedTile.get(0).getBuilding());
                     EngineerGuild engineerGuild = new EngineerGuild();
@@ -233,7 +234,7 @@ public class MapMenu extends Application {
             }
             if (playerUnit.size() == 0) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("you dont have any unit on this tile");
+                alert.setContentText("you don't have any unit on this tile");
                 alert.showAndWait();
 
             } else {
@@ -349,6 +350,8 @@ public class MapMenu extends Application {
             imageView.setFitWidth(80);
             imageView.setFitHeight(80);
             imageView.setOnDragDetected(this::handleDragBuilding);
+            Tooltip tooltip = new Tooltip(BuildingImages.getMilitaryBuilding().get(image));
+            Tooltip.install(imageView, tooltip);
             building.getChildren().add(imageView);
         }
     }
@@ -608,6 +611,8 @@ public class MapMenu extends Application {
             imageView.setFitWidth(80);
             imageView.setFitHeight(80);
             imageView.setOnDragDetected(this::handleDragBuilding);
+            Tooltip tooltip = new Tooltip(BuildingImages.getMilitaryBuilding().get(image));
+            Tooltip.install(imageView, tooltip);
             buildingSelection.getChildren().add(imageView);
         }
     }
@@ -619,6 +624,8 @@ public class MapMenu extends Application {
             imageView.setFitWidth(80);
             imageView.setFitHeight(80);
             imageView.setOnDragDetected(this::handleDragBuilding);
+            Tooltip tooltip = new Tooltip(BuildingImages.getBuildBuilding().get(image));
+            Tooltip.install(imageView, tooltip);
             buildingSelection.getChildren().add(imageView);
         }
     }
@@ -630,6 +637,8 @@ public class MapMenu extends Application {
             imageView.setFitWidth(80);
             imageView.setFitHeight(80);
             imageView.setOnDragDetected(this::handleDragBuilding);
+            Tooltip tooltip = new Tooltip(BuildingImages.getFoodBuilding().get(image));
+            Tooltip.install(imageView, tooltip);
             buildingSelection.getChildren().add(imageView);
         }
     }
@@ -641,6 +650,8 @@ public class MapMenu extends Application {
             imageView.setFitWidth(80);
             imageView.setFitHeight(80);
             imageView.setOnDragDetected(this::handleDragBuilding);
+            Tooltip tooltip = new Tooltip(BuildingImages.getSourceBuilding().get(image));
+            Tooltip.install(imageView, tooltip);
             buildingSelection.getChildren().add(imageView);
         }
     }
@@ -652,6 +663,8 @@ public class MapMenu extends Application {
             imageView.setFitWidth(80);
             imageView.setFitHeight(80);
             imageView.setOnDragDetected(this::handleDragBuilding);
+            Tooltip tooltip = new Tooltip(BuildingImages.getChurches().get(image));
+            Tooltip.install(imageView, tooltip);
             buildingSelection.getChildren().add(imageView);
         }
     }

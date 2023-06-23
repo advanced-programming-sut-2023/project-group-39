@@ -81,11 +81,11 @@ public class BuildingControl {
         UnitsName unitsName = getUnitNameByType(type);
         Building building = Game.getSelectedBuilding();
         Government government = building.getGovernment();
-            Units units = new Units(building.getXBuilding(), building.getYBuilding(), unitsName, building.getGovernment().getUser());
+            Units units = new Units(building.getYBuilding(), building.getXBuilding(), unitsName, building.getGovernment().getUser());
             People people = government.getUnWorkedPeople().get(0);
             government.removeUnWorkedPeople(people);
             government.addToPeople(units);
-            Game.getMapInGame().getMap()[building.getYBuilding()][building.getXBuilding()].addPeople(units);
+            Game.getMapInGame().getMap()[building.getXBuilding()][building.getYBuilding()].addPeople(units);
 
         return BuildingMessage.SUCCESS;
     }
@@ -183,7 +183,6 @@ public class BuildingControl {
         if(Game.getTurnedUserForGame().getUserGovernment().getWealth()>unitsName.getCost()){
             isTrue=true;
         }
-        //TODO : add weapon
         if(unitsName.getUnitsType().equals(UnitsType.COMBAT)){
             if(unitsName.getName().equals("pikeman")){
                 resourceNeedUnit.put(Resource.SPEAR, 1);
