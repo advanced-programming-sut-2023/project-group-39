@@ -12,6 +12,7 @@ import model.government.people.units.Units;
 import model.government.people.units.UnitsName;
 import model.government.people.units.UnitsType;
 import model.government.resource.Resource;
+import model.map.Tile;
 import model.map.type.Type;
 import view.StoreMenu;
 import view.enums.commands.BuildingCommands;
@@ -21,19 +22,15 @@ import javax.swing.plaf.ButtonUI;
 import java.util.HashMap;
 
 public class BuildingControl {
-    public static BuildingMessage dropBuilding(int x, int y, String name) {
-        Game.setSelectedBuilding(null);
-        if (!isAppropriateCoordinate(x, y))
-            return BuildingMessage.WRONG_AMOUNT;
-        else if (Building.getGroupByName(name) == null)
-            return BuildingMessage.WRONG_TYPE;
-        else if (isAnotherBuilding(x, y))
+    public static BuildingMessage dropBuilding(Tile tile, String name) {
+        if (isAnotherBuilding(tile))
             return BuildingMessage.EXIST;
-        else if (!isAppropriateGround(x, y, name))
+        else if (!isAppropriateGround(tile, name))
             return BuildingMessage.BAD_GROUND;
-        Building building = Building.makeBuildingByName(name, x, y, Game.getTurnedUserForGame().getUserGovernment(), 0);
+        Building building = Building.makeBuildingByName(name,tile.getXOfTile(), tile.getYOfTile(), Game.getTurnedUserForGame().getUserGovernment(), 0);
         if (building == null)
             return BuildingMessage.NOT_ENOUGH_SOURCE;
+        tile.setBuilding(building);
         Game.getTurnedUserForGame().getUserGovernment().addBuilding(building);
         if (building instanceof StockPileBuilding)
             building.getGovernment().addStockPile((StockPileBuilding) building);
@@ -45,34 +42,31 @@ public class BuildingControl {
         }
         return BuildingMessage.SUCCESS;
     }
-    private static boolean isAppropriateCoordinate(int x, int y) {
-        return x>=0 && x<200 && y>=0 && y<200;
+
+    private static boolean isAppropriateGround(Tile tile, String name) {
+        return Building.isAppropriateGround(tile.getType(), name);
     }
 
-    private static boolean isAppropriateGround(int x,int y, String name) {
-        return Building.isAppropriateGround(Game.getMapInGame().getMap()[y][x].getType(), name);
-    }
-
-    private static boolean isAnotherBuilding(int x, int y) {
-        if (Game.getMapInGame().getMap()[y][x].getBuilding() != null)
+    private static boolean isAnotherBuilding(Tile tile) {
+        if (tile.getBuilding() != null)
             return true;
         return false;
     }
 
-    public static BuildingMessage selectBuilding(int x, int y) {
-        Game.setSelectedBuilding(null);
-        if (!isAppropriateCoordinate(x, y))
-            return BuildingMessage.WRONG_AMOUNT;
-        if (!isAnotherBuilding(x, y))
-            return BuildingMessage.NOT_EXIST;
-        if (!isBuildingForCurrentUser(x, y))
-            return BuildingMessage.NOT_BELONG_TO_YOU;
-        Game.setSelectedBuilding(Game.getMapInGame().getMap()[y][x].getBuilding());
-        if (Game.getSelectedBuilding().getName().equals("market")) {
-            return BuildingMessage.SELECT_MARKET;
-        }
-        return BuildingMessage.SUCCESS;
-    }
+//    public static BuildingMessage selectBuilding(int x, int y) {
+//        Game.setSelectedBuilding(null);
+//        if (!isAppropriateCoordinate(x, y))
+//            return BuildingMessage.WRONG_AMOUNT;
+//        if (!isAnotherBuilding(x, y))
+//            return BuildingMessage.NOT_EXIST;
+//        if (!isBuildingForCurrentUser(x, y))
+//            return BuildingMessage.NOT_BELONG_TO_YOU;
+//        Game.setSelectedBuilding(Game.getMapInGame().getMap()[y][x].getBuilding());
+//        if (Game.getSelectedBuilding().getName().equals("market")) {
+//            return BuildingMessage.SELECT_MARKET;
+//        }
+//        return BuildingMessage.SUCCESS;
+//    }
 
     private static boolean isBuildingForCurrentUser(int x, int y) {
         if (Game.getMapInGame().getMap()[y][x].getBuilding() == null)

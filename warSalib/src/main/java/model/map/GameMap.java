@@ -86,6 +86,7 @@ public class GameMap {
                     Building stockPile = Building.makeBuildingByName("stock pile", i, j, government, 1);
                     map[i][j].setGovernment(government);
                     government.addBuilding(stockPile);
+                    government.addStockPile((StockPileBuilding) stockPile);
                 }
             }
         }
