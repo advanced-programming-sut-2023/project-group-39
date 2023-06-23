@@ -135,6 +135,10 @@ public class MapMenu extends Application {
                     Game.setSelectedBuilding(selectedTile.get(0).getBuilding());
                     MercenaryPost mercenaryPost = new MercenaryPost();
                     mercenaryPost.start(StartGame.stage);
+                } else if (selectedTile.get(0).getBuilding().getName().equals("market")){
+                    Game.setSelectedBuilding(selectedTile.get(0).getBuilding());
+                    Market market = new Market();
+                    market.start(StartGame.stage);
                 } else if (selectedTile.get(0).getBuilding().getType().equals("castle building")){
                     Game.setSelectedBuilding(selectedTile.get(0).getBuilding());
                     RepairMenu repairMenu = new RepairMenu();
@@ -396,7 +400,7 @@ public class MapMenu extends Application {
         }
     }
 
-    private GridPane createTileMap() {
+    private GridPane  createTileMap() {
         GridPane gridPane = new GridPane();
         tiles = Game.getMapInGame().getMap();
         for (int i = 0; i < 100; i++) {
@@ -425,6 +429,7 @@ public class MapMenu extends Application {
                 gridPane.add(tiles[i][j], i, j);
             }
         }
+        //Todo : handle to back to government hang it
         for (Government government : Game.getGovernments()) {
             MainMenu.createInitialPeople(government, 30);
         }

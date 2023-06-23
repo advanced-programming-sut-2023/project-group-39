@@ -2,6 +2,7 @@ package model;
 
 import model.government.Government;
 import model.government.building.Building;
+import model.government.resource.Resource;
 import model.map.GameMap;
 import model.user.User;
 import model.user.copyUser;
@@ -21,6 +22,8 @@ public class Game {
     private static int tileSize = 40;
 
     private static User GameStarter;
+
+    private static Resource resourceInMarket;
     private static Building selectedBuilding;
     private static MapMenu mapMenu;
     private static ArrayList<Government> governments = new ArrayList<>();
@@ -107,6 +110,14 @@ public class Game {
 
     public static MapMenu getMapMenu() {
         return mapMenu;
+    }
+
+    public static Resource getResourceInMarket() {
+        return resourceInMarket;
+    }
+
+    public static void setResourceInMarket(Resource resourceInMarket) {
+        Game.resourceInMarket = resourceInMarket;
     }
 
     public static void setMapMenu(MapMenu mapMenu) {
