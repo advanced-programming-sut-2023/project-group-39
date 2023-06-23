@@ -7,12 +7,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.paint.Color;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.ImagePattern;
@@ -20,17 +17,16 @@ import javafx.stage.Stage;
 import model.Game;
 import view.enums.messages.BuildingMessage;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
-public class BarrackMenu extends Application {
-    public HBox soldiersSelection;
-    private HashMap<Image, String> barrackImage = new HashMap<>();
+public class EngineerGuild extends Application {
+    public HBox unitSelection;
+    private HashMap<Image, String> engineerImage = new HashMap<>();
     private Image selectedImage;
 
     @Override
     public void start(Stage stage) throws Exception {
-        AnchorPane pane = FXMLLoader.load(StartGame.class.getResource("/fxml/barrack_menu.fxml"));
+        AnchorPane pane = FXMLLoader.load(StartGame.class.getResource("/fxml/engineer_guild.fxml"));
         Image image = new Image(StartGame.class.getResource("/images/mailBackground.jpeg").toExternalForm());
         BackgroundFill backgroundFill = new BackgroundFill(new ImagePattern(image), CornerRadii.EMPTY, Insets.EMPTY);
         Background background = new Background(backgroundFill);
@@ -46,13 +42,13 @@ public class BarrackMenu extends Application {
     }
 
     private void initSoldiers() {
-        for (Image image : getImageBarrack().keySet()) {
+        for (Image image : getEngineerUnit().keySet()) {
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(60);
             imageView.setFitHeight(60);
             imageView.setOnMouseEntered(event -> {
-                // Change the border color when mouse enters the ImageView
-                imageView.setOpacity(0.5);
+                if (selectedImage == null || !selectedImage.equals(imageView.getImage()))
+                    imageView.setOpacity(0.5);
             });
 
             // Set mouse exited event handler
@@ -61,9 +57,9 @@ public class BarrackMenu extends Application {
                     imageView.setOpacity(1);
             });
             imageView.setOnMouseClicked(this::clicked);
-            Tooltip tooltip = new Tooltip(barrackImage.get(image));
+            Tooltip tooltip = new Tooltip(engineerImage.get(image));
             Tooltip.install(imageView, tooltip);
-            soldiersSelection.getChildren().add(imageView);
+            unitSelection.getChildren().add(imageView);
         }
     }
 
@@ -92,7 +88,7 @@ public class BarrackMenu extends Application {
             alert.setContentText("you don't choose nothing");
             alert.showAndWait();
         } else {
-            BuildingMessage message = BuildingControl.createUnit(barrackImage.get(selectedImage));
+            BuildingMessage message = BuildingControl.createUnit(engineerImage.get(selectedImage));
             if (message.equals(BuildingMessage.NOT_ENOUGH_SOURCE)) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setContentText("you don't have enough resources");
@@ -105,26 +101,11 @@ public class BarrackMenu extends Application {
                 Game.getMapMenu().start(StartGame.stage);
         }
     }
-
-    private HashMap<Image, String> getImageBarrack() {
-        Image archer = new Image(BarrackMenu.class.getResource("/images/Units/archer1.png").toExternalForm());
-        barrackImage.put(archer, "archer");
-        Image crossbowmen = new Image(BarrackMenu.class.getResource("/images/Units/crossbowmen1.png").toExternalForm());
-        barrackImage.put(crossbowmen, "crossbowmen");
-        Image spearMan = new Image(BarrackMenu.class.getResource("/images/Units/sperman1.png").toExternalForm());
-        barrackImage.put(spearMan, "spear man");
-        Image pikeMan = new Image(BarrackMenu.class.getResource("/images/Units/pikeman1.png").toExternalForm());
-        barrackImage.put(pikeMan, "pike man");
-        Image maceMan = new Image(BarrackMenu.class.getResource("/images/Units/maceman1.png").toExternalForm());
-        barrackImage.put(maceMan, "maceman");
-        Image swordMen = new Image(BarrackMenu.class.getResource("/images/Units/swordsmen1.png").toExternalForm());
-        barrackImage.put(swordMen, "sword man");
-        Image knight = new Image(BarrackMenu.class.getResource("/images/Units/knight1.png").toExternalForm());
-        barrackImage.put(knight, "knight");
-        Image tunneler = new Image(BarrackMenu.class.getResource("/images/Units/tunneler1.png").toExternalForm());
-        barrackImage.put(tunneler, "tunneler");
-        Image blackMonk = new Image(BarrackMenu.class.getResource("/images/Units/blackmonk1.png").toExternalForm());
-        barrackImage.put(blackMonk, "black monk");
-        return barrackImage;
+    private HashMap<Image,String> getEngineerUnit() {
+        Image engineerIm = new Image(EngineerGuild.class.getResource("/images/Units/engineer1.png").toExternalForm());
+        engineerImage.put(engineerIm,"engineer");
+        Image ladderMan = new Image(EngineerGuild.class.getResource("/images/Units/ladderman1.png").toExternalForm());
+        engineerImage.put(ladderMan, "ladderman");
+        return engineerImage;
     }
 }

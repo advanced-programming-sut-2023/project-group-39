@@ -73,31 +73,20 @@ public class BuildingControl {
             return false;
         return Game.getMapInGame().getMap()[y][x].getBuilding().getGovernment().equals(Game.getTurnedUserForGame().getUserGovernment());
     }
-    public static BuildingMessage createUnit(String type, int count) {
-        if (Game.getSelectedBuilding() == null)
-            return BuildingMessage.NOT_SELECT_BUILDING;
-        if (count <= 0)
-            return BuildingMessage.WRONG_AMOUNT;
-        if(Game.getSelectedBuilding() == null)
-            return BuildingMessage.NOT_SELECT_BUILDING;
-        if (getUnitNameByType(type) == null)
-            return BuildingMessage.NOT_EXIST_UNIT;
+    public static BuildingMessage createUnit(String type) {
         if (!hasEnoughWeaponAndGold(type))
             return BuildingMessage.NOT_ENOUGH_SOURCE;
-        if (!isRelatedBuilding(type))
-            return BuildingMessage.NOT_APPROPRIATE_UNIT;
-        if (Game.getSelectedBuilding().getGovernment().getUnWorkedPeople().size() < count)
+        if (Game.getSelectedBuilding().getGovernment().getUnWorkedPeople().size() < 1)
             return BuildingMessage.NOT_ENOUGH_POPULATION;
         UnitsName unitsName = getUnitNameByType(type);
         Building building = Game.getSelectedBuilding();
         Government government = building.getGovernment();
-        for (int i = 0; i < count; i++) {
             Units units = new Units(building.getXBuilding(), building.getYBuilding(), unitsName, building.getGovernment().getUser());
             People people = government.getUnWorkedPeople().get(0);
             government.removeUnWorkedPeople(people);
             government.addToPeople(units);
             Game.getMapInGame().getMap()[building.getYBuilding()][building.getXBuilding()].addPeople(units);
-        }
+
         return BuildingMessage.SUCCESS;
     }
 
@@ -187,7 +176,6 @@ public class BuildingControl {
     }
     private static boolean hasEnoughWeaponAndGold(String type) {
         UnitsName unitsName = getUnitNameByType(type);
-        Government government=Game.getCurrentUser().getUserGovernment();
         boolean isTrue=false;
         if (unitsName==null)
             return false;

@@ -126,6 +126,10 @@ public class MapMenu extends Application {
                     Game.setSelectedBuilding(selectedTile.get(0).getBuilding());
                     BarrackMenu barrackMenu = new BarrackMenu();
                     barrackMenu.start(StartGame.stage);
+                } else if (selectedTile.get(0).getBuilding().getName().equals("engineer guild")){
+                    Game.setSelectedBuilding(selectedTile.get(0).getBuilding());
+                    EngineerGuild engineerGuild = new EngineerGuild();
+                    engineerGuild.start(StartGame.stage);
                 }
                 else if (selectedTile.get(0).getBuilding().getType().equals("castle building")){
                     Game.setSelectedBuilding(selectedTile.get(0).getBuilding());
@@ -444,6 +448,7 @@ public class MapMenu extends Application {
                     String url = db.getString();
 //                    Image image = db.getImage();
                     if ( (buildingName = BuildingImages.getNameOfBuildingByImage(url)) != null) {
+                        System.out.println(buildingName);
                         message = BuildingControl.dropBuilding(tile,buildingName);
                         if (message.equals(BuildingMessage.SUCCESS)) {
                             Image image = new Image(url);

@@ -116,12 +116,11 @@ public class BuildingMenu {
     }
 
     private static void createUnit(Matcher matcher) {
-        int count = Integer.parseInt(matcher.group("count"));
         String type = matcher.group("type");
         if (type.startsWith("\"")) {
             type = type.substring(1, type.length() - 1);
         }
-        BuildingMessage message = BuildingControl.createUnit(type, count);
+        BuildingMessage message = BuildingControl.createUnit(type);
         switch (message) {
             case NOT_ENOUGH_SOURCE:
                 System.out.println("you don't have enough sources to create unit");
