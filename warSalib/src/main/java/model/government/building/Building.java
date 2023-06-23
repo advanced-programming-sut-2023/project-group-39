@@ -43,7 +43,7 @@ abstract public class Building extends Rectangle{
         workerWorked = new ArrayList<>();
         this.maxHP = maxHP;
         this.resourceNeedToBuild = resourceNeedToBuild;
-        Game.getMapInGame().getMap()[y][x].setBuilding(this);
+        Game.getMapInGame().getMap()[x][y].setBuilding(this);
         this.setWidth(5);
         this.setHeight(5);
     }

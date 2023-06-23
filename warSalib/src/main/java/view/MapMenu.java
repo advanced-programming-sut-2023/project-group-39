@@ -123,6 +123,7 @@ public class MapMenu extends Application {
         if (selectedTile != null) {
             if (selectedTile.get(0).getBuilding() != null){
                 if (selectedTile.get(0).getBuilding().getType().equals("castle building")){
+                    Game.setSelectedBuilding(selectedTile.get(0).getBuilding());
                     RepairMenu repairMenu = new RepairMenu();
                     repairMenu.start(StartGame.stage);
                 }
@@ -381,8 +382,6 @@ public class MapMenu extends Application {
     }
 
     private GridPane createTileMap() {
-        GameMap gameMap = new GameMap();
-        Game.setMapInGame(gameMap);
         GridPane gridPane = new GridPane();
         tiles = Game.getMapInGame().getMap();
         for (int i = 0; i < 100; i++) {
@@ -396,7 +395,7 @@ public class MapMenu extends Application {
                 //ardalan task
                 if (tile.getBuilding() != null) {
                     System.out.println(tile.getBuilding().getName());
-                    System.out.println(BuildingImages.getImageByName(tile.getBuilding().getName()));
+                    System.out.println(tile.getXOfTile() + "    " + tile.getYOfTile());
                         ImageView buildingView = new ImageView(BuildingImages.getImageByName(tile.getBuilding().getName()));
                         buildingView.setFitWidth(25);
                         buildingView.setFitHeight(25);

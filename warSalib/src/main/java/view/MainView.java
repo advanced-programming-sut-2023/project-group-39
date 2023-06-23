@@ -21,6 +21,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import model.Game;
 import model.government.Government;
+import model.map.GameMap;
 
 import java.util.ArrayList;
 
@@ -78,6 +79,8 @@ public class MainView extends Application {
                     Game.addGovernment(governmentOfCurrentUser);
                     Game.setGameStarter(Game.getCurrentUser());
                     Game.setTurnedUserForGame(Game.getCurrentUser());
+                    GameMap gameMap = new GameMap();
+                    Game.setMapInGame(gameMap);
                     MapMenu mapMenu=new MapMenu();
                     Game.setMapMenu(mapMenu);
                     try {

@@ -79,7 +79,6 @@ public class GameMap {
                 map[j][i].setGovernment(government);
                 if(i == rowDown + 12 && j == colDown + 12) {
                     Keep keep = new Keep(i, j, government, "keep");
-                    map[j][i].setBuilding(keep);
                     government.addBuilding(keep);
                 }
                 if (i == rowDown + 12 && j == colDown + 13) {
