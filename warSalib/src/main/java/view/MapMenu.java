@@ -130,8 +130,11 @@ public class MapMenu extends Application {
                     Game.setSelectedBuilding(selectedTile.get(0).getBuilding());
                     EngineerGuild engineerGuild = new EngineerGuild();
                     engineerGuild.start(StartGame.stage);
-                }
-                else if (selectedTile.get(0).getBuilding().getType().equals("castle building")){
+                } else if (selectedTile.get(0).getBuilding().getName().equals("mercenary post")){
+                    Game.setSelectedBuilding(selectedTile.get(0).getBuilding());
+                    MercenaryPost mercenaryPost = new MercenaryPost();
+                    mercenaryPost.start(StartGame.stage);
+                } else if (selectedTile.get(0).getBuilding().getType().equals("castle building")){
                     Game.setSelectedBuilding(selectedTile.get(0).getBuilding());
                     RepairMenu repairMenu = new RepairMenu();
                     repairMenu.start(StartGame.stage);
