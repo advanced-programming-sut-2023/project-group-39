@@ -142,10 +142,6 @@ public class BuildingControl {
     }
 
     public static BuildingMessage repair() {
-        if (Game.getSelectedBuilding() == null)
-            return BuildingMessage.NOT_SELECT_BUILDING;
-        if (Game.getSelectedBuilding().getType() != "castle building")
-            return BuildingMessage.NOT_GOOD_BUILDING;
         if (Game.getSelectedBuilding().getHp() == Game.getSelectedBuilding().getMaxHP())
             return BuildingMessage.HAS_FULL_HP;
         int count;

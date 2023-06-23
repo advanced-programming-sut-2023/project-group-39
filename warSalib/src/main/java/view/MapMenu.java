@@ -76,13 +76,13 @@ public class MapMenu extends Application {
         borderPane = FXMLLoader.load(ProfileMenu.class.getResource("/fxml/mapMenu.fxml"));
         borderPane.setCenter(scrollPane);
         Scene scene = new Scene(borderPane);
+        scrollPane.requestFocus();
         new Thread(new Runnable() {
             @Override
             public void run() {
                 KeyCombination copyCombination = new KeyCodeCombination(KeyCode.C, KeyCombination.META_DOWN);
                 KeyCombination pasteCombination = new KeyCodeCombination(KeyCode.V, KeyCombination.META_DOWN);
                 while (true) {
-                    scrollPane.requestFocus();
                     scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
                         @Override
                         public void handle(KeyEvent keyEvent) {
@@ -101,7 +101,12 @@ public class MapMenu extends Application {
                                 pasteBuildingImage();
                             } else if (keyEvent.getCode() == KeyCode.B){
                                 System.out.println("building is selected");
-                                selectingBuilding();
+                                try {
+                                    selectingBuilding();
+                                } catch (Exception e) {
+                                    System.out.println(e.getMessage());;
+                                }
+
                             }
                         }
                     });
@@ -114,11 +119,12 @@ public class MapMenu extends Application {
         stage.show();
     }
 
-    private void selectingBuilding() {
+    private void selectingBuilding() throws Exception {
         if (selectedTile != null) {
             if (selectedTile.get(0).getBuilding() != null){
                 if (selectedTile.get(0).getBuilding().getType().equals("castle building")){
-
+                    RepairMenu repairMenu = new RepairMenu();
+                    repairMenu.start(StartGame.stage);
                 }
             }
         }
@@ -386,19 +392,15 @@ public class MapMenu extends Application {
                 tile.setMinHeight(tileSize);
                 tile.setOnMouseEntered(this::handleMouseEntered);
                 tile.setOnMouseExited(this::handleMouseExited);
+                //TODO : add people to this section
+                //ardalan task
                 if (tile.getBuilding() != null) {
-                    if (tile.getBuilding().getName().equals("keep")) {
-                        ImageView buildingView = new ImageView(BuildingImages.getKeep());
+                    System.out.println(tile.getBuilding().getName());
+                    System.out.println(BuildingImages.getImageByName(tile.getBuilding().getName()));
+                        ImageView buildingView = new ImageView(BuildingImages.getImageByName(tile.getBuilding().getName()));
                         buildingView.setFitWidth(25);
                         buildingView.setFitHeight(25);
                         tile.getChildren().add(buildingView);
-                    }
-                    else {
-                        ImageView buildingView = new ImageView(BuildingImages.getStockPile());
-                        buildingView.setFitWidth(25);
-                        buildingView.setFitHeight(25);
-                        tile.getChildren().add(buildingView);
-                    }
                 }
                 dragEntered(tile);
                 dragExited(tile);

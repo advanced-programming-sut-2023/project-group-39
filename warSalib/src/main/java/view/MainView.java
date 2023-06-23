@@ -79,6 +79,7 @@ public class MainView extends Application {
                     Game.setGameStarter(Game.getCurrentUser());
                     Game.setTurnedUserForGame(Game.getCurrentUser());
                     MapMenu mapMenu=new MapMenu();
+                    Game.setMapMenu(mapMenu);
                     try {
                         mapMenu.start(StartGame.stage);
                     } catch (Exception e) {

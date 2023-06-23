@@ -5,6 +5,7 @@ import model.government.building.Building;
 import model.map.GameMap;
 import model.user.User;
 import model.user.copyUser;
+import view.MapMenu;
 import view.enums.commands.BuildingCommands;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class Game {
 
     private static User GameStarter;
     private static Building selectedBuilding;
+    private static MapMenu mapMenu;
     private static ArrayList<Government> governments = new ArrayList<>();
     //how many player plays in game
     private static ArrayList <User> players = new ArrayList<>();
@@ -101,6 +103,14 @@ public class Game {
     }
     public static ArrayList<copyUser> getCopyUserArrayList() {
         return copyUserArrayList;
+    }
+
+    public static MapMenu getMapMenu() {
+        return mapMenu;
+    }
+
+    public static void setMapMenu(MapMenu mapMenu) {
+        Game.mapMenu = mapMenu;
     }
 
     public static void setCopyUserArrayList(ArrayList<copyUser> copyUserArrayList) {
