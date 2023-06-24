@@ -20,18 +20,13 @@ public class StoreControl {
         }
         return priceList;
     }
-    public static StoreMenuMessage buyFromStore(String itemName, int amount) {
-        if (!validAmount(amount))
-            return StoreMenuMessage.WRONG_AMOUNT;
-        Resource resource;
-        if ((resource = getResourceByItemName(itemName)) == null)
-            return StoreMenuMessage.WRONG_ITEM;
+    public static StoreMenuMessage buyFromStore(Resource resource) {
         Market market = (Market) Game.getSelectedBuilding();
-        if (market.getGovernment().getWealth() < (float) (resource.getCost() * amount))
+        if (market.getGovernment().getWealth() < (float) (resource.getCost() ))
             return StoreMenuMessage.DONT_HAVE_BUDGET;
-        market.buyResource(resource, amount);
-        market.getGovernment().setWealth(market.getGovernment().getWealth() - (resource.getCost() * amount));
-        market.getGovernment().addToResources(resource, amount);
+        market.buyResource(resource, 1);
+        market.getGovernment().setWealth(market.getGovernment().getWealth() - (resource.getCost()));
+        market.getGovernment().addToResources(resource, 1);
         return StoreMenuMessage.SUCCESS;
     }
 
@@ -49,19 +44,18 @@ public class StoreControl {
         return null;
     }
 
-    public static StoreMenuMessage sellFromStore(String itemName, int amount) {
-        if (!validAmount(amount))
-            return StoreMenuMessage.WRONG_AMOUNT;
-        Resource resource;
-        if ((resource = getResourceByItemName(itemName)) == null)
-            return StoreMenuMessage.WRONG_ITEM;
+    public static StoreMenuMessage sellFromStore(Resource resource) {
         Market market = (Market) Game.getSelectedBuilding();
         HashMap <Resource,Integer> resources = new HashMap<>();
-        resources.put(resource, amount);
+        resources.put(resource, 1);
         if (!market.getGovernment().hasEnoughResources(resources))
             return StoreMenuMessage.NOT_ENOUGH_RESOURCE;
-        market.sellResource(resource, amount);
-        market.getGovernment().setWealth(market.getGovernment().getWealth() + (resource.getCost() * amount));
+        market.sellResource(resource, 1);
+        market.getGovernment().setWealth(market.getGovernment().getWealth() + (resource.getCost()));
         return StoreMenuMessage.SUCCESS;
+    }
+    public static int getAmountOfResource(Resource resource) {
+        Market market = (Market) Game.getSelectedBuilding();
+        return market.getResources().get(resource);
     }
 }

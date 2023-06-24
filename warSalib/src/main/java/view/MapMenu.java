@@ -137,8 +137,8 @@ public class MapMenu extends Application {
                     mercenaryPost.start(StartGame.stage);
                 } else if (selectedTile.get(0).getBuilding().getName().equals("market")){
                     Game.setSelectedBuilding(selectedTile.get(0).getBuilding());
-                    Market market = new Market();
-                    market.start(StartGame.stage);
+                    MarketMenu marketMenu = new MarketMenu();
+                    marketMenu.start(StartGame.stage);
                 } else if (selectedTile.get(0).getBuilding().getType().equals("castle building")){
                     Game.setSelectedBuilding(selectedTile.get(0).getBuilding());
                     RepairMenu repairMenu = new RepairMenu();

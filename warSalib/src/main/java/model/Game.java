@@ -1,5 +1,6 @@
 package model;
 
+import javafx.scene.image.Image;
 import model.government.Government;
 import model.government.building.Building;
 import model.government.resource.Resource;
@@ -24,6 +25,7 @@ public class Game {
     private static User GameStarter;
 
     private static Resource resourceInMarket;
+    private static Image resourceMarket;
     private static Building selectedBuilding;
     private static MapMenu mapMenu;
     private static ArrayList<Government> governments = new ArrayList<>();
@@ -126,5 +128,13 @@ public class Game {
 
     public static void setCopyUserArrayList(ArrayList<copyUser> copyUserArrayList) {
         Game.copyUserArrayList = copyUserArrayList;
+    }
+
+    public static Image getResourceMarket() {
+        return resourceMarket;
+    }
+
+    public static void setResourceMarket(Image resourceMarket) {
+        Game.resourceMarket = resourceMarket;
     }
 }

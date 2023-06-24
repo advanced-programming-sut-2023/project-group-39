@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 import model.Game;
 import model.government.resource.Resource;
 
-public class Market extends Application {
+public class MarketMenu extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         AnchorPane pane = FXMLLoader.load(StartGame.class.getResource("/fxml/market.fxml"));
@@ -30,42 +30,49 @@ public class Market extends Application {
 
     public void archer(MouseEvent mouseEvent) throws Exception {
         Game.setResourceInMarket(Resource.ARCHER);
+        Game.setResourceMarket(new Image(MarketMenu.class.getResource("/images/arcger.png").toExternalForm()));
         DetailResource detailResource = new DetailResource();
         detailResource.start(StartGame.stage);
     }
 
     public void hop(MouseEvent mouseEvent) throws Exception {
         Game.setResourceInMarket(Resource.HOP);
+        Game.setResourceMarket(new Image(MarketMenu.class.getResource("/images/hop.png").toExternalForm()));
         DetailResource detailResource = new DetailResource();
         detailResource.start(StartGame.stage);
     }
 
     public void armour(MouseEvent mouseEvent) throws Exception {
         Game.setResourceInMarket(Resource.ARMOUR);
+        Game.setResourceMarket(new Image(MarketMenu.class.getResource("/images/armour.jpeg").toExternalForm()));
         DetailResource detailResource = new DetailResource();
         detailResource.start(StartGame.stage);
     }
 
     public void iron(MouseEvent mouseEvent) throws Exception {
         Game.setResourceInMarket(Resource.IRON);
+        Game.setResourceMarket(new Image(MarketMenu.class.getResource("/images/iron.png").toExternalForm()));
         DetailResource detailResource = new DetailResource();
         detailResource.start(StartGame.stage);
     }
 
     public void stone(MouseEvent mouseEvent) throws Exception {
         Game.setResourceInMarket(Resource.STONE);
+        Game.setResourceMarket(new Image(MarketMenu.class.getResource("/images/stone2.png").toExternalForm()));
         DetailResource detailResource = new DetailResource();
         detailResource.start(StartGame.stage);
     }
 
     public void spear(MouseEvent mouseEvent) throws Exception {
         Game.setResourceInMarket(Resource.SPEAR);
+        Game.setResourceMarket(new Image(MarketMenu.class.getResource("/images/spearIcon.png").toExternalForm()));
         DetailResource detailResource = new DetailResource();
         detailResource.start(StartGame.stage);
     }
 
     public void wood(MouseEvent mouseEvent) throws Exception {
         Game.setResourceInMarket(Resource.WOOD);
+        Game.setResourceMarket(new Image(MarketMenu.class.getResource("/images/wood.png").toExternalForm()));
         DetailResource detailResource = new DetailResource();
         detailResource.start(StartGame.stage);
     }
