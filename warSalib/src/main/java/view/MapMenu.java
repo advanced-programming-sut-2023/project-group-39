@@ -82,10 +82,6 @@ public class MapMenu extends Application {
         borderPane = FXMLLoader.load(ProfileMenu.class.getResource("/fxml/mapMenu.fxml"));
         borderPane.setCenter(scrollPane);
         Scene scene = new Scene(borderPane);
-        scene.addEventFilter(MouseEvent.MOUSE_RELEASED, (EventHandler<MouseEvent>) event -> {
-            EventTarget comp = event.getTarget();
-            System.out.println("## " + (comp != null ? comp.getClass().getSimpleName() : event.getClass().getSimpleName()) + " [" + event.getEventType() + "] ## Komponente: " + event.getTarget() + " --------> Details:" + event);
-        });
         scrollPane.requestFocus();
         new Thread(new Runnable() {
             @Override
@@ -387,7 +383,6 @@ public class MapMenu extends Application {
         mouseEvent.consume();
     }
 
-    //show a dialogue with popularity info and a button to open popularity settings and close the dialogue
     public void handlePopularityPopup(MouseEvent e){
         System.out.println("popularityPopUp");
         Stage popularityStage = new Stage();
@@ -422,7 +417,6 @@ public class MapMenu extends Application {
         }
         labels[labels.length-1] = new Label(names[labels.length-1]+": "+(nums[0]+nums[1]+nums[2]+nums[3]));
         vBox.getChildren().add(labels[labels.length-1]);
-        //set colors based on sign
         for (int i = 0; i < nums.length; i++) {
             if (nums[i] > 0) {
                 labels[i].setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -446,9 +440,6 @@ public class MapMenu extends Application {
 
     }
 
-    /**
-     * show a dialogue for setting popularity effects
-     */
     public void handlePopularitySetting(ActionEvent e){
         System.out.println("popularitySetting");
         Stage popularityStage = new Stage();
@@ -457,11 +448,11 @@ public class MapMenu extends Application {
         popularityStage.setHeight(200);
         popularityStage.setWidth(750);
         popularityStage.setTitle("Popularity");
-        //show each one of 4 measures food, fear, religion and tax in a label with color based on positive or negative
         VBox vBox = new VBox();
         vBox.setSpacing(10);
         vBox.setAlignment(Pos.CENTER);
         vBox.setBackground(new Background(new BackgroundImage(new Image("images/popularitybg.png"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+
         int[] nums = new int[]{Game.getTurnedUserForGame().getUserGovernment().getFoodEffect(),
                 Game.getTurnedUserForGame().getUserGovernment().getFearEffect(),
                 Game.getTurnedUserForGame().getUserGovernment().getReligionEffect(),
@@ -474,7 +465,6 @@ public class MapMenu extends Application {
             labels[i] = new Label(names[i] + ": " + nums[i]);
             vBox.getChildren().add(labels[i]);
         }
-        //set colors based on sign
         for (int i = 0; i < nums.length; i++) {
             if (nums[i] > 0) {
                 labels[i].setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -482,7 +472,7 @@ public class MapMenu extends Application {
                 labels[i].setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
             }
         }
-        //add buttons for changing effects
+
         HBox hBox = new HBox();
         hBox.setSpacing(10);
         hBox.setAlignment(Pos.CENTER);
@@ -493,7 +483,6 @@ public class MapMenu extends Application {
             buttons[i].setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    //show a dialogue for changing effects
                     Stage changeStage = new Stage();
                     changeStage.initModality(Modality.APPLICATION_MODAL);
                     changeStage.initOwner(popularityStage);
@@ -515,7 +504,6 @@ public class MapMenu extends Application {
                     button.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
-                            //change the value
                             try {
                                 int num = (int) slider.getValue();
                                 switch (finalI) {
@@ -535,7 +523,6 @@ public class MapMenu extends Application {
                                 }
                                 changeStage.close();
                             } catch (Exception e) {
-                                //show an error message
                                 Alert alert = new Alert(Alert.AlertType.ERROR);
                                 alert.setTitle("Error");
                                 alert.setHeaderText("Invalid input");
