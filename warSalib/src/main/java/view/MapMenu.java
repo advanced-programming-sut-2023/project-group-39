@@ -4,9 +4,13 @@ import control.BuildingControl;
 import control.GameControl;
 import control.MapControl;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.event.EventTarget;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTreeCell;
@@ -17,6 +21,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.stage.Modality;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import model.Game;
@@ -48,6 +53,7 @@ public class MapMenu extends Application {
     public Label popularity;
     public Label wealth;
     public Label population;
+    public ImageView popularityImage;
     public Circle church;
     public Circle resourceBuilding;
     public Circle foodBuilding;
@@ -76,6 +82,10 @@ public class MapMenu extends Application {
         borderPane = FXMLLoader.load(ProfileMenu.class.getResource("/fxml/mapMenu.fxml"));
         borderPane.setCenter(scrollPane);
         Scene scene = new Scene(borderPane);
+        scene.addEventFilter(MouseEvent.MOUSE_RELEASED, (EventHandler<MouseEvent>) event -> {
+            EventTarget comp = event.getTarget();
+            System.out.println("## " + (comp != null ? comp.getClass().getSimpleName() : event.getClass().getSimpleName()) + " [" + event.getEventType() + "] ## Komponente: " + event.getTarget() + " --------> Details:" + event);
+        });
         scrollPane.requestFocus();
         new Thread(new Runnable() {
             @Override
@@ -312,7 +322,10 @@ public class MapMenu extends Application {
 
     @FXML
     public void initialize() {
-        popularity.setText(String.valueOf(Game.getTurnedUserForGame().getUserGovernment().getPopularity()));
+        int popularityVal = Game.getTurnedUserForGame().getUserGovernment().getPopularity();
+        popularity.setText(String.valueOf(popularityVal));
+        popularityImage.setImage(new Image(MapMenu.class.getResource("/images/popularityLevels/"+Math.max(popularityVal/10,5)+".png").toExternalForm()));
+        popularityImage.setOnMouseClicked(this::handlePopularityPopup);
         wealth.setText(String.valueOf(Game.getTurnedUserForGame().getUserGovernment().getWealth()));
         population.setText(String.valueOf(Game.getTurnedUserForGame().getUserGovernment().getPopulation() + "/"
                 + Game.getTurnedUserForGame().getUserGovernment().getPopulationCapacity()));
@@ -374,6 +387,177 @@ public class MapMenu extends Application {
         mouseEvent.consume();
     }
 
+    //show a dialogue with popularity info and a button to open popularity settings and close the dialogue
+    public void handlePopularityPopup(MouseEvent e){
+        System.out.println("popularityPopUp");
+        Stage popularityStage = new Stage();
+        popularityStage.initModality(Modality.APPLICATION_MODAL);
+        popularityStage.initOwner(popularity.getScene().getWindow());
+        popularityStage.setHeight(200);
+        popularityStage.setWidth(750);
+        popularityStage.setTitle("Popularity");
+        HBox hBox = new HBox();
+        hBox.setSpacing(10);
+        hBox.setAlignment(Pos.CENTER);
+        hBox.setBackground(new Background(new BackgroundImage(new Image("images/popularitybg.png"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+
+        VBox vBox = new VBox();
+        vBox.setSpacing(10);
+        vBox.setAlignment(Pos.CENTER);
+        int[] nums = new int[]{Game.getTurnedUserForGame().getUserGovernment().getFoodEffect(),
+                Game.getTurnedUserForGame().getUserGovernment().getFearEffect(),
+                Game.getTurnedUserForGame().getUserGovernment().getReligionEffect(),
+                Game.getTurnedUserForGame().getUserGovernment().getTaxEffect(),
+                0};
+        int[] rates = new int[]{Game.getTurnedUserForGame().getUserGovernment().getFoodRate(),
+                Game.getTurnedUserForGame().getUserGovernment().getFearRate(),
+                Game.getTurnedUserForGame().getUserGovernment().getReligionEffect(),
+                Game.getTurnedUserForGame().getUserGovernment().getTaxRate(),
+                0};
+        String[] names = new String[]{"Food", "Fear", "Religion", "Tax","Popularity change next month"};
+        Label[] labels = new Label[nums.length];
+        for (int i = 0; i < nums.length-1; i++) {
+            labels[i] = new Label("%s %d %+d".formatted(names[i], nums[i], rates[i]));
+            vBox.getChildren().add(labels[i]);
+        }
+        labels[labels.length-1] = new Label(names[labels.length-1]+": "+(nums[0]+nums[1]+nums[2]+nums[3]));
+        vBox.getChildren().add(labels[labels.length-1]);
+        //set colors based on sign
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] > 0) {
+                labels[i].setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+            } else if (nums[i] < 0) {
+                labels[i].setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+            }else {
+                labels[i].setBackground(new Background(new BackgroundFill(Color.YELLOW, CornerRadii.EMPTY, Insets.EMPTY)));
+            }
+        }
+        hBox.getChildren().add(vBox);
+        Button button = new Button("Setting");
+        button.setOnAction(actionEvent -> {
+            handlePopularitySetting(actionEvent);
+            popularityStage.close();
+        });
+        hBox.getChildren().add(button);
+
+        Scene scene = new Scene(hBox);
+        popularityStage.setScene(scene);
+        popularityStage.showAndWait();
+
+    }
+
+    /**
+     * show a dialogue for setting popularity effects
+     */
+    public void handlePopularitySetting(ActionEvent e){
+        System.out.println("popularitySetting");
+        Stage popularityStage = new Stage();
+        popularityStage.initModality(Modality.APPLICATION_MODAL);
+        popularityStage.initOwner(popularity.getScene().getWindow());
+        popularityStage.setHeight(200);
+        popularityStage.setWidth(750);
+        popularityStage.setTitle("Popularity");
+        //show each one of 4 measures food, fear, religion and tax in a label with color based on positive or negative
+        VBox vBox = new VBox();
+        vBox.setSpacing(10);
+        vBox.setAlignment(Pos.CENTER);
+        vBox.setBackground(new Background(new BackgroundImage(new Image("images/popularitybg.png"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+        int[] nums = new int[]{Game.getTurnedUserForGame().getUserGovernment().getFoodEffect(),
+                Game.getTurnedUserForGame().getUserGovernment().getFearEffect(),
+                Game.getTurnedUserForGame().getUserGovernment().getReligionEffect(),
+                Game.getTurnedUserForGame().getUserGovernment().getTaxEffect()};
+        String[] names = new String[]{"Food", "Fear", "Religion", "Tax"};
+        int[] mins = new int[]{-2, -5, 0, -3};
+        int[] maxs = new int[]{2, 5, 0, 8};
+        Label[] labels = new Label[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            labels[i] = new Label(names[i] + ": " + nums[i]);
+            vBox.getChildren().add(labels[i]);
+        }
+        //set colors based on sign
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] > 0) {
+                labels[i].setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+            } else if (nums[i] < 0) {
+                labels[i].setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+            }
+        }
+        //add buttons for changing effects
+        HBox hBox = new HBox();
+        hBox.setSpacing(10);
+        hBox.setAlignment(Pos.CENTER);
+        Button[] buttons = new Button[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            buttons[i] = new Button("Change "+ names[i]);
+            int finalI = i;
+            buttons[i].setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    //show a dialogue for changing effects
+                    Stage changeStage = new Stage();
+                    changeStage.initModality(Modality.APPLICATION_MODAL);
+                    changeStage.initOwner(popularityStage);
+                    changeStage.setHeight(200);
+                    changeStage.setWidth(750);
+                    changeStage.setTitle("Change");
+                    VBox vBox1 = new VBox();
+                    vBox1.setSpacing(10);
+                    vBox1.setAlignment(Pos.CENTER);
+                    Label label = new Label("Enter new value for " + names[finalI]);
+                    Slider slider = new Slider(mins[finalI], maxs[finalI], nums[finalI]);
+                    slider.setShowTickMarks(true);
+                    slider.setShowTickLabels(true);
+                    slider.setMajorTickUnit(1);
+                    slider.setMinorTickCount(0);
+                    slider.setBlockIncrement(1);
+                    slider.setSnapToTicks(true);
+                    Button button = new Button("Change");
+                    button.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            //change the value
+                            try {
+                                int num = (int) slider.getValue();
+                                switch (finalI) {
+                                    case 0 -> Game.getTurnedUserForGame().getUserGovernment().setFoodRate(num);
+                                    case 1 -> Game.getTurnedUserForGame().getUserGovernment().setFearRate(num);
+                                    case 2 -> Game.getTurnedUserForGame().getUserGovernment().setReligionEffect(num);
+                                    case 3 -> Game.getTurnedUserForGame().getUserGovernment().setTaxRate(num);
+                                }
+                                nums[finalI] = num;
+                                labels[finalI].setText(names[finalI] + ": " + nums[finalI]);
+                                if (nums[finalI] > 0) {
+                                    labels[finalI].setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+                                } else if (nums[finalI] < 0) {
+                                    labels[finalI].setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+                                } else {
+                                    labels[finalI].setBackground(new Background(new BackgroundFill(Color.YELLOW, CornerRadii.EMPTY, Insets.EMPTY)));
+                                }
+                                changeStage.close();
+                            } catch (Exception e) {
+                                //show an error message
+                                Alert alert = new Alert(Alert.AlertType.ERROR);
+                                alert.setTitle("Error");
+                                alert.setHeaderText("Invalid input");
+                                alert.setContentText("Something is wrong");
+                                alert.showAndWait();
+                            }
+                        }
+                    });
+                    vBox1.getChildren().addAll(label, slider, button);
+                    Scene scene = new Scene(vBox1);
+                    changeStage.setScene(scene);
+                    changeStage.showAndWait();
+                }
+            });
+            hBox.getChildren().add(buttons[i]);
+        }
+        vBox.getChildren().add(hBox);
+        Scene scene = new Scene(vBox);
+        popularityStage.setScene(scene);
+        popularityStage.showAndWait();
+
+    }
     private void zoomOut() {
         if (tileSize > 30 && tiles != null) {
             tileSize -= 5;
