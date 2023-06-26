@@ -54,8 +54,8 @@ public class GameControl {
 
 
     public static GameMenuMessage moveUnit(int x, int y) {
-        int v = 200 * 200;
-        if (x >= 200 || y >= 200 || x < 0 || y < 0) {
+        int v = 100 * 100;
+        if (x >= 100 || y >= 100 || x < 0 || y < 0) {
             return GameMenuMessage.WRONG_AMOUNT;
         }
         if (!Game.getMapInGame().getMap()[y][x].getType().getPermeability()) {
@@ -67,7 +67,7 @@ public class GameControl {
             tilesNeighbors.add(new ArrayList<Integer>());
         }
         addNeighbors(tilesNeighbors);
-        GameMenuMessage message = printShortestDistance(x,y,tilesNeighbors, (200 * currentUnits.get(0).getxLocation()) + currentUnits.get(0).getyLocation(), (200 * x) + y, v);
+        GameMenuMessage message = printShortestDistance(x,y,tilesNeighbors, (100 * currentUnits.get(0).getxLocation()) + currentUnits.get(0).getyLocation(), (100 * x) + y, v);
         return message;
     }
 
@@ -82,23 +82,23 @@ public class GameControl {
     }
 
     private static void addNeighbors(ArrayList<ArrayList<Integer>> tileNeighbors) {
-        for (int x = 0; x < 200; x++) {
-            for (int y = 0; y < 200; y++) {
-                if ((x + 1) < 200 && (Game.getMapInGame().getMap()[y][x + 1].getRock() == null && Game.getMapInGame().getMap()[y][x + 1].getType().getPermeability())) {
-                    tileNeighbors.get((x * 200) + y).add(((x + 1) * 200) + y);
-                    tileNeighbors.get(((x+1) * 200) + y).add(((x) * 200) + y);
+        for (int x = 0; x < 100; x++) {
+            for (int y = 0; y < 100; y++) {
+                if ((x + 1) < 100 && (Game.getMapInGame().getMap()[y][x + 1].getRock() == null && Game.getMapInGame().getMap()[y][x + 1].getType().getPermeability())) {
+                    tileNeighbors.get((x * 100) + y).add(((x + 1) * 100) + y);
+                    tileNeighbors.get(((x+1) * 100) + y).add(((x) * 100) + y);
                 }
                 if ((x - 1) >= 0 && (Game.getMapInGame().getMap()[y][x - 1].getRock() == null && Game.getMapInGame().getMap()[y][x - 1].getType().getPermeability())) {
-                    tileNeighbors.get((x * 200) + y).add(((x - 1) * 200) + y);
-                    tileNeighbors.get(((x-1) * 200) + y).add(((x) * 200) + y);
+                    tileNeighbors.get((x * 100) + y).add(((x - 1) * 100) + y);
+                    tileNeighbors.get(((x-1) * 100) + y).add(((x) * 100) + y);
                 }
-                if ((y + 1) < 200 && (Game.getMapInGame().getMap()[y + 1][x].getRock() == null && Game.getMapInGame().getMap()[y + 1][x].getType().getPermeability())) {
-                    tileNeighbors.get((x * 200) + y).add(((x) * 200) + y + 1);
-                    tileNeighbors.get((x * 200) + y+1).add(((x ) * 200) + y);
+                if ((y + 1) < 100 && (Game.getMapInGame().getMap()[y + 1][x].getRock() == null && Game.getMapInGame().getMap()[y + 1][x].getType().getPermeability())) {
+                    tileNeighbors.get((x * 100) + y).add(((x) * 100) + y + 1);
+                    tileNeighbors.get((x * 100) + y+1).add(((x ) * 100) + y);
                 }
                 if ((y - 1) >= 0 && (Game.getMapInGame().getMap()[y - 1][x].getRock() == null && Game.getMapInGame().getMap()[y - 1][x].getType().getPermeability())) {
-                    tileNeighbors.get((x * 200) + y).add(((x) * 200) + y - 1);
-                    tileNeighbors.get((x * 200) + y-1).add(((x ) * 200) + y);
+                    tileNeighbors.get((x * 100) + y).add(((x) * 100) + y - 1);
+                    tileNeighbors.get((x * 100) + y-1).add(((x ) * 100) + y);
                 }
 
             }
@@ -891,7 +891,7 @@ public class GameControl {
                 if (people instanceof Units) {
                     people.getOwnerPerson().getUserGovernment().getPeople().remove(people);
                     Game.getMapInGame().getMap()[people.getxLocation()][people.getyLocation()].getPeopleOnTile().remove(people);
-                    people.getOwnerPerson().getUserGovernment().setPopulation(people.getOwnerPerson().getUserGovernment().getPopulation() + 1);
+                    people.getOwnerPerson().getUserGovernment().setPopulation(people.getOwnerPerson().getUserGovernment().getPopulation() - 1);
 
                 }
 

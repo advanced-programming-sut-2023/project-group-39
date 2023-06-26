@@ -3,7 +3,9 @@ package view;
 import control.BuildingControl;
 import control.GameControl;
 import control.MapControl;
+import javafx.animation.Animation;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,10 +25,8 @@ import model.Game;
 import model.government.Government;
 import model.government.building.group.BuildingImages;
 import model.government.people.People;
+import model.government.people.units.*;
 import model.government.people.units.UnitButton;
-import model.government.people.units.Units;
-import model.government.people.units.UnitButton;
-import model.government.people.units.UnitsName;
 import javafx.scene.image.Image;
 import model.government.building.Building;
 import model.map.GameMap;
@@ -64,7 +64,17 @@ public class MapMenu extends Application {
 
     private static Popup informationPopup = new Popup();
 
+    public static Alert moveAlert = new Alert(Alert.AlertType.ERROR);
+
     private static Stage mapStage;
+
+    public static Popup attackPopup=new Popup();
+
+    public static ArrayList<Units> unitToAttack = new ArrayList<>();
+
+    public static void showMoveAlert() {
+        moveAlert.showAndWait();
+    }
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -92,20 +102,17 @@ public class MapMenu extends Application {
                             } else if (keyEvent.getCode() == KeyCode.MINUS) {
                                 System.out.println("zoom out");
                                 zoomOut();
-                            } else if (keyEvent.getCode() == KeyCode.A) {
+                            } else if (keyEvent.getCode() == KeyCode.M) {
                                 selectLocationForMove(selectedTile);
 
-                            } else if (copyCombination.match(keyEvent)) {
-                                copyBuildingImage();
-                            } else if (pasteCombination.match(keyEvent)) {
-                                pasteBuildingImage();
-                            } else if (keyEvent.getCode() == KeyCode.B){
-                                System.out.println("building is selected");
-                                try {
-                                    selectingBuilding();
-                                } catch (Exception e) {
-                                    System.out.println(e.getMessage());;
-                                }
+                            } else if (keyEvent.getCode() == KeyCode.C) {
+                                selectTileforAttack(selectedTile);
+
+                            } else if (keyEvent.getCode() == KeyCode.A) {
+                                selectTileToAttack(selectedTile);
+
+                            } else if (keyEvent.getCode() == KeyCode.U) {
+                                moveAlert.showAndWait();
 
                             }
                         }
@@ -216,6 +223,7 @@ public class MapMenu extends Application {
     }
 
     private void selectLocationForMove(ArrayList<Tile> selectedTile) {
+        GameControl.currentUnits.clear();
         ArrayList<Units> playerUnit = new ArrayList<>();
         ArrayList<ArrayList<Units>> unitsKind = new ArrayList<>();
         ArrayList<UnitButton> unitsButtons = new ArrayList<>();
@@ -305,6 +313,218 @@ public class MapMenu extends Application {
                 chooseUnits.getContent().add(vBox);
                 chooseUnits.show(mapStage);
                 vBox.getChildren().add(submit);
+                submit.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        if (xLocation.getText() == null || xLocation.getText().equals("") || yLocation.getText().equals("") || yLocation == null) {
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setContentText("please fill destination");
+                            alert.showAndWait();
+
+                        } else {
+                            chooseUnits.hide();
+                            int x = Integer.parseInt(xLocation.getText());
+                            int y = Integer.parseInt(yLocation.getText());
+                            moveAnimation moveAnimation = new moveAnimation(GameControl.currentUnits, x, y);
+                            moveAnimation.play();
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+    private void selectTileforAttack(ArrayList<Tile> selectedTiles) {
+        GameControl.currentUnits.clear();
+        ArrayList<Units> playerUnit = new ArrayList<>();
+        ArrayList<ArrayList<Units>> unitsKind = new ArrayList<>();
+        ArrayList<UnitButton> unitsButtons = new ArrayList<>();
+        ArrayList<ArrayList<Units>> differentUnits = new ArrayList<>();
+        if (selectedTile == null || selectedTile.size() == 0) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("please select a tile");
+            alert.showAndWait();
+        } else if (selectedTile.size() > 1) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("please choose just one tile");
+            alert.showAndWait();
+
+        } else {
+            for (People units : selectedTile.get(0).getPeopleOnTile()) {
+                if (units instanceof Units && units.getOwnerPerson().equals(Game.getTurnedUserForGame())) {
+                    playerUnit.add((Units) units);
+
+                }
+            }
+            if (playerUnit.size() == 0) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("you dont have any unit on this tile");
+                alert.showAndWait();
+
+            } else {
+                int flag = 0;
+                for (Units units : playerUnit) {
+                    for (int i = 0; i < unitsKind.size(); i++) {
+                        if (unitsKind.get(i).get(0).getUnitsName().equals(units.getUnitsName())) {
+                            unitsKind.get(i).add(units);
+                            flag = 1;
+                        }
+                    }
+                    if (flag == 0) {
+                        ArrayList<Units> units1 = new ArrayList<>();
+                        units1.add(units);
+                        unitsKind.add(units1);
+                    }
+                    flag = 0;
+                }
+                Popup chooseUnits = new Popup();
+                VBox vBox = new VBox();
+                vBox.setSpacing(15);
+                vBox.setStyle("-fx-background-color: #DCD291B6");
+                vBox.setSpacing(15);
+                for (int i = 0; i < unitsKind.size(); i++) {
+                    HBox hBox = new HBox();
+                    hBox.setSpacing(10);
+                    Label label1 = new Label(unitsKind.get(i).get(0).getUnitsName().getName());
+                    label1.setTextFill(Color.WHITE);
+                    String speed = String.valueOf(unitsKind.get(i).get(0).getUnitsName().getSpeed());
+                    Label label2 = new Label(speed);
+                    label2.setTextFill(Color.WHITE);
+                    String hitPoint = String.valueOf(unitsKind.get(i).get(0).getHitPoint());
+                    Label label3 = new Label(hitPoint);
+                    label3.setTextFill(Color.WHITE);
+                    String number = String.valueOf(unitsKind.get(i).size());
+                    Label label4 = new Label(number);
+                    label4.setTextFill(Color.WHITE);
+                    Button button = new Button("choose");
+                    UnitButton myButton = new UnitButton(unitsKind.get(i), button);
+                    unitsButtons.add(myButton);
+                    hBox.getChildren().addAll(label1, label2, label3, label4, button);
+                    vBox.getChildren().add(hBox);
+                    chooseUnits.getContent().add(vBox);
+                    chooseUnits.show(mapStage);
+                }
+
+                for (UnitButton Button : unitsButtons) {
+                    Button.getButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent mouseEvent) {
+                            ArrayList<Units> selectingUnits = new ArrayList<>();
+                            selectingUnits.addAll(Button.getUnits());
+                            GameControl.currentUnits.addAll(selectingUnits);
+                            chooseUnits.hide();
+                        }
+                    });
+                }
+            }
+        }
+    }
+
+    private static void selectTileToAttack(ArrayList<Tile> selectedTile) {
+        unitToAttack.clear();
+        if (selectedTile.size() != 2) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("please choose just one tile to attack");
+            alert.showAndWait();
+
+        } else {
+            ArrayList<Units> playerUnit = new ArrayList<>();
+            ArrayList<ArrayList<Units>> unitsKind = new ArrayList<>();
+            ArrayList<UnitButton> unitsButtons = new ArrayList<>();
+            ArrayList<ArrayList<Units>> differentUnits = new ArrayList<>();
+            for (People units : selectedTile.get(1).getPeopleOnTile()) {
+                if (units instanceof Units && !units.getOwnerPerson().equals(Game.getTurnedUserForGame())) {
+                    playerUnit.add((Units) units);
+
+                }
+            }
+            if (playerUnit.size() == 0) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("units of another users dont find!");
+                alert.showAndWait();
+
+            } else {
+                int flag = 0;
+                for (Units units : playerUnit) {
+                    for (int i = 0; i < unitsKind.size(); i++) {
+                        if (unitsKind.get(i).get(0).getUnitsName().equals(units.getUnitsName())) {
+                            unitsKind.get(i).add(units);
+                            flag = 1;
+                        }
+                    }
+                    if (flag == 0) {
+                        ArrayList<Units> units1 = new ArrayList<>();
+                        units1.add(units);
+                        unitsKind.add(units1);
+                    }
+                    flag = 0;
+                }
+                Popup chooseUnits = new Popup();
+                VBox vBox = new VBox();
+                vBox.setSpacing(15);
+                vBox.setStyle("-fx-background-color: #DCD291B6");
+                vBox.setSpacing(15);
+                for (int i = 0; i < unitsKind.size(); i++) {
+                    HBox hBox = new HBox();
+                    hBox.setSpacing(10);
+                    Label label1 = new Label(unitsKind.get(i).get(0).getUnitsName().getName());
+                    label1.setTextFill(Color.WHITE);
+                    String speed = String.valueOf(unitsKind.get(i).get(0).getUnitsName().getSpeed());
+                    Label label2 = new Label(speed);
+                    label2.setTextFill(Color.WHITE);
+                    String hitPoint = String.valueOf(unitsKind.get(i).get(0).getHitPoint());
+                    Label label3 = new Label(hitPoint);
+                    label3.setTextFill(Color.WHITE);
+                    String number = String.valueOf(unitsKind.get(i).size());
+                    Label label4 = new Label(number);
+                    label4.setTextFill(Color.WHITE);
+                    Button button = new Button("choose");
+                    UnitButton myButton = new UnitButton(unitsKind.get(i), button);
+                    unitsButtons.add(myButton);
+                    hBox.getChildren().addAll(label1, label2, label3, label4, button);
+                    vBox.getChildren().add(hBox);
+                }
+
+                for (UnitButton Button : unitsButtons) {
+                    Button.getButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent mouseEvent) {
+                            ArrayList<Units> selectingUnits = new ArrayList<>();
+                            selectingUnits.addAll(Button.getUnits());
+                            unitToAttack.addAll(selectingUnits);
+                        }
+                    });
+                }
+                HBox hBox = new HBox();
+                Button button = new Button("attack");
+                hBox.getChildren().add(button);
+                vBox.getChildren().add(hBox);
+                chooseUnits.getContent().add(vBox);
+                chooseUnits.show(mapStage);
+                button.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        chooseUnits.hide();
+                        ArrayList<Units> deathPersons = new ArrayList<>();
+                        moveAnimation moveAnimation1 = new moveAnimation(GameControl.currentUnits, unitToAttack.get(0).getxLocation(), unitToAttack.get(0).getyLocation());
+                        moveAnimation1.setAttackFlag(1);
+                        if (moveAnimation1.getMoveRoad().get(moveAnimation1.getMoveRoad().size() - 1).getX() != unitToAttack.get(0).getxLocation() || moveAnimation1.getMoveRoad().get(moveAnimation1.getMoveRoad().size() - 1).getY() != unitToAttack.get(0).getyLocation()) {
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setContentText("this destination is bigger than unit speed");
+                            alert.showAndWait();
+                        } else {
+                            moveAnimation1.play();
+                            HBox hBox1=new HBox();
+                            hBox1.setStyle("-fx-background-color: #DCDC91B6");
+                            Label label1=new Label(GameControl.currentUnits.get(0).getUnitsName().getName()+"   is attacking");
+                            hBox1.getChildren().add(label1);
+                            attackPopup.getContent().add(hBox1);
+                            attackPopup.show(mapStage);
+                            System.out.println(label1.getText());
+
+                        }
+                    }
+                });
             }
         }
 
@@ -357,6 +577,47 @@ public class MapMenu extends Application {
             Tooltip tooltip = new Tooltip(BuildingImages.getMilitaryBuilding().get(image));
             Tooltip.install(imageView, tooltip);
             building.getChildren().add(imageView);
+        }
+    }
+
+    private static void attack() {
+        ArrayList<Units> deathPersons = new ArrayList<>();
+        moveAnimation moveAnimation = new moveAnimation(GameControl.currentUnits, unitToAttack.get(0).getxLocation(), unitToAttack.get(0).getyLocation());
+        if (moveAnimation.getMoveRoad().get(moveAnimation.getMoveRoad().size() - 1).getX() != unitToAttack.get(0).getxLocation() || moveAnimation.getMoveRoad().get(moveAnimation.getMoveRoad().size() - 1).getY() != unitToAttack.get(0).getyLocation()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("this destination is bigger than unit speed");
+            alert.showAndWait();
+        } else {
+            moveAnimation.play();
+            //  System.out.println(moveAnimation.getStatus());
+            if (moveAnimation.getStatus().equals(Animation.Status.STOPPED)) {
+                System.out.println("1");
+                for (Units units1 : GameControl.currentUnits) {
+                    for (Units units2 : unitToAttack) {
+                        int unit1ChangeHitPoint = units2.getUnitsName().getAttackingPower() * units2.getEfficientAttackingPower() / 5;
+                        int unit2ChangeHitPoint = units1.getUnitsName().getAttackingPower() * units1.getEfficientAttackingPower() / 5;
+                        System.out.println(unit1ChangeHitPoint + "   " + unit2ChangeHitPoint);
+                        units1.changeHitPoint(-1 * unit1ChangeHitPoint);
+                        units2.changeHitPoint(-1 * unit2ChangeHitPoint);
+                        if (units1.getHitPoint() <= 0 && !deathPersons.contains(units1)) {
+                            deathPersons.add(units1);
+                        }
+                        if (units2.getHitPoint() <= 0 && !deathPersons.contains(units2)) {
+                            deathPersons.add(units2);
+                        }
+
+                    }
+                }
+                //       System.out.println(deathPersons.size());
+                for (Units unit : deathPersons) {
+                    System.out.println(unit.getOwnerPerson().getUsername());
+                    System.out.println(unit.getxLocation() + "   " + unit.getyLocation());
+                    unit.getOwnerPerson().getUserGovernment().getPeople().remove(unit);
+                    Game.getMapInGame().getMap()[unit.getxLocation()][unit.getyLocation()].getPeopleOnTile().remove(unit);
+                    unit.getOwnerPerson().getUserGovernment().setPopulation(unit.getOwnerPerson().getUserGovernment().getPopulation() - 1);
+                    Game.getMapInGame().getMap()[unit.getxLocation()][unit.getyLocation()].getChildren().remove(unit);
+                }
+            }
         }
     }
 
@@ -433,7 +694,8 @@ public class MapMenu extends Application {
         for (Government government : Game.getGovernments()) {
             MainMenu.createInitialPeople(government, 30);
         }
-        //   Units.makeUnit(0,0,UnitsName.ARCHER,Game.getGameStarter());
+        Units.makeUnit(0, 0, UnitsName.KNIGHT, Game.getGameStarter());
+        Units.makeUnit(2, 0, UnitsName.SLINGERS, Game.getPlayersInGame().get(0));
         return gridPane;
     }
 

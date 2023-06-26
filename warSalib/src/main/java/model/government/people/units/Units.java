@@ -30,8 +30,8 @@ public class Units extends People  {
 
     public Units(int xLocation, int yLocation, UnitsName unitsName, User ownerPerson) {
         this.jobsName = null;
-        this.setHeight(100);
-        this.setWidth(100);
+        this.setHeight(40);
+        this.setWidth(40);
         this.unitsName = unitsName;
         this.xLocation = xLocation;
         this.yLocation = yLocation;
@@ -46,10 +46,15 @@ public class Units extends People  {
         this.patrolToY=-1;
         this.toGoX=xLocation;
         this.toGoY=yLocation;
-        Game.getMapInGame().getMap()[yLocation][xLocation].getChildren().add(this);
-        Game.getMapInGame().getMap()[yLocation][xLocation].getPeopleOnTile().add(this);
-        String details= MapControl.showDetails(xLocation,yLocation);
+        Game.getMapInGame().getMap()[xLocation][yLocation].getChildren().add(this);
+        Game.getMapInGame().getMap()[xLocation][yLocation].getPeopleOnTile().add(this);
+        String details= MapControl.showDetails(yLocation,xLocation);
         Game.getMapInGame().getMap()[yLocation][xLocation].getTooltip().setText(details);
+        String imagePath=unitsName.getName()+1;
+        String path="/images/Units/"+imagePath+".png";
+       // System.out.println(path);
+     ImagePattern humanImage=new ImagePattern(new Image(StartGame.class.getResource(path).toExternalForm()));
+        this.setFill(humanImage);
     }
 
 
