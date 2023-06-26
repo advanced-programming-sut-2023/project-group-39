@@ -409,8 +409,8 @@ public class profileView extends Application {
     }
 
     public void goScoreBoard(MouseEvent mouseEvent) throws Exception {
-        scoreBoardView scoreBoardView = new scoreBoardView();
-        scoreBoardView.start(StartGame.stage);
+        scoreBoardView scoreBoardView1 = new scoreBoardView();
+        scoreBoardView1.run();
     }
 
     public void chooseFromFile(MouseEvent mouseEvent) {
@@ -443,7 +443,7 @@ public class profileView extends Application {
     public void onDragCheck(DragEvent dragEvent) {
         Dragboard dragboard=dragEvent.getDragboard();
         if(dragboard.hasFiles()&&checkFormatOfFile(dragboard.getFiles().get(0)))
-        dragEvent.acceptTransferModes(TransferMode.COPY);
+            dragEvent.acceptTransferModes(TransferMode.COPY);
         dragEvent.consume();
     }
 
