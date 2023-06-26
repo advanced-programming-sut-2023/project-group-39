@@ -2,6 +2,7 @@ package view;
 
 import control.TradeControl;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -13,7 +14,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import model.Game;
+import model.user.User;
+
+import java.util.ArrayList;
 
 public class MakeTradeView extends Application {
     private int resourceMax = 0;
@@ -54,15 +59,24 @@ public class MakeTradeView extends Application {
         resourceGrid = (GridPane) pane.lookup("#resourceGrid");
         priceField = (TextField) pane.lookup("#priceField");
         userSelectDropdown = (ChoiceBox) pane.lookup("#userSelectDropdown");
-        userSelectDropdown.setSelectionModel(new SingleSelectionModel<String>() {
+        ArrayList<User> users = Game.getPlayersInGame();
+        users.removeIf(user -> user.equals(Game.getTurnedUserForGame()));
+        userSelectDropdown.setItems(FXCollections.observableArrayList(users));
+        userSelectDropdown.setConverter(new StringConverter() {
             @Override
-            protected String getModelItem(int i) {
-                return Game.getPlayers().get(i).getNickname();
+            public String toString(Object o) {
+                User u = (User) o;
+                return u.getNickname();
             }
 
             @Override
-            protected int getItemCount() {
-                return Game.getPlayers().size();
+            public Object fromString(String s) {
+                for (int i=0; i< Game.getPlayersInGame().size(); i++){
+                    if(Game.getPlayersInGame().get(i).getNickname().equals(s)){
+                        return Game.getPlayersInGame().get(i);
+                    }
+                }
+                return null;
             }
         });
         userSelectDropdown.getSelectionModel().selectFirst();
@@ -71,7 +85,11 @@ public class MakeTradeView extends Application {
 
         donateRadio.setToggleGroup(toggleGroup);
         requestRadio.setToggleGroup(toggleGroup);
-
+        donateRadio.setOnAction(event -> {
+            priceField.setText("0");
+            priceField.setDisable(true);
+        });
+        requestRadio.setOnAction(event -> priceField.setDisable(false));
         String[] resources = {"wood", "archery", "armour", "pitch", "bread", "coin", "flour", "food", "hammer", "hop", "oil", "spear", "steel", "stone", "sword", "wheat"};
         for (int i = 0; i < resources.length; i++) {
             ImageView temp = new ImageView(new Image(MakeTradeView.class.getResource("/images/resource/" + resources[i] + ".png").toExternalForm()));
@@ -89,6 +107,9 @@ public class MakeTradeView extends Application {
                 Game.getTurnedUserForGame().getUserGovernment().getResources().forEach((resource, amount) -> {
                     if (resource.equals(selectedResource)) {
                         resourceMax = amount;
+                    }
+                    if(amount>0){
+                        System.out.println(resource);
                     }
                 });
             });
