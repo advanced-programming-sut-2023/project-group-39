@@ -45,6 +45,10 @@ public class TradeView extends Application {
 
     public void viewTradeList(MouseEvent mouseEvent) {
         try {
+            stage.setHeight(514);
+            stage.setWidth(740);
+            stage.setX(Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 2 - 370);
+            stage.setY(Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 2 - 257);
             new TradeSuggestsView().start(TradeView.stage);
         } catch (Exception e) {
             e.printStackTrace();
