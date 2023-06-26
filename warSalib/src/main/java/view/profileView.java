@@ -409,8 +409,8 @@ public class profileView extends Application {
     }
 
     public void goScoreBoard(MouseEvent mouseEvent) throws Exception {
-        scoreBoardView scoreBoardView = new scoreBoardView();
-        scoreBoardView.start(StartGame.stage);
+        scoreBoardView scoreBoardView1 = new scoreBoardView();
+        scoreBoardView1.run();
     }
 
     public void chooseFromFile(MouseEvent mouseEvent) {

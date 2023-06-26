@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import model.Game;
 import model.government.Government;
@@ -195,4 +196,5 @@ public class Tile extends StackPane {
     public Tooltip getTooltip() {
         return tooltip;
     }
+
 }

@@ -10,13 +10,19 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TextFieldTreeCell;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import model.Game;
@@ -27,15 +33,19 @@ import model.government.people.units.*;
 import model.government.people.units.UnitButton;
 import javafx.scene.image.Image;
 import model.government.building.Building;
+import model.government.resource.Resource;
 import model.map.GameMap;
 import model.map.Tile;
 import view.enums.commands.MapMenuCommands;
 import javafx.scene.layout.*;
+import view.enums.messages.GameMenuMessage;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.regex.Matcher;
+import javafx.geometry.Insets;
 
 public class MapMenu extends Application {
 
@@ -47,6 +57,8 @@ public class MapMenu extends Application {
 
     private Tile[][] tiles;
 
+    private static int counterTurns=0;
+
     private static ArrayList<Tile> selectedTile = new ArrayList<>();
 
     private static Popup informationPopup = new Popup();
@@ -55,7 +67,7 @@ public class MapMenu extends Application {
 
     private static Stage mapStage;
 
-    public static Popup attackPopup=new Popup();
+    public static Popup attackPopup = new Popup();
 
     public static ArrayList<Units> unitToAttack = new ArrayList<>();
 
@@ -99,6 +111,14 @@ public class MapMenu extends Application {
 
                             } else if (keyEvent.getCode() == KeyCode.U) {
                                 moveAlert.showAndWait();
+
+                            } else if (keyEvent.getCode() == KeyCode.E) {
+                                selectTileToAirAttack(selectedTile);
+
+                            } else if (keyEvent.getCode() == KeyCode.D) {
+                                makeDitch(selectedTile);
+                            } else if (keyEvent.getCode() == KeyCode.P) {
+                                makePatrolUnit(selectedTile);
 
                             }
                         }
@@ -240,6 +260,153 @@ public class MapMenu extends Application {
         }
     }
 
+    private void makePatrolUnit(ArrayList<Tile> selectedTiles) {
+        GameControl.currentUnits.clear();
+        ArrayList<Units> playerUnit = new ArrayList<>();
+        ArrayList<ArrayList<Units>> unitsKind = new ArrayList<>();
+        ArrayList<UnitButton> unitsButtons = new ArrayList<>();
+        ArrayList<ArrayList<Units>> differentUnits = new ArrayList<>();
+        if (selectedTile == null || selectedTile.size() == 0) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("please select a tile");
+            alert.showAndWait();
+        } else if (selectedTile.size() > 1) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("please choose just one tile");
+            alert.showAndWait();
+
+        } else {
+            for (People units : selectedTile.get(0).getPeopleOnTile()) {
+                if (units instanceof Units && units.getOwnerPerson().equals(Game.getTurnedUserForGame())) {
+                    playerUnit.add((Units) units);
+
+                }
+            }
+            if (playerUnit.size() == 0) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("you dont have any unit on this tile");
+                alert.showAndWait();
+
+            } else {
+                int flag = 0;
+                for (Units units : playerUnit) {
+                    for (int i = 0; i < unitsKind.size(); i++) {
+                        if (unitsKind.get(i).get(0).getUnitsName().equals(units.getUnitsName())) {
+                            unitsKind.get(i).add(units);
+                            flag = 1;
+                        }
+                    }
+                    if (flag == 0) {
+                        ArrayList<Units> units1 = new ArrayList<>();
+                        units1.add(units);
+                        unitsKind.add(units1);
+                    }
+                    flag = 0;
+                }
+                Popup chooseUnits = new Popup();
+                VBox vBox = new VBox();
+                vBox.setSpacing(15);
+                vBox.setStyle("-fx-background-color: #DCD291B6");
+                vBox.setSpacing(15);
+                for (int i = 0; i < unitsKind.size(); i++) {
+                    HBox hBox = new HBox();
+                    hBox.setSpacing(10);
+                    Label label1 = new Label(unitsKind.get(i).get(0).getUnitsName().getName());
+                    label1.setTextFill(Color.WHITE);
+                    String speed = String.valueOf(unitsKind.get(i).get(0).getUnitsName().getSpeed());
+                    Label label2 = new Label(speed);
+                    label2.setTextFill(Color.WHITE);
+                    String hitPoint = String.valueOf(unitsKind.get(i).get(0).getHitPoint());
+                    Label label3 = new Label(hitPoint);
+                    label3.setTextFill(Color.WHITE);
+                    String number = String.valueOf(unitsKind.get(i).size());
+                    Label label4 = new Label(number);
+                    label4.setTextFill(Color.WHITE);
+                    Button button = new Button("choose");
+                    UnitButton myButton = new UnitButton(unitsKind.get(i), button);
+                    unitsButtons.add(myButton);
+                    hBox.getChildren().addAll(label1, label2, label3, label4, button);
+                    vBox.getChildren().add(hBox);
+                }
+
+                for (UnitButton Button : unitsButtons) {
+                    Button.getButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent mouseEvent) {
+                            ArrayList<Units> selectingUnits = new ArrayList<>();
+                            selectingUnits.addAll(Button.getUnits());
+                            GameControl.currentUnits.addAll(selectingUnits);
+                        }
+                    });
+                }
+                TextField xLocation = new TextField();
+                TextField yLocation = new TextField();
+                HBox hBox = new HBox();
+                hBox.setSpacing(30);
+                xLocation.setPromptText("enter  patrol x");
+                yLocation.setPromptText("enter  pratrol y");
+                hBox.getChildren().addAll(xLocation, yLocation);
+                vBox.getChildren().add(hBox);
+                Button submit = new Button("Start Patrol");
+                chooseUnits.getContent().add(vBox);
+                chooseUnits.show(mapStage);
+                vBox.getChildren().add(submit);
+                submit.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        if (xLocation.getText() == null || xLocation.getText().equals("") || yLocation.getText().equals("") || yLocation == null) {
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setContentText("please fill destination");
+                            alert.showAndWait();
+
+                        } else {
+                            int patrolY = Integer.parseInt(yLocation.getText());
+                            int patrolX = Integer.parseInt(xLocation.getText());
+                            int deltaX = patrolX - GameControl.currentUnits.get(0).getxLocation();
+                            int deltaY = patrolY - GameControl.currentUnits.get(0).getyLocation();
+                            int destination = (int) Math.sqrt((Math.pow(deltaX, 2)) + Math.pow(deltaY, 2));
+                            chooseUnits.hide();
+                            if (destination > GameControl.currentUnits.get(0).getUnitsName().getSpeed()) {
+                                Alert alert = new Alert(Alert.AlertType.ERROR);
+                                alert.setContentText("destination for patrol is bigger than unit speed");
+                                alert.showAndWait();
+                            } else {
+                                for (Units units : GameControl.currentUnits) {
+                                    units.setPatrolToX(patrolX);
+                                    units.setPatrolToY(patrolY);
+                                    //TODO another part of patrol should be complete in next turn
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+    private void makeDitch(ArrayList<Tile> selectedTiles) {
+        if (selectedTiles.size() != 1) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("please choose one tile for ditch");
+            alert.showAndWait();
+        } else {
+            int flag = 0;
+            Tile tile = selectedTiles.get(0);
+            for (People people : tile.getPeopleOnTile()) {
+                if (people instanceof Units) {
+                    if (people.getOwnerPerson().equals(Game.getTurnedUserForGame()) && ((Units) people).getUnitsName().getName().equals("tunneler"))
+                        tile.setHasKillerTale(true);
+                    flag = 1;
+                }
+            }
+            if (flag == 0) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("you don't have any tunneler on this house");
+                alert.showAndWait();
+            }
+        }
+    }
+
     private void selectTileforAttack(ArrayList<Tile> selectedTiles) {
         GameControl.currentUnits.clear();
         ArrayList<Units> playerUnit = new ArrayList<>();
@@ -307,9 +474,9 @@ public class MapMenu extends Application {
                     unitsButtons.add(myButton);
                     hBox.getChildren().addAll(label1, label2, label3, label4, button);
                     vBox.getChildren().add(hBox);
-                    chooseUnits.getContent().add(vBox);
-                    chooseUnits.show(mapStage);
                 }
+                chooseUnits.getContent().add(vBox);
+                chooseUnits.show(mapStage);
 
                 for (UnitButton Button : unitsButtons) {
                     Button.getButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -420,13 +587,13 @@ public class MapMenu extends Application {
                             alert.showAndWait();
                         } else {
                             moveAnimation1.play();
-                            HBox hBox1=new HBox();
+                            HBox hBox1 = new HBox();
                             hBox1.setStyle("-fx-background-color: #DCDC91B6");
-                            Label label1=new Label(GameControl.currentUnits.get(0).getUnitsName().getName()+"   is attacking");
+                            Label label1 = new Label(GameControl.currentUnits.get(0).getUnitsName().getName() + "   is attacking");
                             hBox1.getChildren().add(label1);
                             attackPopup.getContent().add(hBox1);
                             attackPopup.show(mapStage);
-                            System.out.println(label1.getText());
+
 
                         }
                     }
@@ -435,13 +602,167 @@ public class MapMenu extends Application {
         }
     }
 
+    private void selectTileToAirAttack(ArrayList<Tile> selectedTiles) {
+        unitToAttack.clear();
+        if (selectedTile.size() != 2) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("please choose just one tile to attack");
+            alert.showAndWait();
+
+        } else {
+            if (!GameControl.currentUnits.get(0).getUnitsName().getUnitsType().equals(UnitsType.ARCHER)) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("for air attack you should choose archers");
+                alert.showAndWait();
+
+            } else {
+
+                ArrayList<Units> playerUnit = new ArrayList<>();
+                ArrayList<ArrayList<Units>> unitsKind = new ArrayList<>();
+                ArrayList<UnitButton> unitsButtons = new ArrayList<>();
+                ArrayList<ArrayList<Units>> differentUnits = new ArrayList<>();
+                for (
+                        People units : selectedTile.get(1).getPeopleOnTile()) {
+                    if (units instanceof Units && !units.getOwnerPerson().equals(Game.getTurnedUserForGame())) {
+                        playerUnit.add((Units) units);
+
+                    }
+                }
+                if (playerUnit.size() == 0) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("units of another users dont find!");
+                    alert.showAndWait();
+
+                } else {
+                    int flag = 0;
+                    for (Units units : playerUnit) {
+                        for (int i = 0; i < unitsKind.size(); i++) {
+                            if (unitsKind.get(i).get(0).getUnitsName().equals(units.getUnitsName())) {
+                                unitsKind.get(i).add(units);
+                                flag = 1;
+                            }
+                        }
+                        if (flag == 0) {
+                            ArrayList<Units> units1 = new ArrayList<>();
+                            units1.add(units);
+                            unitsKind.add(units1);
+                        }
+                        flag = 0;
+                    }
+                    Popup chooseUnits = new Popup();
+                    VBox vBox = new VBox();
+                    vBox.setSpacing(15);
+                    vBox.setStyle("-fx-background-color: #DCD291B6");
+                    vBox.setSpacing(15);
+                    for (int i = 0; i < unitsKind.size(); i++) {
+                        HBox hBox = new HBox();
+                        hBox.setSpacing(10);
+                        Label label1 = new Label(unitsKind.get(i).get(0).getUnitsName().getName());
+                        label1.setTextFill(Color.WHITE);
+                        String speed = String.valueOf(unitsKind.get(i).get(0).getUnitsName().getSpeed());
+                        Label label2 = new Label(speed);
+                        label2.setTextFill(Color.WHITE);
+                        String hitPoint = String.valueOf(unitsKind.get(i).get(0).getHitPoint());
+                        Label label3 = new Label(hitPoint);
+                        label3.setTextFill(Color.WHITE);
+                        String number = String.valueOf(unitsKind.get(i).size());
+                        Label label4 = new Label(number);
+                        label4.setTextFill(Color.WHITE);
+                        Button button = new Button("choose");
+                        UnitButton myButton = new UnitButton(unitsKind.get(i), button);
+                        unitsButtons.add(myButton);
+                        hBox.getChildren().addAll(label1, label2, label3, label4, button);
+                        vBox.getChildren().add(hBox);
+                    }
+
+                    for (UnitButton Button : unitsButtons) {
+                        Button.getButton().setOnMouseClicked(new EventHandler<MouseEvent>() {
+                            @Override
+                            public void handle(MouseEvent mouseEvent) {
+                                ArrayList<Units> selectingUnits = new ArrayList<>();
+                                selectingUnits.addAll(Button.getUnits());
+                                unitToAttack.addAll(selectingUnits);
+                            }
+                        });
+                    }
+                    HBox hBox = new HBox();
+                    Button button = new Button("Air attack");
+                    hBox.getChildren().add(button);
+                    vBox.getChildren().add(hBox);
+                    chooseUnits.getContent().add(vBox);
+                    chooseUnits.show(mapStage);
+                    button.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent mouseEvent) {
+                            chooseUnits.hide();
+                            airAttack(GameControl.currentUnits, unitToAttack);
+                        }
+                    });
+
+                }
+            }
+        }
+    }
+
+    private void airAttack(ArrayList<Units> currentUnits, ArrayList<Units> unitToAttack) {
+        int xDistance = unitToAttack.get(0).getxLocation() - currentUnits.get(0).getxLocation();
+        int yDistance = unitToAttack.get(0).getyLocation() - currentUnits.get(0).getyLocation();
+        double distance = Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
+        int dis = (int) distance;
+        if ((((Archers) currentUnits.get(0)).getArrowRadius() / 20) < dis) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("destination is bigger than archer arrow radius");
+            alert.showAndWait();
+        } else {
+            Resource wartool = ((Archers) currentUnits.get(0)).getWartool();
+            if ((Game.getTurnedUserForGame().getUserGovernment().getResources().get(wartool) < currentUnits.size())) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("you dont have enough resource to air attack");
+                alert.showAndWait();
+            } else {
+                for (People people : unitToAttack) {
+                    int efficiently = ((Archers) currentUnits.get(0)).getFatality() * ((Archers) currentUnits.get(0)).getPrecision() / 100;
+                    int eff = (int) efficiently;
+                    ((Units) people).changeHitPoint(-1 * eff);
+                    Game.getTurnedUserForGame().changeScore(eff);
+
+
+                }
+                ArrayList<Units> deathUnits = new ArrayList<>();
+                for (Units units : unitToAttack) {
+                    if (units.getHitPoint() <= 0) {
+                        deathUnits.add(units);
+
+                    }
+                }
+                for (Units unit : deathUnits) {
+                    unit.getOwnerPerson().getUserGovernment().getPeople().remove(unit);
+                    Game.getMapInGame().getMap()[unit.getxLocation()][unit.getyLocation()].getPeopleOnTile().remove(unit);
+                    unit.getOwnerPerson().getUserGovernment().setPopulation(unit.getOwnerPerson().getUserGovernment().getPopulation() - 1);
+                    Game.getMapInGame().getMap()[unit.getxLocation()][unit.getyLocation()].getChildren().remove(unit);
+                    Game.getMapInGame().getMap()[unit.getxLocation()][unit.getyLocation()].getTooltip().setText(MapControl.showDetails(unit.getxLocation(), unit.getyLocation()));
+                }
+                Game.getTurnedUserForGame().getUserGovernment().getResources().put(wartool, Game.getTurnedUserForGame().getUserGovernment().getResources().get(wartool) - currentUnits.size());
+            }
+        }
+    }
+
+
     private void initBuilding(HBox building) {
+        Button nextTurn =new Button("next Turn");
+        building.getChildren().add(nextTurn);
         for (Image image : BuildingImages.getMilitaryBuilding()) {
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(50);
             imageView.setFitHeight(50);
             building.getChildren().add(imageView);
         }
+        nextTurn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                nextTurn();
+            }
+        });
     }
 
     private static void attack() {
@@ -453,14 +774,11 @@ public class MapMenu extends Application {
             alert.showAndWait();
         } else {
             moveAnimation.play();
-            //  System.out.println(moveAnimation.getStatus());
             if (moveAnimation.getStatus().equals(Animation.Status.STOPPED)) {
-                System.out.println("1");
                 for (Units units1 : GameControl.currentUnits) {
                     for (Units units2 : unitToAttack) {
                         int unit1ChangeHitPoint = units2.getUnitsName().getAttackingPower() * units2.getEfficientAttackingPower() / 5;
                         int unit2ChangeHitPoint = units1.getUnitsName().getAttackingPower() * units1.getEfficientAttackingPower() / 5;
-                        System.out.println(unit1ChangeHitPoint + "   " + unit2ChangeHitPoint);
                         units1.changeHitPoint(-1 * unit1ChangeHitPoint);
                         units2.changeHitPoint(-1 * unit2ChangeHitPoint);
                         if (units1.getHitPoint() <= 0 && !deathPersons.contains(units1)) {
@@ -474,8 +792,6 @@ public class MapMenu extends Application {
                 }
                 //       System.out.println(deathPersons.size());
                 for (Units unit : deathPersons) {
-                    System.out.println(unit.getOwnerPerson().getUsername());
-                    System.out.println(unit.getxLocation() + "   " + unit.getyLocation());
                     unit.getOwnerPerson().getUserGovernment().getPeople().remove(unit);
                     Game.getMapInGame().getMap()[unit.getxLocation()][unit.getyLocation()].getPeopleOnTile().remove(unit);
                     unit.getOwnerPerson().getUserGovernment().setPopulation(unit.getOwnerPerson().getUserGovernment().getPopulation() - 1);
@@ -533,6 +849,8 @@ public class MapMenu extends Application {
         }
         Units.makeUnit(0, 0, UnitsName.KNIGHT, Game.getGameStarter());
         Units.makeUnit(2, 0, UnitsName.SLINGERS, Game.getPlayersInGame().get(0));
+        Units.makeUnit(0, 0, UnitsName.ARCHER, Game.getGameStarter());
+        Game.getGameStarter().getUserGovernment().getResources().put(Resource.ARROW, 100);
         return gridPane;
     }
 
@@ -668,5 +986,30 @@ public class MapMenu extends Application {
 
     public void setTileSize(int tileSize) {
         this.tileSize = tileSize;
+    }
+
+    private void nextTurn(){
+        System.out.println("Salam");
+        counterTurns++;
+             //TODO patrol unit should be added!
+        if(counterTurns%5==0||counterTurns%8==0||counterTurns%11==0){
+            ArrayList<Tile> sickTiles=new ArrayList<>();
+            System.out.println(Game.getTurnedUserForGame().getUserGovernment().getXLeft());
+            System.out.println(Game.getTurnedUserForGame().getUserGovernment().getYDown());
+            sickTiles.add(Game.getMapInGame().getMap()[Game.getTurnedUserForGame().getUserGovernment().getXLeft()-1][Game.getTurnedUserForGame().getUserGovernment().getYDown()]);
+            sickTiles.add(Game.getMapInGame().getMap()[Game.getTurnedUserForGame().getUserGovernment().getXLeft()-2][Game.getTurnedUserForGame().getUserGovernment().getYDown()]);
+            sickTiles.add(Game.getMapInGame().getMap()[Game.getTurnedUserForGame().getUserGovernment().getXLeft()-3][Game.getTurnedUserForGame().getUserGovernment().getYDown()]);
+            sickTiles.add(Game.getMapInGame().getMap()[Game.getTurnedUserForGame().getUserGovernment().getXLeft()-4][Game.getTurnedUserForGame().getUserGovernment().getYDown()]);
+            sickTiles.add(Game.getMapInGame().getMap()[Game.getTurnedUserForGame().getUserGovernment().getXLeft()-5][Game.getTurnedUserForGame().getUserGovernment().getYDown()]);
+
+            Color redOpacity=new Color(1,0,0,0.5);
+            for (Tile tile:sickTiles){
+                ImagePattern imagePattern=new ImagePattern(new Image(StartGame.class.getResource("/images/Units/archer1.png").toExternalForm()));
+                tile.setBackground(new Background(new BackgroundFill(Color.RED,CornerRadii.EMPTY,Insets.EMPTY)));
+                tile.setOpacity(0.5);
+                tile.setBlendMode(BlendMode.SRC_OVER);
+            }
+
+        }
     }
 }
