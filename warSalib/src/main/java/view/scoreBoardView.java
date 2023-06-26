@@ -21,7 +21,6 @@ public class scoreBoardView extends JFrame {
     private int dataCount = Game.getPlayers().size();
     private int visibleCount = 10;
     private int loadedCount = 0;
-
     public scoreBoardView() {
         LoginSignupControl.sort(Game.getPlayers());
         setTitle("Score board");
