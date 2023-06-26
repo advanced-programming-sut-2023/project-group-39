@@ -48,7 +48,7 @@ public class moveAnimation  extends Transition {
         this.desY=desY;
         firstX=units.get(0).getxLocation();
         firstY=units.get(0).getyLocation();
-        this.setCycleDuration(Duration.millis(20000));
+        this.setCycleDuration(Duration.millis(200000));
         moveUnit(desX,desY);
         this.flag=0;
         this.attackFlag=0;

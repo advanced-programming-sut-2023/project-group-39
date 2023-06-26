@@ -105,6 +105,19 @@ public class MapMenu extends Application {
                             } else if (keyEvent.getCode() == KeyCode.M) {
                                 selectLocationForMove(selectedTile);
 
+
+                            } else if (copyCombination.match(keyEvent)) {
+                                copyBuildingImage();
+                            } else if (pasteCombination.match(keyEvent)) {
+                                pasteBuildingImage();
+                            } else if (keyEvent.getCode() == KeyCode.B){
+                                System.out.println("building is selected");
+                                try {
+                                    selectingBuilding();
+                                } catch (Exception e) {
+                                    System.out.println(e.getMessage());;
+                                }
+
                             } else if (keyEvent.getCode() == KeyCode.C) {
                                 selectTileforAttack(selectedTile);
 
@@ -113,7 +126,6 @@ public class MapMenu extends Application {
 
                             } else if (keyEvent.getCode() == KeyCode.U) {
                                 moveAlert.showAndWait();
-
                             }
                         }
                     });
