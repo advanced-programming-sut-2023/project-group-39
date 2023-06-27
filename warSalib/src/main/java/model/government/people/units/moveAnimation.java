@@ -238,8 +238,8 @@ public class moveAnimation  extends Transition {
             moveRoad.add(intPairs);
            // System.out.println("x   :  " + path.get(i)/100+"    y :   "+path.get(i)%100);
             counter++;
-            if (counter == GameControl.currentUnits.get(0).getUnitsName().getSpeed() / 20)
-                break;
+         //   if (counter == GameControl.currentUnits.get(0).getUnitsName().getSpeed() / 20)
+           //     break;
 
         }
    //     if (path.size() -1> counter) {

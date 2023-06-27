@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTreeCell;
@@ -19,6 +20,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import model.Game;
@@ -68,9 +70,11 @@ public class MapMenu extends Application {
 
     private static Stage mapStage;
 
-    public static Popup attackPopup=new Popup();
+    public static Popup attackPopup = new Popup();
 
     public static ArrayList<Units> unitToAttack = new ArrayList<>();
+    private static int counterTurns;
+    private static Popup sickness = new Popup();
 
     public static void showMoveAlert() {
         moveAlert.showAndWait();
@@ -110,12 +114,13 @@ public class MapMenu extends Application {
                                 copyBuildingImage();
                             } else if (pasteCombination.match(keyEvent)) {
                                 pasteBuildingImage();
-                            } else if (keyEvent.getCode() == KeyCode.B){
+                            } else if (keyEvent.getCode() == KeyCode.B) {
                                 System.out.println("building is selected");
                                 try {
                                     selectingBuilding();
                                 } catch (Exception e) {
-                                    System.out.println(e.getMessage());;
+                                    System.out.println(e.getMessage());
+                                    ;
                                 }
 
                             } else if (keyEvent.getCode() == KeyCode.C) {
@@ -126,6 +131,8 @@ public class MapMenu extends Application {
 
                             } else if (keyEvent.getCode() == KeyCode.U) {
                                 moveAlert.showAndWait();
+                            } else if (keyEvent.getCode() == KeyCode.S) {
+                                repairSick(selectedTile);
                             }
                         }
                     });
@@ -138,27 +145,66 @@ public class MapMenu extends Application {
         stage.show();
     }
 
+    private void repairSick(ArrayList<Tile> selectedTiles) {
+        int flag = 0;
+        for (Tile tile : selectedTiles) {
+            if (!tile.isHasSick()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("you should choose only sick Tiles");
+                alert.showAndWait();
+                flag = 1;
+            }
+        }
+        if (flag == 0) {
+            for (Tile tile : selectedTiles) {
+                for (People people : tile.getPeopleOnTile()) {
+                    if (people instanceof Units) {
+                        if (((Units) people).getUnitsName().getUnitsType().equals(UnitsType.ENGINEER)) {
+                            flag = 1;
+                        }
+                    }
+
+                }
+
+            }
+            if(flag==0){
+                Alert alert=new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("for eliminate sick you should have engineer on this tiles");
+                alert.showAndWait();
+
+            }
+            else {
+                for (Tile tile:selectedTiles){
+                    tile.setHasSick(false);
+                    tile.getChildren().remove(tile.getSickImage());
+                }
+                sickness.hide();
+
+            }
+        }
+    }
+
     private void selectingBuilding() throws Exception {
         if (selectedTile != null) {
-            if (selectedTile.get(0).getBuilding() != null){
-                if (selectedTile.get(0).getBuilding().getName().equals("barrack")){
+            if (selectedTile.get(0).getBuilding() != null) {
+                if (selectedTile.get(0).getBuilding().getName().equals("barrack")) {
                     Game.setSelectedBuilding(selectedTile.get(0).getBuilding());
                     BarrackMenu barrackMenu = new BarrackMenu();
                     barrackMenu.start(StartGame.stage);
                     //TODO : handle people with ardalan
-                } else if (selectedTile.get(0).getBuilding().getName().equals("engineer guild")){
+                } else if (selectedTile.get(0).getBuilding().getName().equals("engineer guild")) {
                     Game.setSelectedBuilding(selectedTile.get(0).getBuilding());
                     EngineerGuild engineerGuild = new EngineerGuild();
                     engineerGuild.start(StartGame.stage);
-                } else if (selectedTile.get(0).getBuilding().getName().equals("mercenary post")){
+                } else if (selectedTile.get(0).getBuilding().getName().equals("mercenary post")) {
                     Game.setSelectedBuilding(selectedTile.get(0).getBuilding());
                     MercenaryPost mercenaryPost = new MercenaryPost();
                     mercenaryPost.start(StartGame.stage);
-                } else if (selectedTile.get(0).getBuilding().getName().equals("market")){
+                } else if (selectedTile.get(0).getBuilding().getName().equals("market")) {
                     Game.setSelectedBuilding(selectedTile.get(0).getBuilding());
                     MarketMenu marketMenu = new MarketMenu();
                     marketMenu.start(StartGame.stage);
-                } else if (selectedTile.get(0).getBuilding().getType().equals("castle building")){
+                } else if (selectedTile.get(0).getBuilding().getType().equals("castle building")) {
                     Game.setSelectedBuilding(selectedTile.get(0).getBuilding());
                     RepairMenu repairMenu = new RepairMenu();
                     repairMenu.start(StartGame.stage);
@@ -173,15 +219,15 @@ public class MapMenu extends Application {
         Image buildingImage = new Image(buildingName);
         BuildingMessage message;
         if (buildingImage != null) {
-            for (Tile tile : selectedTile){
-                message = BuildingControl.dropBuilding(tile,BuildingImages.getNameOfBuildingByImage(buildingName));
+            for (Tile tile : selectedTile) {
+                message = BuildingControl.dropBuilding(tile, BuildingImages.getNameOfBuildingByImage(buildingName));
                 if (message.equals(BuildingMessage.SUCCESS)) {
                     tile.setBuildingImage(buildingName);
                     ImageView buildingView = new ImageView(buildingImage);
                     buildingView.setFitWidth(25);
                     buildingView.setFitHeight(25);
                     tile.getChildren().add(buildingView);
-                } else if (message.equals(BuildingMessage.EXIST)){
+                } else if (message.equals(BuildingMessage.EXIST)) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setContentText("there is another building in this tile");
                     alert.show();
@@ -200,18 +246,17 @@ public class MapMenu extends Application {
 
     private void copyBuildingImage() {
         if (selectedTile != null) {
-            if (hasSameBuilding()){
-                if (selectedTile.get(0).getBuildingImage() != null){
+            if (hasSameBuilding()) {
+                if (selectedTile.get(0).getBuildingImage() != null) {
                     String image = selectedTile.get(0).getBuildingImage();
                     Clipboard clipboard = Clipboard.getSystemClipboard();
                     ClipboardContent content = new ClipboardContent();
                     content.putString(image);
                     clipboard.setContent(content);
                 }
-            }
-            else {
+            } else {
                 System.out.println("there are different building in selected tiles");
-                Alert alert =  new Alert(Alert.AlertType.INFORMATION);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setContentText("different building and you can't copy");
                 alert.showAndWait();
             }
@@ -222,7 +267,7 @@ public class MapMenu extends Application {
         String buildingName = "";
         if (selectedTile.size() == 1)
             return true;
-        for (Tile tile : selectedTile){
+        for (Tile tile : selectedTile) {
             if (buildingName == null)
                 buildingName = tile.getBuildingImage();
             else {
@@ -526,9 +571,9 @@ public class MapMenu extends Application {
                             alert.showAndWait();
                         } else {
                             moveAnimation1.play();
-                            HBox hBox1=new HBox();
+                            HBox hBox1 = new HBox();
                             hBox1.setStyle("-fx-background-color: #DCDC91B6");
-                            Label label1=new Label(GameControl.currentUnits.get(0).getUnitsName().getName()+"   is attacking");
+                            Label label1 = new Label(GameControl.currentUnits.get(0).getUnitsName().getName() + "   is attacking");
                             hBox1.getChildren().add(label1);
                             attackPopup.getContent().add(hBox1);
                             attackPopup.show(mapStage);
@@ -574,13 +619,17 @@ public class MapMenu extends Application {
         }
     }
 
-//    private void updateGovernment(){
+    //    private void updateGovernment(){
 //        popularity.setText(String.valueOf(Game.getTurnedUserForGame().getUserGovernment().getPopularity()));
 //        wealth.setText(String.valueOf(Game.getTurnedUserForGame().getUserGovernment().getWealth()));
 //        population.setText(String.valueOf(Game.getTurnedUserForGame().getUserGovernment().getPopulation() + "/"
 //                + Game.getTurnedUserForGame().getUserGovernment().getPopulationCapacity()));
 //    }
     private void initBuilding(HBox building) {
+        Button nextTurn = new Button("Next");
+        building.getChildren().add(nextTurn);
+        Tooltip tooltip1 = new Tooltip("Next Turn");
+        Tooltip.install(nextTurn, tooltip1);
         for (Image image : BuildingImages.getMilitaryBuilding().keySet()) {
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(80);
@@ -589,6 +638,58 @@ public class MapMenu extends Application {
             Tooltip tooltip = new Tooltip(BuildingImages.getMilitaryBuilding().get(image));
             Tooltip.install(imageView, tooltip);
             building.getChildren().add(imageView);
+        }
+        nextTurn.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                System.out.println("Salam");
+                goNextTurn();
+            }
+        });
+    }
+
+    private void goNextTurn() {
+        counterTurns++;
+        changePopularityForSick();
+        if (counterTurns % 6 == 0 || counterTurns % 11 == 0 || counterTurns % 13 == 0) {
+            ArrayList<Tile> sickTiles = new ArrayList<>();
+            int x = Game.getTurnedUserForGame().getUserGovernment().getXLeft() / 2;
+            int y = Game.getTurnedUserForGame().getUserGovernment().getYDown() / 2;
+            sickTiles.add(Game.getMapInGame().getMap()[y][x]);
+            sickTiles.add(Game.getMapInGame().getMap()[y + 1][x]);
+            sickTiles.add(Game.getMapInGame().getMap()[y][x + 1]);
+            sickTiles.add(Game.getMapInGame().getMap()[y + 1][x + 1]);
+            HBox sickInformationHBox = new HBox();
+            sickInformationHBox.setStyle("-fx-border-color: #B90000ED");
+            Label sickLabel = new Label("Sickness for User:  " + Game.getTurnedUserForGame().getUsername());
+            sickInformationHBox.getChildren().add(sickLabel);
+            sickness.getContent().add(sickInformationHBox);
+            sickness.show(mapStage);
+            for (Tile tile : sickTiles) {
+                Rectangle rectangle=new Rectangle(60,60);
+                tile.setSickImage(rectangle);
+                rectangle.setFill(new ImagePattern(new Image(StartGame.class.getResource("/images/SickIcon.png").toExternalForm())));
+                tile.getChildren().add(rectangle);
+            //    System.out.println("1111");
+                tile.setHasSick(true);
+            }
+
+        }
+    }
+
+    private void changePopularityForSick() {
+        int flag=0;
+        for (int i=0;i<100;i++){
+            for (int j=0;j<100;j++){
+                if(Game.getMapInGame().getMap()[j][i].getGovernment().getUser().equals(Game.getTurnedUserForGame())){
+                    if(Game.getMapInGame().getMap()[j][i].isHasSick()) {
+                        flag = 1;
+                    }
+                }
+            }
+        }
+        if(flag==1){
+            Game.getTurnedUserForGame().getUserGovernment().setPopularity(Game.getTurnedUserForGame().getUserGovernment().getPopularity()-1);
         }
     }
 
@@ -673,7 +774,7 @@ public class MapMenu extends Application {
         }
     }
 
-    private GridPane  createTileMap() {
+    private GridPane createTileMap() {
         GridPane gridPane = new GridPane();
         tiles = Game.getMapInGame().getMap();
         for (int i = 0; i < 100; i++) {
@@ -688,10 +789,10 @@ public class MapMenu extends Application {
                 if (tile.getBuilding() != null) {
                     System.out.println(tile.getBuilding().getName());
                     System.out.println(tile.getXOfTile() + "    " + tile.getYOfTile());
-                        ImageView buildingView = new ImageView(BuildingImages.getImageByName(tile.getBuilding().getName()));
-                        buildingView.setFitWidth(25);
-                        buildingView.setFitHeight(25);
-                        tile.getChildren().add(buildingView);
+                    ImageView buildingView = new ImageView(BuildingImages.getImageByName(tile.getBuilding().getName()));
+                    buildingView.setFitWidth(25);
+                    buildingView.setFitHeight(25);
+                    tile.getChildren().add(buildingView);
                 }
                 dragEntered(tile);
                 dragExited(tile);
@@ -732,9 +833,9 @@ public class MapMenu extends Application {
                 if (db.hasString()) {
                     String url = db.getString();
 //                    Image image = db.getImage();
-                    if ( (buildingName = BuildingImages.getNameOfBuildingByImage(url)) != null) {
+                    if ((buildingName = BuildingImages.getNameOfBuildingByImage(url)) != null) {
                         System.out.println(buildingName);
-                        message = BuildingControl.dropBuilding(tile,buildingName);
+                        message = BuildingControl.dropBuilding(tile, buildingName);
                         if (message.equals(BuildingMessage.SUCCESS)) {
                             Image image = new Image(url);
                             tile.setBuildingImage(url);
@@ -744,7 +845,7 @@ public class MapMenu extends Application {
                             tile.getChildren().add(buildingView);
 //                        updateGovernment();
                             success = true;
-                        } else if (message.equals(BuildingMessage.EXIST)){
+                        } else if (message.equals(BuildingMessage.EXIST)) {
                             Alert alert = new Alert(Alert.AlertType.ERROR);
                             alert.setContentText("there is another building in this tile");
                             alert.show();

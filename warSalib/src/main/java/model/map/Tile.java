@@ -62,6 +62,11 @@ public class Tile extends StackPane {
         return hasTunnel;
     }
 
+    private boolean hasSick;
+
+    private Rectangle sickImage;
+
+
     public Tile() {
         this.type = Type.GROUND;
         peopleOnTile = new ArrayList<>();
@@ -223,5 +228,21 @@ public class Tile extends StackPane {
 
     public void setYOfTile(int yOfTile) {
         this.yOfTile = yOfTile;
+    }
+
+    public boolean isHasSick() {
+        return hasSick;
+    }
+
+    public void setHasSick(boolean hasSick) {
+        this.hasSick = hasSick;
+    }
+
+    public Rectangle getSickImage() {
+        return sickImage;
+    }
+
+    public void setSickImage(Rectangle sickImage) {
+        this.sickImage = sickImage;
     }
 }
