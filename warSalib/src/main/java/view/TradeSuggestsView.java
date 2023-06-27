@@ -31,10 +31,8 @@ public class TradeSuggestsView extends Application {
         Pane pane = FXMLLoader.load(getClass().getResource("/fxml/tradeList.fxml"));
         userTrades = (VBox) pane.lookup("#userTrades");
         gameTrades = (VBox) pane.lookup("#gameTrades");
-        //usertrades contains the output of tradehistory
         LinkedHashMap<User, HashMap<Resource, Integer>> history = Game.getTurnedUserForGame().getUserGovernment().getTradeHistory();
         LinkedHashMap<Government, HashMap<Resource, Integer>> trades = TradeMenu.tradeList;
-        //render a row for each trade in history
         for (User user : history.keySet()) {
             for (Resource resource : history.get(user).keySet()) {
                 userTrades.getChildren().add(new Label(user.getNickname() + " traded " + history.get(user).get(resource) + " " + resource.getName()));
