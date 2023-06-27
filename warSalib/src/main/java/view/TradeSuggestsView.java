@@ -50,7 +50,7 @@ public class TradeSuggestsView extends Application {
                     TradeControl.acceptTrade(government.getUser().getUsername(), resource.getName());
                     tempButton.setDisable(true);
                 });
-                gameTrades.getChildren().add(new Label(government.getUser().getNickname() + " traded " + trades.get(government).get(resource) + " " + resource.getName()));
+                gameTrades.getChildren().add(temp);
             }
         }
 
