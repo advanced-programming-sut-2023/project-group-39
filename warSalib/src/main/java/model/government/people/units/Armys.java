@@ -1,6 +1,9 @@
 package model.government.people.units;
 
+import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
 import model.user.User;
+import view.StartGame;
 
 import java.util.ArrayList;
 
@@ -24,6 +27,7 @@ public class Armys extends Units {
         else if(unitsName.getName().equals("assassin")){
             specialWorks.add(SpecialWorks.INVISIBILITY);
             specialWorks.add(SpecialWorks.CANCLIMBLADDER);
+
         }
     }
 

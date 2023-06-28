@@ -22,6 +22,7 @@ public class Market extends Building{
         resources.put(Resource.WOOD, 100);
         resources.put(Resource.ARCHER, 20);
         resources.put(Resource.ARMOUR, 10);
+        resources.put(Resource.SPEAR, 40);
     }
     public static Market makeMarketByName(String name, int x , int y, Government government, int flag) {
         if (name.equals("market")) {

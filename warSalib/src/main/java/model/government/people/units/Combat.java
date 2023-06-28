@@ -1,8 +1,11 @@
 package model.government.people.units;
 
+import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
 import model.government.resource.Resource;
 import model.user.User;
 import model.wartool.wartoolenum;
+import view.StartGame;
 
 public class Combat extends Units{
     //  private wartoolenum wartool;

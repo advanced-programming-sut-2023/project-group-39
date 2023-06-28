@@ -31,54 +31,54 @@ public class StoreMenu {
         System.out.println(StoreControl.showPriceList());
     }
     private static void buyFromStore(Matcher matcher) {
-        int amount = Integer.parseInt(matcher.group("amount"));
-        String item = getItemWithoutDoubleQuotation(matcher.group("item"));
-        StoreMenuMessage message = StoreControl.buyFromStore(item, amount);
-        switch (message) {
-            case WRONG_ITEM:
-                System.out.println("you enter wrong item");
-                break;
-            case WRONG_AMOUNT:
-                System.out.println("you enter wrong amount");
-                break;
-            case DONT_HAVE_BUDGET:
-                System.out.println("your budget is less than price of items");
-                break;
-            case NOT_ENOUGH_PLACE:
-                System.out.println("yod don't have any place to hold it");
-                break;
-            case SUCCESS:
-                System.out.println("buy successfully");
-                break;
-            default:
-                System.out.println("invalid");
-                break;
-        }
+//        int amount = Integer.parseInt(matcher.group("amount"));
+//        String item = getItemWithoutDoubleQuotation(matcher.group("item"));
+//        StoreMenuMessage message = StoreControl.buyFromStore(item, amount);
+//        switch (message) {
+//            case WRONG_ITEM:
+//                System.out.println("you enter wrong item");
+//                break;
+//            case WRONG_AMOUNT:
+//                System.out.println("you enter wrong amount");
+//                break;
+//            case DONT_HAVE_BUDGET:
+//                System.out.println("your budget is less than price of items");
+//                break;
+//            case NOT_ENOUGH_PLACE:
+//                System.out.println("yod don't have any place to hold it");
+//                break;
+//            case SUCCESS:
+//                System.out.println("buy successfully");
+//                break;
+//            default:
+//                System.out.println("invalid");
+//                break;
+//        }
     }
     private static void sellFromStore(Matcher matcher) {
-        int amount = Integer.parseInt(matcher.group("amount"));
-        String item = getItemWithoutDoubleQuotation(matcher.group("item"));
-        StoreMenuMessage message = StoreControl.sellFromStore(item, amount);
-        switch (message) {
-            case WRONG_ITEM:
-                System.out.println("you enter wrong item");
-                break;
-            case WRONG_AMOUNT:
-                System.out.println("you enter wrong amount");
-                break;
-            case DONT_HAVE_BUDGET:
-                System.out.println("buyer dosen't  have enough money");
-                break;
-            case NOT_ENOUGH_RESOURCE:
-                System.out.println("not enough resources");
-                break;
-            case SUCCESS:
-                System.out.println("sell successfully");
-                break;
-            default:
-                System.out.println("invalid");
-                break;
-        }
+//        int amount = Integer.parseInt(matcher.group("amount"));
+//        String item = getItemWithoutDoubleQuotation(matcher.group("item"));
+//        StoreMenuMessage message = StoreControl.sellFromStore(item, amount);
+//        switch (message) {
+//            case WRONG_ITEM:
+//                System.out.println("you enter wrong item");
+//                break;
+//            case WRONG_AMOUNT:
+//                System.out.println("you enter wrong amount");
+//                break;
+//            case DONT_HAVE_BUDGET:
+//                System.out.println("buyer dosen't  have enough money");
+//                break;
+//            case NOT_ENOUGH_RESOURCE:
+//                System.out.println("not enough resources");
+//                break;
+//            case SUCCESS:
+//                System.out.println("sell successfully");
+//                break;
+//            default:
+//                System.out.println("invalid");
+//                break;
+//        }
     }
 
     private static String getItemWithoutDoubleQuotation(String item) {

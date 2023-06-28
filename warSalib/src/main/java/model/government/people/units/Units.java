@@ -1,11 +1,17 @@
 package model.government.people.units;
 
+import control.MapControl;
+import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import model.Game;
 import model.government.people.People;
 import model.government.people.workingpersons.JobsName;
 import model.user.User;
 import model.wartool.wartoolenum;
+import view.StartGame;
 
-public class Units extends People {
+public class Units extends People  {
     protected UnitsName unitsName;
     protected int hitPoint;
     protected boolean hasHorse;
@@ -24,6 +30,8 @@ public class Units extends People {
 
     public Units(int xLocation, int yLocation, UnitsName unitsName, User ownerPerson) {
         this.jobsName = null;
+        this.setHeight(40);
+        this.setWidth(40);
         this.unitsName = unitsName;
         this.xLocation = xLocation;
         this.yLocation = yLocation;
@@ -38,6 +46,15 @@ public class Units extends People {
         this.patrolToY=-1;
         this.toGoX=xLocation;
         this.toGoY=yLocation;
+        Game.getMapInGame().getMap()[xLocation][yLocation].getChildren().add(this);
+        Game.getMapInGame().getMap()[xLocation][yLocation].getPeopleOnTile().add(this);
+        String details= MapControl.showDetails(yLocation,xLocation);
+        Game.getMapInGame().getMap()[yLocation][xLocation].getTooltip().setText(details);
+        String imagePath=unitsName.getName()+1;
+        String path="/images/Units/"+imagePath+".png";
+       // System.out.println(path);
+     ImagePattern humanImage=new ImagePattern(new Image(StartGame.class.getResource(path).toExternalForm()));
+        this.setFill(humanImage);
     }
 
 
@@ -56,6 +73,7 @@ public class Units extends People {
     public static Units makeUnit(int x, int y, UnitsName unitsName, User user) {
         if (unitsName.getUnitsType().equals(UnitsType.ARCHER)) {
             Archers archers = new Archers(x, y, unitsName, user);
+
             return archers;
         } else if (unitsName.getUnitsType().equals(UnitsType.ARMY)) {
             Armys armys = new Armys(x, y, unitsName, user);

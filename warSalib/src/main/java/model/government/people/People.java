@@ -1,9 +1,14 @@
 package model.government.people;
 
+import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Rectangle;
+import model.Game;
 import model.government.people.workingpersons.JobsName;
 import model.user.User;
+import view.StartGame;
 
-public class People {
+public class People extends Rectangle {
     protected int xLocation;
     protected int yLocation;
     protected JobsName jobsName;
@@ -22,6 +27,11 @@ public class People {
         this.ownerPerson=ownerPerson;
         this.toGoX=xLocation;
         this.toGoY=yLocation;
+        this.setHeight(25);
+        this.setWidth(25);
+        ImagePattern humanImage=new ImagePattern(new Image(StartGame.class.getResource("/images/workerDown.png").toExternalForm()));
+        this.setFill(humanImage);
+        Game.getMapInGame().getMap()[yLocation][xLocation].getChildren().add(this);
     }
 
     public People() {

@@ -19,8 +19,8 @@ public class BuildingMenu {
             } else if (input.matches("^\\s*back\\s*$")) {
                 System.out.println("back to game menu");
                 break;
-            } else if ((matcher = BuildingCommands.getMatcher(input, BuildingCommands.DROP_BUILDING)) != null) {
-                dropBuilding(matcher);
+//            } else if ((matcher = BuildingCommands.getMatcher(input, BuildingCommands.DROP_BUILDING)) != null) {
+//                dropBuilding(matcher);
             } else if ((matcher = BuildingCommands.getMatcher(input, BuildingCommands.SELECT_BUILDING)) != null) {
                 selectBuilding(matcher, scanner);
             } else if ((matcher = BuildingCommands.getMatcher(input, BuildingCommands.CREATE_UNIT)) != null) {
@@ -33,38 +33,38 @@ public class BuildingMenu {
         }
     }
 
-    private static void dropBuilding(Matcher matcher) {
-        int x = Integer.parseInt(matcher.group("x"));
-        int y = Integer.parseInt(matcher.group("y"));
-        String type = matcher.group("type");
-        if (type.startsWith("\"")) {
-            type = type.substring(1, type.length() - 1);
-        }
-        BuildingMessage message = BuildingControl.dropBuilding(x, y, type);
-       switch (message) {
-            case WRONG_AMOUNT:
-                System.out.println("you enter wrong amount of x and y");
-                break;
-            case BAD_GROUND:
-                System.out.println("you can't build this building in this ground");
-                break;
-            case EXIST:
-                System.out.println("has building in this tile");
-                break;
-           case WRONG_TYPE:
-               System.out.println("you enter wrong type");
-               break;
-           case NOT_ENOUGH_SOURCE:
-               System.out.println("not enough resource");
-               break;
-            case SUCCESS:
-                System.out.println("you drop it successfully");
-                break;
-            default:
-                System.out.println("invalid!!?");
-                break;
-        }
-    }
+//    private static void dropBuilding(Matcher matcher) {
+//        int x = Integer.parseInt(matcher.group("x"));
+//        int y = Integer.parseInt(matcher.group("y"));
+//        String type = matcher.group("type");
+//        if (type.startsWith("\"")) {
+//            type = type.substring(1, type.length() - 1);
+//        }
+//        BuildingMessage message = BuildingControl.dropBuilding(x, y, type);
+//       switch (message) {
+//            case WRONG_AMOUNT:
+//                System.out.println("you enter wrong amount of x and y");
+//                break;
+//            case BAD_GROUND:
+//                System.out.println("you can't build this building in this ground");
+//                break;
+//            case EXIST:
+//                System.out.println("has building in this tile");
+//                break;
+//           case WRONG_TYPE:
+//               System.out.println("you enter wrong type");
+//               break;
+//           case NOT_ENOUGH_SOURCE:
+//               System.out.println("not enough resource");
+//               break;
+//            case SUCCESS:
+//                System.out.println("you drop it successfully");
+//                break;
+//            default:
+//                System.out.println("invalid!!?");
+//                break;
+//        }
+//    }
 
     private static void changeTaxRate (Matcher matcher) {
         int taxRate = Integer.parseInt(matcher.group("rate"));
@@ -89,39 +89,38 @@ public class BuildingMenu {
     }
 
     private static void selectBuilding(Matcher matcher, Scanner scanner) {
-        int x = Integer.parseInt(matcher.group("x"));
-        int y = Integer.parseInt(matcher.group("y"));
-        BuildingMessage message = BuildingControl.selectBuilding(x, y);
-        switch (message) {
-            case WRONG_AMOUNT:
-                System.out.println("you enter wrong amount of x and y");
-                break;
-            case NOT_EXIST:
-                System.out.println("not exist any building in this tile");
-                break;
-            case NOT_BELONG_TO_YOU:
-                System.out.println("this tile not belong to you!");
-                break;
-            case SELECT_MARKET:
-                System.out.println("you enter shop Menu");
-                StoreMenu.run(scanner);
-                break;
-            case SUCCESS:
-                System.out.println("select successfully");
-                break;
-            default:
-                System.out.println("invalid!!?");
-                break;
-        }
+//        int x = Integer.parseInt(matcher.group("x"));
+//        int y = Integer.parseInt(matcher.group("y"));
+//        BuildingMessage message = BuildingControl.selectBuilding(x, y);
+//        switch (message) {
+//            case WRONG_AMOUNT:
+//                System.out.println("you enter wrong amount of x and y");
+//                break;
+//            case NOT_EXIST:
+//                System.out.println("not exist any building in this tile");
+//                break;
+//            case NOT_BELONG_TO_YOU:
+//                System.out.println("this tile not belong to you!");
+//                break;
+//            case SELECT_MARKET:
+//                System.out.println("you enter shop Menu");
+//                StoreMenu.run(scanner);
+//                break;
+//            case SUCCESS:
+//                System.out.println("select successfully");
+//                break;
+//            default:
+//                System.out.println("invalid!!?");
+//                break;
+//        }
     }
 
     private static void createUnit(Matcher matcher) {
-        int count = Integer.parseInt(matcher.group("count"));
         String type = matcher.group("type");
         if (type.startsWith("\"")) {
             type = type.substring(1, type.length() - 1);
         }
-        BuildingMessage message = BuildingControl.createUnit(type, count);
+        BuildingMessage message = BuildingControl.createUnit(type);
         switch (message) {
             case NOT_ENOUGH_SOURCE:
                 System.out.println("you don't have enough sources to create unit");

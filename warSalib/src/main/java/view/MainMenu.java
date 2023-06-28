@@ -86,15 +86,16 @@ public class MainMenu {
         }
     }
 
-    private static void createInitialPeople(Government government,int x) {
+    public static void createInitialPeople(Government government,int x) {
         for (int i=0;i<x;i++) {
             People people = new People(government.getXLeft() , government.getYDown() ,
                     JobsName.UNEMPLOYED, government.getUser());
             government.addToPeople(people);
             government.addToUnworkedPeople(people);
             government.setPopulation(government.getPopulation()+1);
+            Game.getMapInGame().getMap()[government.getYDown()][government.getXLeft()].getPeopleOnTile().add(people);
         }
-        System.out.println("is  "+government.getPeople().size());
+     //   System.out.println("is  "+government.getPeople().size());
 
     }
 

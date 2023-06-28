@@ -14,12 +14,16 @@ public class GameMap {
     private Tile [][] map;
 
     public GameMap() {
-        this.map = new Tile[200][200];
-        for (int i = 0 ; i<200 ; i++) {
-            for (int j = 0; j<200; j++) {
+        this.map = new Tile[100][100];
+        for (int i = 0 ; i<100 ; i++) {
+            for (int j = 0; j<100; j++) {
                 this.map[i][j] = new Tile();
-                if (i < 50)
-                    map[i][j].setType(Type.GRASS);
+                this.map[i][j].setXOfTile(i);
+                this.map[i][j].setYOfTile(j);
+                if (i < 50 && i > 5)
+                    map[i][j].setType(Type.IRON_GROUND);
+                if (i <= 5)
+                    map[i][j].setType(Type.SEA);
             }
         }
         Game.setMapInGame(this);
@@ -37,51 +41,51 @@ public class GameMap {
         int colDown = 0;
         if (a == 0) {
             rowDown = 0;
-            colDown = 150;
+            colDown = 75;
 
         }
         else if (a == 1) {
-            rowDown = 100;
-            colDown = 50;
+            rowDown = 50;
+            colDown = 25;
         }
         else if (a == 2) {
             rowDown = 0;
             colDown = 50;
         }
         else if (a == 3) {
-            rowDown = 100;
-            colDown = 150;
+            rowDown = 50;
+            colDown = 75;
         }
         else if (a == 4) {
-            rowDown = 150;
-            colDown = 0;
+            rowDown = 0;
+            colDown = 25;
         }
         else if (a == 5) {
-            rowDown = 50;
-            colDown = 100;
+            rowDown = 75;
+            colDown = 50;
         }
         else if (a == 6) {
-            rowDown = 50;
+            rowDown = 25;
             colDown = 0;
         }
         else if (a == 7) {
-            rowDown = 150;
-            colDown = 100;
+            rowDown = 75;
+            colDown = 0;
         }
         government.setYDown(colDown);
         government.setXLeft(rowDown);
-        for (int j = colDown; j < colDown + 50; j++) {
-            for (int i = rowDown; i< rowDown + 50; i++) {
+        for (int j = colDown; j < colDown + 25; j++) {
+            for (int i = rowDown; i< rowDown + 25; i++) {
                 map[j][i].setGovernment(government);
-                if(i == rowDown + 24 && j == colDown + 24) {
+                if(i == rowDown + 12 && j == colDown + 12) {
                     Keep keep = new Keep(i, j, government, "keep");
-                    map[j][i].setBuilding(keep);
                     government.addBuilding(keep);
                 }
-                if (i == rowDown + 24 && j == colDown + 25) {
+                if (i == rowDown + 12 && j == colDown + 13) {
                     Building stockPile = Building.makeBuildingByName("stock pile", i, j, government, 1);
                     map[i][j].setGovernment(government);
                     government.addBuilding(stockPile);
+                    government.addStockPile((StockPileBuilding) stockPile);
                 }
             }
         }

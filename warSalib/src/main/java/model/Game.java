@@ -1,9 +1,13 @@
 package model;
 
+import javafx.scene.image.Image;
 import model.government.Government;
 import model.government.building.Building;
+import model.government.resource.Resource;
 import model.map.GameMap;
 import model.user.User;
+import model.user.copyUser;
+import view.MapMenu;
 import view.enums.commands.BuildingCommands;
 
 import java.util.ArrayList;
@@ -19,10 +23,16 @@ public class Game {
     private static int tileSize = 40;
 
     private static User GameStarter;
+
+    private static Resource resourceInMarket;
+    private static Image resourceMarket;
     private static Building selectedBuilding;
+    private static MapMenu mapMenu;
     private static ArrayList<Government> governments = new ArrayList<>();
     //how many player plays in game
     private static ArrayList <User> players = new ArrayList<>();
+
+    private static ArrayList<copyUser> copyUserArrayList=new ArrayList<>();
 
     public static ArrayList<Government> getGovernments() {
         return governments;
@@ -95,5 +105,36 @@ public class Game {
 
     public static void setTileSize(int tileSize) {
         Game.tileSize = tileSize;
+    }
+    public static ArrayList<copyUser> getCopyUserArrayList() {
+        return copyUserArrayList;
+    }
+
+    public static MapMenu getMapMenu() {
+        return mapMenu;
+    }
+
+    public static Resource getResourceInMarket() {
+        return resourceInMarket;
+    }
+
+    public static void setResourceInMarket(Resource resourceInMarket) {
+        Game.resourceInMarket = resourceInMarket;
+    }
+
+    public static void setMapMenu(MapMenu mapMenu) {
+        Game.mapMenu = mapMenu;
+    }
+
+    public static void setCopyUserArrayList(ArrayList<copyUser> copyUserArrayList) {
+        Game.copyUserArrayList = copyUserArrayList;
+    }
+
+    public static Image getResourceMarket() {
+        return resourceMarket;
+    }
+
+    public static void setResourceMarket(Image resourceMarket) {
+        Game.resourceMarket = resourceMarket;
     }
 }

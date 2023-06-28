@@ -1,8 +1,10 @@
 package model.government.people.units;
 
+import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
 import model.government.resource.Resource;
 import model.user.User;
-import model.wartool.wartoolenum;
+import view.StartGame;
 
 import java.util.ArrayList;
 
@@ -47,6 +49,7 @@ public class Archers extends Units{
             this.wartool= Resource.STONE;
             this.arrowInMove=false;
             this.hasHorse=false;
+
         }
         else if(unitsName.getName().equals("horsearchers")){
             this.precision=60;

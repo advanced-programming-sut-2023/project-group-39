@@ -1,7 +1,9 @@
 package model.map;
 
+import javafx.geometry.Insets;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.ImagePattern;
 import model.Game;
 import model.government.Government;
@@ -20,7 +22,10 @@ import javafx.scene.shape.Rectangle;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Tile extends Rectangle {
+public class Tile extends StackPane {
+
+    private int xOfTile;
+    private int yOfTile;
     private Type type;
     private Rock rock;
 
@@ -29,6 +34,8 @@ public class Tile extends Rectangle {
     private Government government;
     private Tree tree;
     private Building building;
+
+    private String BuildingImage;
     private ArrayList <People> peopleOnTile;
     private Resource resource;
 
@@ -40,6 +47,8 @@ public class Tile extends Rectangle {
     private boolean hasStair;
 
     private boolean hasOilTale;
+
+    private Tooltip tooltip;
 
     private ArrayList<CataPult> cataPults=new ArrayList<>();
 
@@ -57,14 +66,17 @@ public class Tile extends Rectangle {
         this.type = Type.GROUND;
         peopleOnTile = new ArrayList<>();
         this.hasTunnel=false;
+        this.tooltip=new Tooltip();
         cataPults=new ArrayList<>();
         batteringRams=new ArrayList<>();
         fieryStoneThrowers=new ArrayList<>();
         fixedCatapults=new ArrayList<>();
         image = this.type.getImage();
-        this.setFill(new ImagePattern(image));
-        this.setWidth(Game.getTileSize());
-        this.setHeight(Game.getTileSize());
+        BackgroundFill backgroundFill = new BackgroundFill(new ImagePattern(image), CornerRadii.EMPTY, Insets.EMPTY);
+        Background background = new Background(backgroundFill);
+        this.setBackground(background);
+        this.setMinWidth(Game.getTileSize());
+        this.setMinHeight(Game.getTileSize());
     }
 
     public Type getType() {
@@ -110,7 +122,9 @@ public class Tile extends Rectangle {
     public void setType(Type type) {
         this.type = type;
         image = type.getImage();
-        this.setFill(new ImagePattern(image));
+        BackgroundFill backgroundFill = new BackgroundFill(new ImagePattern(image), CornerRadii.EMPTY, Insets.EMPTY);
+        Background background = new Background(backgroundFill);
+        this.setBackground(background);
     }
 
     public void setRock(Rock rock) {
@@ -181,5 +195,33 @@ public class Tile extends Rectangle {
 
     public void setImage(Image image) {
         this.image = image;
+    }
+
+    public Tooltip getTooltip() {
+        return tooltip;
+    }
+
+    public String getBuildingImage() {
+        return BuildingImage;
+    }
+
+    public void setBuildingImage(String buildingImage) {
+        BuildingImage = buildingImage;
+    }
+
+    public int getXOfTile() {
+        return xOfTile;
+    }
+
+    public void setXOfTile(int xOfTile) {
+        this.xOfTile = xOfTile;
+    }
+
+    public int getYOfTile() {
+        return yOfTile;
+    }
+
+    public void setYOfTile(int yOfTile) {
+        this.yOfTile = yOfTile;
     }
 }
