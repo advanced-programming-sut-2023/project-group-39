@@ -179,7 +179,7 @@ public class moveAnimation  extends Transition {
             this.message="wrong amount";
             return 0;
         }
-        if (!Game.getMapInGame().getMap()[y][x].getType().getPermeability()) {
+        if (!Game.getMapInGame().getMap()[x][y].getType().getPermeability()) {
             this.message="can't permeability";
             return 0;
 

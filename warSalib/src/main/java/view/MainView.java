@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -29,6 +30,7 @@ public class MainView extends Application {
     public Pane mainPane;
 
     public Stage mainStage;
+    public static int tunrsofGame;
 
 
     @Override
@@ -47,8 +49,17 @@ public class MainView extends Application {
     }
 
     public void StartNewGame(MouseEvent mouseEvent) {
+        Game.getPlayersInGame().clear();
         ArrayList<Label> labels=new ArrayList<>();
         ArrayList<TextField> players=new ArrayList<>();
+        Label GameTurns=new Label("Turns:   ");
+        TextField gameTurns=new TextField();
+        gameTurns.setPromptText("Turns of Game:");
+        GameTurns.setLayoutX(120);
+        GameTurns.setLayoutY(20);
+        gameTurns.setLayoutX(200);
+        gameTurns.setLayoutY(20);
+        mainPane.getChildren().addAll(GameTurns,gameTurns);
         for (int i=2;i<9;i++){
             Label label=new Label("Player  "+ i);
             label.setLayoutX(120);
@@ -71,8 +82,9 @@ public class MainView extends Application {
         start.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                turns(gameTurns);
                 checkPlayers(players);
-                if(Game.getPlayersInGame().size()!=0){
+                if(Game.getPlayersInGame().size()!=0&&tunrsofGame>0){
                     Game.getPlayersInGame().add(Game.getCurrentUser());
                     Government governmentOfCurrentUser = new Government(0 , 30, Game.getCurrentUser());
                     Game.getCurrentUser().setUserGovernment(governmentOfCurrentUser);
@@ -84,6 +96,7 @@ public class MainView extends Application {
                     MapMenu mapMenu=new MapMenu();
                     Game.setMapMenu(mapMenu);
                     try {
+                        MapMenu.counterTurns=0;
                         mapMenu.start(StartGame.stage);
                     } catch (Exception e) {
                         throw new RuntimeException(e);
@@ -92,6 +105,17 @@ public class MainView extends Application {
                 }
             }
         });
+    }
+
+    private void turns(TextField gameTurns) {
+        if(gameTurns==null||gameTurns.getText().equals("")){
+            Alert alert=new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("please complete number of turns");
+            alert.showAndWait();
+        }
+        else {
+            tunrsofGame= Integer.parseInt(gameTurns.getText());
+        }
     }
 
     private void checkPlayers(ArrayList<TextField> players) {

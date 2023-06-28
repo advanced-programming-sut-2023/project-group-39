@@ -66,6 +66,10 @@ public class Tile extends StackPane {
 
     private Rectangle sickImage;
 
+    private Rectangle fireImage;
+
+    private Government sickTileGovernment;
+
 
     public Tile() {
         this.type = Type.GROUND;
@@ -244,5 +248,21 @@ public class Tile extends StackPane {
 
     public void setSickImage(Rectangle sickImage) {
         this.sickImage = sickImage;
+    }
+
+    public Rectangle getFireImage() {
+        return fireImage;
+    }
+
+    public void setFireImage(Rectangle fireImage) {
+        this.fireImage = fireImage;
+    }
+
+    public void setSickTileGovernment(Government sickTileGovernment) {
+        this.sickTileGovernment = sickTileGovernment;
+    }
+
+    public Government getSickTileGovernment() {
+        return sickTileGovernment;
     }
 }

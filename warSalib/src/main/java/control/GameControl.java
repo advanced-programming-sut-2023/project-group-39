@@ -762,7 +762,7 @@ public class GameControl {
 
     }
 
-    private static void applyRateBuilding() {
+    public static void applyRateBuilding() {
         for (Government government : Game.getGovernments()) {
             for (Building building : government.getBuildings()) {
                 if (Building.getGroupByName(building.getName()).equals(GroupOfBuilding.CONVERTED_BUILDING))

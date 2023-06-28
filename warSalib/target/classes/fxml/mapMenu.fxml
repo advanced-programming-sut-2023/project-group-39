@@ -11,7 +11,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MapMenu">
    <bottom>
-      <HBox prefHeight="117.0" prefWidth="1600.0" spacing="30.0" BorderPane.alignment="CENTER">
+      <HBox prefHeight="117.0" prefWidth="1600.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
             <ScrollPane fx:id="scroll" prefHeight="128.0" prefWidth="927.0">
                <content>

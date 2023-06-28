@@ -14,6 +14,14 @@ public class User {
 
     private String avatarImageAddress;
 
+    private String sendRequests;
+
+    private String sendDonates;
+
+    private String getRequests;
+
+    private String getDonates;
+
     private String chooseImageAddress;
     private int rank;
     private int score;
@@ -147,6 +155,38 @@ public class User {
 
     public String getChooseImageAddress() {
         return chooseImageAddress;
+    }
+
+    public String getGetDonates() {
+        return getDonates;
+    }
+
+    public String getGetRequests() {
+        return getRequests;
+    }
+
+    public void setSendRequests(String sendRequests) {
+        this.sendRequests = sendRequests;
+    }
+
+    public void setSendDonates(String sendDonates) {
+        this.sendDonates = sendDonates;
+    }
+
+    public void setGetRequests(String getRequests) {
+        this.getRequests = getRequests;
+    }
+
+    public void setGetDonates(String getDonates) {
+        this.getDonates = getDonates;
+    }
+
+    public String getSendDonates() {
+        return sendDonates;
+    }
+
+    public String getSendRequests() {
+        return sendRequests;
     }
 }
 

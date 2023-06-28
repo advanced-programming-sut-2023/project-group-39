@@ -1,5 +1,6 @@
 package view;
 
+import com.google.gson.Gson;
 import control.BuildingControl;
 import control.GameControl;
 import control.MapControl;
@@ -31,13 +32,17 @@ import model.government.people.units.*;
 import model.government.people.units.UnitButton;
 import javafx.scene.image.Image;
 import model.government.building.Building;
+import model.government.resource.Resource;
 import model.map.GameMap;
 import model.map.Tile;
+import model.user.User;
 import view.enums.commands.MapMenuCommands;
 import javafx.scene.layout.*;
 import view.enums.messages.BuildingMessage;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 
@@ -73,7 +78,7 @@ public class MapMenu extends Application {
     public static Popup attackPopup = new Popup();
 
     public static ArrayList<Units> unitToAttack = new ArrayList<>();
-    private static int counterTurns;
+    public static int counterTurns;
     private static Popup sickness = new Popup();
 
     public static void showMoveAlert() {
@@ -133,6 +138,9 @@ public class MapMenu extends Application {
                                 moveAlert.showAndWait();
                             } else if (keyEvent.getCode() == KeyCode.S) {
                                 repairSick(selectedTile);
+                            } else if (keyEvent.getCode() == KeyCode.F) {
+                                burnBuilding(selectedTile);
+
                             }
                         }
                     });
@@ -143,6 +151,58 @@ public class MapMenu extends Application {
         stage.setTitle("Scrollable Tile Map Example");
         stage.setScene(scene);
         stage.show();
+    }
+
+    private void burnBuilding(ArrayList<Tile> selectedTiles) {
+        if (selectedTiles.size() != 2) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("please choose one tile for units and one tile to attack");
+            alert.showAndWait();
+        } else {
+            Tile tileToAttack = selectedTiles.get(1);
+            if (tileToAttack.getBuilding() == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("this tile dont have any building");
+                alert.showAndWait();
+            } else {
+                Building buildingToAttack = selectedTiles.get(1).getBuilding();
+                if (buildingToAttack.getGovernment().getUser().equals(Game.getTurnedUserForGame())) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("This building is yours");
+                    alert.showAndWait();
+
+                } else {
+                    int flag = 0;
+                    Tile UnitsTile = selectedTiles.get(0);
+                    for (People people : UnitsTile.getPeopleOnTile()) {
+                        if (people instanceof Units) {
+                            if (((Units) people).getUnitsName().getName().equals("firethowers") || ((Units) people).getUnitsName().getName().equals("slaves")) {
+                                flag = 1;
+                                if (Game.getTurnedUserForGame().getUserGovernment().getResources().get(Resource.FIRECRACKER) > 0 || Game.getTurnedUserForGame().getUserGovernment().getResources().get(Resource.TORCH) > 0) {
+                                    flag = 2;
+                                }
+                            }
+                        }
+                    }
+                    if (flag == 0) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setContentText("you dont have units with ability to fire on this tile!");
+                        alert.showAndWait();
+                    } else if (flag == 1) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setContentText("you dont have any resource to burn building");
+                        alert.showAndWait();
+                    } else if (flag == 2) {
+                        buildingToAttack.setFire(true);
+                        Rectangle fireImage = new Rectangle(18, 18);
+                        fireImage.setFill(new ImagePattern(new Image(StartGame.class.getResource("/images/Fire.png").toExternalForm())));
+                        tileToAttack.getChildren().add(fireImage);
+                        buildingToAttack.setFireTurns(3);
+                    }
+
+                }
+            }
+        }
     }
 
     private void repairSick(ArrayList<Tile> selectedTiles) {
@@ -167,14 +227,13 @@ public class MapMenu extends Application {
                 }
 
             }
-            if(flag==0){
-                Alert alert=new Alert(Alert.AlertType.ERROR);
+            if (flag == 0) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("for eliminate sick you should have engineer on this tiles");
                 alert.showAndWait();
 
-            }
-            else {
-                for (Tile tile:selectedTiles){
+            } else {
+                for (Tile tile : selectedTiles) {
                     tile.setHasSick(false);
                     tile.getChildren().remove(tile.getSickImage());
                 }
@@ -639,57 +698,114 @@ public class MapMenu extends Application {
             Tooltip.install(imageView, tooltip);
             building.getChildren().add(imageView);
         }
+
         nextTurn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                System.out.println("Salam");
-                goNextTurn();
+                try {
+                    goNextTurn();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
     }
 
-    private void goNextTurn() {
-        counterTurns++;
-        changePopularityForSick();
-        if (counterTurns % 6 == 0 || counterTurns % 11 == 0 || counterTurns % 13 == 0) {
-            ArrayList<Tile> sickTiles = new ArrayList<>();
-            int x = Game.getTurnedUserForGame().getUserGovernment().getXLeft() / 2;
-            int y = Game.getTurnedUserForGame().getUserGovernment().getYDown() / 2;
-            sickTiles.add(Game.getMapInGame().getMap()[y][x]);
-            sickTiles.add(Game.getMapInGame().getMap()[y + 1][x]);
-            sickTiles.add(Game.getMapInGame().getMap()[y][x + 1]);
-            sickTiles.add(Game.getMapInGame().getMap()[y + 1][x + 1]);
-            HBox sickInformationHBox = new HBox();
-            sickInformationHBox.setStyle("-fx-border-color: #B90000ED");
-            Label sickLabel = new Label("Sickness for User:  " + Game.getTurnedUserForGame().getUsername());
-            sickInformationHBox.getChildren().add(sickLabel);
-            sickness.getContent().add(sickInformationHBox);
-            sickness.show(mapStage);
-            for (Tile tile : sickTiles) {
-                Rectangle rectangle=new Rectangle(60,60);
-                tile.setSickImage(rectangle);
-                rectangle.setFill(new ImagePattern(new Image(StartGame.class.getResource("/images/SickIcon.png").toExternalForm())));
-                tile.getChildren().add(rectangle);
-            //    System.out.println("1111");
-                tile.setHasSick(true);
-            }
+    private int goNextTurn() throws Exception {
+        if (Game.getTurnedUserForGame().equals(Game.getPlayersInGame().get(Game.getPlayersInGame().size() - 1))) {
+            Game.setTurnedUserForGame(Game.getGameStarter());
+            counterTurns++;
+            if(counterTurns==MainView.tunrsofGame) {
+                for (adam adam : adam.adams) {
+                    for (User user : Game.getPlayersInGame()) {
+                        if (adam.getUsername().equals(user.getUsername())){
+                            adam.score=user.getScore();
+                        }
 
+                    }
+                }
+                FileWriter fileWriter=new FileWriter("users.json");
+                fileWriter.write(new Gson().toJson(view.adam.adams));
+                fileWriter.close();
+                Alert alert=new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText("Game has ended");
+                alert.showAndWait();
+                MainView mainView=new MainView();
+                if(sickness.isShowing())
+                    sickness.hide();
+                mainView.start(StartGame.stage);
+            }
+            changePopularityForSick();
+            fireInBuildings();
+            GameControl.applyRateBuilding();
+            if (counterTurns % 6 == 0 || counterTurns % 11 == 0 || counterTurns % 13 == 0) {
+                ArrayList<Tile> sickTiles = new ArrayList<>();
+                int x = Game.getTurnedUserForGame().getUserGovernment().getXLeft() / 2;
+                int y = Game.getTurnedUserForGame().getUserGovernment().getYDown() / 2;
+                Game.getMapInGame().getMap()[y][x].setSickTileGovernment(Game.getTurnedUserForGame().getUserGovernment());
+                sickTiles.add(Game.getMapInGame().getMap()[y][x]);
+                Game.getMapInGame().getMap()[y+1][x].setSickTileGovernment(Game.getTurnedUserForGame().getUserGovernment());
+                sickTiles.add(Game.getMapInGame().getMap()[y + 1][x]);
+                Game.getMapInGame().getMap()[y][x+1].setSickTileGovernment(Game.getTurnedUserForGame().getUserGovernment());
+                sickTiles.add(Game.getMapInGame().getMap()[y][x + 1]);
+                Game.getMapInGame().getMap()[y+1][x+1].setSickTileGovernment(Game.getTurnedUserForGame().getUserGovernment());
+                sickTiles.add(Game.getMapInGame().getMap()[y + 1][x + 1]);
+                HBox sickInformationHBox = new HBox();
+                sickInformationHBox.setStyle("-fx-border-color: #B90000ED");
+                Label sickLabel = new Label("Sickness for User:  " + Game.getTurnedUserForGame().getUsername());
+                sickInformationHBox.getChildren().add(sickLabel);
+                sickness.getContent().add(sickInformationHBox);
+                sickness.show(mapStage);
+                for (Tile tile : sickTiles) {
+                    Rectangle rectangle = new Rectangle(60, 60);
+                    tile.setSickImage(rectangle);
+                    rectangle.setFill(new ImagePattern(new Image(StartGame.class.getResource("/images/SickIcon.png").toExternalForm())));
+                    tile.getChildren().add(rectangle);
+                    tile.setHasSick(true);
+                }
+
+            }
         }
+        else {
+            Game.setTurnedUserForGame(Game.getPlayersInGame().get(Game.getPlayersInGame().indexOf(Game.getTurnedUserForGame())+1));
+        }
+        return 1;
     }
 
-    private void changePopularityForSick() {
-        int flag=0;
-        for (int i=0;i<100;i++){
-            for (int j=0;j<100;j++){
-                if(Game.getMapInGame().getMap()[j][i].getGovernment().getUser().equals(Game.getTurnedUserForGame())){
-                    if(Game.getMapInGame().getMap()[j][i].isHasSick()) {
-                        flag = 1;
+
+    private void fireInBuildings() {
+        for (int i = 0; i < 100; i++) {
+            for (int j = 0; j < 100; j++) {
+                if (Game.getMapInGame().getMap()[j][i].getBuilding() != null) {
+                    Building building = Game.getMapInGame().getMap()[j][i].getBuilding();
+                    if (building.getFireTurns() > 0) {
+                        building.setHp(building.getHp() - 20);
+                        building.setFireTurns(building.getFireTurns() - 1);
+                        if (building.getHp() <= 0) {
+                            Game.getMapInGame().getMap()[j][i].setBuilding(null);
+                            Game.getMapInGame().getMap()[j][i].getChildren().remove(building);
+                            building.getGovernment().getBuildings().remove(building);
+                        }
+                    }
+                    if (building.getFireTurns() == 0 && building.isFire()) {
+                        Game.getMapInGame().getMap()[building.getYBuilding()][building.getXBuilding()].getChildren().remove(Game.getMapInGame().getMap()[building.getYBuilding()][building.getXBuilding()].getFireImage());
+                        building.setFire(false);
                     }
                 }
             }
         }
-        if(flag==1){
-            Game.getTurnedUserForGame().getUserGovernment().setPopularity(Game.getTurnedUserForGame().getUserGovernment().getPopularity()-1);
+    }
+
+    private void changePopularityForSick() {
+        for (int i = 0; i < 100; i++) {
+            for (int j = 0; j < 100; j++) {
+                    if (Game.getMapInGame().getMap()[j][i].isHasSick()) {
+                        Game.getMapInGame().getMap()[j][i].getSickTileGovernment().setPopularity(Game.getTurnedUserForGame().getUserGovernment().getPopularity() - 1);
+                    }
+
+            }
         }
     }
 

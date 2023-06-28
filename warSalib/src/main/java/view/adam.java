@@ -9,6 +9,14 @@ public class adam {
     public String email;
     public String avatarImageAddress;
 
+    public String sendDonates;
+
+    public String getDonates;
+
+    public String getRequests;
+
+    public String sendRequests;
+
     public String chooseImageAddress;
     public int score;
     public String slogan;
