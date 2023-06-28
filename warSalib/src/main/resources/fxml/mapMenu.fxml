@@ -41,6 +41,9 @@
                   <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="107.0" text="next turn" />
                   <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="107.0" text="briefing" />
                </children>
+               <HBox.margin>
+                  <Insets top="10.0" />
+               </HBox.margin>
             </VBox>
             <VBox prefHeight="100.0" prefWidth="428.0" spacing="15.0">
                <children>
