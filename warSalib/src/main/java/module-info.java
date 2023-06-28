@@ -14,16 +14,4 @@ module warSalib {
     exports control;
     opens model to com.google.gson;
     exports model;
-//    opens model.government to com.google.gson;
-//    exports model.government;
-//    opens model.government.people.units to com.google.gson;
-//    exports model.government.people.units;
-//    opens model.map to com.google.gson;
-//    exports model.map;
-//    opens model.wartool to com.google.gson;
-//    exports model.wartool;
-//    opens model.crops to com.google.gson;
-//    exports model.crops;
-//    opens model.animal to com.google.gson;
-//    exports model.animal;
 }
