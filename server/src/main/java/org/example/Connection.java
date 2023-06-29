@@ -27,7 +27,7 @@ public class Connection extends Thread {
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
-            if (input.equals("login")){
+            if (input.equals("loginView")){
                 try {
                     loginCommands();
                 } catch (IOException e) {
@@ -41,12 +41,7 @@ public class Connection extends Thread {
         while (true){
             input = dataInputStream.readUTF();
         if (input.equals("goMainMenu")) {
-            input = dataInputStream.readUTF();
-            String loginData[] = input.split("\\+");
-            if (loginData[0].equals("") || loginData[1].equals("")) {
-                dataOutputStream.writeUTF("fillUP");
-
-            }
+            goMainMenu();
         } else if (true) {
 
         }
