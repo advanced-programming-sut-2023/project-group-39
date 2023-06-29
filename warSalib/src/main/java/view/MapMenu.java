@@ -692,10 +692,6 @@ public class MapMenu extends Application {
 //                + Game.getTurnedUserForGame().getUserGovernment().getPopulationCapacity()));
 //    }
     private void initBuilding(HBox building) {
-        Button nextTurn = new Button("Next");
-        building.getChildren().add(nextTurn);
-        Tooltip tooltip1 = new Tooltip("Next Turn");
-        Tooltip.install(nextTurn, tooltip1);
         for (Image image : BuildingImages.getMilitaryBuilding().keySet()) {
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(80);
@@ -706,18 +702,6 @@ public class MapMenu extends Application {
             building.getChildren().add(imageView);
         }
 
-        nextTurn.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                try {
-                    goNextTurn();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
     }
 
     @FXML
@@ -932,8 +916,6 @@ public class MapMenu extends Application {
         for (Government government : Game.getGovernments()) {
             MainMenu.createInitialPeople(government, 30);
         }
-        Units.makeUnit(0, 0, UnitsName.KNIGHT, Game.getGameStarter());
-        Units.makeUnit(2, 0, UnitsName.SLINGERS, Game.getPlayersInGame().get(0));
         return gridPane;
     }
 
