@@ -120,28 +120,29 @@ public class MainView extends Application {
     }
 
     private void checkPlayers(ArrayList<TextField> players) {
-        if(players.size()==0){
+        if(players.size()==1){
             Label label=new Label("Players are empty");
             label.setLayoutX(120);
             label.setLayoutY(700);
             mainPane.getChildren().add(label);
         }
-       for (int i=2;i<9;i++){
-                if(LoginSignupControl.findUser(players.get(i-2).getText())){
-                    Game.getPlayersInGame().add(LoginSignupControl.getUserByName(players.get(i-2).getText()));
-                    Government governmentOfUser = new Government(0 , 30, Game.getPlayersInGame().get(i-2));
-                    Game.getPlayersInGame().get(i-2).setUserGovernment(governmentOfUser);
+        else {
+            for (int i = 2; i < players.size(); i++) {
+                if (LoginSignupControl.findUser(players.get(i - 2).getText())) {
+                    Game.getPlayersInGame().add(LoginSignupControl.getUserByName(players.get(i - 2).getText()));
+                    Government governmentOfUser = new Government(0, 30, Game.getPlayersInGame().get(i - 1));
+                    Game.getPlayersInGame().get(i - 1).setUserGovernment(governmentOfUser);
                     Game.addGovernment(governmentOfUser);
-                }
-                else {
-                    Label label=new Label("player doesnt find");
+                } else {
+                    Label label = new Label("player doesnt find");
                     label.setTextFill(Color.RED);
                     label.setLayoutX(360);
-                    label.setLayoutY(20+40*i);
+                    label.setLayoutY(20 + 40 * i);
                     mainPane.getChildren().add(label);
 
                 }
 
+            }
         }
     }
 
