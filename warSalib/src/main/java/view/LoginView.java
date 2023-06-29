@@ -22,7 +22,10 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.Socket;
 
 public class LoginView extends Application {
     public static Stage loginStage;
@@ -32,6 +35,15 @@ public class LoginView extends Application {
 
     public static String path;
     public TextField loginCaptcha;
+    final DataInputStream dataInputStream;
+    final DataOutputStream dataOutputStream;
+
+    public LoginView(String ip, int port) throws IOException{
+        System.out.println("Starting Client service...");
+        Socket socket = new Socket(ip, port);
+        dataInputStream = new DataInputStream(socket.getInputStream());
+        dataOutputStream = new DataOutputStream(socket.getOutputStream());
+    }
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -155,13 +167,13 @@ public class LoginView extends Application {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("username not found");
                 alert.showAndWait();
-                LoginView loginView = new LoginView();
+                LoginView loginView = new LoginView("localhost",8080);
                 loginView.start(StartGame.stage);
             } else if (result.equals("password is incorrect")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("password is incorrect");
                 alert.showAndWait();
-                LoginView loginView = new LoginView();
+                LoginView loginView = new LoginView("localhost", 8080);
                 loginView.start(StartGame.stage);
 
             }

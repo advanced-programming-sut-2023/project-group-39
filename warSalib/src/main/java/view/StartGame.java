@@ -82,7 +82,7 @@ public class StartGame extends Application {
     }
 
     public void goLoginView(MouseEvent mouseEvent) throws Exception {
-        LoginView loginView=new LoginView();
+        LoginView loginView=new LoginView("localhost", 8080);
         loginView.start(stage);
     }
 
