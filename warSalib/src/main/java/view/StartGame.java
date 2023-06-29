@@ -34,7 +34,10 @@ import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 
 import java.awt.Rectangle;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
@@ -57,7 +60,9 @@ import model.map.GameMap;
 
 public class StartGame extends Application {
     public static Stage stage;
-
+    private static  DataInputStream dataInputStream;
+    private  static DataOutputStream dataOutputStream;
+    private static Socket socket;
     public static Pane startPane;
     @Override
     public void start(Stage stage) throws Exception {
@@ -76,13 +81,18 @@ public class StartGame extends Application {
     }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
+        System.out.println("starting client service");
+        socket = new Socket("localhost", 8080);
+        dataInputStream = new DataInputStream(socket.getInputStream());
+        dataOutputStream = new DataOutputStream(socket.getOutputStream());
         LoginSignupControl.readUsersData();
         LoginSignupControl.loadTrade();
         launch();
     }
 
     public void goLoginView(MouseEvent mouseEvent) throws Exception {
-        LoginView loginView=new LoginView("localhost", 8080);
+        dataOutputStream.writeUTF("loginView");
+        LoginView loginView=new LoginView();
         loginView.start(stage);
     }
 
@@ -95,4 +105,15 @@ public class StartGame extends Application {
         StartGame.startPane = startPane;
     }
 
+    public static DataInputStream getDataInputStream() {
+        return dataInputStream;
+    }
+
+    public static DataOutputStream getDataOutputStream() {
+        return dataOutputStream;
+    }
+
+    public static Socket getSocket() {
+        return socket;
+    }
 }

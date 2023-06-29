@@ -35,15 +35,6 @@ public class LoginView extends Application {
 
     public static String path;
     public TextField loginCaptcha;
-    final DataInputStream dataInputStream;
-    final DataOutputStream dataOutputStream;
-
-    public LoginView(String ip, int port) throws IOException{
-        System.out.println("Starting Client service...");
-        Socket socket = new Socket(ip, port);
-        dataInputStream = new DataInputStream(socket.getInputStream());
-        dataOutputStream = new DataOutputStream(socket.getOutputStream());
-    }
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -147,36 +138,35 @@ public class LoginView extends Application {
     }
 
     public void goMainMenu(MouseEvent mouseEvent) throws Exception {
-        if (loginUsername.getText().equals("") || loginPassword.getText().equals("")) {
+        StartGame.getDataOutputStream().writeUTF("goMainMenu");
+        StartGame.getDataOutputStream().writeUTF(loginUsername.getText() + "+" + loginPassword.getText() + "+" + loginCaptcha.getText() + "+" + path);
+        String result = StartGame.getDataInputStream().readUTF();
+        System.out.println(result);
+        if (result.equals("fillUP")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Username or password is empty");
             alert.showAndWait();
-
-        } else if (!loginCaptcha.getText().equals(path)) {
+        } else if (result.equals("wrong captcha")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("captcha is invalid");
             alert.showAndWait();
 
-        } else {
-
-            String result = LoginSignupMenu.loginUser(loginUsername.getText(), loginPassword.getText());
-            if (result.equals("success")) {
+        } else if (result.equals("success")) {
                 MainView mainView = new MainView();
                 mainView.start(StartGame.stage);
-            } else if (result.equals("username not found")) {
+        } else if (result.equals("wrong user")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("username not found");
                 alert.showAndWait();
-                LoginView loginView = new LoginView("localhost",8080);
+                LoginView loginView = new LoginView();
                 loginView.start(StartGame.stage);
-            } else if (result.equals("password is incorrect")) {
+        } else if (result.equals("wrong password")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("password is incorrect");
                 alert.showAndWait();
-                LoginView loginView = new LoginView("localhost", 8080);
+                LoginView loginView = new LoginView();
                 loginView.start(StartGame.stage);
 
-            }
         }
     }
 }
