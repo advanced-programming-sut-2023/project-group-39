@@ -2,8 +2,6 @@ package org.example;
 
 
 
-import org.example.governmet.Government;
-
 import java.util.ArrayList;
 
 import java.util.HashMap;
@@ -32,7 +30,7 @@ public class User {
 
     private String securityQuestionAnswer;
     private HashMap<String, String> securityQuestion ;
-    private Government UserGovernment;
+    //private Government UserGovernment;
     public User(String username,  String password, String email, String nickname,String slogan,String securityQuestionAnswer) {
         this.username = username;
         this.nickname = nickname;
@@ -131,13 +129,6 @@ public class User {
         this.securityQuestionAnswer = securityQuestionAnswer;
     }
 
-    public void setUserGovernment(Government userGovernment) {
-        UserGovernment = userGovernment;
-    }
-
-    public Government getUserGovernment() {
-        return UserGovernment;
-    }
     public void changeScore(int x){
         this.score+=x;
     }
