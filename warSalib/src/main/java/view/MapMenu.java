@@ -22,6 +22,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import model.Game;
@@ -71,9 +72,15 @@ public class MapMenu extends Application {
 
     private static Popup informationPopup = new Popup();
 
+    private static Popup optionsPopup=new Popup();
+
+    private static Popup popularityPopup = new Popup();
+
     public static Alert moveAlert = new Alert(Alert.AlertType.ERROR);
 
     private static Stage mapStage;
+
+    public static Popup changeRates = new Popup();
 
     public static Popup attackPopup = new Popup();
 
@@ -648,7 +655,7 @@ public class MapMenu extends Application {
 
     @FXML
     public void initialize() {
-        popularity.setText(String.valueOf(Game.getTurnedUserForGame().getUserGovernment().getPopularity()));
+        popularity.setText("Popularity:     " + String.valueOf(Game.getTurnedUserForGame().getUserGovernment().getPopularity()));
         wealth.setText(String.valueOf(Game.getTurnedUserForGame().getUserGovernment().getWealth()));
         population.setText(String.valueOf(Game.getTurnedUserForGame().getUserGovernment().getPopulation() + "/"
                 + Game.getTurnedUserForGame().getUserGovernment().getPopulationCapacity()));
@@ -713,27 +720,28 @@ public class MapMenu extends Application {
         });
     }
 
+    @FXML
     private int goNextTurn() throws Exception {
         if (Game.getTurnedUserForGame().equals(Game.getPlayersInGame().get(Game.getPlayersInGame().size() - 1))) {
             Game.setTurnedUserForGame(Game.getGameStarter());
             counterTurns++;
-            if(counterTurns==MainView.tunrsofGame) {
+            if (counterTurns == MainView.tunrsofGame) {
                 for (adam adam : adam.adams) {
                     for (User user : Game.getPlayersInGame()) {
-                        if (adam.getUsername().equals(user.getUsername())){
-                            adam.score=user.getScore();
+                        if (adam.getUsername().equals(user.getUsername())) {
+                            adam.score = user.getScore();
                         }
 
                     }
                 }
-                FileWriter fileWriter=new FileWriter("users.json");
+                FileWriter fileWriter = new FileWriter("users.json");
                 fileWriter.write(new Gson().toJson(view.adam.adams));
                 fileWriter.close();
-                Alert alert=new Alert(Alert.AlertType.INFORMATION);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setContentText("Game has ended");
                 alert.showAndWait();
-                MainView mainView=new MainView();
-                if(sickness.isShowing())
+                MainView mainView = new MainView();
+                if (sickness.isShowing())
                     sickness.hide();
                 mainView.start(StartGame.stage);
             }
@@ -746,11 +754,11 @@ public class MapMenu extends Application {
                 int y = Game.getTurnedUserForGame().getUserGovernment().getYDown() / 2;
                 Game.getMapInGame().getMap()[y][x].setSickTileGovernment(Game.getTurnedUserForGame().getUserGovernment());
                 sickTiles.add(Game.getMapInGame().getMap()[y][x]);
-                Game.getMapInGame().getMap()[y+1][x].setSickTileGovernment(Game.getTurnedUserForGame().getUserGovernment());
+                Game.getMapInGame().getMap()[y + 1][x].setSickTileGovernment(Game.getTurnedUserForGame().getUserGovernment());
                 sickTiles.add(Game.getMapInGame().getMap()[y + 1][x]);
-                Game.getMapInGame().getMap()[y][x+1].setSickTileGovernment(Game.getTurnedUserForGame().getUserGovernment());
+                Game.getMapInGame().getMap()[y][x + 1].setSickTileGovernment(Game.getTurnedUserForGame().getUserGovernment());
                 sickTiles.add(Game.getMapInGame().getMap()[y][x + 1]);
-                Game.getMapInGame().getMap()[y+1][x+1].setSickTileGovernment(Game.getTurnedUserForGame().getUserGovernment());
+                Game.getMapInGame().getMap()[y + 1][x + 1].setSickTileGovernment(Game.getTurnedUserForGame().getUserGovernment());
                 sickTiles.add(Game.getMapInGame().getMap()[y + 1][x + 1]);
                 HBox sickInformationHBox = new HBox();
                 sickInformationHBox.setStyle("-fx-border-color: #B90000ED");
@@ -767,9 +775,8 @@ public class MapMenu extends Application {
                 }
 
             }
-        }
-        else {
-            Game.setTurnedUserForGame(Game.getPlayersInGame().get(Game.getPlayersInGame().indexOf(Game.getTurnedUserForGame())+1));
+        } else {
+            Game.setTurnedUserForGame(Game.getPlayersInGame().get(Game.getPlayersInGame().indexOf(Game.getTurnedUserForGame()) + 1));
         }
         return 1;
     }
@@ -801,9 +808,11 @@ public class MapMenu extends Application {
     private void changePopularityForSick() {
         for (int i = 0; i < 100; i++) {
             for (int j = 0; j < 100; j++) {
-                    if (Game.getMapInGame().getMap()[j][i].isHasSick()) {
-                        Game.getMapInGame().getMap()[j][i].getSickTileGovernment().setPopularity(Game.getTurnedUserForGame().getUserGovernment().getPopularity() - 1);
-                    }
+                if (Game.getMapInGame().getMap()[j][i].isHasSick()) {
+                    Game.getMapInGame().getMap()[j][i].getSickTileGovernment().setPopularity(Game.getTurnedUserForGame().getUserGovernment().getPopularity() - 1);
+                    popularity.setText("Popularity:     " + String.valueOf(Game.getTurnedUserForGame().getUserGovernment().getPopularity()));
+
+                }
 
             }
         }
@@ -1163,5 +1172,241 @@ public class MapMenu extends Application {
             Tooltip.install(imageView, tooltip);
             buildingSelection.getChildren().add(imageView);
         }
+    }
+
+    public void options(MouseEvent mouseEvent) {
+        VBox optionsVbox = new VBox();
+        optionsVbox.setPrefWidth(300);
+        optionsVbox.setPrefHeight(300);
+        ImagePattern imagePattern = new ImagePattern(new Image(StartGame.class.getResource("/images/mailBackground.jpeg").toExternalForm()));
+        optionsVbox.setBackground(new Background(new BackgroundFill(imagePattern, CornerRadii.EMPTY, Insets.EMPTY)));
+        Button exit=new Button("exit game");
+        Button resume=new Button("resume game");
+        optionsVbox.getChildren().addAll(exit,resume);
+        optionsPopup.getContent().addAll(optionsVbox);
+        optionsPopup.show(mapStage);
+        exit.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                for (adam adam : adam.adams) {
+                    for (User user : Game.getPlayersInGame()) {
+                        if (adam.getUsername().equals(user.getUsername())) {
+                            adam.score = user.getScore();
+                        }
+
+                    }
+                }
+                FileWriter fileWriter = null;
+                try {
+                    fileWriter = new FileWriter("users.json");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                try {
+                    fileWriter.write(new Gson().toJson(adam.adams));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                try {
+                    fileWriter.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                optionsPopup.hide();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText("Game has ended");
+                alert.showAndWait();
+                MainView mainView = new MainView();
+                try {
+                    mainView.start(StartGame.stage);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        resume.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                optionsPopup.hide();
+            }
+        });
+    }
+
+    public void popularityPopup(MouseEvent mouseEvent) {
+        VBox popularityVbox = new VBox();
+        popularityVbox.setPrefWidth(300);
+        popularityVbox.setPrefHeight(300);
+        ImagePattern imagePattern = new ImagePattern(new Image(StartGame.class.getResource("/images/mailBackground.jpeg").toExternalForm()));
+        popularityVbox.setBackground(new Background(new BackgroundFill(imagePattern, CornerRadii.EMPTY, Insets.EMPTY)));
+        HBox foodRate = new HBox();
+        popularityVbox.setLayoutX(100);
+        HBox taxRate = new HBox();
+        HBox fearRate = new HBox();
+        HBox religRate = new HBox();
+        Rectangle foodRectangle = new Rectangle(20, 20);
+        Rectangle taxRectangle = new Rectangle(20, 20);
+        Rectangle fearRectangle = new Rectangle(20, 20);
+        Rectangle religRectangle = new Rectangle(20, 20);
+        if (Game.getCurrentUser().getUserGovernment().getFoodRate() == 0) {
+            ImagePattern imagePattern1 = new ImagePattern(new Image(StartGame.class.getResource("/images/yellowFace.jpg").toExternalForm()));
+            foodRectangle.setFill(imagePattern1);
+        } else if (Game.getCurrentUser().getUserGovernment().getFoodRate() > 0) {
+            ImagePattern imagePattern1 = new ImagePattern(new Image(StartGame.class.getResource("/images/greenFace.jpg").toExternalForm()));
+            foodRectangle.setFill(imagePattern1);
+        } else if (Game.getCurrentUser().getUserGovernment().getFoodRate() < 0) {
+            ImagePattern imagePattern1 = new ImagePattern(new Image(StartGame.class.getResource("/images/redFace.jpg").toExternalForm()));
+            foodRectangle.setFill(imagePattern1);
+        }
+        if (Game.getCurrentUser().getUserGovernment().getTaxRate() == 0) {
+            ImagePattern imagePattern1 = new ImagePattern(new Image(StartGame.class.getResource("/images/yellowFace.jpg").toExternalForm()));
+            taxRectangle.setFill(imagePattern1);
+        } else if (Game.getCurrentUser().getUserGovernment().getTaxRate() > 0) {
+            ImagePattern imagePattern1 = new ImagePattern(new Image(StartGame.class.getResource("/images/greenFace.jpg").toExternalForm()));
+            taxRectangle.setFill(imagePattern1);
+        } else if (Game.getCurrentUser().getUserGovernment().getTaxRate() < 0) {
+            ImagePattern imagePattern1 = new ImagePattern(new Image(StartGame.class.getResource("/images/redFace.jpg").toExternalForm()));
+            taxRectangle.setFill(imagePattern1);
+        }
+        if (Game.getCurrentUser().getUserGovernment().getFearRate() == 0) {
+            ImagePattern imagePattern1 = new ImagePattern(new Image(StartGame.class.getResource("/images/yellowFace.jpg").toExternalForm()));
+            fearRectangle.setFill(imagePattern1);
+        } else if (Game.getCurrentUser().getUserGovernment().getFearRate() > 0) {
+            ImagePattern imagePattern1 = new ImagePattern(new Image(StartGame.class.getResource("/images/greenFace.jpg").toExternalForm()));
+            fearRectangle.setFill(imagePattern1);
+        } else if (Game.getCurrentUser().getUserGovernment().getFearRate() < 0) {
+            ImagePattern imagePattern1 = new ImagePattern(new Image(StartGame.class.getResource("/images/redFace.jpg").toExternalForm()));
+            fearRectangle.setFill(imagePattern1);
+        }
+        if (Game.getCurrentUser().getUserGovernment().getReligionEffect() == 0) {
+            ImagePattern imagePattern1 = new ImagePattern(new Image(StartGame.class.getResource("/images/yellowFace.jpg").toExternalForm()));
+            religRectangle.setFill(imagePattern1);
+        } else if (Game.getCurrentUser().getUserGovernment().getReligionEffect() > 0) {
+            ImagePattern imagePattern1 = new ImagePattern(new Image(StartGame.class.getResource("/images/greenFace.jpg").toExternalForm()));
+            religRectangle.setFill(imagePattern1);
+        } else if (Game.getCurrentUser().getUserGovernment().getReligionEffect() < 0) {
+            ImagePattern imagePattern1 = new ImagePattern(new Image(StartGame.class.getResource("/images/redFace.jpg").toExternalForm()));
+            religRectangle.setFill(imagePattern1);
+        }
+        foodRate.setSpacing(20);
+        Label food = new Label("Food rate:  " + Game.getCurrentUser().getUserGovernment().getFoodRate());
+        foodRate.getChildren().addAll(foodRectangle, food);
+        System.out.println(foodRate.getChildren().size());
+        taxRate.setSpacing(10);
+        taxRate.getChildren().add(taxRectangle);
+        Label tax = new Label("tax rate:  " + Game.getCurrentUser().getUserGovernment().getTaxRate());
+        taxRate.getChildren().add(tax);
+        fearRate.setSpacing(10);
+        fearRate.getChildren().add(fearRectangle);
+        Label fear = new Label("Fear rate:  " + Game.getCurrentUser().getUserGovernment().getFearRate());
+        fearRate.getChildren().add(fear);
+        religRate.setSpacing(10);
+        Label relig = new Label("Religious  rate:  " + Game.getCurrentUser().getUserGovernment().getReligionEffect());
+        religRate.getChildren().addAll(religRectangle, relig);
+        HBox total = new HBox();
+        Rectangle totalRect = new Rectangle(30, 30);
+        if (Game.getCurrentUser().getUserGovernment().getPopularity() == 0) {
+            ImagePattern imagePattern1 = new ImagePattern(new Image(StartGame.class.getResource("/images/yellowFace.jpg").toExternalForm()));
+            totalRect.setFill(imagePattern1);
+        } else if (Game.getCurrentUser().getUserGovernment().getPopularity() > 0) {
+            ImagePattern imagePattern1 = new ImagePattern(new Image(StartGame.class.getResource("/images/greenFace.jpg").toExternalForm()));
+            totalRect.setFill(imagePattern1);
+        } else if (Game.getCurrentUser().getUserGovernment().getReligionEffect() < 0) {
+            ImagePattern imagePattern1 = new ImagePattern(new Image(StartGame.class.getResource("/images/redFace.jpg").toExternalForm()));
+            totalRect.setFill(imagePattern1);
+        }
+        Label totalLabel = new Label("Your popularity in this month is:   " + Game.getCurrentUser().getUserGovernment().getPopularity());
+        totalLabel.setFont(Font.font(14));
+        total.getChildren().addAll(totalRect, totalLabel);
+        Button exit = new Button("Exit");
+        popularityVbox.getChildren().addAll(foodRate, taxRate, fearRate, religRate, total, exit);
+        popularityPopup.getContent().add(popularityVbox);
+        popularityPopup.show(mapStage);
+        exit.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                popularityPopup.hide();
+            }
+        });
+
+    }
+
+    public void clickRates(MouseEvent mouseEvent) {
+        VBox popularityVbox = new VBox();
+        popularityVbox.setPrefWidth(300);
+        popularityVbox.setPrefHeight(300);
+        popularityVbox.setSpacing(40);
+        ImagePattern imagePattern = new ImagePattern(new Image(StartGame.class.getResource("/images/mailBackground.jpeg").toExternalForm()));
+        popularityVbox.setBackground(new Background(new BackgroundFill(imagePattern, CornerRadii.EMPTY, Insets.EMPTY)));
+        HBox foodRate = new HBox();
+        foodRate.setSpacing(10);
+        HBox taxRate = new HBox();
+        taxRate.setSpacing(10);
+        HBox fearRate = new HBox();
+        fearRate.setSpacing(10);
+        Label food = new Label("Food rate:   ");
+        TextField foodText = new TextField();
+        foodText.setPromptText("food rate");
+        foodText.setPrefWidth(80);
+        foodText.setPrefHeight(20);
+        Button submitFood = new Button("submit");
+        foodRate.getChildren().addAll(food, foodText, submitFood);
+        submitFood.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (foodText != null) {
+                    int foodR = Integer.parseInt(foodText.getText());
+                    if (foodR > 2 || foodR < -2) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setContentText("food rate must be between -2 and 2");
+                        alert.showAndWait();
+                    } else {
+                        Game.getCurrentUser().getUserGovernment().setFoodRate(foodR);
+                    }
+                }
+            }
+        });
+        Label tax = new Label("Tax  rate");
+        TextField taxText = new TextField();
+        taxText.setPrefWidth(80);
+        taxText.setPrefHeight(20);
+        taxText.setPromptText("tax rate");
+        Button submitTax = new Button("sumbit");
+        submitTax.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (taxText != null) {
+                    int taxR = Integer.parseInt(taxText.getText());
+                    if (taxR > 8 || taxR < -2) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setContentText("tax rate must be between -2 and 8");
+                        alert.showAndWait();
+                    } else {
+                        Game.getCurrentUser().getUserGovernment().setTaxRate(taxR);
+                    }
+                }
+            }
+        });
+        taxRate.getChildren().addAll(tax, taxText, submitTax);
+        Slider fearSlider = new Slider();
+        fearSlider.setMin(-5);
+        fearSlider.setMax(5);
+        fearSlider.setValue(0);
+        Label fear = new Label("fear rate");
+        fearSlider.valueProperty().addListener((observable, oldvalue, newvalue) -> {
+            Game.getCurrentUser().getUserGovernment().setFearRate((int) newvalue.doubleValue());
+        });
+        fearRate.getChildren().addAll(fear, fearSlider);
+        Button apply=new Button("apply");
+        apply.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                Game.getCurrentUser().getUserGovernment().setPopularity(Game.getCurrentUser().getUserGovernment().getFoodRate()+Game.getCurrentUser().getUserGovernment().getFearRate()+Game.getCurrentUser().getUserGovernment().getTaxRate()+Game.getCurrentUser().getUserGovernment().getReligionEffect());
+                popularity.setText("Popularity:     " + String.valueOf(Game.getTurnedUserForGame().getUserGovernment().getPopularity()));
+                changeRates.hide();
+            }
+        });
+        popularityVbox.getChildren().addAll(foodRate, taxRate,fearRate,apply);
+        changeRates.getContent().add(popularityVbox);
+        changeRates.show(mapStage);
     }
 }

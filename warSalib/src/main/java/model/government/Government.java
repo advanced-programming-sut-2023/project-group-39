@@ -74,7 +74,7 @@ public class Government {
         engineers = new ArrayList<>();
         tax = new Tax();
         fear = new Fear();
-        this.foodRate = -2;
+        this.foodRate = 0;
         this.taxRate = 0;
         this.fearRate = 0;
         this.efficiency = 1;

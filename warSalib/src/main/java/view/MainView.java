@@ -82,10 +82,11 @@ public class MainView extends Application {
         start.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                Game.getPlayersInGame().clear();
+                Game.getPlayersInGame().add(Game.getCurrentUser());
                 turns(gameTurns);
                 checkPlayers(players);
                 if(Game.getPlayersInGame().size()!=0&&tunrsofGame>0){
-                    Game.getPlayersInGame().add(Game.getCurrentUser());
                     Government governmentOfCurrentUser = new Government(0 , 30, Game.getCurrentUser());
                     Game.getCurrentUser().setUserGovernment(governmentOfCurrentUser);
                     Game.addGovernment(governmentOfCurrentUser);

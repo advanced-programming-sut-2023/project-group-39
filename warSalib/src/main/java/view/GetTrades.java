@@ -2,6 +2,7 @@ package view;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -78,6 +79,7 @@ public class GetTrades extends Application {
 
                 }
                 else {
+                    request.setAccept(true);
                     Game.getCurrentUser().getUserGovernment().getResources().put(requestingResource,Game.getCurrentUser().getUserGovernment().getResources().get(requestingResource)-request.getNumber());
                     request.getSenderRequest().getUserGovernment().getResources().put(requestingResource,request.getSenderRequest().getUserGovernment().getResources().get(requestingResource)+request.getNumber());
                     Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
@@ -94,12 +96,14 @@ public class GetTrades extends Application {
 
     private void acceptDonate(Donate donate) {
         Resource donatingResource = donate.getResource();
+        donate.setAccept(true);
         if (Game.getCurrentUser().getUserGovernment().getResources().containsKey(donatingResource)) {
             Game.getCurrentUser().getUserGovernment().getResources().put(donatingResource, Game.getCurrentUser().getUserGovernment().getResources().get(donatingResource) + donate.getNumber());
             donate.getSenderDonate().getUserGovernment().getResources().put(donatingResource,donate.getSenderDonate().getUserGovernment().getResources().get(donatingResource)-donate.getNumber());
 
         } else {
             Game.getCurrentUser().getUserGovernment().getResources().put(donatingResource, donate.getNumber());
+            donate.getSenderDonate().getUserGovernment().getResources().put(donatingResource,donate.getSenderDonate().getUserGovernment().getResources().get(donatingResource)-donate.getNumber());
 
         }
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -172,6 +176,7 @@ public class GetTrades extends Application {
         getTrades.getChildren().add(showVbox);
     }
 
+    @FXML
     private void back() throws Exception {
         MarketMenu marketMenu = new MarketMenu();
         marketMenu.start(StartGame.stage);

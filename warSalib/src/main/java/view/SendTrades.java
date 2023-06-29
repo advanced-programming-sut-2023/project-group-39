@@ -136,6 +136,7 @@ public class SendTrades extends Application {
 
     }
 
+    @FXML
     private void back() throws Exception {
         MarketMenu marketMenu = new MarketMenu();
         marketMenu.start(StartGame.stage);
