@@ -1391,4 +1391,12 @@ public class MapMenu extends Application {
         changeRates.getContent().add(popularityVbox);
         changeRates.show(mapStage);
     }
+
+    public void update(MouseEvent mouseEvent) {
+        popularity.setText("Popularity:     " + String.valueOf(Game.getTurnedUserForGame().getUserGovernment().getPopularity()));
+        wealth.setText(String.valueOf(Game.getTurnedUserForGame().getUserGovernment().getWealth()));
+        population.setText(String.valueOf(Game.getTurnedUserForGame().getUserGovernment().getPopulation() + "/"
+                + Game.getTurnedUserForGame().getUserGovernment().getPopulationCapacity()));
+
+    }
 }
