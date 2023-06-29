@@ -100,11 +100,11 @@ public class TradeUsersList extends Application {
     private void showUsers() {
         VBox UsersVbox=new VBox();
         UsersVbox.setSpacing(60);
-        for (int i=0;i< Game.getPlayers().size();i++){
+        for (int i=0;i< Game.getPlayersInGame().size();i++){
             HBox hBox=new HBox();
             hBox.setAlignment(Pos.CENTER);
             hBox.setSpacing(30);
-            Label label=new Label(Game.getPlayers().get(i).getUsername());
+            Label label=new Label(Game.getPlayersInGame().get(i).getUsername());
             label.setTextFill(Color.WHITE);
             Button button=new Button("Choose this User");
             hBox.getChildren().add(label);
