@@ -8,6 +8,7 @@ import java.net.Socket;
 
 public class Connection extends Thread {
     private Socket socket;
+    private boolean isTrue = true;
     private String input;
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
@@ -20,7 +21,7 @@ public class Connection extends Thread {
     @Override
     public void run() {
         while (true) {
-
+            isTrue = true;
             try {
                 input = dataInputStream.readUTF();
                 System.out.println(input);
@@ -38,15 +39,22 @@ public class Connection extends Thread {
     }
 
     private void loginCommands() throws IOException {
-        while (true){
+        while (isTrue){
             input = dataInputStream.readUTF();
         if (input.equals("goMainMenu")) {
             goMainMenu();
-        } else if (true) {
-
+        } else if (input.equals("forgotPassword")) {
+            forgotPassword();
         }
     }
     }
+
+    private void forgotPassword() throws IOException {
+        input = dataInputStream.readUTF();
+        String [] forgotData = input.split("\\+");
+        dataOutputStream.writeUTF(Database.hasCorrectSecurityQuestion(forgotData[0], forgotData[1]));
+    }
+
     private void goMainMenu() throws IOException {
             input = dataInputStream.readUTF();
             String loginData[] = input.split("\\+");
@@ -61,6 +69,7 @@ public class Connection extends Thread {
                 if (message.equals(Message.SUCCESS)) {
                     dataOutputStream.writeUTF("success");
                     System.out.println("success");
+                    isTrue = false;
                 } else if (message.equals(Message.WRONG_PASSWORD)) {
                     dataOutputStream.writeUTF("wrong password");
                     System.out.println("wrong password");

@@ -21,6 +21,7 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import model.Game;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -93,6 +94,7 @@ public class LoginView extends Application {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 try {
+                    StartGame.getDataOutputStream().writeUTF("forgotPassword");
                     checkSecurityAnswer(answerText);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
@@ -119,7 +121,8 @@ public class LoginView extends Application {
             alert.showAndWait();
         } else {
             String username = loginUsername.getText();
-            String result = LoginSignupMenu.forgotPassword(username, answerText.getText());
+            StartGame.getDataOutputStream().writeUTF(username + "+" + answerText.getText());
+            String result = StartGame.getDataInputStream().readUTF();
             if (result.equals("username is invalid")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Username doesn't exists");

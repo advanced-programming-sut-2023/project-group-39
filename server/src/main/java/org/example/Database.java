@@ -43,4 +43,16 @@ public class Database {
 
         return Message.WRONG_USERNAME;
     }
+    public static String hasCorrectSecurityQuestion(String username, String securityAnswer) {
+        for (User user : users) {
+            if (user.getUsername().equals(username)) {
+                if (user.getSecurityQuestionAnswer().equals(securityAnswer)) {
+                    return "correct";
+                } else {
+                    return "invalidAnswer";
+                }
+            }
+        }
+        return "invalidUsername";
+    }
 }
