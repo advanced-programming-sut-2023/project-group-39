@@ -56,6 +56,18 @@ public class Connection extends Thread {
             } else if (!loginData[2].equals(loginData[3])){
                 dataOutputStream.writeUTF("wrong captcha");
                 System.out.println("wrong captcha");
+            } else {
+                Message message= Database.hasUser(loginData[0], loginData[1]);
+                if (message.equals(Message.SUCCESS)) {
+                    dataOutputStream.writeUTF("success");
+                    System.out.println("success");
+                } else if (message.equals(Message.WRONG_PASSWORD)) {
+                    dataOutputStream.writeUTF("wrong password");
+                    System.out.println("wrong password");
+                } else {
+                    dataOutputStream.writeUTF("wrong user");
+                    System.out.println("wrong user");
+                }
             }
 
     }

@@ -30,11 +30,17 @@ public class Database {
     public static void setLoggedInUser(User loggedInUser) {
         Database.loggedInUser = loggedInUser;
     }
-    public static boolean hasUser(String username, String password) {
+    public static Message hasUser(String username, String password) {
+        //User user1= new User("ardalan","Ardal123!","ardali@gmail.com", "ardali","","khar");
+        //users.add(user1);
         for (User user : users) {
-            if (user.getPassword().equals(password) && user.getUsername().equals(username))
-                return true;
-        }
-        return false;
+            if (user.getUsername().equals(username)) {
+            }
+                if (user.getPassword().equals(password))
+                    return Message.SUCCESS;
+                else return Message.WRONG_PASSWORD;
+            }
+
+        return Message.WRONG_USERNAME;
     }
 }

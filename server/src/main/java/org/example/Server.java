@@ -7,7 +7,7 @@ import java.net.Socket;
 public class Server {
     public Server(int port) throws IOException {
         System.out.println("starting server");
-        //Database.initUsers();
+        Database.initUsers();
         ServerSocket serverSocket = new ServerSocket(port);
         while (true) {
             Socket socket = serverSocket.accept();
