@@ -25,6 +25,8 @@ abstract public class Building extends Rectangle{
 
     private int wealth;
 
+    private boolean Fire;
+
     private String name;
     private int maxHP;
     private int x, y;
@@ -173,6 +175,8 @@ abstract public class Building extends Rectangle{
         return maxHP;
     }
 
+    private int fireTurns=0;
+
     public void setMaxHP(int maxHP) {
         this.maxHP = maxHP;
     }
@@ -215,5 +219,21 @@ abstract public class Building extends Rectangle{
 
     public static Image getImage() {
         return image;
+    }
+
+    public void setFire(boolean fire) {
+        Fire = fire;
+    }
+
+    public boolean isFire() {
+        return Fire;
+    }
+
+    public int getFireTurns() {
+        return fireTurns;
+    }
+
+    public void setFireTurns(int fireTurns) {
+        this.fireTurns = fireTurns;
     }
 }

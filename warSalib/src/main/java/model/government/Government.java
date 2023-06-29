@@ -12,7 +12,7 @@ import model.government.people.units.Engineer;
 import model.government.popularityfactor.Fear;
 import model.government.popularityfactor.Religion;
 import model.government.popularityfactor.Tax;
-import model.government.request.Request;
+import model.government.trade.Request;
 import model.government.resource.Resource;
 import model.user.User;
 import view.TradeMenu;
@@ -74,7 +74,7 @@ public class Government {
         engineers = new ArrayList<>();
         tax = new Tax();
         fear = new Fear();
-        this.foodRate = -2;
+        this.foodRate = 0;
         this.taxRate = 0;
         this.fearRate = 0;
         this.efficiency = 1;

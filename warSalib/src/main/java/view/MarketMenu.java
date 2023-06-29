@@ -80,4 +80,9 @@ public class MarketMenu extends Application {
     public void quit(MouseEvent mouseEvent) throws Exception {
         Game.getMapMenu().start(StartGame.stage);
     }
+
+    public void goTradeView(MouseEvent mouseEvent) throws Exception {
+        tradeView tradeView = new tradeView();
+        tradeView.start(StartGame.stage);
+    }
 }

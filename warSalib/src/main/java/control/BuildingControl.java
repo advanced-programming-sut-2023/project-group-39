@@ -81,11 +81,13 @@ public class BuildingControl {
         UnitsName unitsName = getUnitNameByType(type);
         Building building = Game.getSelectedBuilding();
         Government government = building.getGovernment();
-        Units units = new Units(building.getYBuilding(), building.getXBuilding(), unitsName, building.getGovernment().getUser());
+        System.out.println("xxxx+Building x and y:"+building.getXBuilding()+"  "+building.getYBuilding());
+        Units units = new Units(building.getXBuilding(), building.getYBuilding(), unitsName, building.getGovernment().getUser());
         People people = government.getUnWorkedPeople().get(0);
         government.removeUnWorkedPeople(people);
         government.addToPeople(units);
-        Game.getMapInGame().getMap()[building.getXBuilding()][building.getYBuilding()].addPeople(units);
+        Game.getMapInGame().getMap()[building.getYBuilding()][building.getXBuilding()].addPeople(units);
+        System.out.println("Fuckkk"+building.getXBuilding()+"  "+building.getYBuilding());
 
         return BuildingMessage.SUCCESS;
     }

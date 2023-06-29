@@ -53,7 +53,7 @@ public class MapControl {
         }
         if (tile.getBuilding() != null) {
             result += "building : ";
-            result += tile.getBuilding().getName() + "\n";
+            result += tile.getBuilding().getName() + "  user :" + Game.getTurnedUserForGame().getUsername() +"\n";
         }
         if (tile.getTree() != null) {
             result += "tree : ";

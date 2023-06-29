@@ -57,5 +57,6 @@
             <Image url="@../images/wood.png" />
          </image>
       </ImageView>
+      <Button text="Go to Trade Menu" onMouseClicked="#goTradeView" />
    </children>
 </AnchorPane>

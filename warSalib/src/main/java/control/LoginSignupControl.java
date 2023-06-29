@@ -4,6 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import model.Game;
+import model.government.resource.Resource;
+import model.government.trade.Donate;
+import model.government.trade.Request;
 import model.user.User;
 import model.user.copyUser;
 import view.adam;
@@ -20,7 +23,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.regex.Matcher;
-
+import java.util.regex.Pattern;
 
 
 public class LoginSignupControl {
@@ -202,6 +205,18 @@ public class LoginSignupControl {
             user.setScore(adam.adams.get(i).getScore());
             user.setChooseImageAddress(adam.adams.get(i).chooseImageAddress);
             user.setAvatarImageAddress(adam.adams.get(i).avatarImageAddress);
+            if(adam.adams.get(i).sendDonates!=null) {
+                user.setSendDonates(adam.adams.get(i).sendDonates);
+            }
+            if(adam.adams.get(i).getDonates!=null) {
+                user.setGetDonates(adam.adams.get(i).getDonates);
+            }
+            if(adam.adams.get(i).sendRequests!=null) {
+                user.setSendRequests(adam.adams.get(i).sendRequests);
+            }
+            if(adam.adams.get(i).getRequests!=null) {
+                user.setGetRequests(adam.adams.get(i).getRequests);
+            }
             Game.getPlayers().add(user);
         }
     }
@@ -260,5 +275,110 @@ public class LoginSignupControl {
 
         }
         return null;
+    }
+
+    public static void loadTrade() {
+        for (int i=0;i<Game.getPlayers().size();i++){
+                User user=Game.getPlayers().get(i);
+                loading(user);
+        }
+    }
+    private static void loading(User user){
+        String[] sendRequests = new String[0];
+        int sendReqSize=0;
+        String[] sendDonates = new String[0];
+        int sendDonSize=0;
+        String[] getRequests = new String[0];
+        int getReqSize=0;
+        String[] getDonates = new String[0];
+        int getDonSize=0;
+        if(user.getSendRequests()!=null) {
+            sendRequests = user.getSendRequests().split("\n");
+            sendReqSize=sendRequests.length;
+        }
+        if(user.getSendDonates()!=null) {
+            sendDonates = user.getSendDonates().split("\n");
+            sendDonSize=sendDonates.length;
+        }
+        if(user.getGetRequests()!=null) {
+            getRequests = user.getGetRequests().split("\n");
+            getReqSize=getRequests.length;
+        }
+        if(user.getGetDonates()!=null) {
+            getDonates = user.getGetDonates().split("\n");
+            getDonSize=getDonates.length;
+        }
+        String find = "(?<Resource>[\\S]+)\\s(?<number>[\\d]+)\\s(?<message>.+)\\.(?<username>.+)";
+        for (int i=0;i<sendDonSize;i++){
+            Matcher matcher= Pattern.compile(find).matcher(sendDonates[i]);
+            if(matcher.find()){
+                Resource resource= Resource.valueOf(matcher.group("Resource"));
+                int number= Integer.parseInt(matcher.group("number"));
+                String message=matcher.group("message");
+                User sender=user;
+                User getter=null;
+                for (User user1:Game.getPlayers()){
+                    if(user1.getUsername().equals(matcher.group("username"))) {
+                        getter = user1;
+                    }
+                }
+                Donate donate=new Donate(message,number,resource,sender,getter);
+                Donate.donates.add(donate);
+            }
+        }
+        for (int i=0;i<sendReqSize;i++){
+            System.out.println(sendRequests[i]);
+            Matcher matcher= Pattern.compile(find).matcher(sendRequests[i]);
+            if(matcher.find()){
+                Resource resource= Resource.valueOf(matcher.group("Resource"));
+                int number= Integer.parseInt(matcher.group("number"));
+                String message=matcher.group("message");
+                User sender=user;
+                User getter=null;
+                for (User user1:Game.getPlayers()){
+                    if(user1.getUsername().equals(matcher.group("username"))) {
+                        getter = user1;
+                    }
+                }
+                Request request =new Request(message,number,resource,sender,getter);
+                Request.requests.add(request);
+            }
+        }
+//        for (int i=0;i<getDonSize;i++){
+//            Matcher matcher= Pattern.compile(find).matcher(getDonates[i]);
+//            if(matcher.find()){
+//                Resource resource= Resource.valueOf(matcher.group("Resource"));
+//                int number= Integer.parseInt(matcher.group("number"));
+//                String message=matcher.group("message");
+//                User getter=user;
+//                User sender=null;
+//                for (User user1:Game.getPlayers()){
+//                    if(user1.getUsername().equals(matcher.group("username"))) {
+//                        sender = user1;
+//                    }
+//                }
+//                Donate donate=new Donate(message,number,resource,sender,getter);
+//                System.out.println("hi SENDER OF GETTING DONATE IS   "+sender.getUsername());
+//                Donate.donates.add(donate);
+//            }
+//        }
+//        for (int i=0;i<getReqSize;i++){
+//            Matcher matcher= Pattern.compile(find).matcher(getRequests[i]);
+//            if(matcher.find()){
+//                Resource resource= Resource.valueOf(matcher.group("Resource"));
+//                int number= Integer.parseInt(matcher.group("number"));
+//                String message=matcher.group("message");
+//                User getter=user;
+//                User sender=null;
+//                for (User user1:Game.getPlayers()){
+//                    if(user1.getUsername().equals(matcher.group("username"))) {
+//                        sender = user1;
+//                    }
+//                }
+//                Request request=new Request(message,number,resource,sender,getter);
+//                Request.requests.add(request);
+//            }
+//        }
+
     }
 }
