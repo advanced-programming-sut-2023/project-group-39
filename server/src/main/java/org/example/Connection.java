@@ -17,13 +17,13 @@ public class Connection extends Thread {
         this.dataInputStream = new DataInputStream(socket.getInputStream());
         this.dataOutputStream = new DataOutputStream(socket.getOutputStream());
     }
-
     @Override
     public void run() {
         while (true) {
 
             try {
                 input = dataInputStream.readUTF();
+                System.out.println(input);
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
@@ -48,17 +48,15 @@ public class Connection extends Thread {
     }
     }
     private void goMainMenu() throws IOException {
-        input = dataInputStream.readUTF();
-        if (input.equals("goMainMenu")) {
             input = dataInputStream.readUTF();
             String loginData[] = input.split("\\+");
             if (loginData[0].equals("") || loginData[1].equals("")) {
                 dataOutputStream.writeUTF("fillUP");
                 System.out.println("user or password is not fill");
-            } else if (loginData[2].equals(loginData[3])){
+            } else if (!loginData[2].equals(loginData[3])){
                 dataOutputStream.writeUTF("wrong captcha");
                 System.out.println("wrong captcha");
             }
-        }
+
     }
 }
