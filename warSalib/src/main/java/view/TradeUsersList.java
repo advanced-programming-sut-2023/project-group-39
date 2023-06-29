@@ -85,13 +85,13 @@ public class TradeUsersList extends Application {
         }    }
 
     private void checkUser(Button button) throws Exception {
-        if(Game.getCurrentUser().equals(Game.getPlayers().get(usersButtons.indexOf(button)))){
+        if(Game.getCurrentUser().equals(Game.getPlayersInGame().get(usersButtons.indexOf(button)))){
             Alert alert=new Alert(Alert.AlertType.ERROR);
             alert.setContentText("you cant have trade with yours!");
             alert.showAndWait();
         }
         else {
-            userToTrade=Game.getPlayers().get(usersButtons.indexOf(button));
+            userToTrade=Game.getPlayersInGame().get(usersButtons.indexOf(button));
             Trade trade=new Trade();
             trade.start(StartGame.stage);
         }
