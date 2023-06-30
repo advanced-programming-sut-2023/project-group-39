@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.chatView">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ChatView">
    <children>
       <Circle fill="DODGERBLUE" layoutX="82.0" layoutY="64.0" radius="39.0" stroke="BLACK" strokeType="INSIDE" />
       <Label layoutX="288.0" layoutY="64.0" prefHeight="17.0" prefWidth="114.0" text="CHAT" />

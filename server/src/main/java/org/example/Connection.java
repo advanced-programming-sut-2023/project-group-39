@@ -58,8 +58,22 @@ public class Connection extends Thread {
                     Database.setLoggedInUser(null);
                     this.stop();
                 }
+            } else if (input.equals("chatView")) {
+                try {
+                    System.out.println("go to chat");
+                    chatCommands();
+                } catch (IOException e) {
+                    System.out.println("client disconnected!" + socket.getInetAddress() + "   " + socket.getPort());
+                    if (Database.getLoggedInUser() != null)
+                        Database.removeUsersInGame(Database.getLoggedInUser());
+                    Database.setLoggedInUser(null);
+                    this.stop();
+                }
             }
         }
+    }
+
+    private void chatCommands() throws IOException{
     }
 
     private void mainViewCommands() throws IOException {
@@ -73,7 +87,8 @@ public class Connection extends Thread {
                 Database.setLoggedInUser(null);
                 System.out.println("logout");
                 isTrue = false;
-            }
+            } else if (input.equals("chat"))
+                isTrue = false;
         }
     }
 

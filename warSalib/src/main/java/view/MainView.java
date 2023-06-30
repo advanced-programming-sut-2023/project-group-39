@@ -158,8 +158,11 @@ public class MainView extends Application {
         profileView.start(StartGame.stage);
     }
 
-    public void chat(MouseEvent mouseEvent) {
-
+    public void chat(MouseEvent mouseEvent) throws Exception {
+        StartGame.getDataOutputStream().writeUTF("chat");
+        StartGame.getDataOutputStream().writeUTF("chatView");
+        ChatView chatView = new ChatView();
+        chatView.start(StartGame.stage);
     }
 
 }
