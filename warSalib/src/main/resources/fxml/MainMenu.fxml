@@ -8,4 +8,5 @@
     <Button layoutX="20" layoutY="120" onMouseClicked="#logout" text="logout" />
     <Button layoutX="20" layoutY="220" onMouseClicked="#goProfileMenu" text="Profile Menu" />
    <Button layoutX="20.0" layoutY="325.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="71.0" text="chat" onMouseClicked="#chat"/>
+    <Button layoutX="20" layoutY="390" onMouseClicked="#goRooms" text="rooms"   />
 </Pane>

@@ -29,6 +29,8 @@ public class User {
     private String slogan;
     private Boolean loggedIn;
 
+    final int maxRooms=8;
+
     private String securityQuestionAnswer;
     private HashMap<String, String> securityQuestion ;
     //private Government UserGovernment;

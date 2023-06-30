@@ -165,4 +165,8 @@ public class MainView extends Application {
         chatView.start(StartGame.stage);
     }
 
+    public void goRooms(MouseEvent mouseEvent) throws Exception {
+        RoomsList roomsList=new RoomsList();
+        roomsList.start(StartGame.stage);
+    }
 }
