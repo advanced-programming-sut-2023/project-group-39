@@ -130,4 +130,7 @@ public class Database {
     public static synchronized void addUsersInGame(User user) {
         usersInGame.add(user);
     }
+    public static synchronized void removeUsersInGame(User user) {
+        usersInGame.remove(user);
+    }
 }

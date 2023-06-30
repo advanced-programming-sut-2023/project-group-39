@@ -33,6 +33,9 @@ public class Connection extends Thread {
                 System.out.println(input);
             } catch (IOException e) {
                 System.out.println("client disconnected!" + socket.getInetAddress() + "   " + socket.getPort());
+                if (Database.getLoggedInUser() != null)
+                    Database.removeUsersInGame(Database.getLoggedInUser());
+                Database.setLoggedInUser(null);
                 this.stop();
             }
             if (input.equals("loginView")) {
@@ -40,6 +43,9 @@ public class Connection extends Thread {
                     loginCommands();
                 } catch (IOException e) {
                     System.out.println("client disconnected!" + socket.getInetAddress() + "   " + socket.getPort());
+                    if (Database.getLoggedInUser() != null)
+                        Database.removeUsersInGame(Database.getLoggedInUser());
+                    Database.setLoggedInUser(null);
                     this.stop();
                 }
             } else if (input.equals("mainView")) {
@@ -47,6 +53,9 @@ public class Connection extends Thread {
                     mainViewCommands();
                 } catch (IOException e) {
                     System.out.println("client disconnected!" + socket.getInetAddress() + "   " + socket.getPort());
+                    if (Database.getLoggedInUser() != null)
+                        Database.removeUsersInGame(Database.getLoggedInUser());
+                    Database.setLoggedInUser(null);
                     this.stop();
                 }
             }
@@ -72,6 +81,7 @@ public class Connection extends Thread {
         while (isTrue) {
             if (!socket.isConnected()) {
                 System.out.println("client is disconnected from server : " + socket.getPort());
+                Database.setLoggedInUser(null);
                 return;
             }
             input = dataInputStream.readUTF();
@@ -96,6 +106,7 @@ public class Connection extends Thread {
     private void goMainMenu() throws IOException {
         if (!socket.isConnected()) {
             System.out.println("client is disconnected from server : " + socket.getPort());
+            Database.setLoggedInUser(null);
             return;
         }
         input = dataInputStream.readUTF();
