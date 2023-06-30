@@ -14,6 +14,8 @@ public class Database {
     private static ArrayList<User> users = new ArrayList<>();
     private static User loggedInUser;
 
+    private static ArrayList<User> usersInGame=new ArrayList<>();
+
     public static void initUsers() throws IOException {
         String json = null;
         String usernameRegex = "\\\"username\\\":\\\"(?<username>[^\\\"]+)\\\"";
@@ -119,5 +121,13 @@ public class Database {
                 return user;
         }
         return null;
+    }
+
+    public static ArrayList<User> getUsersInGame() {
+        return usersInGame;
+    }
+
+    public static synchronized void addUsersInGame(User user) {
+        usersInGame.add(user);
     }
 }

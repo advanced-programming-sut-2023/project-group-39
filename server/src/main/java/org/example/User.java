@@ -14,6 +14,7 @@ public class User {
 
     private String avatarImageAddress;
 
+
     private String sendRequests;
 
     private String sendDonates;
