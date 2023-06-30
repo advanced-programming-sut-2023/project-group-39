@@ -55,4 +55,11 @@ public class Database {
         }
         return "invalidUsername";
     }
+    public static User getUserByName(String username, String password) {
+        for (User user : users) {
+            if (user.getPassword().equals(password) && user.getUsername().equals(username))
+                return user;
+        }
+        return null;
+    }
 }

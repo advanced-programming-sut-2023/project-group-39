@@ -34,6 +34,22 @@ public class Connection extends Thread {
                 } catch (IOException e) {
                     System.out.println(e.getMessage());
                 }
+            } else if (input.equals("mainView")) {
+                try {
+                    mainViewCommands();
+                } catch (IOException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
+    }
+
+    private void mainViewCommands() throws IOException {
+        while (isTrue) {
+            input = dataInputStream.readUTF();
+            if (input.equals("logout")) {
+                Database.setLoggedInUser(null);
+                System.out.println("logout");
             }
         }
     }
@@ -70,6 +86,7 @@ public class Connection extends Thread {
                     dataOutputStream.writeUTF("success");
                     System.out.println("success");
                     isTrue = false;
+                    Database.setLoggedInUser(Database.getUserByName(loginData[0],loginData[1]));
                 } else if (message.equals(Message.WRONG_PASSWORD)) {
                     dataOutputStream.writeUTF("wrong password");
                     System.out.println("wrong password");
