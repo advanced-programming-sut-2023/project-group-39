@@ -147,7 +147,8 @@ public class MainView extends Application {
     }
 
     public void logout(MouseEvent mouseEvent) throws Exception {
-        Game.setCurrentUser(null);
+//        Game.setCurrentUser(null);
+        StartGame.getDataOutputStream().writeUTF("logout");
         StartGame startGame=new StartGame();
         startGame.start(StartGame.stage);
     }

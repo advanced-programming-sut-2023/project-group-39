@@ -155,6 +155,7 @@ public class LoginView extends Application {
             alert.showAndWait();
 
         } else if (result.equals("success")) {
+                StartGame.getDataOutputStream().writeUTF("mainView");
                 MainView mainView = new MainView();
                 mainView.start(StartGame.stage);
         } else if (result.equals("wrong user")) {

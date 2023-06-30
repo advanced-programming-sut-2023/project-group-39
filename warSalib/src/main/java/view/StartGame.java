@@ -85,8 +85,8 @@ public class StartGame extends Application {
         socket = new Socket("localhost", 8080);
         dataInputStream = new DataInputStream(socket.getInputStream());
         dataOutputStream = new DataOutputStream(socket.getOutputStream());
-        LoginSignupControl.readUsersData();
-        LoginSignupControl.loadTrade();
+//        LoginSignupControl.readUsersData();
+//        LoginSignupControl.loadTrade();
         launch();
     }
 
