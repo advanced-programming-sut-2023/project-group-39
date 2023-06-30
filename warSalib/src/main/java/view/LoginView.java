@@ -154,7 +154,13 @@ public class LoginView extends Application {
             alert.setContentText("captcha is invalid");
             alert.showAndWait();
 
-        } else if (result.equals("success")) {
+        }
+        else if(result.equals("user has already logged in")){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("user has already logged in");
+            alert.showAndWait();
+
+        }        else if (result.equals("success")) {
                 StartGame.getDataOutputStream().writeUTF("mainView");
                 MainView mainView = new MainView();
                 mainView.start(StartGame.stage);
