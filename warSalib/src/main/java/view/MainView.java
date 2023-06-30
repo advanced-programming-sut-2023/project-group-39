@@ -161,4 +161,5 @@ public class MainView extends Application {
     public void chat(MouseEvent mouseEvent) {
 
     }
+
 }
