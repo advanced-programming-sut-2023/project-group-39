@@ -3,6 +3,7 @@ package model.user;
 
 import java.util.ArrayList;
 import model.government.Government;
+import model.user.chat.RoomChat;
 
 import java.util.HashMap;
 
@@ -100,6 +101,8 @@ public class User {
         this.score = score;
     }
 
+    private ArrayList<RoomChat> userRoomChats=new ArrayList<>();
+
     public HashMap<String, String> getSecurityQuestion() {
         return securityQuestion;
     }
@@ -187,6 +190,14 @@ public class User {
 
     public String getSendRequests() {
         return sendRequests;
+    }
+
+    public void setUserRoomChats(ArrayList<RoomChat> userRoomChats) {
+        this.userRoomChats = userRoomChats;
+    }
+
+    public ArrayList<RoomChat> getUserRoomChats() {
+        return userRoomChats;
     }
 }
 
