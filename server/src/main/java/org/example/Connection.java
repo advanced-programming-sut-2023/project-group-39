@@ -21,6 +21,10 @@ public class Connection extends Thread {
     @Override
     public void run() {
         while (true) {
+            if (!socket.isConnected()){
+                System.out.println("client is disconnected from server : " + socket.getPort());
+                return;
+            }
             isTrue = true;
             try {
                 input = dataInputStream.readUTF();
@@ -46,6 +50,10 @@ public class Connection extends Thread {
 
     private void mainViewCommands() throws IOException {
         while (isTrue) {
+            if (!socket.isConnected()){
+                System.out.println("client is disconnected from server : " + socket.getPort());
+                return;
+            }
             input = dataInputStream.readUTF();
             if (input.equals("logout")) {
                 Database.setLoggedInUser(null);
@@ -56,6 +64,10 @@ public class Connection extends Thread {
 
     private void loginCommands() throws IOException {
         while (isTrue){
+            if (!socket.isConnected()){
+                System.out.println("client is disconnected from server : " + socket.getPort());
+                return;
+            }
             input = dataInputStream.readUTF();
         if (input.equals("goMainMenu")) {
             goMainMenu();
@@ -66,12 +78,20 @@ public class Connection extends Thread {
     }
 
     private void forgotPassword() throws IOException {
+        if (!socket.isConnected()){
+            System.out.println("client is disconnected from server : " + socket.getPort());
+            return;
+        }
         input = dataInputStream.readUTF();
         String [] forgotData = input.split("\\+");
         dataOutputStream.writeUTF(Database.hasCorrectSecurityQuestion(forgotData[0], forgotData[1]));
     }
 
     private void goMainMenu() throws IOException {
+        if (!socket.isConnected()){
+            System.out.println("client is disconnected from server : " + socket.getPort());
+            return;
+        }
             input = dataInputStream.readUTF();
             String loginData[] = input.split("\\+");
             if (loginData[0].equals("") || loginData[1].equals("")) {

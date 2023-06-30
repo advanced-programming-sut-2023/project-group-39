@@ -157,4 +157,8 @@ public class MainView extends Application {
         profileView profileView=new profileView();
         profileView.start(StartGame.stage);
     }
+
+    public void chat(MouseEvent mouseEvent) {
+
+    }
 }
