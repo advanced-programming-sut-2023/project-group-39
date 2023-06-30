@@ -58,6 +58,7 @@ public class Connection extends Thread {
             if (input.equals("logout")) {
                 Database.setLoggedInUser(null);
                 System.out.println("logout");
+                isTrue = false;
             }
         }
     }
