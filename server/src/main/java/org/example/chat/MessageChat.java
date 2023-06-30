@@ -12,4 +12,16 @@ public class MessageChat {
         this.message = message;
         this.date = date;
     }
+
+    public User getUserSendMessage() {
+        return userSendMessage;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public int getDate() {
+        return date;
+    }
 }
