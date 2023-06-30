@@ -23,6 +23,8 @@ public class User {
     private String securityQuestionAnswer;
     private HashMap<String, String> securityQuestion ;
     private Government UserGovernment;
+    private ArrayList<User> friends;
+    private ArrayList<User> friendRequestsReceived;
 
     public User(String username,  String password, String email, String nickname,String slogan,String securityQuestionAnswer) {
         this.username = username;
@@ -33,7 +35,63 @@ public class User {
         this.securityQuestionAnswer=securityQuestionAnswer;
         securityQuestion = new HashMap<>();
         this.loggedIn=false;
+        this.friends = new ArrayList<>();
+        this.friendRequestsReceived = new ArrayList<>();
+    }
 
+    public ArrayList<User> getFriends() { return friends; }
+
+
+    public void sendFriendRequest(User otherUser) {
+        if (otherUser.friendRequestsReceived.contains(this)) {
+            System.out.println("Friend request already sent to " + otherUser.getUsername());
+        } else {
+            otherUser.receiveFriendRequest(this);
+            System.out.println("Friend request sent to " + otherUser.getUsername());
+        }
+    }
+
+    public void receiveFriendRequest(User sender) {
+        friendRequestsReceived.add(sender);
+        System.out.println("Received friend request from " + sender.getUsername());
+    }
+
+    public void acceptFriendRequest(User sender) {
+        if (friendRequestsReceived.contains(sender)) {
+            friendRequestsReceived.remove(sender);
+            addToFriends(sender);
+            sender.addToFriends(this);
+            System.out.println(username + " accepted friend request from " + sender.getUsername());
+        } else {
+            System.out.println("No friend request from " + sender.getUsername());
+        }
+    }
+
+    public void rejectFriendRequest(User sender) {
+        if (friendRequestsReceived.contains(sender)) {
+            friendRequestsReceived.remove(sender);
+            System.out.println(username + " rejected friend request from " + sender.getUsername());
+        } else {
+            System.out.println("No friend request from " + sender.getUsername());
+        }
+    }
+
+    public void removeFriends(User user) {
+        if (friends.contains(user)) {
+            friends.remove(user);
+            user.getFriends().remove(this);
+            System.out.println(username + " removed " + user.getUsername() + " from friends.");
+        } else {
+            System.out.println(user.getUsername() + " is not in your friend list.");
+        }
+    }
+
+    public void addToFriends(User user) {
+        if (friends.size() == 100)
+            return;
+        friends.add(user);
+        user.getFriends().add(this);
+        // TODO: 6/29/2023 do the graphics
     }
 
     public String getUsername() {

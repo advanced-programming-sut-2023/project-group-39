@@ -7,12 +7,11 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Server {
     private static final int PORT = 6666;
-    private static List<Room> rooms = new ArrayList<>();
-    private static List<ClientHandler> clients = new ArrayList<>();
+    public static ArrayList<Room> rooms = new ArrayList<>();
+    public static ArrayList<ClientHandler> clients = new ArrayList<>();
 
     public static void main(String[] args) {
         try {
@@ -65,26 +64,42 @@ public class Server {
                 String[] splitInput = input.split(" ");
                 if (splitInput.length == 3) {
                     String roomId = splitInput[2];
-                    joinRoom(roomId);
+                    player.joinRoom(roomId);
                 }
+            } else if (input.startsWith("list room")) {
+                for (Room room : rooms) {
+                    player.getOut().println("room's id: " + room.getEntryId());
+                }
+            } else if (input.startsWith("leave room")) {
+                boolean flag = false;
+                for (Room room : rooms)
+                    if (room.getPlayers().contains(player)) {
+                        room.removePlayer(player);
+                        flag = true;
+                        player.getOut().println("you have successfully left the room " + room.getEntryId());
+                    }
+                if (!flag)
+                    player.getOut().println("you didn't join any rooms");
             }
         }
 
-        private void createNewRoom() {
-            Room room = new Room(false, new Game(), 4, player);
+        private Room createNewRoom() {
+            Room room = new Room(true, new Game(), 4, player);
             rooms.add(room);
             out.println("Room created successfully!");
+            player.joinRoom(room, room.getEntryId());
+            return room;
         }
 
-        private void joinRoom(String roomId) {
-            for (Room room : rooms)
-                if (room.getEntryId().equals(roomId)) {
-                    room.addPlayer(player);
-                    out.println("Player joined the room successfully!");
-                    return;
-                }
-            out.println("Invalid room ID!");
-        }
+//        private void joinRoom(String roomId) {
+//            for (Room room : rooms)
+//                if (room.getEntryId().equals(roomId)) {
+//                    room.addPlayer(player);
+//                    out.println("Player joined the room successfully!");
+//                    return;
+//                }
+//            out.println("Invalid room ID!");
+//        }
 
         public void sendMessage(String message) {
             out.println(message);

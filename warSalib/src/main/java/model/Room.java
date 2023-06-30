@@ -13,20 +13,18 @@ public class Room {
     private boolean isPublic;
     private Game game;
     private int capacity;
-    private static BufferedReader in;
-    private static PrintWriter out;
     private ArrayList<Player> players;
-    private ArrayList<Client> clients;
     private ArrayList<Socket> sockets;
     private Player admin;
     private String entryId;
+
+    public ArrayList<Player> getPlayers() { return players; }
 
     public Room(boolean isPublic, Game game, int capacity, Player admin) {
         this.isPublic = isPublic;
         this.game = game;
         this.capacity = capacity;
         this.players = new ArrayList<>(capacity);
-        this.clients = new ArrayList<>(capacity);
         this.admin = admin;
         this.entryId = generateRoomId();
         new StatusChecker().start();
@@ -50,7 +48,7 @@ public class Room {
         outer:
         while (true) {
             id = "R" + new Random().nextInt(11111111, 99999999) + "m";
-            for (Room room : Lobby.rooms)
+            for (Room room : Server.rooms)
                 if (room.entryId.equals(id))
                     continue outer;
 
@@ -59,25 +57,16 @@ public class Room {
         return id;
     }
 
-    public void addClient(Client client) {
-        clients.add(client);
-    }
 
     public void addPlayer(Player player) {
         players.add(player);
-        Client client = new Client(player);
-        addClient(client);
-        out.println("New player has been added");
+        player.getOut().println("New player has been added");
         if (players.size() == capacity) {
             // TODO: 6/29/2023 start the game
         }
     }
 
-    public void removeClient(Client client) {
-        clients.remove(client);
-    }
-
-    public void removePlayer(User player) {
+    public void removePlayer(Player player) {
         int index = players.indexOf(player);
         if (players.size() == 1) {
             // TODO: Perform any necessary actions when the room is closed
@@ -88,17 +77,15 @@ public class Room {
             // TODO: Perform any necessary actions after changing the admin
         }
         this.players.remove(player);
-        Client client = clients.get(index);
-        removeClient(client);
     }
 
     private void closeRoom(Player admin) {
-        Lobby.rooms.remove(this);
-        out.println("The room has been closed by the admin.");
+        Server.rooms.remove(this);
+        admin.getOut().println("The room has been closed by the admin.");
     }
 
     private class StatusChecker extends Thread {
-        private static final long INACTIVITY_TIMEOUT = 5 * 60 * 1000; // 5 mins
+        private static final long INACTIVITY_TIMEOUT = 5 * 60 * 1000;
 
         @Override
         public void run() {
@@ -113,8 +100,8 @@ public class Room {
                         startTime = System.currentTimeMillis();
                     }
 
-                    out.println("No players have been added");
-                    Thread.sleep(2000);
+                    System.out.println("No players have been added for " + currentDuration/(1000 * 60) + " minutes");
+                    Thread.sleep(60 * 1000);
                 }
             } catch (InterruptedException e) {
                 System.out.println("StatusChecker encountered a problem: " + e.getMessage());
@@ -124,8 +111,9 @@ public class Room {
 
         private void closeRoom() {
             // TODO: Perform any necessary cleanup or actions when closing the room
-            Lobby.rooms.remove(Room.this);
-            out.println("The room has been closed due to inactivity.");
+            Server.rooms.remove(Room.this);
+            for (Player player : players)
+                player.getOut().println("The room has been closed due to inactivity.");
         }
     }
 }

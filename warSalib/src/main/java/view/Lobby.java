@@ -8,7 +8,6 @@ import model.user.User;
 import java.util.ArrayList;
 
 public class Lobby extends Application {
-    public static ArrayList<Room> rooms;
     public static ArrayList<User> users;
 
     @Override

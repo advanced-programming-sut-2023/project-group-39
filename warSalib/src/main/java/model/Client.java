@@ -5,19 +5,18 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class Client {
     private static final String SERVER_IP = "127.0.0.1";
     private static final int SERVER_PORT = 6666;
     private PrintWriter out;
     private BufferedReader in;
+    private Scanner SystemIn;
     private Socket socket;
     private Player player;
 
-    public Client(Player player) {
-        this.player = player;
-        player.setClient(this);
-    }
+    public PrintWriter getOut() { return out; }
 
     public Client() {}
 
@@ -32,8 +31,11 @@ public class Client {
             socket = new Socket(SERVER_IP, SERVER_PORT);
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            SystemIn = new Scanner(System.in);
             new Listener().start();
             out.println("new client!");
+            while (true)
+                out.println(SystemIn.nextLine());
         } catch (IOException e) {
             System.out.println("Socket encountered a problem: " + e.getMessage());
             e.printStackTrace();

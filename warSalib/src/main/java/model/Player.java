@@ -3,25 +3,51 @@ package model;
 import model.user.User;
 
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
 public class Player {
     private User user;
+    private BufferedReader in;
+    private PrintWriter out;
     private Socket socket;
-    private Client client;
 
 
-    public Player(User user) {
-        this.user = user;
+    public Player(User user, Socket socket) {
+        try {
+            this.user = user;
+            this.socket = socket;
+            this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            this.out = new PrintWriter(socket.getOutputStream(), true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public void setClient(Client client) { this.client = client; }
+    public BufferedReader getIn() { return in; }
+
+    public PrintWriter getOut() { return out; }
 
     public void joinRoom(Room room, String id) {
         if (!room.isPublic() && !room.getEntryId().equals(id))
             return;
 
         room.addPlayer(this);
+    }
+
+    public void joinRoom(String id) {
+        boolean flag = false;
+        for (Room room : Server.rooms)
+            if (room.getEntryId().equals(id)) {
+                room.addPlayer(this);
+                flag = true;
+            }
+
+        if (!flag) {
+            System.out.println("Room does not exist");
+            out.println("Room does not exist");
+        }
     }
 }
