@@ -107,6 +107,7 @@ public class Connection extends Thread {
             }
             input = dataInputStream.readUTF();
             if (input.equals("logout")) {
+                Database.removeUsersInGame(Database.getLoggedInUser());
                 Database.setLoggedInUser(null);
                 System.out.println("logout");
                 isTrue = false;
