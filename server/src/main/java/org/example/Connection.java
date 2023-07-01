@@ -88,10 +88,10 @@ public class Connection extends Thread {
                     Database.setLoggedInUser(null);
                     this.stop();
                 }
-            } else if (input.equals("roomChat")) {
+            } else if (input.equals("public chat")) {
                 try {
-                    System.out.println("go to room chat");
-                    goRoomChat();
+                    System.out.println("go to public chat");
+                    publicChatCommand();
                 } catch (IOException e) {
                     System.out.println("client disconnected!" + socket.getInetAddress() + "   " + socket.getPort());
                     if (Database.getLoggedInUser() != null)
@@ -99,6 +99,44 @@ public class Connection extends Thread {
                     Database.setLoggedInUser(null);
                     this.stop();
                 }
+            } else if (input.equals("room")) {
+                System.out.println("room");
+                try {
+                    roomCommands();
+                } catch (IOException e) {
+                    System.out.println("client disconnected!" + socket.getInetAddress() + "   " + socket.getPort());
+                    if (Database.getLoggedInUser() != null)
+                        Database.removeUsersInGame(Database.getLoggedInUser());
+                    Database.setLoggedInUser(null);
+                    this.stop();
+                }
+            }
+        }
+    }
+
+    private void roomCommands() throws IOException{
+        while (isTrue) {
+            input = dataInputStream.readUTF();
+            if (input.equals("back")) {
+                isTrue = false;
+            } else if (input.equals("send")) {
+                System.out.println("send");
+                dataOutputStream.writeUTF(dataBaseUser.getUser().getUsername());
+                // todo : handle it
+            }
+        }
+    }
+
+    private void publicChatCommand() throws IOException{
+        while (isTrue) {
+            input = dataInputStream.readUTF();
+            if (input.equals("back")) {
+                System.out.println("back to main menu");
+                isTrue = false;
+            } else if (input.equals("send")) {
+                System.out.println("send");
+                dataOutputStream.writeUTF(dataBaseUser.getUser().getUsername());
+                // todo : handle it
             }
         }
     }
@@ -119,6 +157,13 @@ public class Connection extends Thread {
                 System.out.println("search user");
                 newChat();
             }
+        } else if (input.equals("send")) {
+            System.out.println("send");
+            dataOutputStream.writeUTF(dataBaseUser.getUser().getUsername());
+        } else if (input.equals("back")){
+            System.out.println("back");
+            isTrue = false;
+        }
             else if(input.startsWith("Message to Send")){
                 if(privateChat==null){
                     dataOutputStream.writeUTF("first declare user to send");
@@ -208,6 +253,8 @@ public class Connection extends Thread {
                 System.out.println("logout");
                 isTrue = false;
             } else if (input.equals("chat"))
+                isTrue = false;
+            else if (input.equals("go to chat"))
                 isTrue = false;
         }
     }

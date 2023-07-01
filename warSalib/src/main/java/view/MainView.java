@@ -166,8 +166,16 @@ public class MainView extends Application {
     }
 
     public void goRooms(MouseEvent mouseEvent) throws Exception {
-        StartGame.getDataOutputStream().writeUTF("roomChat");
+        StartGame.getDataOutputStream().writeUTF("chat");
+        StartGame.getDataOutputStream().writeUTF("room");
         RoomsList roomsList=new RoomsList();
         roomsList.start(StartGame.stage);
+    }
+
+    public void goPublicChat(MouseEvent mouseEvent) throws Exception {
+        StartGame.getDataOutputStream().writeUTF("go to chat");
+        StartGame.getDataOutputStream().writeUTF("public chat");
+        PublicChat publicChat = new PublicChat();
+        publicChat.start(StartGame.stage);
     }
 }
