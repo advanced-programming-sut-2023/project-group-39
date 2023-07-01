@@ -9,9 +9,9 @@ module warSalib {
 
 
     exports view;
-    opens view to javafx.fxml;
     opens control to com.google.gson;
     exports control;
     opens model to com.google.gson;
     exports model;
+    opens view to com.google.gson, javafx.fxml;
 }

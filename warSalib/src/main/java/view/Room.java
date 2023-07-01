@@ -1,10 +1,9 @@
-package model;
+package view;
 
-import model.user.User;
-import view.Lobby;
+import model.Game;
+import model.Player;
+import model.Server;
 
-import java.io.BufferedReader;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Random;
@@ -30,17 +29,11 @@ public class Room {
         new StatusChecker().start();
     }
 
-    public void setPublic(boolean isPublic) {
-        this.isPublic = isPublic;
-    }
+    public void setPublic(boolean isPublic) { this.isPublic = isPublic; }
 
-    public boolean isPublic() {
-        return isPublic;
-    }
+    public boolean isPublic() { return isPublic; }
 
-    public String getEntryId() {
-        return entryId;
-    }
+    public String getEntryId() { return entryId; }
 
     public String generateRoomId() {
         String id = null;
@@ -69,14 +62,15 @@ public class Room {
     public void removePlayer(Player player) {
         int index = players.indexOf(player);
         if (players.size() == 1) {
-            // TODO: Perform any necessary actions when the room is closed
+            this.removePlayer(player);
+            Server.rooms.remove(this);
             return;
         }
         if (player.equals(admin)) {
+            this.removePlayer(player);
             admin = players.get(index + 1);
-            // TODO: Perform any necessary actions after changing the admin
         }
-        this.players.remove(player);
+        players.remove(player);
     }
 
     private void closeRoom(Player admin) {

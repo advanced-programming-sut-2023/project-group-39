@@ -1,9 +1,9 @@
 package model;
 
 import model.user.User;
+import view.Room;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -19,6 +19,17 @@ public class Player {
         try {
             this.user = user;
             this.socket = socket;
+            this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            this.out = new PrintWriter(socket.getOutputStream(), true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Player(User user) {
+        try {
+            this.user = user;
+            this.socket = new Socket("127.0.0.1", 6666);
             this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             this.out = new PrintWriter(socket.getOutputStream(), true);
         } catch (Exception e) {
