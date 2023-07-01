@@ -30,8 +30,8 @@ import java.time.format.DateTimeFormatter;
 
 public class ChatView extends Application {
     public Label username;
-    public VBox chats;
-    public VBox message;
+    public VBox Chats;
+    public  VBox MessageVBox;
     HBox chooseHBox;
     public TextField messageBeSent;
     public TextField search;
@@ -87,7 +87,6 @@ public class ChatView extends Application {
                 Matcher userMatcher = Pattern.compile(usersRegex).matcher(chats[i]);
                 String messageRegex="\\\":\\\"(?<userSender>[^\\\"]+)\\\"\\,\\\"message\\\":\\\"(?<message>[^\\\"]+)\\\"\\,\\\"date\\\":\\\"(?<date>[^\\\"]+)\\\"";
                 if (userMatcher.find()) {
-                    System.out.println("hi");
                     String[] messages=chats[i].split("userSendMessage");
                     for (int j=1;j<messages.length;j++){
                         Matcher messageMatcher=Pattern.compile(messageRegex).matcher(messages[j]);
@@ -96,7 +95,17 @@ public class ChatView extends Application {
                                 String username1 = messageMatcher.group("userSender");
                                 String message = messageMatcher.group("message");
                                 String date = messageMatcher.group("date");
-                                System.out.println(username1 + "   " + message + "  " + date);
+                                String sending=username1 + " :  " + message;
+                                Label messageSending=new Label(sending);
+                                Label Date=new Label(date);
+                                Image image = new Image(ChatView.class.getResource("/images/tick.png").toExternalForm());
+                                ImageView imageView = new ImageView(image);
+                                imageView.setFitWidth(10.0);
+                                imageView.setFitHeight(10.0);
+                                HBox toSend=new HBox();
+                                toSend.getChildren().addAll(messageSending,imageView,Date);
+                                MessageVBox.getChildren().add(toSend);
+
                             }
                         }
                     }
@@ -112,22 +121,36 @@ public class ChatView extends Application {
 
     }
 
-//    public void send(MouseEvent mouseEvent) throws IOException {
-//        if (messageBeSent.getText() != null) {
-//            StartGame.getDataOutputStream().writeUTF("Message to Send" + messageBeSent.getText());
-//            String result = StartGame.getDataInputStream().readUTF();
-//            if (result.equals("first declare user to send")) {
-//                Alert alert = new Alert(Alert.AlertType.ERROR);
-//                alert.setContentText("first declare user to send");
-//                alert.showAndWait();
-//            } else if (result.equals("message send")) {
-//                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-//                alert.setContentText("message send successfully");
-//                alert.showAndWait();
-//
-//            }
-//        }
-//    }
+    public void sending() throws IOException {
+        if (messageBeSent.getText() != null) {
+            StartGame.getDataOutputStream().writeUTF("Message to Send" + messageBeSent.getText());
+            String result = StartGame.getDataInputStream().readUTF();
+            if (result.equals("first declare user to send")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("first declare user to send");
+                alert.showAndWait();
+            } else if (result.equals("message send")) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setContentText("message send successfully");
+                alert.showAndWait();
+//                String username=LoginView.loginUser;
+//                String message=messageBeSent.getText();
+//                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+//                LocalDateTime localTime = LocalDateTime.now();
+//                Label time = new Label(dateTimeFormatter.format(localTime));
+//                Label messageToSend=new Label(username+" :  "+message);
+//                Image image = new Image(ChatView.class.getResource("/images/tick.png").toExternalForm());
+//                ImageView imageView = new ImageView(image);
+//                imageView.setFitWidth(10.0);
+//                imageView.setFitHeight(10.0);
+//                HBox hBox=new HBox();
+//                hBox.getChildren().addAll(messageToSend,imageView,time);
+//                MessageVBox.getChildren().add(hBox);
+
+
+            }
+        }
+ }
 
     public void send(MouseEvent mouseEvent) throws IOException {
         if (!messageBeSent.getText().equals("")) {
@@ -147,7 +170,8 @@ public class ChatView extends Application {
             hbox.getChildren().add(label);
             hbox.getChildren().add(imageView);
             hbox.getChildren().add(time);
-            message.getChildren().add(hbox);
+            MessageVBox.getChildren().add(hbox);
+            sending();
             messageBeSent.setText("");
         }
     }

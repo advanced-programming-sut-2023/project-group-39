@@ -18,7 +18,7 @@
       </ScrollPane>
       <ScrollPane layoutX="202.0" layoutY="134.0" prefHeight="264.0" prefWidth="397.0">
          <content>
-            <VBox fx:id="message" prefHeight="254.0" prefWidth="382.0" spacing="10.0" />
+            <VBox fx:id="MessageVBox" prefHeight="254.0" prefWidth="382.0" spacing="10.0" />
          </content>
       </ScrollPane>
       <Button layoutX="507.0" layoutY="98.0" mnemonicParsing="false" onMouseClicked="#newChat" prefHeight="26.0" prefWidth="70.0" text="new chat" />
