@@ -22,6 +22,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Game;
+import model.user.User;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -36,6 +37,8 @@ public class LoginView extends Application {
 
     public static String path;
     public TextField loginCaptcha;
+
+    public static String loginUser;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -154,28 +157,28 @@ public class LoginView extends Application {
             alert.setContentText("captcha is invalid");
             alert.showAndWait();
 
-        }
-        else if(result.equals("user has already logged in")){
+        } else if (result.equals("user has already logged in")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("user has already logged in");
             alert.showAndWait();
 
-        }        else if (result.equals("success")) {
-                StartGame.getDataOutputStream().writeUTF("mainView");
-                MainView mainView = new MainView();
-                mainView.start(StartGame.stage);
+        } else if (result.equals("success")) {
+            loginUser=loginUsername.getText();
+            StartGame.getDataOutputStream().writeUTF("mainView");
+            MainView mainView = new MainView();
+            mainView.start(StartGame.stage);
         } else if (result.equals("wrong user")) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("username not found");
-                alert.showAndWait();
-                LoginView loginView = new LoginView();
-                loginView.start(StartGame.stage);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("username not found");
+            alert.showAndWait();
+            LoginView loginView = new LoginView();
+            loginView.start(StartGame.stage);
         } else if (result.equals("wrong password")) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("password is incorrect");
-                alert.showAndWait();
-                LoginView loginView = new LoginView();
-                loginView.start(StartGame.stage);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("password is incorrect");
+            alert.showAndWait();
+            LoginView loginView = new LoginView();
+            loginView.start(StartGame.stage);
 
         }
     }

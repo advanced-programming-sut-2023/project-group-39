@@ -3,7 +3,7 @@ package model.user;
 
 import java.util.ArrayList;
 import model.government.Government;
-import model.user.chat.RoomChat;
+import model.chat.RoomChat;
 
 import java.util.HashMap;
 

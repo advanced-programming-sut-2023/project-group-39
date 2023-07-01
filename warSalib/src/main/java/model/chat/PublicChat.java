@@ -1,4 +1,4 @@
-package org.example.chat;
+package model.chat;
 
 public class PublicChat extends Chat{
 }

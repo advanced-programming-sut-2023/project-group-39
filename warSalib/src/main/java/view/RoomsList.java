@@ -49,7 +49,6 @@ import model.government.resource.Resource;
 import model.map.GameMap;
 import model.map.Tile;
 import model.user.User;
-import model.user.chat.RoomChat;
 import view.enums.commands.MapMenuCommands;
 import javafx.scene.layout.*;
 import view.enums.messages.BuildingMessage;
@@ -83,31 +82,31 @@ public class RoomsList extends Application {
 
     @FXML
     private static void initialize() {
-        VBox rooms=new VBox();
-        ArrayList<Button> roomsButton=new ArrayList<>();
-        for (int i = 0; i < Game.getCurrentUser().getUserRoomChats().size(); i++) {
-            Button button=new Button(Game.getCurrentUser().getUserRoomChats().get(i).getGroupName());
-            roomsButton.add(button);
-            rooms.getChildren().add(button);
-        }
-        for (Button button:roomsButton){
-            button.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    RoomChat roomChat=Game.getCurrentUser().getUserRoomChats().get(roomsButton.indexOf(button));
-                    try {
-                        goToRoom(roomChat);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            });
-        }
-        roomsPane.getChildren().add(rooms);
+//        VBox rooms=new VBox();
+//        ArrayList<Button> roomsButton=new ArrayList<>();
+//        for (int i = 0; i < Game.getCurrentUser().getUserRoomChats().size(); i++) {
+//            Button button=new Button(Game.getCurrentUser().getUserRoomChats().get(i).getGroupName());
+//            roomsButton.add(button);
+//            rooms.getChildren().add(button);
+//        }
+//        for (Button button:roomsButton){
+//            button.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//                @Override
+//                public void handle(MouseEvent mouseEvent) {
+//                    RoomChat roomChat=Game.getCurrentUser().getUserRoomChats().get(roomsButton.indexOf(button));
+//                    try {
+//                        goToRoom(roomChat);
+//                    } catch (Exception e) {
+//                        throw new RuntimeException(e);
+//                    }
+//                }
+//            });
+//        }
+//        roomsPane.getChildren().add(rooms);
     }
 
-    private static void goToRoom(RoomChat roomChat) throws Exception {
-        Room room=new Room(roomChat);
-        room.start(StartGame.stage);
-    }
+//    private static void goToRoom(RoomChat roomChat) throws Exception {
+//        Room room=new Room(roomChat);
+//        room.start(StartGame.stage);
+//    }
 }

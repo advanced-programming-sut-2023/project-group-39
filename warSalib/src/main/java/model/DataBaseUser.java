@@ -1,9 +1,9 @@
-package org.example;
+package model;
 
-import org.example.chat.PrivateChat;
-import org.example.chat.PublicChat;
-import org.example.chat.RoomChat;
-
+import model.chat.PrivateChat;
+import model.chat.PublicChat;
+import model.chat.RoomChat;
+import model.user.User;
 import java.util.ArrayList;
 
 public class DataBaseUser {

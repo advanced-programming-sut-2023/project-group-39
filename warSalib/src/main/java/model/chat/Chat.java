@@ -1,7 +1,7 @@
-package org.example.chat;
+package model.chat;
 
-import org.example.Message;
-import org.example.User;
+import model.user.User;
+import model.user.User;
 
 import java.util.ArrayList;
 

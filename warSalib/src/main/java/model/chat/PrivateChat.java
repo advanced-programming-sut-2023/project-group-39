@@ -1,6 +1,6 @@
-package org.example.chat;
+package model.chat;
 
-import org.example.User;
+import model.user.User;
 
 public class PrivateChat extends Chat{
     @Override

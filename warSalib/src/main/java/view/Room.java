@@ -12,7 +12,6 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import model.Game;
-import model.user.chat.RoomChat;
 import control.BuildingControl;
 import control.GameControl;
 import control.MapControl;
@@ -66,11 +65,11 @@ public class Room extends Application {
     public static Pane RoomPane;
 
     public static Stage RoomStage;
-    private RoomChat roomChat;
+ //   private RoomChat roomChat;
 
-    public Room(RoomChat roomChat) {
-        this.roomChat = roomChat;
-    }
+//    public Room(RoomChat roomChat) {
+  //      this.roomChat = roomChat;
+  //  }
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -88,22 +87,23 @@ public class Room extends Application {
     }
 
     @FXML
-    private void initialize(){
-        VBox chats=new VBox();
-        for (int i=0;i<this.roomChat.getMessages().size();i++){
-            HBox hBox=new HBox();
-            Rectangle image=null;
-            if(roomChat.getMessages().get(i).getUserSendMessage().getChooseImageAddress()!=null){
-                ImagePattern imagePattern=new ImagePattern(new Image(roomChat.getMessages().get(i).getUserSendMessage().getChooseImageAddress()));
-                image.setFill(imagePattern);
-            }
-            Label username=new Label(roomChat.getMessages().get(i).getUserSendMessage().getUsername());
-            Label label=new Label(roomChat.getMessages().get(i).getMessage()+"         "+roomChat.getMessages().get(i).getDate());
-            if(image!=null)
-            hBox.getChildren().add(image);
-            hBox.getChildren().addAll(username,label);
-            chats.getChildren().add(hBox);
-        }
-        RoomPane.getChildren().add(chats);
+    private void initialize() {
+//        VBox chats=new VBox();
+//        for (int i=0;i<this.roomChat.getMessages().size();i++){
+//            HBox hBox=new HBox();
+//            Rectangle image=null;
+//            if(roomChat.getMessages().get(i).getUserSendMessage().getChooseImageAddress()!=null){
+//                ImagePattern imagePattern=new ImagePattern(new Image(roomChat.getMessages().get(i).getUserSendMessage().getChooseImageAddress()));
+//                image.setFill(imagePattern);
+//            }
+//            Label username=new Label(roomChat.getMessages().get(i).getUserSendMessage().getUsername());
+//            Label label=new Label(roomChat.getMessages().get(i).getMessage()+"         "+roomChat.getMessages().get(i).getDate());
+//            if(image!=null)
+//            hBox.getChildren().add(image);
+//            hBox.getChildren().addAll(username,label);
+//            chats.getChildren().add(hBox);
+//        }
+//        RoomPane.getChildren().add(chats);
+//    }
     }
 }
