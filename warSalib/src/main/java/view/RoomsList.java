@@ -6,6 +6,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.ImagePattern;
@@ -13,6 +15,8 @@ import javafx.stage.Stage;
 import model.Game;
 
 import java.awt.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import control.GameControl;
 import control.MapControl;
@@ -65,6 +69,9 @@ public class RoomsList extends Application {
     public static Pane roomsPane;
 
     public static Stage roomsStage;
+    public TextField message;
+    public VBox messages;
+    HBox chooseHBox;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -75,7 +82,7 @@ public class RoomsList extends Application {
         BackgroundFill backgroundFill = new BackgroundFill(new ImagePattern(image), CornerRadii.EMPTY, Insets.EMPTY);
         Background background = new Background(backgroundFill);
         pane.setBackground(background);
-        Scene scene = new Scene(pane, 840, 720);
+        Scene scene = new Scene(pane);
         stage.setTitle("Rooms:");
         stage.setScene(scene);
         stage.show();
@@ -109,5 +116,74 @@ public class RoomsList extends Application {
     private static void goToRoom(RoomChat roomChat) throws Exception {
         Room room=new Room(roomChat);
         room.start(StartGame.stage);
+    }
+
+    public void back(MouseEvent mouseEvent) throws Exception {
+        StartGame.getDataOutputStream().writeUTF("back");
+        StartGame.getDataOutputStream().writeUTF("mainView");
+        MainView mainView = new MainView();
+        mainView.start(StartGame.stage);
+    }
+
+    public void send(MouseEvent mouseEvent) throws IOException {
+        if (!message.getText().equals("")) {
+            StartGame.getDataOutputStream().writeUTF("send");
+            String username = StartGame.getDataInputStream().readUTF();
+            HBox hbox = new HBox();
+            hbox.setSpacing(5.0);
+            hbox.setOnMouseClicked(this :: choose);
+            Label label = new Label(username + " : " + message.getText());
+            Image image = new Image(ChatView.class.getResource("/images/tick.png").toExternalForm());
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(10.0);
+            imageView.setFitHeight(10.0);
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+            LocalDateTime localTime = LocalDateTime.now();
+            Label time = new Label(dateTimeFormatter.format(localTime));
+            hbox.getChildren().add(label);
+            hbox.getChildren().add(imageView);
+            hbox.getChildren().add(time);
+            messages.getChildren().add(hbox);
+            message.setText("");
+        }
+    }
+
+    private void choose(MouseEvent mouseEvent) {
+        HBox hBox = (HBox) mouseEvent.getSource();
+        if (chooseHBox == null) {
+            hBox.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            chooseHBox = hBox;
+        } else if (chooseHBox == hBox) {
+            hBox.setStyle("-fx-border-color: transparent; -fx-border-width: 2px;");
+            chooseHBox = null;
+        } else  {
+            chooseHBox.setStyle("-fx-border-color: transparent; -fx-border-width: 2px;");
+            hBox.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            chooseHBox = hBox;
+        }
+    }
+
+    public void edit(MouseEvent mouseEvent) {
+        if (chooseHBox != null) {
+            Label label = (Label) chooseHBox.getChildren().get(0);
+            String []result = label.getText().split(":");
+            String mes = result[0] + ": " + message.getText();
+            label.setText(mes);
+            Label time = (Label) chooseHBox.getChildren().get(2);
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+            LocalDateTime localTime = LocalDateTime.now();
+            time.setText(dateTimeFormatter.format(localTime));
+        }
+    }
+
+    public void delete(MouseEvent mouseEvent) {
+        if (chooseHBox != null) {
+            Label label = (Label) chooseHBox.getChildren().get(0);
+            label.setText("");
+            Label time = (Label) chooseHBox.getChildren().get(2);
+            time.setText("");
+            ImageView imageView = (ImageView) chooseHBox.getChildren().get(1);
+            imageView.setImage(null);
+        }
     }
 }
