@@ -95,6 +95,7 @@ public class Connection extends Thread {
                 isTrue = false;
             } else if (input.equals("send")) {
                 System.out.println("send");
+                dataOutputStream.writeUTF(dataBaseUser.getUser().getUsername());
                 // todo : handle it
             }
         }
@@ -107,6 +108,9 @@ public class Connection extends Thread {
             if (input.equals("newChat")) {
                 System.out.println("search user");
                 newChat();
+            } else if (input.equals("send")) {
+                System.out.println("send");
+                dataOutputStream.writeUTF(dataBaseUser.getUser().getUsername());
             }
         }
     }
