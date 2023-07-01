@@ -28,4 +28,8 @@ public class Chat {
     public void setMessages(ArrayList<MessageChat> messages) {
         this.messages = messages;
     }
+
+    public ArrayList<MessageChat> getMessages() {
+        return messages;
+    }
 }

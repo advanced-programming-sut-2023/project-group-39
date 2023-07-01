@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
+import org.example.chat.PublicChat;
 
 public class Connection extends Thread {
     private Socket socket;
@@ -31,6 +32,8 @@ public class Connection extends Thread {
     private DataBaseUser guestDataBaseUser;
 
     private String username;
+
+    private static PublicChat gamePublicChat=new PublicChat();
 
     public Connection(Socket socket) throws IOException {
         System.out.println("New connection form: " + socket.getInetAddress() + ":" + socket.getPort());
@@ -85,12 +88,15 @@ public class Connection extends Thread {
                     System.out.println("client disconnected!" + socket.getInetAddress() + "   " + socket.getPort());
                     if (Database.getLoggedInUser() != null)
                         Database.removeUsersInGame(Database.getLoggedInUser());
-                    Database.setLoggedInUser(null);
+                        Database.setLoggedInUser(null);
                     this.stop();
                 }
             } else if (input.equals("public chat")) {
                 try {
                     System.out.println("go to public chat");
+                    String json=null;
+                    json=new String(Files.readAllBytes(Paths.get("publicChat.json")));
+                    dataOutputStream.writeUTF("Data"+json);
                     publicChatCommand();
                 } catch (IOException e) {
                     System.out.println("client disconnected!" + socket.getInetAddress() + "   " + socket.getPort());
@@ -136,7 +142,14 @@ public class Connection extends Thread {
             } else if (input.equals("send")) {
                 System.out.println("send");
                 dataOutputStream.writeUTF(dataBaseUser.getUsername());
-                // todo : handle it
+                String[] inputs=dataInputStream.readUTF().split("\\+");
+                System.out.println(inputs[1]);
+                MessageChat messageChat=new MessageChat(inputs[1],inputs[0],inputs[2]);
+                gamePublicChat.addMessage(messageChat);
+                FileWriter fileWriter = new FileWriter("publicChat.json");
+                fileWriter.write(new Gson().toJson(gamePublicChat.getMessages()));
+                fileWriter.close();
+                dataOutputStream.writeUTF("message send");
             }
         }
     }
