@@ -121,7 +121,7 @@ public class Connection extends Thread {
                 isTrue = false;
             } else if (input.equals("send")) {
                 System.out.println("send");
-                dataOutputStream.writeUTF(dataBaseUser.getUser().getUsername());
+                dataOutputStream.writeUTF(dataBaseUser.getUsername());
                 // todo : handle it
             }
         }
@@ -135,7 +135,7 @@ public class Connection extends Thread {
                 isTrue = false;
             } else if (input.equals("send")) {
                 System.out.println("send");
-                dataOutputStream.writeUTF(dataBaseUser.getUser().getUsername());
+                dataOutputStream.writeUTF(dataBaseUser.getUsername());
                 // todo : handle it
             }
         }
@@ -157,9 +157,9 @@ public class Connection extends Thread {
                 System.out.println("search user");
                 newChat();
             }
-        } else if (input.equals("send")) {
+        else if (input.equals("send")) {
             System.out.println("send");
-            dataOutputStream.writeUTF(dataBaseUser.getUser().getUsername());
+            dataOutputStream.writeUTF(dataBaseUser.getUsername());
         } else if (input.equals("back")){
             System.out.println("back");
             isTrue = false;
