@@ -1,12 +1,20 @@
 package org.example;
 
 
+import com.google.gson.reflect.TypeToken;
+import org.example.chat.MessageChat;
 import org.example.chat.PrivateChat;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+
+import com.google.gson.Gson;
 
 public class Connection extends Thread {
     private Socket socket;
@@ -15,6 +23,14 @@ public class Connection extends Thread {
     private String input;
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
+
+    private static PrivateChat privateChat;
+
+    private static User privateChatUser;
+
+    private DataBaseUser guestDataBaseUser;
+
+    private String username;
 
     public Connection(Socket socket) throws IOException {
         System.out.println("New connection form: " + socket.getInetAddress() + ":" + socket.getPort());
@@ -72,32 +88,112 @@ public class Connection extends Thread {
                     Database.setLoggedInUser(null);
                     this.stop();
                 }
+            } else if (input.equals("roomChat")) {
+                try {
+                    System.out.println("go to room chat");
+                    goRoomChat();
+                } catch (IOException e) {
+                    System.out.println("client disconnected!" + socket.getInetAddress() + "   " + socket.getPort());
+                    if (Database.getLoggedInUser() != null)
+                        Database.removeUsersInGame(Database.getLoggedInUser());
+                    Database.setLoggedInUser(null);
+                    this.stop();
+                }
             }
         }
     }
 
-    private void chatCommands() throws IOException{
-        dataOutputStream.writeUTF(dataBaseUser.getUser().getUsername()+ ":" + dataBaseUser.getUser().getAvatarImageAddress());
+    private void goRoomChat() throws IOException {
+        String message = new Gson().toJson(dataBaseUser);
+        dataOutputStream.writeUTF(message);
+        while (isTrue) {
+            System.out.println(input);
+        }
+    }
+
+    private void chatCommands() throws IOException {
+        dataOutputStream.writeUTF(dataBaseUser.getUsername() + ":");
         while (isTrue) {
             input = dataInputStream.readUTF();
             if (input.equals("newChat")) {
                 System.out.println("search user");
                 newChat();
             }
+            else if(input.startsWith("Message to Send")){
+                if(privateChat==null){
+                    dataOutputStream.writeUTF("first declare user to send");
+                }
+                else {
+                    System.out.println("message send");
+                    String message = input.substring(15, input.length());
+                    String time= String.valueOf(java.time.LocalTime.now());
+                    time=time.substring(0,8);
+                    System.out.println(dataBaseUser.getUsername()+"111");
+                    MessageChat messageChat=new MessageChat(dataBaseUser.getUsername(),message,time);
+                    privateChat.addMessage(messageChat);
+                    int flag=0;
+                    for(PrivateChat privateChat1:guestDataBaseUser.getPrivateChats()) {
+                        if (privateChat1.getGroupId().contains(dataBaseUser.getUsername()) && privateChat1.getGroupId().contains(username)) {
+                            privateChat1.addMessage(messageChat);
+                            System.out.println("1");
+                            flag = 1;
+                            break;
+                        }
+                    }
+                    if(flag==0){
+                        PrivateChat privateChat1=new PrivateChat();
+                        privateChat1.getGroupId().add(username);
+                        privateChat1.getGroupId().add(dataBaseUser.getUsername());
+                        privateChat1.addMessage(messageChat);
+                        guestDataBaseUser.addChatToPrivate(privateChat1);
+                    }
+                    FileWriter fileWriter = new FileWriter("database.json");
+                    fileWriter.write(new Gson().toJson(Database.getDataBaseUsers()));
+                    fileWriter.close();
+                    dataOutputStream.writeUTF("message send");
+
+                }
+            }
         }
     }
 
     private void newChat() throws IOException {
-        String username = dataInputStream.readUTF();
-        if (dataBaseUser.hasPrivateChats(username))
-            dataOutputStream.writeUTF("you already have this chat");
-        else {
+        username = dataInputStream.readUTF();
             if (Database.getUserByName(username) != null) {
+                for (DataBaseUser dataBaseUser1:Database.getDataBaseUsers()){
+                    if(dataBaseUser1.getUsername().equals(username)){
+                        guestDataBaseUser=dataBaseUser1;
+                        break;
+                    }
+                }
+                if(guestDataBaseUser==null){
+                    guestDataBaseUser=new DataBaseUser(username,null,null,null);
+                    Database.getDataBaseUsers().add(guestDataBaseUser);
+                }
                 System.out.println("make chat");
-                dataOutputStream.writeUTF("make chat");
+                String data=new Gson().toJson(dataBaseUser);
+                dataOutputStream.writeUTF("Data"+data);
+                int flag=0;
+                for (PrivateChat privateChat1:dataBaseUser.getPrivateChats()){
+                    if(privateChat1.getGroupId().contains(dataBaseUser.getUsername())&&privateChat1.getGroupId().contains(username)){
+                        privateChat=privateChat1;
+                        flag=1;
+                        break;
+                    }
+                }
+                if(flag==0) {
+                    privateChat=new PrivateChat();
+                    System.out.println("oh no!");
+                    privateChat.getGroupId().clear();
+                    privateChat.addPeople(dataBaseUser.getUsername());
+                    privateChat.addPeople(username);
+                    dataBaseUser.addChatToPrivate(privateChat);
+                }
+                FileWriter fileWriter = new FileWriter("database.json");
+                fileWriter.write(new Gson().toJson(Database.getDataBaseUsers()));
+                fileWriter.close();
             } else dataOutputStream.writeUTF("not found user");
         }
-    }
 
     private void mainViewCommands() throws IOException {
         while (isTrue) {
@@ -164,7 +260,23 @@ public class Connection extends Thread {
                     System.out.println("success");
                     isTrue = false;
                     Database.setLoggedInUser(Database.getUserByName(loginData[0]));
-                    dataBaseUser = new DataBaseUser(Database.getUserByName(loginData[0]),null,null,null);
+                    String json=null;
+                    json=new String(Files.readAllBytes(Paths.get("database.json")));
+                    ArrayList<DataBaseUser> dataBaseUsers=new Gson().fromJson(json,new TypeToken<ArrayList<DataBaseUser>>(){}.getType());
+                    int flag=0;
+                    if(dataBaseUsers!=null) {
+                        Database.setDataBaseUsers(dataBaseUsers);
+                    for (DataBaseUser dataBaseUser1:Database.getDataBaseUsers()) {
+                        if (dataBaseUser1.getUsername().equals(Database.getUserByName(loginData[0]).getUsername())) {
+                            dataBaseUser = dataBaseUser1;
+                            flag = 1;
+                        }
+                    }
+                    }
+                        if (flag == 0) {
+                            dataBaseUser = new DataBaseUser(Database.getUserByName(loginData[0]).getUsername(), null, null, null);
+                            Database.getDataBaseUsers().add(dataBaseUser);
+                        }
                     //todo : handle it then
                 } else {
                     dataOutputStream.writeUTF("user has already logged in");
@@ -188,6 +300,15 @@ public class Connection extends Thread {
         }
         Database.addUsersInGame(userByName);
         return true;
+    }
+
+    private User getUserByUsername(String username) {
+        for (User user : Database.getUsers()) {
+            if (user.getUsername().equals(username))
+                return user;
+
+        }
+        return null;
     }
 
 }

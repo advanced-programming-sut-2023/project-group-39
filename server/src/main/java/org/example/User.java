@@ -33,6 +33,9 @@ public class User {
 
     private String securityQuestionAnswer;
     private HashMap<String, String> securityQuestion ;
+    public User(){
+
+    }
     //private Government UserGovernment;
     public User(String username,  String password, String email, String nickname,String slogan,String securityQuestionAnswer) {
         this.username = username;

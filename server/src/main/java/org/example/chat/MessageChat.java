@@ -3,17 +3,20 @@ package org.example.chat;
 import org.example.User;
 
 public class MessageChat {
-    private User userSendMessage ;
+    private String userSendMessage ;
     private String message;
-    private int date;
+    private String date;
 
-    public MessageChat(User userSendMessage, String message, int date) {
+    public MessageChat(String userSendMessage, String message, String date) {
         this.userSendMessage = userSendMessage;
         this.message = message;
         this.date = date;
     }
+    public MessageChat(){
 
-    public User getUserSendMessage() {
+    }
+
+    public String getUserSendMessage() {
         return userSendMessage;
     }
 
@@ -21,7 +24,7 @@ public class MessageChat {
         return message;
     }
 
-    public int getDate() {
+    public String getDate() {
         return date;
     }
 }

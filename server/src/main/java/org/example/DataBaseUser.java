@@ -7,24 +7,38 @@ import org.example.chat.RoomChat;
 import java.util.ArrayList;
 
 public class DataBaseUser {
-    private User user;
+    private String username;
+
+    public DataBaseUser(){
+        this.username=getUsername();
+        this.roomChats = roomChats;
+        this.privateChats = privateChats;
+        this.publicChats = publicChats;
+        this.privateChats=new ArrayList<>();
+        this.publicChats=new ArrayList<>();
+        this.roomChats=new ArrayList<>();
+    }
+
     private ArrayList<RoomChat> roomChats = new ArrayList<>();
     private ArrayList<PrivateChat> privateChats = new ArrayList<>();
     private ArrayList<PublicChat> publicChats = new ArrayList<>();
 
-    public DataBaseUser(User user, ArrayList<RoomChat> roomChats, ArrayList<PrivateChat> privateChats, ArrayList<PublicChat> publicChats) {
-        this.user = user;
+    public DataBaseUser(String username, ArrayList<RoomChat> roomChats, ArrayList<PrivateChat> privateChats, ArrayList<PublicChat> publicChats) {
+        this.username = username;
         this.roomChats = roomChats;
         this.privateChats = privateChats;
         this.publicChats = publicChats;
+        this.privateChats=new ArrayList<>();
+        this.publicChats=new ArrayList<>();
+        this.roomChats=new ArrayList<>();
     }
 
-    public User getUser() {
-        return user;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public ArrayList<RoomChat> getRoomChats() {
@@ -60,11 +74,11 @@ public class DataBaseUser {
         this.publicChats.add(publicChat);
     }
     public synchronized boolean hasPrivateChats (String username) {
-        if (privateChats ==null || privateChats.size() == 0)
+        if (privateChats == null || privateChats.size() == 0)
             return false;
         for (PrivateChat privateChat : privateChats) {
-            for (User user1 : privateChat.getGroupId()) {
-                if (user1.getUsername().equals(username))
+            for (String user1 : privateChat.getGroupId()) {
+                if (user1.equals(username))
                     return true;
             }
         }
