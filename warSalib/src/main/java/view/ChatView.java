@@ -25,6 +25,7 @@ public class ChatView extends Application {
     public Label username;
     public VBox chats;
     public VBox message;
+    HBox chooseHBox;
     public TextField messageBeSent;
     public TextField search;
 
@@ -70,6 +71,7 @@ public class ChatView extends Application {
             String username = StartGame.getDataInputStream().readUTF();
             HBox hbox = new HBox();
             hbox.setSpacing(5.0);
+            hbox.setOnMouseClicked(this :: choose);
             Label label = new Label(username + " : " + messageBeSent.getText());
             Image image = new Image(ChatView.class.getResource("/images/tick.png").toExternalForm());
             ImageView imageView = new ImageView(image);
@@ -85,4 +87,51 @@ public class ChatView extends Application {
             messageBeSent.setText("");
         }
     }
+
+    private void choose(MouseEvent mouseEvent) {
+        HBox hBox = (HBox) mouseEvent.getSource();
+        if (chooseHBox == null) {
+            hBox.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            chooseHBox = hBox;
+        } else if (chooseHBox == hBox) {
+            hBox.setStyle("-fx-border-color: transparent; -fx-border-width: 2px;");
+            chooseHBox = null;
+        } else  {
+            chooseHBox.setStyle("-fx-border-color: transparent; -fx-border-width: 2px;");
+            hBox.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            chooseHBox = hBox;
+        }
+    }
+
+    public void edit(MouseEvent mouseEvent) {
+        if (chooseHBox != null) {
+            Label label = (Label) chooseHBox.getChildren().get(0);
+            String []result = label.getText().split(":");
+            String mes = result[0] + ": " + messageBeSent.getText();
+            label.setText(mes);
+            Label time = (Label) chooseHBox.getChildren().get(2);
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+            LocalDateTime localTime = LocalDateTime.now();
+            time.setText(dateTimeFormatter.format(localTime));
+        }
+    }
+
+    public void delete(MouseEvent mouseEvent) {
+        if (chooseHBox != null) {
+            Label label = (Label) chooseHBox.getChildren().get(0);
+            label.setText("");
+            Label time = (Label) chooseHBox.getChildren().get(2);
+            time.setText("");
+            ImageView imageView = (ImageView) chooseHBox.getChildren().get(1);
+            imageView.setImage(null);
+        }
+    }
+
+    public void back(MouseEvent mouseEvent) throws Exception {
+        StartGame.getDataOutputStream().writeUTF("back");
+        StartGame.getDataOutputStream().writeUTF("mainView");
+        MainView mainView = new MainView();
+        mainView.start(StartGame.stage);
+    }
 }
+

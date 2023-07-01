@@ -27,5 +27,7 @@
       </ScrollPane>
       <TextField fx:id="message" layoutX="14.0" layoutY="119.0" prefHeight="26.0" prefWidth="366.0" />
       <Button layoutX="385.0" layoutY="119.0" mnemonicParsing="false" onMouseClicked="#send" text="send" />
+      <Button layoutX="437.0" layoutY="120.0" mnemonicParsing="false" text="delete" onMouseClicked="#delete"/>
+      <Button layoutX="495.0" layoutY="119.0" mnemonicParsing="false" text="edit" onMouseClicked="#edit"/>
    </children>
 </AnchorPane>

@@ -111,6 +111,9 @@ public class Connection extends Thread {
             } else if (input.equals("send")) {
                 System.out.println("send");
                 dataOutputStream.writeUTF(dataBaseUser.getUser().getUsername());
+            } else if (input.equals("back")){
+                System.out.println("back");
+                isTrue = false;
             }
         }
     }
