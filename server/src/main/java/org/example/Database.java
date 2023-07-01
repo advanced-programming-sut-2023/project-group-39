@@ -115,9 +115,9 @@ public class Database {
         return "invalidUsername";
     }
 
-    public static User getUserByName(String username, String password) {
+    public static User getUserByName(String username) {
         for (User user : users) {
-            if (user.getPassword().equals(password) && user.getUsername().equals(username))
+            if (user.getUsername().equals(username))
                 return user;
         }
         return null;

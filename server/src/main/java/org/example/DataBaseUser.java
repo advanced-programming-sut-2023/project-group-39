@@ -8,9 +8,9 @@ import java.util.ArrayList;
 
 public class DataBaseUser {
     private User user;
-    private ArrayList<RoomChat> roomChats;
-    private ArrayList<PrivateChat> privateChats;
-    private ArrayList<PublicChat> publicChats;
+    private ArrayList<RoomChat> roomChats = new ArrayList<>();
+    private ArrayList<PrivateChat> privateChats = new ArrayList<>();
+    private ArrayList<PublicChat> publicChats = new ArrayList<>();
 
     public DataBaseUser(User user, ArrayList<RoomChat> roomChats, ArrayList<PrivateChat> privateChats, ArrayList<PublicChat> publicChats) {
         this.user = user;
@@ -58,5 +58,16 @@ public class DataBaseUser {
     }
     public synchronized void addChatToPublic(PublicChat publicChat){
         this.publicChats.add(publicChat);
+    }
+    public synchronized boolean hasPrivateChats (String username) {
+        if (privateChats ==null || privateChats.size() == 0)
+            return false;
+        for (PrivateChat privateChat : privateChats) {
+            for (User user1 : privateChat.getGroupId()) {
+                if (user1.getUsername().equals(username))
+                    return true;
+            }
+        }
+        return false;
     }
 }

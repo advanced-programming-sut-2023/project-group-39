@@ -1,6 +1,8 @@
 package org.example;
 
 
+import org.example.chat.PrivateChat;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -9,6 +11,7 @@ import java.net.Socket;
 public class Connection extends Thread {
     private Socket socket;
     private boolean isTrue = true;
+    private DataBaseUser dataBaseUser;
     private String input;
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
@@ -74,6 +77,26 @@ public class Connection extends Thread {
     }
 
     private void chatCommands() throws IOException{
+        dataOutputStream.writeUTF(dataBaseUser.getUser().getUsername()+ ":" + dataBaseUser.getUser().getAvatarImageAddress());
+        while (isTrue) {
+            input = dataInputStream.readUTF();
+            if (input.equals("newChat")) {
+                System.out.println("search user");
+                newChat();
+            }
+        }
+    }
+
+    private void newChat() throws IOException {
+        String username = dataInputStream.readUTF();
+        if (dataBaseUser.hasPrivateChats(username))
+            dataOutputStream.writeUTF("you already have this chat");
+        else {
+            if (Database.getUserByName(username) != null) {
+                System.out.println("make chat");
+                dataOutputStream.writeUTF("make chat");
+            } else dataOutputStream.writeUTF("not found user");
+        }
     }
 
     private void mainViewCommands() throws IOException {
@@ -135,11 +158,13 @@ public class Connection extends Thread {
         } else {
             Message message = Database.hasUser(loginData[0], loginData[1]);
             if (message.equals(Message.SUCCESS)) {
-                if (checkUser(Database.getUserByName(loginData[0], loginData[1]))) {
+                if (checkUser(Database.getUserByName(loginData[0]))) {
                     dataOutputStream.writeUTF("success");
                     System.out.println("success");
                     isTrue = false;
-                    Database.setLoggedInUser(Database.getUserByName(loginData[0], loginData[1]));
+                    Database.setLoggedInUser(Database.getUserByName(loginData[0]));
+                    dataBaseUser = new DataBaseUser(Database.getUserByName(loginData[0]),null,null,null);
+                    //todo : handle it then
                 } else {
                     dataOutputStream.writeUTF("user has already logged in");
                 }
