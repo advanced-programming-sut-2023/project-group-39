@@ -72,6 +72,30 @@ public class Connection extends Thread {
                     Database.setLoggedInUser(null);
                     this.stop();
                 }
+            } else if (input.equals("public chat")) {
+                try {
+                    System.out.println("go to public chat");
+                    publicChatCommand();
+                } catch (IOException e) {
+                    System.out.println("client disconnected!" + socket.getInetAddress() + "   " + socket.getPort());
+                    if (Database.getLoggedInUser() != null)
+                        Database.removeUsersInGame(Database.getLoggedInUser());
+                    Database.setLoggedInUser(null);
+                    this.stop();
+                }
+            }
+        }
+    }
+
+    private void publicChatCommand() throws IOException{
+        while (isTrue) {
+            input = dataInputStream.readUTF();
+            if (input.equals("back")) {
+                System.out.println("back to main menu");
+                isTrue = false;
+            } else if (input.equals("send")) {
+                System.out.println("send");
+                // todo : handle it
             }
         }
     }
@@ -112,6 +136,8 @@ public class Connection extends Thread {
                 System.out.println("logout");
                 isTrue = false;
             } else if (input.equals("chat"))
+                isTrue = false;
+            else if (input.equals("go to chat"))
                 isTrue = false;
         }
     }

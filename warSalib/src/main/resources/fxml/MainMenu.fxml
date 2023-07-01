@@ -5,8 +5,9 @@
 
 <Pane fx:id="mainPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainView">
     <Button layoutX="20" layoutY="20" onMouseClicked="#StartNewGame" text="Start New Game" />
-    <Button layoutX="20" layoutY="120" onMouseClicked="#logout" text="logout" />
-    <Button layoutX="20" layoutY="220" onMouseClicked="#goProfileMenu" text="Profile Menu" />
-   <Button layoutX="20.0" layoutY="325.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="71.0" text="chat" onMouseClicked="#chat"/>
-    <Button layoutX="20" layoutY="390" onMouseClicked="#goRooms" text="rooms"   />
+    <Button layoutX="20.0" layoutY="70.0" onMouseClicked="#logout" text="logout" />
+    <Button layoutX="20.0" layoutY="123.0" onMouseClicked="#goProfileMenu" text="Profile Menu" />
+   <Button layoutX="20.0" layoutY="181.0" mnemonicParsing="false" onMouseClicked="#chat" prefHeight="26.0" prefWidth="71.0" text="chat" />
+    <Button layoutX="20.0" layoutY="234.0" onMouseClicked="#goRooms" text="rooms" />
+   <Button layoutX="19.0" layoutY="301.0" mnemonicParsing="false" text="public chat" onMouseClicked="#goPublicChat"/>
 </Pane>
