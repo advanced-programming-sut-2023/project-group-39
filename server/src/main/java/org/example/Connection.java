@@ -116,8 +116,67 @@ public class Connection extends Thread {
                     Database.setLoggedInUser(null);
                     this.stop();
                 }
+            } else if (input.equals("profile")) {
+                System.out.println("profile menu");
+                try {
+                    profileCommands();
+                } catch (IOException e) {
+                    System.out.println("client disconnected!" + socket.getInetAddress() + "   " + socket.getPort());
+                    if (Database.getLoggedInUser() != null)
+                        Database.removeUsersInGame(Database.getLoggedInUser());
+                    Database.setLoggedInUser(null);
+                    this.stop();
+                }
+            } else if (input.equals("friend")) {
+                System.out.println("friendView");
+                try {
+                    friendCommands();
+                } catch (IOException e) {
+                    System.out.println("client disconnected!" + socket.getInetAddress() + "   " + socket.getPort());
+                    if (Database.getLoggedInUser() != null)
+                        Database.removeUsersInGame(Database.getLoggedInUser());
+                    Database.setLoggedInUser(null);
+                    this.stop();
+                }
             }
         }
+    }
+
+    private void friendCommands() throws IOException{
+        while (isTrue) {
+            input = dataInputStream.readUTF();
+            if (input.equals("back"))
+                isTrue =false;
+            else if (input.equals("search")) {
+                searchUser();
+            } else if (input.equals("accept")) {
+                acceptFriends();
+            } else if (input.equals("reject")) {
+                rejectFriends();
+            }
+        }
+    }
+
+    private void rejectFriends() {
+
+    }
+
+    private void acceptFriends() {
+
+    }
+
+    private void searchUser() throws IOException {
+        input = dataInputStream.readUTF();
+        if (Database.getUserByName(input) ==null) {
+            dataOutputStream.writeUTF("not user");
+        } else {
+            dataOutputStream.writeUTF("success");
+            // todo : handle this
+        }
+    }
+
+    private void profileCommands() throws IOException{
+        dataOutputStream.writeUTF(dataBaseUser.getUsername());
     }
 
     private void roomCommands() throws IOException{
@@ -335,9 +394,9 @@ public class Connection extends Thread {
                     }
                         if (flag == 0) {
                             dataBaseUser = new DataBaseUser(Database.getUserByName(loginData[0]).getUsername(), null, null, null);
+                            dataBaseUser.setUser(Database.getUserByName(loginData[0]));
                             Database.getDataBaseUsers().add(dataBaseUser);
                         }
-                    //todo : handle it then
                 } else {
                     dataOutputStream.writeUTF("user has already logged in");
                 }
