@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -27,6 +28,8 @@ public class PublicChat extends Application {
     public VBox messages;
     HBox chooseHBox;
 
+    public static String dataSave;
+
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -39,26 +42,32 @@ public class PublicChat extends Application {
     @FXML
     public void initialize() throws IOException {
         String data = StartGame.getDataInputStream().readUTF();
-        data = data.substring(4, data.length());
+        if (data.equals(LoginView.loginUser)) {
+            data = dataSave;
+        }
         String messageRegex = "\\\"userSendMessage\\\":\\\"(?<User>[^\\\"]+)\\\"\\,\\\"message\\\":\\\"(?<message>[^\\\"]+)\\\"\\,\\\"date\\\":\\\"(?<date>[^\\\"]+)\\\"";
-        String[] messages1 = data.split("\\]");
-        for (int i = 0; i < messages1.length; i++) {
-            Matcher messageMatcher = Pattern.compile(messageRegex).matcher(messages1[i]);
-            if (messageMatcher.find()) {
-                String userSender=messageMatcher.group("User");
-                Label userLabel=new Label(userSender+" :  ");
-                String sending = messageMatcher.group("message");
-                Label messageSending = new Label(sending+"  ");
-                Label Date = new Label(messageMatcher.group("date"));
-                Image image = new Image(ChatView.class.getResource("/images/tick.png").toExternalForm());
-                ImageView imageView = new ImageView(image);
-                imageView.setFitWidth(10.0);
-                imageView.setFitHeight(10.0);
-                HBox toSend = new HBox();
-                toSend.getChildren().addAll(userLabel,messageSending, imageView, Date);
-                messages.getChildren().add(toSend);
+        if (data != null) {
+            String[] messages1 = data.split("\\}");
+            dataSave = data;
+            for (int i = 0; i < messages1.length; i++) {
+                System.out.println(messages1[i]);
+                Matcher messageMatcher = Pattern.compile(messageRegex).matcher(messages1[i]);
+                if (messageMatcher.find()) {
+                    String userSender = messageMatcher.group("User");
+                    Label userLabel = new Label(userSender + " :  ");
+                    String sending = messageMatcher.group("message");
+                    Label messageSending = new Label(sending + "  ");
+                    Label Date = new Label(messageMatcher.group("date"));
+                    Image image = new Image(ChatView.class.getResource("/images/tick.png").toExternalForm());
+                    ImageView imageView = new ImageView(image);
+                    imageView.setFitWidth(10.0);
+                    imageView.setFitHeight(10.0);
+                    HBox toSend = new HBox();
+                    toSend.getChildren().addAll(userLabel, messageSending, imageView, Date);
+                    messages.getChildren().add(toSend);
 
 
+                }
             }
         }
     }
@@ -89,6 +98,8 @@ public class PublicChat extends Application {
             hbox.getChildren().add(imageView);
             hbox.getChildren().add(time);
             messages.getChildren().add(hbox);
+            String messageToAppend = "}\"userSendMessage\":\"" + username + "\",\"message\":\"" + message.getText() + "\",\"date\":\"" + time.getText() + "\"";
+            dataSave = dataSave + messageToAppend;
             StartGame.getDataOutputStream().writeUTF(message.getText() + "+" + username + "+" + time.getText());
             message.setText("");
         }
@@ -109,9 +120,19 @@ public class PublicChat extends Application {
         }
     }
 
-    public void delete(MouseEvent mouseEvent) {
+    public void delete(MouseEvent mouseEvent) throws IOException {
         if (chooseHBox != null) {
             Label label = (Label) chooseHBox.getChildren().get(0);
+            System.out.println(label.getText());
+            StartGame.getDataOutputStream().writeUTF("Delete:" + label.getText());
+            dataSave = null;
+            if (StartGame.getDataInputStream().readUTF().equals("message deleted")) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setContentText("message deleted successfully");
+                alert.showAndWait();
+
+            }
+            message.setText("");
             label.setText("");
             Label time = (Label) chooseHBox.getChildren().get(2);
             time.setText("");
@@ -120,11 +141,21 @@ public class PublicChat extends Application {
         }
     }
 
-    public void edit(MouseEvent mouseEvent) {
+    public void edit(MouseEvent mouseEvent) throws IOException {
         if (chooseHBox != null) {
             Label label = (Label) chooseHBox.getChildren().get(0);
+            String previousMessage = label.getText();
+            String prev=LoginView.loginUser+" : "+message.getText();
             String[] result = label.getText().split(":");
             String mes = result[0] + ": " + message.getText();
+            StartGame.getDataOutputStream().writeUTF("Previous:" + previousMessage + ":" + prev);
+            String input = StartGame.getDataInputStream().readUTF();
+            if (input.equals("message edited")) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setContentText("message edited successfully");
+                alert.showAndWait();
+
+            }
             label.setText(mes);
             Label time = (Label) chooseHBox.getChildren().get(2);
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");

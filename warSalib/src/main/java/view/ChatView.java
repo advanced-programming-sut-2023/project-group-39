@@ -191,12 +191,16 @@ public class ChatView extends Application {
         }
     }
 
-    public void edit(MouseEvent mouseEvent) {
+    public void edit(MouseEvent mouseEvent) throws IOException {
         if (chooseHBox != null) {
             Label label = (Label) chooseHBox.getChildren().get(0);
+            String previousMessage=label.getText();
             String []result = label.getText().split(":");
             String mes = result[0] + ": " + messageBeSent.getText();
             label.setText(mes);
+            StartGame.getDataOutputStream().writeUTF("send");
+            System.out.println(previousMessage+"xxx");
+            sending2(previousMessage,mes);
             Label time = (Label) chooseHBox.getChildren().get(2);
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
             LocalDateTime localTime = LocalDateTime.now();
@@ -204,14 +208,36 @@ public class ChatView extends Application {
         }
     }
 
-    public void delete(MouseEvent mouseEvent) {
+    private void sending2(String previousMessage, String mes) throws IOException {
+        StartGame.getDataOutputStream().writeUTF("Previous:" + previousMessage + ":" + mes);
+        String result = StartGame.getDataInputStream().readUTF();
+        if (result.equals("message edited")) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText("message edited successfully");
+            alert.showAndWait();
+        }
+    }
+
+    public void delete(MouseEvent mouseEvent) throws IOException {
         if (chooseHBox != null) {
             Label label = (Label) chooseHBox.getChildren().get(0);
+            String deleteMessage=label.getText();
+            delteing(deleteMessage);
             label.setText("");
             Label time = (Label) chooseHBox.getChildren().get(2);
             time.setText("");
             ImageView imageView = (ImageView) chooseHBox.getChildren().get(1);
             imageView.setImage(null);
+        }
+    }
+
+    private void delteing(String deleteMessage) throws IOException {
+        StartGame.getDataOutputStream().writeUTF("Delete:" + deleteMessage + ":");
+        String result = StartGame.getDataInputStream().readUTF();
+        if (result.equals("message deleted")) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText("message edited successfully");
+            alert.showAndWait();
         }
     }
 
