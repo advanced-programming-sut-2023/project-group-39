@@ -27,4 +27,8 @@ public class MessageChat {
     public String getDate() {
         return date;
     }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 }

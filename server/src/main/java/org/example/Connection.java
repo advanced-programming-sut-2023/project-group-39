@@ -13,6 +13,8 @@ import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.google.gson.Gson;
 import org.example.chat.PublicChat;
@@ -33,7 +35,7 @@ public class Connection extends Thread {
 
     private String username;
 
-    private static PublicChat gamePublicChat=new PublicChat();
+    private static PublicChat gamePublicChat = new PublicChat();
 
     public Connection(Socket socket) throws IOException {
         System.out.println("New connection form: " + socket.getInetAddress() + ":" + socket.getPort());
@@ -88,15 +90,18 @@ public class Connection extends Thread {
                     System.out.println("client disconnected!" + socket.getInetAddress() + "   " + socket.getPort());
                     if (Database.getLoggedInUser() != null)
                         Database.removeUsersInGame(Database.getLoggedInUser());
-                        Database.setLoggedInUser(null);
+                    Database.setLoggedInUser(null);
                     this.stop();
                 }
             } else if (input.equals("public chat")) {
                 try {
                     System.out.println("go to public chat");
-                    String json=null;
-                    json=new String(Files.readAllBytes(Paths.get("publicChat.json")));
-                    dataOutputStream.writeUTF("Data"+json);
+                    String json = null;
+                    json = new String(Files.readAllBytes(Paths.get("publicChat.json")));
+                    ArrayList<MessageChat> messageChats = new Gson().fromJson(json, new TypeToken<ArrayList<MessageChat>>() {
+                    }.getType());
+                    gamePublicChat.setMessages(messageChats);
+                    dataOutputStream.writeUTF("Data" + json);
                     publicChatCommand();
                 } catch (IOException e) {
                     System.out.println("client disconnected!" + socket.getInetAddress() + "   " + socket.getPort());
@@ -120,7 +125,7 @@ public class Connection extends Thread {
         }
     }
 
-    private void roomCommands() throws IOException{
+    private void roomCommands() throws IOException {
         while (isTrue) {
             input = dataInputStream.readUTF();
             if (input.equals("back")) {
@@ -133,7 +138,7 @@ public class Connection extends Thread {
         }
     }
 
-    private void publicChatCommand() throws IOException{
+    private void publicChatCommand() throws IOException {
         while (isTrue) {
             input = dataInputStream.readUTF();
             if (input.equals("back")) {
@@ -142,17 +147,70 @@ public class Connection extends Thread {
             } else if (input.equals("send")) {
                 System.out.println("send");
                 dataOutputStream.writeUTF(dataBaseUser.getUsername());
-                String[] inputs=dataInputStream.readUTF().split("\\+");
+                String[] inputs = dataInputStream.readUTF().split("\\+");
                 System.out.println(inputs[1]);
-                MessageChat messageChat=new MessageChat(inputs[1],inputs[0],inputs[2]);
+                MessageChat messageChat = new MessageChat(inputs[1], inputs[0], inputs[2]);
+                if(gamePublicChat.getMessages()==null){
+                    ArrayList<MessageChat> messageChats=new ArrayList<>();
+                    gamePublicChat.setMessages(messageChats);
+                }
                 gamePublicChat.addMessage(messageChat);
+                System.out.println(gamePublicChat.getMessages().size());
                 FileWriter fileWriter = new FileWriter("publicChat.json");
                 fileWriter.write(new Gson().toJson(gamePublicChat.getMessages()));
                 fileWriter.close();
                 dataOutputStream.writeUTF("message send");
+            } else if (input.startsWith("Delete")) {
+                input = input.substring(5, input.length());
+                String deleteRegex = dataBaseUser.getUsername() + "\\s:\\s(?<message>[^:]+)";
+                Matcher deleteMatcher = Pattern.compile(deleteRegex).matcher(input);
+                String messageToDelete = null;
+                if (deleteMatcher.find()) {
+                    messageToDelete = deleteMatcher.group("message");
+                    System.out.println(messageToDelete);
+                }
+                MessageChat toDelete = null;
+                for (MessageChat messageChat : gamePublicChat.getMessages()) {
+                    if (messageChat.getMessage().equals(messageToDelete)) {
+                        toDelete = messageChat;
+                        break;
+                    }
+                }
+                gamePublicChat.getMessages().remove(toDelete);
+                FileWriter fileWriter = new FileWriter("publicChat.json");
+                fileWriter.write(new Gson().toJson(gamePublicChat.getMessages()));
+                fileWriter.close();
+                dataOutputStream.writeUTF("message deleted");
+            } else if (input.startsWith("Previous")) {
+                System.out.println(input);
+                System.out.println("message edited");
+                input = input.substring(8, input.length());
+                System.out.println(input);
+                String messagesRegex = dataBaseUser.getUsername() + "\\s:\\s(?<message>[^:]+)";
+                Matcher messagesMatcher = Pattern.compile(messagesRegex).matcher(input);
+                ArrayList<String> messages = new ArrayList<>();
+                while (messagesMatcher.find()) {
+                    messages.add(messagesMatcher.group("message"));
+                }
+                int flag = 0;
+                String previousMessages = messages.get(0);
+                String newMessage = messages.get(1);
+                for (MessageChat messageChat : gamePublicChat.getMessages()) {
+                    if (messageChat.getMessage().equals(previousMessages)) {
+                        messageChat.setMessage(newMessage);
+                        System.out.println("hi111");
+                        break;
+                    }
+                }
+                    FileWriter fileWriter = new FileWriter("publicChat.json");
+                 //   System.out.println("yes");
+                    fileWriter.write(new Gson().toJson(gamePublicChat.getMessages()));
+                    fileWriter.close();
+                    dataOutputStream.writeUTF("message edited");
+
+                }
             }
         }
-    }
 
     private void goRoomChat() throws IOException {
         String message = new Gson().toJson(dataBaseUser);
@@ -169,28 +227,25 @@ public class Connection extends Thread {
             if (input.equals("newChat")) {
                 System.out.println("search user");
                 newChat();
-            }
-        else if (input.equals("send")) {
-            System.out.println("send");
-            dataOutputStream.writeUTF(dataBaseUser.getUsername());
-        } else if (input.equals("back")){
-            System.out.println("back");
-            isTrue = false;
-        }
-            else if(input.startsWith("Message to Send")){
-                if(privateChat==null){
+            } else if (input.equals("send")) {
+                System.out.println("send");
+                dataOutputStream.writeUTF(dataBaseUser.getUsername());
+            } else if (input.equals("back")) {
+                System.out.println("back");
+                isTrue = false;
+            } else if (input.startsWith("Message to Send")) {
+                if (privateChat == null) {
                     dataOutputStream.writeUTF("first declare user to send");
-                }
-                else {
+                } else {
                     System.out.println("message send");
                     String message = input.substring(15, input.length());
-                    String time= String.valueOf(java.time.LocalTime.now());
-                    time=time.substring(0,8);
-                    System.out.println(dataBaseUser.getUsername()+"111");
-                    MessageChat messageChat=new MessageChat(dataBaseUser.getUsername(),message,time);
+                    String time = String.valueOf(java.time.LocalTime.now());
+                    time = time.substring(0, 8);
+                    System.out.println(dataBaseUser.getUsername() + "111");
+                    MessageChat messageChat = new MessageChat(dataBaseUser.getUsername(), message, time);
                     privateChat.addMessage(messageChat);
-                    int flag=0;
-                    for(PrivateChat privateChat1:guestDataBaseUser.getPrivateChats()) {
+                    int flag = 0;
+                    for (PrivateChat privateChat1 : guestDataBaseUser.getPrivateChats()) {
                         if (privateChat1.getGroupId().contains(dataBaseUser.getUsername()) && privateChat1.getGroupId().contains(username)) {
                             privateChat1.addMessage(messageChat);
                             System.out.println("1");
@@ -198,8 +253,8 @@ public class Connection extends Thread {
                             break;
                         }
                     }
-                    if(flag==0){
-                        PrivateChat privateChat1=new PrivateChat();
+                    if (flag == 0) {
+                        PrivateChat privateChat1 = new PrivateChat();
                         privateChat1.getGroupId().add(username);
                         privateChat1.getGroupId().add(dataBaseUser.getUsername());
                         privateChat1.addMessage(messageChat);
@@ -211,47 +266,135 @@ public class Connection extends Thread {
                     dataOutputStream.writeUTF("message send");
 
                 }
+            } else if (input.startsWith("Previous")) {
+                System.out.println(input);
+                System.out.println("message edited");
+                input = input.substring(8, input.length());
+                System.out.println(input);
+                String messagesRegex = dataBaseUser.getUsername() + "\\s:\\s(?<message>[^:]+)";
+                Matcher messagesMatcher = Pattern.compile(messagesRegex).matcher(input);
+                ArrayList<String> messages = new ArrayList<>();
+                while (messagesMatcher.find()) {
+                    messages.add(messagesMatcher.group("message"));
+                }
+                int flag = 0;
+                String previousMessages = messages.get(0);
+                String newMessage = messages.get(1);
+                System.out.println(messages.get(0));
+                System.out.println(messages.get(1));
+                for (PrivateChat privateChat1 : guestDataBaseUser.getPrivateChats()) {
+                    for (MessageChat messageChat : privateChat1.getMessages()) {
+                        if (messageChat.getMessage().equals(previousMessages)) {
+                            messageChat.setMessage(newMessage);
+                            System.out.println("1");
+                            flag = 1;
+                            break;
+                        }
+                    }
+                }
+                for (PrivateChat privateChat1 : dataBaseUser.getPrivateChats()) {
+                    for (MessageChat messageChat : privateChat1.getMessages()) {
+                        if (messageChat.getMessage().equals(previousMessages)) {
+                            messageChat.setMessage(newMessage);
+                            System.out.println("12");
+                            flag = 1;
+                            break;
+                        }
+                    }
+                }
+                System.out.println("hi");
+                FileWriter fileWriter = new FileWriter("database.json");
+                fileWriter.write(new Gson().toJson(Database.getDataBaseUsers()));
+                fileWriter.close();
+                dataOutputStream.writeUTF("message edited");
+
+            } else if (input.startsWith("Delete")) {
+                System.out.println(input);
+                System.out.println("message deleted");
+                input = input.substring(5, input.length());
+                System.out.println(input);
+                String messagesRegex = dataBaseUser.getUsername() + "\\s:\\s(?<message>[^:]+)";
+                Matcher messagesMatcher = Pattern.compile(messagesRegex).matcher(input);
+                String previousMessage = null;
+                if (messagesMatcher.find()) {
+                    previousMessage = messagesMatcher.group("message");
+                }
+                int flag = 0;
+                MessageChat toRemove = null;
+                PrivateChat remove = null;
+                for (PrivateChat privateChat1 : guestDataBaseUser.getPrivateChats()) {
+                    for (MessageChat messageChat : privateChat1.getMessages()) {
+                        if (messageChat.getMessage().equals(previousMessage)) {
+                            //  messageChat.setMessage(newMessage);
+                            toRemove = messageChat;
+                            remove = privateChat1;
+                            System.out.println("1");
+                            flag = 1;
+                            break;
+                        }
+                    }
+                }
+                remove.getMessages().remove(toRemove);
+                System.out.println(toRemove.getMessage());
+                for (PrivateChat privateChat1 : dataBaseUser.getPrivateChats()) {
+                    for (MessageChat messageChat : privateChat1.getMessages()) {
+                        if (messageChat.getMessage().equals(previousMessage)) {
+                            toRemove = messageChat;
+                            remove = privateChat1;
+                            System.out.println("12");
+                            flag = 1;
+                            break;
+                        }
+                    }
+                }
+                remove.getMessages().remove(toRemove);
+                System.out.println("hi");
+                FileWriter fileWriter = new FileWriter("database.json");
+                fileWriter.write(new Gson().toJson(Database.getDataBaseUsers()));
+                fileWriter.close();
+                dataOutputStream.writeUTF("message deleted");
+
             }
         }
     }
 
     private void newChat() throws IOException {
         username = dataInputStream.readUTF();
-            if (Database.getUserByName(username) != null) {
-                for (DataBaseUser dataBaseUser1:Database.getDataBaseUsers()){
-                    if(dataBaseUser1.getUsername().equals(username)){
-                        guestDataBaseUser=dataBaseUser1;
-                        break;
-                    }
+        if (Database.getUserByName(username) != null) {
+            for (DataBaseUser dataBaseUser1 : Database.getDataBaseUsers()) {
+                if (dataBaseUser1.getUsername().equals(username)) {
+                    guestDataBaseUser = dataBaseUser1;
+                    break;
                 }
-                if(guestDataBaseUser==null){
-                    guestDataBaseUser=new DataBaseUser(username,null,null,null);
-                    Database.getDataBaseUsers().add(guestDataBaseUser);
+            }
+            if (guestDataBaseUser == null) {
+                guestDataBaseUser = new DataBaseUser(username, null, null, null);
+                Database.getDataBaseUsers().add(guestDataBaseUser);
+            }
+            System.out.println("make chat");
+            String data = new Gson().toJson(dataBaseUser);
+            dataOutputStream.writeUTF("Data" + data);
+            int flag = 0;
+            for (PrivateChat privateChat1 : dataBaseUser.getPrivateChats()) {
+                if (privateChat1.getGroupId().contains(dataBaseUser.getUsername()) && privateChat1.getGroupId().contains(username)) {
+                    privateChat = privateChat1;
+                    flag = 1;
+                    break;
                 }
-                System.out.println("make chat");
-                String data=new Gson().toJson(dataBaseUser);
-                dataOutputStream.writeUTF("Data"+data);
-                int flag=0;
-                for (PrivateChat privateChat1:dataBaseUser.getPrivateChats()){
-                    if(privateChat1.getGroupId().contains(dataBaseUser.getUsername())&&privateChat1.getGroupId().contains(username)){
-                        privateChat=privateChat1;
-                        flag=1;
-                        break;
-                    }
-                }
-                if(flag==0) {
-                    privateChat=new PrivateChat();
-                    System.out.println("oh no!");
-                    privateChat.getGroupId().clear();
-                    privateChat.addPeople(dataBaseUser.getUsername());
-                    privateChat.addPeople(username);
-                    dataBaseUser.addChatToPrivate(privateChat);
-                }
-                FileWriter fileWriter = new FileWriter("database.json");
-                fileWriter.write(new Gson().toJson(Database.getDataBaseUsers()));
-                fileWriter.close();
-            } else dataOutputStream.writeUTF("not found user");
-        }
+            }
+            if (flag == 0) {
+                privateChat = new PrivateChat();
+                System.out.println("oh no!");
+                privateChat.getGroupId().clear();
+                privateChat.addPeople(dataBaseUser.getUsername());
+                privateChat.addPeople(username);
+                dataBaseUser.addChatToPrivate(privateChat);
+            }
+            FileWriter fileWriter = new FileWriter("database.json");
+            fileWriter.write(new Gson().toJson(Database.getDataBaseUsers()));
+            fileWriter.close();
+        } else dataOutputStream.writeUTF("not found user");
+    }
 
     private void mainViewCommands() throws IOException {
         while (isTrue) {
@@ -320,23 +463,24 @@ public class Connection extends Thread {
                     System.out.println("success");
                     isTrue = false;
                     Database.setLoggedInUser(Database.getUserByName(loginData[0]));
-                    String json=null;
-                    json=new String(Files.readAllBytes(Paths.get("database.json")));
-                    ArrayList<DataBaseUser> dataBaseUsers=new Gson().fromJson(json,new TypeToken<ArrayList<DataBaseUser>>(){}.getType());
-                    int flag=0;
-                    if(dataBaseUsers!=null) {
+                    String json = null;
+                    json = new String(Files.readAllBytes(Paths.get("database.json")));
+                    ArrayList<DataBaseUser> dataBaseUsers = new Gson().fromJson(json, new TypeToken<ArrayList<DataBaseUser>>() {
+                    }.getType());
+                    int flag = 0;
+                    if (dataBaseUsers != null) {
                         Database.setDataBaseUsers(dataBaseUsers);
-                    for (DataBaseUser dataBaseUser1:Database.getDataBaseUsers()) {
-                        if (dataBaseUser1.getUsername().equals(Database.getUserByName(loginData[0]).getUsername())) {
-                            dataBaseUser = dataBaseUser1;
-                            flag = 1;
+                        for (DataBaseUser dataBaseUser1 : Database.getDataBaseUsers()) {
+                            if (dataBaseUser1.getUsername().equals(Database.getUserByName(loginData[0]).getUsername())) {
+                                dataBaseUser = dataBaseUser1;
+                                flag = 1;
+                            }
                         }
                     }
+                    if (flag == 0) {
+                        dataBaseUser = new DataBaseUser(Database.getUserByName(loginData[0]).getUsername(), null, null, null);
+                        Database.getDataBaseUsers().add(dataBaseUser);
                     }
-                        if (flag == 0) {
-                            dataBaseUser = new DataBaseUser(Database.getUserByName(loginData[0]).getUsername(), null, null, null);
-                            Database.getDataBaseUsers().add(dataBaseUser);
-                        }
                     //todo : handle it then
                 } else {
                     dataOutputStream.writeUTF("user has already logged in");
