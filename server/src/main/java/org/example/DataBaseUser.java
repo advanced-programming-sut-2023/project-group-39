@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class DataBaseUser {
     private String username;
+    private User user;
 
     public DataBaseUser(){
         this.username=getUsername();
@@ -83,5 +84,13 @@ public class DataBaseUser {
             }
         }
         return false;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

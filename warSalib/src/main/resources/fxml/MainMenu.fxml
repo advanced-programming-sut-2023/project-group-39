@@ -9,5 +9,6 @@
     <Button layoutX="20.0" layoutY="123.0" onMouseClicked="#goProfileMenu" text="Profile Menu" />
    <Button layoutX="20.0" layoutY="181.0" mnemonicParsing="false" onMouseClicked="#chat" prefHeight="26.0" prefWidth="71.0" text="chat" />
     <Button layoutX="20.0" layoutY="234.0" onMouseClicked="#goRooms" text="rooms" />
-   <Button layoutX="19.0" layoutY="301.0" mnemonicParsing="false" text="public chat" onMouseClicked="#goPublicChat"/>
+   <Button layoutX="19.0" layoutY="301.0" mnemonicParsing="false" onMouseClicked="#goPublicChat" text="public chat" />
+   <Button layoutX="19.0" layoutY="354.0" mnemonicParsing="false" text="friend" onMouseClicked="#goFriend"/>
 </Pane>

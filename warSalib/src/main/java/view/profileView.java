@@ -1,6 +1,6 @@
 package view;
 
-import com.google.gson.Gson;
+//import com.google.gson.Gson;
 import control.LoginSignupControl;
 import control.ProfileControl;
 import javafx.application.Application;
@@ -51,6 +51,10 @@ public class profileView extends Application {
     public static Stage profileStage;
 
     public static String newUsername;
+    private static String oldNickname;
+    private static String oldUsername;
+    private static String oldPassword;
+    private static String oldEmail;
 
     private static Text username = new Text();
 
@@ -98,17 +102,17 @@ public class profileView extends Application {
         });
     }
 
-    private void fillInformation() {
-        username.setText(Game.getCurrentUser().getUsername());
-        password.setText(Game.getCurrentUser().getPassword());
-        nickname.setText(Game.getCurrentUser().getNickname());
-        email.setText(Game.getCurrentUser().getEmail());
-        if (Game.getCurrentUser().getSlogan() != null) {
-            slogan.setText(Game.getCurrentUser().getSlogan());
-        } else {
-            slogan.setText("Slogan is empty");
-            slogan.setFill(Color.RED);
-        }
+    private void fillInformation() throws IOException {
+        System.out.println("hello");
+        oldUsername = StartGame.getDataInputStream().readUTF();
+        oldPassword = "..........";
+        System.out.println("hello");
+        oldNickname = "ardali";
+        oldEmail = "ardali@gmail.com";
+        username.setText(oldUsername);
+        password.setText(oldPassword);
+        nickname.setText(oldNickname);
+        email.setText(oldEmail);
         username.setLayoutX(90);
         username.setLayoutY(45);
         password.setLayoutX(90);
@@ -128,19 +132,19 @@ public class profileView extends Application {
     }
     @FXML
     public void initialize(){
-        if ((Game.getCurrentUser().getAvatarImageAddress() == null || Game.getCurrentUser().getAvatarImageAddress().equals(""))&&Game.getCurrentUser().getChooseImageAddress()==null) {
-            Image IMAGE=new Image(StartGame.class.getResource("/images/Avatar3.png").toExternalForm());
-            myImage.setImage(IMAGE);
-        }
-        else if(Game.getCurrentUser().getChooseImageAddress()!=null){
-            Image IMAGE = new Image(Game.getCurrentUser().getChooseImageAddress());
-            myImage.setImage(IMAGE);
-
-        }
-        else {
-            Image IMAGE = new Image(StartGame.class.getResource(Game.getCurrentUser().getAvatarImageAddress()).toExternalForm());
-            myImage.setImage(IMAGE);
-        }
+//        if ((Game.getCurrentUser().getAvatarImageAddress() == null || Game.getCurrentUser().getAvatarImageAddress().equals(""))&&Game.getCurrentUser().getChooseImageAddress()==null) {
+//            Image IMAGE=new Image(StartGame.class.getResource("/images/Avatar3.png").toExternalForm());
+//            myImage.setImage(IMAGE);
+//        }
+//        else if(Game.getCurrentUser().getChooseImageAddress()!=null){
+//            Image IMAGE = new Image(Game.getCurrentUser().getChooseImageAddress());
+//            myImage.setImage(IMAGE);
+//
+//        }
+//        else {
+//            Image IMAGE = new Image(StartGame.class.getResource(Game.getCurrentUser().getAvatarImageAddress()).toExternalForm());
+//            myImage.setImage(IMAGE);
+//        }
     }
 
     public void changeUsername(MouseEvent mouseEvent) {
@@ -414,30 +418,30 @@ public class profileView extends Application {
     }
 
     public void chooseFromFile(MouseEvent mouseEvent) {
-        JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-        int returnValue = jfc.showSaveDialog(null);
-        if (returnValue == jfc.APPROVE_OPTION) {
-            File file = jfc.getSelectedFile();
-            String pathFile = file.getPath();
-            Game.getCurrentUser().setChooseImageAddress(pathFile);
-            for (adam adam : adam.adams) {
-                if (adam.username.equals(Game.getCurrentUser().getUsername())) {
-                    adam.avatarImageAddress = null;
-                    adam.chooseImageAddress=pathFile;
-                }
-
-            }
-            try {
-                FileWriter fileWriter=new FileWriter("users.json");
-                fileWriter.write(new Gson().toJson(view.adam.adams));
-                fileWriter.close();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            Game.getCurrentUser().setAvatarImageAddress(null);
-            Image image = new Image((Game.getCurrentUser().getChooseImageAddress()));
-            myImage.setImage(image);
-        }
+//        JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+//        int returnValue = jfc.showSaveDialog(null);
+//        if (returnValue == jfc.APPROVE_OPTION) {
+//            File file = jfc.getSelectedFile();
+//            String pathFile = file.getPath();
+//            Game.getCurrentUser().setChooseImageAddress(pathFile);
+//            for (adam adam : adam.adams) {
+//                if (adam.username.equals(Game.getCurrentUser().getUsername())) {
+//                    adam.avatarImageAddress = null;
+//                    adam.chooseImageAddress=pathFile;
+//                }
+//
+//            }
+//            try {
+//                FileWriter fileWriter=new FileWriter("users.json");
+//                fileWriter.write(new Gson().toJson(view.adam.adams));
+//                fileWriter.close();
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//            Game.getCurrentUser().setAvatarImageAddress(null);
+//            Image image = new Image((Game.getCurrentUser().getChooseImageAddress()));
+//            myImage.setImage(image);
+//        }
     }
 
     public void onDragCheck(DragEvent dragEvent) {
@@ -448,22 +452,22 @@ public class profileView extends Application {
     }
 
     public void changeImageWithDrag(DragEvent dragEvent) {
-        Dragboard dragboard=dragEvent.getDragboard();
-        if(dragboard.hasFiles()){
-            for (File file:dragboard.getFiles()){
-                String absolutePath=file.getAbsolutePath();
-                Game.getCurrentUser().setChooseImageAddress(absolutePath);
-                Image dragImage=new Image(absolutePath);
-                Game.getCurrentUser().setChooseImageAddress(absolutePath);
-                File selectedImageFromGallery = new File(absolutePath);
-                myImage.setImage(dragImage);
-            }
-            dragEvent.setDropCompleted(true);
-
-        }
-        else {
-            dragEvent.setDropCompleted(false);
-        }
+//        Dragboard dragboard=dragEvent.getDragboard();
+//        if(dragboard.hasFiles()){
+//            for (File file:dragboard.getFiles()){
+//                String absolutePath=file.getAbsolutePath();
+//                Game.getCurrentUser().setChooseImageAddress(absolutePath);
+//                Image dragImage=new Image(absolutePath);
+//                Game.getCurrentUser().setChooseImageAddress(absolutePath);
+//                File selectedImageFromGallery = new File(absolutePath);
+//                myImage.setImage(dragImage);
+//            }
+//            dragEvent.setDropCompleted(true);
+//
+//        }
+//        else {
+//            dragEvent.setDropCompleted(false);
+//        }
 
     }
     private boolean checkFormatOfFile(File file){
@@ -473,22 +477,22 @@ public class profileView extends Application {
     }
 
     public void backToMainManu(MouseEvent mouseEvent) throws Exception {
-        if(Game.getCurrentUser().getChooseImageAddress()!=null) {
-            for (adam adam : adam.adams) {
-                if (adam.username.equals(Game.getCurrentUser().getUsername())) {
-                    adam.avatarImageAddress = null;
-                    adam.chooseImageAddress = Game.getCurrentUser().getChooseImageAddress();
-                }
-
-            }
-            try {
-                FileWriter fileWriter = new FileWriter("users.json");
-                fileWriter.write(new Gson().toJson(view.adam.adams));
-                fileWriter.close();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
+//        if(Game.getCurrentUser().getChooseImageAddress()!=null) {
+//            for (adam adam : adam.adams) {
+//                if (adam.username.equals(Game.getCurrentUser().getUsername())) {
+//                    adam.avatarImageAddress = null;
+//                    adam.chooseImageAddress = Game.getCurrentUser().getChooseImageAddress();
+//                }
+//
+//            }
+//            try {
+//                FileWriter fileWriter = new FileWriter("users.json");
+//                fileWriter.write(new Gson().toJson(view.adam.adams));
+//                fileWriter.close();
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
         MainView mainView=new MainView();
         mainView.start(StartGame.stage);
     }

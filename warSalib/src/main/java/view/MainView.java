@@ -24,6 +24,7 @@ import model.Game;
 import model.government.Government;
 import model.map.GameMap;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainView extends Application {
@@ -154,6 +155,8 @@ public class MainView extends Application {
     }
 
     public void goProfileMenu(MouseEvent mouseEvent) throws Exception {
+        StartGame.getDataOutputStream().writeUTF("chat");
+        StartGame.getDataOutputStream().writeUTF("profile");
         profileView profileView=new profileView();
         profileView.start(StartGame.stage);
     }
@@ -177,5 +180,12 @@ public class MainView extends Application {
         StartGame.getDataOutputStream().writeUTF("public chat");
         PublicChat publicChat = new PublicChat();
         publicChat.start(StartGame.stage);
+    }
+
+    public void goFriend(MouseEvent mouseEvent) throws Exception {
+        StartGame.getDataOutputStream().writeUTF("go to chat");
+        StartGame.getDataOutputStream().writeUTF("friend");
+        FriendView friendView = new FriendView();
+        friendView.start(StartGame.stage);
     }
 }
