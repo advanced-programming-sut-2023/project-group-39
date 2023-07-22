@@ -46,7 +46,7 @@ assignees: Arman17Babaei
 
   **نام و نام خانوادگی:**سپهر غیاث <br>
 <details>
-   <summary>تسک مربوطه<br>نقشه<br>ساختمان‌ها<br>فروشگاه<br>بخشی از حکومت<br>فروشگاه</summary>
+   <summary>تسک مربوطه<br>نقشه<br>ساختمان‌ها<br>فروشگاه<br>فروشگاه</summary>
 
   <div dir="ltr" align='right'>
 
@@ -60,7 +60,7 @@ assignees: Arman17Babaei
 
   **نام و نام خانوادگی:**اردلان دهقان‌پور<br>
 <details>
-  <summary>تسک مربوطه<br>بخشی از نقشه<br>نیروها<br>منوهای خارج از بازی<br>اتش<br>تجارت</summary>
+  <summary>تسک مربوطه<br>بخشی از نقشه<br>نیروها<br>منوهای خارج از بازی<br>اتش</summary>
 
   <div dir="ltr" align='right'>
 
@@ -74,7 +74,7 @@ assignees: Arman17Babaei
 
   **نام و نام خانوادگی:**سید کیهان هدایی<br>
 <details>
-<summary>تسک مربوطه<br>هیچی</summary>
+<summary>تسک مربوطه<br>حکومت<br>تجارت</summary>
   <div dir="ltr" align='right'>
 
   1. [ ] شروع نشده
